@@ -1,0 +1,43 @@
+site_name: PDFLinkCheck
+site_description: PDFLinkCheck validates external hyperlinks and internal PDF navigation links, producing reports for automated documentation quality assurance.
+site_url: https://city-of-memphis-wastewater.github.io/pdflinkcheck
+repo_url: https://github.com/City-of-Memphis-Wastewater/pdflinkcheck
+repo_name: City-of-Memphis-Wastewater/pdflinkcheck
+
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.sections
+    - content.code.copy
+    - content.code.annotate
+    - search.suggest
+    - search.highlight
+nav:
+  - Home: index.md
+  - Quick Start: quickstart.md
+
+  - Concepts:
+      - PDF Link Types: concepts/pdf-link-types.md
+
+  - Project:
+      - Changelog: CHANGELOG.md
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - tables
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.inlinehilite
+
+plugins:
+  - search
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/City-of-Memphis-Wastewater/pdflinkcheck
