@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 from copy_n_launch_xlsx.paths import (
         APP_NAME_PRETTY, get_ico_icon, get_png_icon
         )
-from build_utils.build_utils import PyinsMode
+from maxson_build_utils.build_utils import PyinsMode
 
 def build_linux_appimage(app_dir_path: Path, dynamic_exe_name: str) -> Path:
     """
