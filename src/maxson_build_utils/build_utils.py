@@ -1,5 +1,5 @@
 #!/usr/bin/env python3 
-# build_utils/build_utils.py
+# maxson_build_utils/build_utils.py
 
 from __future__ import annotations
 import pyhabitat

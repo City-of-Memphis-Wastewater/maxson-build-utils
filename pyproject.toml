@@ -1,7 +1,7 @@
 [project]
-name = "build-utils"
+name = "maxson-build-utils"
 version = "0.1.0"
-description = "Add your description here"
+description = "Common tools for deployong packages to MSIX, DMG, DEB, and more. Templated approach to mkdocs."
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.10"
 dependencies = []
