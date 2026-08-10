@@ -14,6 +14,8 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 - deb support
 - flatpak support
 - CLI and init exposure
+- github runners, for publish, ci, and test
+- build_pyz.py for CLI
 
 ---
 
