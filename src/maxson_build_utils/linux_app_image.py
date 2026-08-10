@@ -54,9 +54,9 @@ def build_linux_appimage(
             "appimagetool is not installed. Please download it or install via your package manager."
         )
 
-    upload_dir = Path("dist/upload")
-    upload_dir.mkdir(parents=True, exist_ok=True)
-    appimage_output_path = upload_dir / f"{dynamic_exe_name}-x86_64.AppImage"
+    appimage_dir = Path("dist/appimage")
+    appimage_dir.mkdir(parents=True, exist_ok=True)
+    appimage_output_path = appimage_dir / f"{dynamic_exe_name}-x86_64.AppImage"
 
     with tempfile.TemporaryDirectory() as tmp:
         tmp_dir = Path(tmp)

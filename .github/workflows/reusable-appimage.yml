@@ -3,19 +3,26 @@ name: Reusable AppImage Builder
 on:
   workflow_call:
     inputs:
-      app_name:
-        description: 'Name of the application or entry point module'
+      app_dir:
+        description: 'Path to PyInstaller ONEDIR output directory'
+        required: true
+        type: string
+      exe_name:
+        description: 'Target binary executable name'
+        required: true
+        type: string
+      pretty_name:
+        description: 'Desktop display name'
+        required: true
+        type: string
+      icon_path:
+        description: 'Path to icon asset'
         required: false
         type: string
-        default: ''
-      python_version:
-        description: 'Python version for uv setup'
-        required: false
-        type: string
-        default: '3.12'
+        default: 'assets/icon.png'
 
 jobs:
-  build:
+  build-appimage:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -27,30 +34,26 @@ jobs:
         with:
           version: "latest"
 
-      - name: Set up Python
-        run: uv python install ${{ inputs.python_version }}
-
       - name: Install System Dependencies
         run: |
           sudo wget https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage -O /usr/local/bin/appimagetool
           sudo chmod +x /usr/local/bin/appimagetool
           echo "APPIMAGE_EXTRACT_AND_RUN=1" >> $GITHUB_ENV
 
-      - name: Install Build Tooling & Target App Dependencies
+      - name: Install Project & Build Tools
         run: |
           uv sync --group dev
           uv pip install maxson-build-utils
 
-      - name: Execute Generic Builder
+      - name: Run AppImage Builder CLI
         run: |
-          # Pass explicit app name if provided, else python runner parses local pyproject.toml
-          if [ -n "${{ inputs.app_name }}" ]; then
-            uv run python -m maxson_build_utils.linux_app_image --name "${{ inputs.app_name }}"
-          else
-            uv run python -m maxson_build_utils.linux_app_image
-          fi
+          uv run maxson-build-utils build-appimage \
+            --app-dir "${{ inputs.app_dir }}" \
+            --exe-name "${{ inputs.exe_name }}" \
+            --pretty-name "${{ inputs.pretty_name }}" \
+            --icon "${{ inputs.icon_path }}"
 
-      - name: Publish Artifact to Release
+      - name: Publish to GitHub Release
         shell: bash
         run: gh release upload "${{ github.event.release.tag_name }}" dist/appimage/*.AppImage --clobber
         env:
