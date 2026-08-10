@@ -6,6 +6,12 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.3] - 2026-08-10
+### Fixed:
+- .gitignore was uploaded, weird. Adjust build.yml
+
+---
+
 ## [0.1.2] - 2026-08-10
 ### Fixed:
 - Add tests/test_null.py

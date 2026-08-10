@@ -39,6 +39,7 @@ jobs:
       - name: Stage artifacts (Linux)
         if: runner.os == 'Linux'
         run: |
+          rm -rf dist/upload
           mkdir -p dist/upload
           cp dist/*.whl dist/upload/ 2>/dev/null || true
           cp dist/*.tar.gz dist/upload/ 2>/dev/null || true
@@ -48,14 +49,14 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
+          if (Test-Path dist/upload) { Remove-Item -Path dist/upload -Recurse -Force }
           New-Item -Path dist/upload -ItemType Directory -Force
-          Copy-Item -Path "dist/zipapp/*" -Destination "dist/upload" -Force
+          # Explicitly copy only binaries and launchers, ignoring hidden dotfiles like .gitignore
+          Get-ChildItem -Path "dist/zipapp" -Include "*.pyz", "*.bat" -Recurse | Copy-Item -Destination "dist/upload" -Force
 
       - name: Attach artifacts to GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: dist/upload/*
-          overwrite_files: true
-          fail_on_unmatched_files: true
+        shell: bash
+        run: |
+          gh release upload "${{ github.event.release.tag_name }}" dist/upload/* --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
