@@ -42,7 +42,7 @@ jobs:
         run: uv sync --group dev
 
       #- name: Ensure updated copies of packaged data files
-      #  run: uv run python src/cellshift/datacopy.py
+      #  run: uv run python src/maxson_build_utils/datacopy.py
 
       - name: Build S-Dist and Wheel
         # This command uses the `build` package installed in the VENV to create package files.
@@ -52,10 +52,10 @@ jobs:
       - name: Sanity check the built sdist
         run: |
           source .venv/bin/activate
-          uv pip uninstall -y cellshift || true
-          uv pip install dist/cellshift*.whl
+          uv pip uninstall -y maxson-build-utils || true
+          uv pip install dist/maxson_build_utils*.whl
           # Use project's installed CLI command
-          cellshift --help
+          maxson-build-utils --help
 
       # --- PUBLISH ---
       - name: Publish package distributions to PyPI
