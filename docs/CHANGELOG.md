@@ -6,6 +6,12 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.4] - 2026-08-10
+### Fixed:
+- Don't automatically run appimage build with each pyinstaller run in build_executable.py. Suppress all uses of post_process_linux_build().
+
+---
+
 ## [0.1.3] - 2026-08-10
 ### Fixed:
 - .gitignore was uploaded, weird. Adjust build.yml
