@@ -1,7 +1,7 @@
 [project]
 name = "maxson-build-utils"
 dynamic = ["version"]
-description = "Common tools for deployong packages to MSIX, DMG, DEB, and more. Templated approach to mkdocs."
+description = "Common tools for deploying packages to EXE, MSIX, DMG, DEB, PYZ, flatpak, and more. Templated approach to mkdocs."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
