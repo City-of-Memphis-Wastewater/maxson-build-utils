@@ -1,7 +1,7 @@
 # maxson_build_utils/src/maxson_build_utils/helpers.py
 from __future__ import annotations
 from enum import Enum
-
+from pathlib import Path
 from typing import Any
 
 
@@ -22,5 +22,12 @@ class IconFileType(str, Enum):
     ICO = "ico"
     SVG = "svg"
 
+def resolve_icon_filetype(icon_src: Path) -> IconFileType | None:
+    """Resolves and validates the extension of a given icon path."""
+    suffix = icon_src.suffix.lower().removeprefix(".")
+    try:
+        return IconFileType(suffix)
+    except ValueError:
+        return None
 
 

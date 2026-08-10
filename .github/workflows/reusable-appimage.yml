@@ -45,6 +45,9 @@ jobs:
           uv sync --group dev
           uv pip install maxson-build-utils
 
+      - name: Build Onedir Executable
+        run: uv run maxson-build-utils build-executable --mode onedir
+
       - name: Run AppImage Builder CLI
         run: |
           uv run maxson-build-utils build-appimage \

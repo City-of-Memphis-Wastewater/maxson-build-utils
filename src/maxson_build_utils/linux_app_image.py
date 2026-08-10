@@ -13,31 +13,12 @@ import shutil
 import subprocess
 import sys
 import tempfile
-
 import pyhabitat
 
+from .build_executable import run_build_executable
+from .helpers import PyinsMode, IconFileType, resolve_icon_filetype
+
 logger = logging.getLogger(__name__)
-
-
-class PyinsMode(str, Enum):
-    ONEDIR = "onedir"
-    ONEFILE = "onefile"
-
-
-class IconFileType(str, Enum):
-    PNG = "png"
-    ICO = "ico"
-    SVG = "svg"
-
-
-def resolve_icon_filetype(icon_src: Path) -> IconFileType | None:
-    """Resolves and validates the extension of a given icon path."""
-    suffix = icon_src.suffix.lower().removeprefix(".")
-    try:
-        return IconFileType(suffix)
-    except ValueError:
-        return None
-
 
 def build_linux_appimage(
     app_dir_path: Path,
@@ -46,6 +27,12 @@ def build_linux_appimage(
     icon_src: Path,
 ) -> Path:
     """Packages a PyInstaller ONEDIR bundle into a standalone Linux AppImage."""
+    if not app_dir_path.exists():
+        raise FileNotFoundError(
+            f"Build directory '{app_dir_path}' does not exist.\n"
+            f"Run 'maxson-build-utils build-executable --mode onedir' before calling build-appimage."
+        )
+
     logger.info("Executing build_linux_appimage()")
     logger.info("Source AppDir components from: %s", app_dir_path)
 
