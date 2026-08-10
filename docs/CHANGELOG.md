@@ -6,7 +6,18 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.1] - 2026-08-10
+### Added:
+- PyPI release 
+- build_pyz, shiv support
+- build_executable, pyinstaller and app image support
+- deb support
+- flatpak support
+- CLI and init exposure
+
+---
+
 ## [0.1.0] - 2026-08-10
 ### Added:
-- Introduce cellshift usecase
-- Work towards pypi, but for now use local WHL reference
+- Introduce cellshift use case
+- Local development without PyPI release 
