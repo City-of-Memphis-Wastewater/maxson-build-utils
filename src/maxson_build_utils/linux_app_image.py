@@ -89,11 +89,11 @@ Terminal=true
 
         if icon_filetype is None:
             raise ValueError(
-                f"Unsupported icon type: {icon_src.suffix}. "
+                f"Unsupported icon type: {icon_src.suffix}."
                 f"Supported: {[x.value for x in IconFileType]}"
             )
-
-         icon_dst = staged_appdir / f"{dynamic_exe_name}.{icon_filetype}"
+        
+        icon_dst = staged_appdir / f"{dynamic_exe_name}.{icon_filetype}"
 
         print(f"Staging Linux AppImage icon: {icon_src.name} -> {icon_dst.name}")
         if icon_src.exists():
