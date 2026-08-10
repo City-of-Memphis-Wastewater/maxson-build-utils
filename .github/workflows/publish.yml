@@ -1,0 +1,64 @@
+# File: .github/workflows/publish.yml
+
+name: Check and Publish Python Package to PyPI and Releases
+
+# This workflow is triggered when a new Release is created and published on GitHub.
+on:
+  release:
+    types: [published]
+
+jobs:
+  pypi-publish:
+    if: github.event.release.prerelease == false && !contains(github.ref, '-test')
+    runs-on: ubuntu-latest
+
+    # RECOMMENDED: Use a deployment environment for security hardening.
+    environment: pypi
+    # IMPORTANT: Permissions for PyPI Trusted Publishing (OIDC).
+    permissions:
+      id-token: write  # Needed for OIDC authentication
+      contents: read   # Needed to check out the code
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          # Fetches all history and tags for version determination
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.x'
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          version: "latest"
+
+      - name: Create isolated environment and install build dependencies
+        # Use uv to install `build` and all dependencies specified in `pyproject.toml`
+        # NOTE: `uv pip install .` installs the package itself and its dependencies
+        run: uv sync --group dev
+
+      #- name: Ensure updated copies of packaged data files
+      #  run: uv run python src/cellshift/datacopy.py
+
+      - name: Build S-Dist and Wheel
+        # This command uses the `build` package installed in the VENV to create package files.
+        #run: source .venv/bin/activate && python -m build
+        run: uv build
+
+      - name: Sanity check the built sdist
+        run: |
+          source .venv/bin/activate
+          uv pip uninstall -y cellshift || true
+          uv pip install dist/cellshift*.whl
+          # Use project's installed CLI command
+          cellshift --help
+
+      # --- PUBLISH ---
+      - name: Publish package distributions to PyPI
+        # This action uses the OIDC token to securely authenticate and upload.
+        uses: pypa/gh-action-pypi-publish@release/v1
+        # No username or password/token is needed for Trusted Publishing!
