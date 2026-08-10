@@ -46,6 +46,19 @@ keywords = [
 [project.scripts]
 maxson-build-utils = "maxson_build_utils.__main__:main"
 
+#[project.optional-dependencies]
+
+# add with `uv sync --group dev`, plus other extras, like `--extra pdfium`
+[dependency-groups]
+dev = [
+    "build>=1.3.0",
+    "pyinstaller>=6.17.0 ; platform_system == 'Linux' and platform_machine != 'aarch64'", # to avoid on termux
+    "shiv>=1.0.8",
+    "ruff>=0.7.0 ; platform_system == 'Linux' and platform_machine != 'aarch64'", # to avoid on termux
+    "pytest>=8.0.0",
+    "pytest-cov>=4.1.0",
+]
+
 [project.urls]
 Homepage = "https://github.com/city-of-memphis-wastewater/maxson-build-utils"
 Repository = "https://github.com/city-of-memphis-wastewater/maxson-build-utils"
