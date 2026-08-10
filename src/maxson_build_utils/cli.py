@@ -1,3 +1,4 @@
+# src/maxson_build_utils/cli.py
 import typer
 from pathlib import Path
 from maxson_build_utils.deb import build_debian_package
