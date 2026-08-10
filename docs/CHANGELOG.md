@@ -17,6 +17,9 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 - github runners, for publish, ci, and test
 - build_pyz.py for CLI
 
+### Fixed:
+- Add dev dependency group
+
 ---
 
 ## [0.1.0] - 2026-08-10
