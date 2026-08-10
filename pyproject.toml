@@ -4,7 +4,11 @@ dynamic = ["version"]
 description = "Common tools for deployong packages to MSIX, DMG, DEB, and more. Templated approach to mkdocs."
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "pyhabitat>=1.3.9",
+    "typer>=0.27.0",
+    "typer-helptree>=0.2.12",
+]
 license = "MIT"
 authors = [
     { name = "George Clayton Bennett", email = "george.bennett@memphistn.gov" }
@@ -38,6 +42,9 @@ keywords = [
     "build-tools",
     "build",
 ]
+
+[project.scripts]
+maxson-build-utils = "maxson_build_utils.__main__:main"
 
 [project.urls]
 Homepage = "https://github.com/city-of-memphis-wastewater/maxson-build-utils"

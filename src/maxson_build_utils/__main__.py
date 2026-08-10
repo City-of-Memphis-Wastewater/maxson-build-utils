@@ -1,0 +1,6 @@
+# src/maxson_build_utils/__main__.py
+from __future__ import annotations
+from maxson_build_utils.cli import main
+
+if __name__ == "__main__":
+    main()
