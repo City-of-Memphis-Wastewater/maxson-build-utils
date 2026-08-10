@@ -1,0 +1,57 @@
+name: Reusable AppImage Builder
+
+on:
+  workflow_call:
+    inputs:
+      app_name:
+        description: 'Name of the application or entry point module'
+        required: false
+        type: string
+        default: ''
+      python_version:
+        description: 'Python version for uv setup'
+        required: false
+        type: string
+        default: '3.12'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+
+      - name: Set up Python
+        run: uv python install ${{ inputs.python_version }}
+
+      - name: Install System Dependencies
+        run: |
+          sudo wget https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage -O /usr/local/bin/appimagetool
+          sudo chmod +x /usr/local/bin/appimagetool
+          echo "APPIMAGE_EXTRACT_AND_RUN=1" >> $GITHUB_ENV
+
+      - name: Install Build Tooling & Target App Dependencies
+        run: |
+          uv sync --group dev
+          uv pip install maxson-build-utils
+
+      - name: Execute Generic Builder
+        run: |
+          # Pass explicit app name if provided, else python runner parses local pyproject.toml
+          if [ -n "${{ inputs.app_name }}" ]; then
+            uv run python -m maxson_build_utils.linux_app_image --name "${{ inputs.app_name }}"
+          else
+            uv run python -m maxson_build_utils.linux_app_image
+          fi
+
+      - name: Publish Artifact to Release
+        shell: bash
+        run: gh release upload "${{ github.event.release.tag_name }}" dist/appimage/*.AppImage --clobber
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,35 @@
+# .github/workflows/build-pyz.yml
+name: Build PYZ ZipApp
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build-pyz:
+    name: Build PYZ Artifact
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+
+      - name: Install build dependencies
+        run: uv sync --group dev
+
+      - name: Build PYZ ZipApp
+        run: uv run python build_pyz.py
+
+      - name: Publish PYZ to GitHub Release
+        shell: bash
+        run: gh release upload "${{ github.event.release.tag_name }}" dist/zipapp/*.pyz --clobber
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

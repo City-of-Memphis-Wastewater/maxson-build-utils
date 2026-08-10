@@ -1,0 +1,41 @@
+# .github/workflows/build-python.yml
+name: Build Python Distributions
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build-python:
+    name: Build Wheel, Sdist & PYZ
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+
+      - name: Install build dependencies
+        run: uv sync --group dev
+
+      - name: Build Wheel & Sdist
+        run: uv run python -m build
+
+      - name: Stage Artifacts
+        run: |
+          mkdir -p dist/upload
+          cp dist/*.whl dist/upload/ 2>/dev/null || true
+          cp dist/*.tar.gz dist/upload/ 2>/dev/null || true
+
+      - name: Publish to GitHub Release
+        shell: bash
+        run: gh release upload "${{ github.event.release.tag_name }}" dist/upload/* --clobber
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
