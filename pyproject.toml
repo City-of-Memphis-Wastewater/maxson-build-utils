@@ -1,7 +1,57 @@
 [project]
 name = "maxson-build-utils"
-version = "0.1.0"
+dynamic = ["version"]
 description = "Common tools for deployong packages to MSIX, DMG, DEB, and more. Templated approach to mkdocs."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = []
+license = "MIT"
+authors = [
+    { name = "George Clayton Bennett", email = "george.bennett@memphistn.gov" }
+]
+maintainers = [
+    { name = "George Clayton Bennett", email = "george.bennett@memphistn.gov" }
+]
+
+classifiers=[
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers", # library and documentation
+    #"Intended Audience :: Other Audience", # Government/engineering docs
+    #"Topic :: Scientific/Engineering :: Information Analysis",
+    #"Environment :: Console",
+    #"Environment :: MacOS X",
+    #"Environment :: Win32 (MS Windows)",
+    "Typing :: Typed",
+    "Development Status :: 3 - Alpha",
+    #"Development Status :: 4 - Beta",
+    #"Development Status :: 5 - Production/Stable",
+]
+
+keywords = [
+    "build-tools",
+    "build",
+]
+
+[project.urls]
+Homepage = "https://github.com/city-of-memphis-wastewater/maxson-build-utils"
+Repository = "https://github.com/city-of-memphis-wastewater/maxson-build-utils"
+Issues = "https://github.com/city-of-memphis-wastewater/maxson-build-utils/issues"
+Changelog = "https://raw.githubusercontent.com/city-of-memphis-wastewater/maxson-build-utils/main/docs/CHANGELOG.md"
+
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.uv.sources]
+maxson-build-utils = { path = "src/maxson_build_utils" }
+#pyhabitat = { path = "../pyhabitat/dist/pyhabitat-1.2.3-py3-none-any.whl" }
+
+[tool.setuptools.dynamic]
+version = {file = "src/maxson_build_utils/VERSION"}

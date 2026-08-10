@@ -1,41 +1,53 @@
-#!/usr/bin/env python3 
+#!/usr/bin/env python3
 # maxson_build_utils/build_utils.py
 
-"""
-Not too smart. Nothing automagic. Just feed in the correct parameters ans everything will work.
-"""
+"""Build utilities for packaging PyInstaller outputs across target platforms."""
 
 from __future__ import annotations
-import pyhabitat
-import sys
-import logging
-from pathlib import Path 
-import shutil
-import tempfile
-import subprocess
-import os
+
 from enum import Enum
+import logging
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import tempfile
+
+import pyhabitat
 
 logger = logging.getLogger(__name__)
 
-from maxson_build_utils.build_utils import PyinsMode
+
+class PyinsMode(str, Enum):
+    ONEDIR = "onedir"
+    ONEFILE = "onefile"
+
 
 class IconFileType(str, Enum):
     PNG = "png"
     ICO = "ico"
     SVG = "svg"
 
+
+def resolve_icon_filetype(icon_src: Path) -> IconFileType | None:
+    """Resolves and validates the extension of a given icon path."""
+    suffix = icon_src.suffix.lower().removeprefix(".")
+    try:
+        return IconFileType(suffix)
+    except ValueError:
+        return None
+
+
 def build_linux_appimage(
-    app_dir_path: Path, 
-    dynamic_exe_name: str, 
-    app_name_pretty:str,
-    icon_src: Path
+    app_dir_path: Path,
+    dynamic_exe_name: str,
+    app_name_pretty: str,
+    icon_src: Path,
 ) -> Path:
-    """
-    Packages a PyInstaller ONEDIR bundle into a standalone Linux AppImage.
-    """
-    print("build_linux_appimage()")
-    print(f"Source AppDir components from: {app_dir_path}")
+    """Packages a PyInstaller ONEDIR bundle into a standalone Linux AppImage."""
+    logger.info("Executing build_linux_appimage()")
+    logger.info("Source AppDir components from: %s", app_dir_path)
 
     if shutil.which("appimagetool") is None:
         raise RuntimeError(
@@ -54,13 +66,10 @@ def build_linux_appimage(
         # 1. Populate the usr/bin directory with the PyInstaller bundle
         usr_bin = staged_appdir / "usr" / "bin"
         usr_bin.mkdir(parents=True, exist_ok=True)
-        
-        # If ONEDIR, app_dir_path points to the directory containing everything
         shutil.copytree(app_dir_path, usr_bin / dynamic_exe_name)
 
         # 2. Create the AppRun entrypoint script
         apprun_path = staged_appdir / "AppRun"
-        # Points to the actual executable inside the copied folder
         apprun_content = f"""#!/bin/sh
 HERE="$(dirname "$(readlink -f "${{0}}")")"
 EXEC="${{HERE}}/usr/bin/{dynamic_exe_name}/{dynamic_exe_name}"
@@ -81,64 +90,57 @@ Terminal=true
 """
         desktop_path.write_text(desktop_content, encoding="utf-8")
 
-        # 4. Copy the icon file (assuming get_ico_icon can point to or be used as a PNG variant)
-        # AppImage prefers PNG or SVG at the root named matching the Icon field in the desktop file
-        #icon_src = get_png_icon()  
-
+        # 4. Copy and stage the icon asset
         icon_filetype = resolve_icon_filetype(icon_src)
-
         if icon_filetype is None:
             raise ValueError(
-                f"Unsupported icon type: {icon_src.suffix}."
-                f"Supported: {[x.value for x in IconFileType]}"
+                f"Unsupported icon type: '{icon_src.suffix}'. "
+                f"Supported types: {[x.value for x in IconFileType]}"
             )
-        
-        icon_dst = staged_appdir / f"{dynamic_exe_name}.{icon_filetype}"
 
-        print(f"Staging Linux AppImage icon: {icon_src.name} -> {icon_dst.name}")
+        icon_dst = staged_appdir / f"{dynamic_exe_name}.{icon_filetype.value}"
+
+        logger.info("Staging Linux AppImage icon: %s -> %s", icon_src.name, icon_dst.name)
         if icon_src.exists():
             shutil.copy2(icon_src, icon_dst)
         else:
-            raise FileNotFoundError(f"Critical asset missing! Could not locate icon at: {icon_src.resolve()}")
+            raise FileNotFoundError(
+                f"Critical asset missing! Could not locate icon at: {icon_src.resolve()}"
+            )
 
         # 5. Run appimagetool
-        print(f"Compiling AppImage to {appimage_output_path}...")
+        logger.info("Compiling AppImage to %s...", appimage_output_path)
         subprocess.run(
             [
                 "appimagetool",
                 str(staged_appdir.resolve()),
-                str(appimage_output_path.resolve())
+                str(appimage_output_path.resolve()),
             ],
             check=True,
-            env=os.environ.copy() # Ensure ARCH flags or paths are preserved
+            env=os.environ.copy(),
         )
 
     return appimage_output_path
 
-def resolve_icon_filetype(icon_src: Path) -> IconFileType | None:
-    suffix = icon_src.suffix.lower().removeprefix(".")
-
-    try:
-        return IconFileType(suffix)
-    except ValueError:
-        return None
-
 
 def post_process_linux_build(
-    app_path: Path, 
-    dynamic_exe_name: str, 
+    app_path: Path,
+    dynamic_exe_name: str,
     app_name_pretty: str,
     icon_src: Path,
-    mode: PyinsMode
-    ):
-    """Handles downstream staging tasks on Linux platforms."""
-    # Ensure pyhabitat has an on_linux wrapper, or fallback to sys.platform
+    mode: PyinsMode,
+) -> Path | None:
+    """Handles downstream staging tasks on Linux platforms (skips Termux)."""
     is_linux = getattr(pyhabitat, "on_linux", lambda: sys.platform.startswith("linux"))()
-    
-    if is_linux and mode == PyinsMode.ONEDIR:
-        # app_path for ONEDIR points to the internal executable; 
-        # we need its parent folder containing the dependency libraries
+    is_termux = getattr(pyhabitat, "on_termux", lambda: False)()
+
+    if is_linux and not is_termux and mode == PyinsMode.ONEDIR:
         bundle_dir = app_path.parent
-        appimage_path = build_linux_appimage(bundle_dir, dynamic_exe_name)
-        return appimage_path
+        return build_linux_appimage(
+            app_dir_path=bundle_dir,
+            dynamic_exe_name=dynamic_exe_name,
+            app_name_pretty=app_name_pretty,
+            icon_src=icon_src,
+        )
+
     return None
