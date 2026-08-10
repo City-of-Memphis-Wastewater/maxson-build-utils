@@ -1,6 +1,7 @@
 # src/maxson_build_utils/cli.py
 import typer
 from pathlib import Path
+
 from maxson_build_utils.deb import build_debian_package
 from maxson_build_utils.vendor import vendor_wheels
 
@@ -23,8 +24,11 @@ def build_deb(
     """Assemble and build a Debian .deb package."""
     build_debian_package(app_name=app_name, version=version, arch=arch)
 
-def main():
-    app()
+
+#def main():
+#    app()
+# ---
+
 
 if __name__ == "__main__":
-    main()
+    app()

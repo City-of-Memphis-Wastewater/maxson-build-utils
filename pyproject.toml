@@ -44,7 +44,7 @@ keywords = [
 ]
 
 [project.scripts]
-maxson-build-utils = "maxson_build_utils.__main__:main"
+maxson-build-utils = "maxson_build_utils.__main__:app"
 
 #[project.optional-dependencies]
 

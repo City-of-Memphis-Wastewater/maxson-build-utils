@@ -21,3 +21,6 @@ class IconFileType(str, Enum):
     PNG = "png"
     ICO = "ico"
     SVG = "svg"
+
+
+

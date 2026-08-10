@@ -15,4 +15,5 @@ if __name__ == "__main__":
         src_folder_name=SRC_FOLDER_NAME,
         version=__version__,
         entry_point="maxson_build_utils.__main__:app",
+        test_gui=False
     )

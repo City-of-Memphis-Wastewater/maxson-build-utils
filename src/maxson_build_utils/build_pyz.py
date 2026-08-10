@@ -11,6 +11,7 @@ from pathlib import Path
 import pyhabitat
 
 from .helpers import form_dynamic_name
+from .cli_utils import get_cli_commands
 
 
 def run_command(cmd: list[str], check: bool = True, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
@@ -63,23 +64,29 @@ def ensure_dependencies_and_shiv() -> None:
         run_command(["uv", "add", "shiv"])
 
 
-def create_windows_bat_launcher(pyz_filename: str, output_dir: Path) -> None:
-    """Creates a Windows BAT file launcher for GUI execution when running on Windows."""
-    if os.name != "nt":
-        return
+def create_windows_bat_launcher(
+    pyz_filename: str, output_dir: Path, has_gui: bool
+) -> None:
+  """Creates a Windows BAT file launcher for GUI execution when running on Windows."""
+  if os.name != "nt" or not has_gui:
+    return
 
-    bat_filename = pyz_filename.replace(".pyz", "-gui.bat")
-    bat_path = output_dir / bat_filename
+  bat_filename = pyz_filename.replace(".pyz", "-gui.bat")
+  bat_path = output_dir / bat_filename
 
-    bat_content = f"""@echo off
+  bat_content = f"""@echo off
 rem Launch {pyz_filename} with the 'gui' command using system Python.
 python "%~dp0{pyz_filename}" gui
 """
-    try:
-        bat_path.write_text(bat_content, encoding="utf-8")
-        print(f"Created Windows BAT launcher: {bat_path.name}")
-    except Exception as e:
-        print(f"WARNING: Failed to create BAT launcher: {e}", file=sys.stderr)
+  try:
+    bat_path.write_text(bat_content, encoding="utf-8")
+    print(f"Created Windows BAT launcher: {bat_path.name}")
+  except Exception as e:
+    print(f"WARNING: Failed to create BAT launcher: {e}", file=sys.stderr)
+
+def test_pyz_gui(output_path: Path):
+    print(f"Testing GUI mode for {output_path.name}...")
+    run_command([sys.executable, str(output_path), "gui", "--auto-close", "1000"], check=True)
 
 
 def run_build_pyz(
@@ -146,6 +153,28 @@ def run_build_pyz(
     except Exception as e:
         print(f"Note: Could not delete temporary wheel: {e}")
 
+
+    # ---
+    # Inspect commands to conditionally handle GUI launch and testing
+    available_commands = get_cli_commands(entry_point)
+    has_gui_command = "gui" in available_commands
+
+    create_windows_bat_launcher(pyz_filename, dist_dir, has_gui=has_gui_command)
+
+    # 4. Post-build verification
+    print("\nTesting generated Shiv artifact...")
+    run_command([sys.executable, str(output_path), "--help"], check=True)
+
+    if (
+        test_gui
+        and has_gui_command
+        and pyhabitat.tkinter_is_available()
+    ):
+        test_pyz_gui(output_path)
+    elif test_gui and not has_gui_command:
+        print("Skipping GUI test: 'gui' subcommand is not registered on this CLI.")
+    # ---
+    """
     create_windows_bat_launcher(pyz_filename, dist_dir)
 
     # 4. Post-build verification
@@ -153,8 +182,7 @@ def run_build_pyz(
     run_command([sys.executable, str(output_path), "--help"], check=True)
 
     if test_gui and pyhabitat.tkinter_is_available():
-        print(f"Testing GUI mode for {output_path.name}...")
-        run_command([sys.executable, str(output_path), "gui", "--auto-close", "1000"], check=True)
-
+        test_pyz_gui(output_path)
+    """
     print(f"\nBuild complete! Portable PYZ: {output_path.resolve()}")
     return output_path
