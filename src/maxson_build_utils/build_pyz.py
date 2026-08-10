@@ -10,7 +10,7 @@ import tempfile
 from pathlib import Path
 import pyhabitat
 
-from maxson_build_utils.build_executable import form_dynamic_name
+from .helpers import form_dynamic_name
 
 
 def run_command(cmd: list[str], check: bool = True, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
@@ -117,7 +117,7 @@ def run_build_pyz(
 
     # 3. Locate wheel and construct Shiv command
     wheel_path = find_latest_wheel(dist_dir, src_folder_name, version)
-    dynamic_name = form_dynamic_name(src_folder_name, version, None)
+    dynamic_name = form_dynamic_name(src_folder_name, version, mode=None)
     pyz_filename = f"{dynamic_name}-shiv.pyz"
     interpreter = "python" if os.name == "nt" else "/usr/bin/env python3"
     output_path = dist_dir / pyz_filename

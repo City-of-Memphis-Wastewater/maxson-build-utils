@@ -20,18 +20,9 @@ import tempfile
 
 import pyhabitat
 
+from .helpers import form_dynamic_name, PyinsMode, IconFileType
+
 logger = logging.getLogger(__name__)
-
-
-class PyinsMode(str, Enum):
-    ONEDIR = "onedir"
-    ONEFILE = "onefile"
-
-
-class IconFileType(str, Enum):
-    PNG = "png"
-    ICO = "ico"
-    SVG = "svg"
 
 
 DIST_DIR = Path("dist")
