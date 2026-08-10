@@ -210,29 +210,6 @@ Terminal=true
     return appimage_output_path
 
 
-def post_process_linux_build(
-    app_path: Path,
-    dynamic_exe_name: str,
-    app_name_pretty: str,
-    icon_src: Path,
-    mode: PyinsMode,
-) -> Path | None:
-    """Handles downstream staging tasks on Linux platforms (skips Termux)."""
-    is_linux = getattr(pyhabitat, "on_linux", lambda: sys.platform.startswith("linux"))()
-    is_termux = getattr(pyhabitat, "on_termux", lambda: False)()
-
-    if is_linux and not is_termux and mode == PyinsMode.ONEDIR:
-        bundle_dir = app_path.parent
-        return build_linux_appimage(
-            app_dir_path=bundle_dir,
-            dynamic_exe_name=dynamic_exe_name,
-            app_name_pretty=app_name_pretty,
-            icon_src=icon_src,
-        )
-
-    return None
-
-
 def construct_pyinstaller_command(
     dynamic_exe_name: str,
     dist_path: Path,
@@ -352,7 +329,7 @@ def run_build_executable(
     icon_icns_path: Path | None = None,
     collect_data_pkgs: list[str] | set[str] | None = None,
     collect_binary_pkgs: list[str] | set[str] | None = None,
-    args_list: list[str] | None = None,
+    args_list: list[str] | None = None
 ) -> None:
     """Primary entry point for downstream project packaging scripts."""
     parser = argparse.ArgumentParser(description=f"Build runner for {app_name_pretty}")
@@ -392,7 +369,7 @@ def run_build_executable(
             collect_data_pkgs=collect_data_pkgs,
             collect_binary_pkgs=collect_binary_pkgs,
         )
-
+        """
         if icon_png_path and icon_png_path.exists():
             appimage_path = post_process_linux_build(
                 app_path=app_path,
@@ -403,7 +380,7 @@ def run_build_executable(
             )
             if appimage_path:
                 logger.info("AppImage successfully generated at: %s", appimage_path)
-
+        """
     except SystemExit as e:
         sys.exit(e.code)
     except Exception as e:
