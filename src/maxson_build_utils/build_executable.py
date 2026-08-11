@@ -175,7 +175,7 @@ def run_pyinstaller(
     executable_descriptor: str,
     main_script_path: Path,
     src_folder_name: str,
-    mode: PyinsMode = PyinsMode.ONEDIR,
+    mode: PyinsMode = PyinsMode.ONEDIR, # it very important that ONEDIR is the default
     is_windowed_build: bool = True,
     icon_ico_path: Path | None = None,
     icon_icns_path: Path | None = None,

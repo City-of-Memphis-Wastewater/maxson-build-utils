@@ -55,7 +55,7 @@ jobs:
 
       # Execute repo-specific Python script to generate ONEDIR output
       - name: Run PyInstaller Build Script
-        run: uv run python ${{ inputs.build_script }}
+        run: uv run python ${{ inputs.build_script }} --mode 
 
       - name: Assemble AppImage
         run: |
