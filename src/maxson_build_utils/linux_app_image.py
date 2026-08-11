@@ -15,14 +15,13 @@ import sys
 import tempfile
 import pyhabitat
 
-from .build_executable import run_build_executable
 from .helpers import PyinsMode, IconFileType, resolve_icon_filetype, form_dynamic_name
 
 logger = logging.getLogger(__name__)
 
 def build_linux_appimage(
     app_dir_path: Path,
-    src_folder_name: str, 
+    pkg_name: str, 
     version: str,
     app_name_pretty: str,
     icon_src: Path,
@@ -31,11 +30,11 @@ def build_linux_appimage(
     if not app_dir_path.exists():
         raise FileNotFoundError(
             f"Build directory '{app_dir_path}' does not exist.\n"
-            f"Run 'maxson-build-utils build-executable --mode onedir' before calling build-appimage."
+            f"Run package's expection 'build_executable.py' script first."
         )
 
-    executable_descriptor = form_dynamic_name(pkg_name=src_folder_name, version=version, mode=PyinsMode.ONEDIR)
-
+    executable_descriptor = form_dynamic_name(pkg_name=pkg_name, version=version, mode=PyinsMode.ONEDIR)
+    dynamic_exe_name = executable_descriptor
     logger.info("Executing build_linux_appimage()")
     logger.info("Source AppDir components from: %s", app_dir_path)
 
@@ -46,7 +45,7 @@ def build_linux_appimage(
 
     appimage_dir = Path("dist/appimage")
     appimage_dir.mkdir(parents=True, exist_ok=True)
-    appimage_output_path = appimage_dir / f"{executable_descriptor}-x86_64.AppImage"
+    appimage_output_path = appimage_dir / f"{executable_descriptor}.AppImage"
 
     with tempfile.TemporaryDirectory() as tmp:
         tmp_dir = Path(tmp)
@@ -120,7 +119,7 @@ def post_process_linux_build(
     icon_src: Path,
     mode: PyinsMode,
 ) -> Path | None:
-    """Handles downstream staging tasks on Linux platforms (skips Termux)."""
+    """Defunct. Handles downstream staging tasks on Linux platforms (skips Termux)."""
     is_linux = getattr(pyhabitat, "on_linux", lambda: sys.platform.startswith("linux"))()
     is_termux = getattr(pyhabitat, "on_termux", lambda: False)()
 
