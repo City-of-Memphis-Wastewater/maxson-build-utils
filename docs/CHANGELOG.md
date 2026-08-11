@@ -5,6 +5,12 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.13] - 2026-08-11
+### Fixed:
+- vendor.vendor_wheels() function changed to vendor.run_vendor_wheels()
+
+---
+
 ## [0.1.12] - 2026-08-11
 ### Added:
 - reusable-flatpak.yml
