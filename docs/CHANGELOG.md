@@ -9,6 +9,9 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 ### Changed:
 - Leverage the internal call to consuming-app-based build_executable.py in reusable_appimage.py, for tighter integration, to avoid mutli job race conditon and instead act in series.
 
+### Internal:
+- Note that it is quintessential that ONEDIR is the default setting for my pyinstaller routing.
+
 ---
 
 ## [0.1.6] - 2026-08-10
