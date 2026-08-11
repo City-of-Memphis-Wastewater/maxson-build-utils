@@ -23,8 +23,8 @@ def export_build_env_vars(app_filepath: Path, executable_descriptor: str) -> Non
             with open(gha_output, "a", encoding="utf-8") as f:
                 f.write(f"{key.lower()}={value}\n")
 
-def get_pyinstaller_onedir_exe_filepath():
-    return os.environ.get("PYINSTALLER_ONEDIR_EXE_PATH")
+def get_pyinstaller_onedir_exe_filepath()->Path:
+    return Path(os.environ.get("PYINSTALLER_ONEDIR_EXE_PATH")).expanduser().resolve()
 
-def get_executable_descriptor():
+def get_executable_descriptor()->str:
     return os.environ.get("EXECUTABLE_DESCRIPTOR")

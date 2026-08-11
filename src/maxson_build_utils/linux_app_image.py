@@ -22,15 +22,17 @@ logger = logging.getLogger(__name__)
 def build_linux_appimage(
     app_name_pretty: str, # for metadata
     icon_src: Path,
-    app_filepath: Path | None = None, # pyinstaller produced executable filename
+    app_filepath: Path | str | None = None, # pyinstaller produced executable filename
 ) -> Path:
     """Packages a PyInstaller ONEDIR bundle into a standalone Linux AppImage. This assume it has already been build and that strings were written to the dworshak config file as state."""
 
     if app_filepath is None:
         app_filepath = get_pyinstaller_onedir_exe_filepath()
-
+    else:
+        app_filepath = Path(app_filepath).expanduser().resolve()
+    
+    logger.debug(f"{app_filepath=}")
     app_dir_path = app_filepath.parent
-
     if not app_dir_path.exists():
         raise FileNotFoundError(
             f"Build directory '{app_dir_path}' does not exist.\n"
