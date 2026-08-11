@@ -264,8 +264,9 @@ def run_build_executable(
             collect_binary_pkgs=collect_binary_pkgs,
         )
 
+        app_filepath = app_path / app_filename
         # Export dynamic ONEDIR directory and binary name
-        export_build_env_vars(app_path=app_path, executable_descriptor=executable_descriptor)
+        export_build_env_vars(app_filepath=app_filepath, executable_descriptor=executable_descriptor)
 
         # temp storage to disk, sue me; it would be better to use ENV VARS and not dworshak config
         #config_mngr.set(service=APP_NAME, item="app_path",value=app_path.resolve(),overwrite=True)
