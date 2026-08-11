@@ -5,6 +5,12 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.10] - 2026-08-11
+### Changed:
+- reusable-appimage.yml is safer now for manual dispatch, when there is no release tag.
+
+---
+
 ## [0.1.9] - 2026-08-11
 ### Changed:
 - Store state using config.json with dworshak-config to star vars, rather than to env vars.

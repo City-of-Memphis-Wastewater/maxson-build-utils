@@ -42,6 +42,10 @@ jobs:
           sudo chmod +x /usr/local/bin/appimagetool
           echo "APPIMAGE_EXTRACT_AND_RUN=1" >> $GITHUB_ENV
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          
       - name: Install Project & Build Tools
         run: |
           uv sync --group dev
@@ -60,6 +64,20 @@ jobs:
 
       - name: Publish to GitHub Release
         shell: bash
-        run: gh release upload "${{ github.event.release.tag_name }}" dist/appimage/*.AppImage --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ github.event.release.tag_name }}
+        run: |
+          if [ -z "$TAG_NAME" ]; then
+            echo "No release tag found on this event. Skipping release upload."
+          else
+            gh release upload "$TAG_NAME" dist/appimage/*.AppImage --clobber
+          fi
+
+      # Optional: Always store as job artifact for non-release manual runs
+      - name: Upload Build Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appimage-dist
+          path: dist/appimage/*.AppImage
