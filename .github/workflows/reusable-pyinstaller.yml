@@ -1,0 +1,55 @@
+name: Reusable PyInstaller Builder, Favoring OneDir
+
+on:
+  workflow_call:
+    inputs:
+      build_script:
+        description: 'Path to repository build entrypoint script'
+        required: false
+        type: string
+        default: 'build_executable.py'
+
+jobs:
+  build-executable:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          
+      - name: Install Project & Build Tools
+        run: |
+          uv sync --group dev
+
+      # Execute repo-specific Python script to generate ONEDIR output
+      - name: Run PyInstaller Build Script
+        run: uv run python ${{ inputs.build_script }}
+
+      - name: Publish to GitHub Release
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ github.event.release.tag_name }}
+        run: |
+          if [ -z "$TAG_NAME" ]; then
+            echo "No release tag found on this event. Skipping release upload."
+          else
+            gh release upload "$TAG_NAME" dist/onedir/* --clobber
+          fi
+
+      # Optional: Always store as job artifact for non-release manual runs
+      - name: Upload Build Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pyinstaller-dist
+          path: dist/onedir/*
