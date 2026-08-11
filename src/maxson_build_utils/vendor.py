@@ -2,7 +2,7 @@
 import subprocess
 from pathlib import Path
 
-def vendor_wheels(dist_dir: Path = Path("dist"), vendor_dir: Path = Path("vendor-wheels")) -> None:
+def run_vendor_wheels(dist_dir: Path = Path("dist"), vendor_dir: Path = Path("vendor-wheels")) -> None:
     """Builds project wheel and downloads all runtime dependencies offline for Flatpak."""
     vendor_dir.mkdir(parents=True, exist_ok=True)
 
