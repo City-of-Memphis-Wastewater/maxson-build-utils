@@ -5,6 +5,12 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.12] - 2026-08-11
+### Added:
+- reusable-flatpak.yml
+
+---
+
 ## [0.1.11] - 2026-08-11
 ### Added:
 - LICENSE
