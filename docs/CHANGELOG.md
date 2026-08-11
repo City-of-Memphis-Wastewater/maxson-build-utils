@@ -9,6 +9,9 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 ### Fixed:
 - vendor.vendor_wheels() function changed to vendor.run_vendor_wheels()
 
+### Added:
+- helptree asset, README.md reference
+
 ---
 
 ## [0.1.12] - 2026-08-11
