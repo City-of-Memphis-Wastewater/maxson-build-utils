@@ -191,6 +191,18 @@ toml = [
 ]
 
 [[package]]
+name = "dworshak-config"
+version = "0.2.8"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "json-repair" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/30/32/cea4d714abd0aaa2696283f907778b73a7a70626a2b6168dde77b92b3d12/dworshak_config-0.2.8.tar.gz", hash = "sha256:dadce1a05124595066a82f5a1766394ff7c7d7a76ccee9dbb6e45a517d1f54a4", size = 10669, upload-time = "2026-06-05T20:11:14.453Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ed/8b/cab8bc50432e7f612e41635b3778ab833960a6fe73402b33b0485f4605af/dworshak_config-0.2.8-py3-none-any.whl", hash = "sha256:7e956d9bf6087931dfefb4a53aaa5d5a1edcc3c9d8f0ba92b16293be1c4265d6", size = 10174, upload-time = "2026-06-05T20:11:13.433Z" },
+]
+
+[[package]]
 name = "exceptiongroup"
 version = "1.3.1"
 source = { registry = "https://pypi.org/simple" }
@@ -224,6 +236,15 @@ wheels = [
 ]
 
 [[package]]
+name = "json-repair"
+version = "0.62.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/82/f0/99922cd499612b1eb70f177d34f7f34a489bb0255c946992ca70415a7288/json_repair-0.62.0.tar.gz", hash = "sha256:578bdfe4b3e177ad5a93a0f4e31ec71c953b2a282c72403ddd0c77058fae0d83", size = 51990, upload-time = "2026-08-05T09:13:04.731Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/63/45/924a75372c1a264068158eb5b557932d15a4e42cbbb9e14a73ca076d3c01/json_repair-0.62.0-py3-none-any.whl", hash = "sha256:1ea917bb2eae205a2c012ab2aa1c0bc6ea9ac708836d203577fac46fcd84f443", size = 50572, upload-time = "2026-08-05T09:13:03.318Z" },
+]
+
+[[package]]
 name = "markdown-it-py"
 version = "4.2.0"
 source = { registry = "https://pypi.org/simple" }
@@ -239,6 +260,7 @@ wheels = [
 name = "maxson-build-utils"
 source = { editable = "." }
 dependencies = [
+    { name = "dworshak-config" },
     { name = "pyhabitat" },
     { name = "typer" },
     { name = "typer-helptree" },
@@ -256,6 +278,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "dworshak-config", specifier = ">=0.2.8" },
     { name = "pyhabitat", specifier = ">=1.3.9" },
     { name = "typer", specifier = ">=0.27.0" },
     { name = "typer-helptree", specifier = ">=0.2.12" },

@@ -18,6 +18,8 @@ import sys
 import pyhabitat
 
 from .helpers import form_dynamic_name, PyinsMode, IconFileType, get_cli_main_file
+#from .context import config_mngr, APP_NAME
+from .state import export_build_env_vars
 
 logger = logging.getLogger(__name__)
 
@@ -85,13 +87,12 @@ def clean_artifacts(exe_name: str, mode: PyinsMode, file_extension: str) -> None
     if pyhabitat.on_windows() and RC_FILE.exists():
         RC_FILE.unlink()
 
-
 def determine_app_path_and_dist_path(
-    dynamic_exe_name: str, mode: PyinsMode, is_windowed_build: bool
+    executable_descriptor: str, mode: PyinsMode, is_windowed_build: bool
 ) -> tuple[str, Path, Path, str]:
     """Calculates distribution targets and final artifact file paths."""
     ext = determine_file_extension(is_windowed_build)
-    app_filename = f"{dynamic_exe_name}{ext}"
+    app_filename = f"{executable_descriptor}{ext}"
 
     if mode == PyinsMode.ONEFILE:
         dist_path = DIST_DIR_ONEFILE
@@ -102,7 +103,7 @@ def determine_app_path_and_dist_path(
             app_path = STANDARD_MACOS_APP_DIST_DIR / app_filename
         else:
             dist_path = DIST_DIR_ONEDIR
-            app_path = DIST_DIR_ONEDIR / dynamic_exe_name / app_filename
+            app_path = DIST_DIR_ONEDIR / executable_descriptor / app_filename
 
     dist_path.mkdir(parents=True, exist_ok=True)
     logger.info("Executable target path: %s", app_path.resolve())
@@ -110,7 +111,7 @@ def determine_app_path_and_dist_path(
 
 
 def construct_pyinstaller_command(
-    dynamic_exe_name: str,
+    executable_descriptor: str,
     dist_path: Path,
     mode: PyinsMode,
     main_script_path: Path,
@@ -128,7 +129,7 @@ def construct_pyinstaller_command(
         "PyInstaller",
         "--noconfirm",
         "--clean",
-        f"--name={dynamic_exe_name}",
+        f"--name={executable_descriptor}",
         f'--paths={PROJECT_ROOT / "src"}',
         f"--distpath={dist_path}",
         f'--workpath={BUILD_DIR / "work"}',
@@ -172,7 +173,7 @@ def construct_pyinstaller_command(
 
 
 def run_pyinstaller(
-    dynamic_exe_name: str,
+    executable_descriptor: str,
     main_script_path: Path,
     src_folder_name: str,
     mode: PyinsMode = PyinsMode.ONEDIR,
@@ -185,14 +186,14 @@ def run_pyinstaller(
     """Executes the PyInstaller command within a subshell."""
     logger.info("--- %s Executable Builder ---", src_folder_name)
     app_filename, dist_path, app_path, ext = determine_app_path_and_dist_path(
-        dynamic_exe_name, mode, is_windowed_build
+        executable_descriptor, mode, is_windowed_build
     )
 
-    clean_artifacts(exe_name=dynamic_exe_name, mode=mode, file_extension=ext)
+    clean_artifacts(exe_name=executable_descriptor, mode=mode, file_extension=ext)
     setup_dirs()
 
     full_command = construct_pyinstaller_command(
-        dynamic_exe_name=dynamic_exe_name,
+        executable_descriptor=executable_descriptor,
         dist_path=dist_path,
         mode=mode,
         main_script_path=main_script_path,
@@ -212,7 +213,7 @@ def run_pyinstaller(
         raise SystemExit(e.returncode) from e
 
     if pyhabitat.on_macos() and mode == PyinsMode.ONEDIR:
-        duplicate_cli_dir = DIST_DIR / dynamic_exe_name
+        duplicate_cli_dir = DIST_DIR / executable_descriptor
         if duplicate_cli_dir.exists() and duplicate_cli_dir.is_dir():
             shutil.rmtree(duplicate_cli_dir)
 
@@ -252,7 +253,7 @@ def run_build_executable(
         cli_main_file = get_cli_main_file(project_root=PROJECT_ROOT, src_folder_name=src_folder_name)
 
         app_path, app_filename = run_pyinstaller(
-            dynamic_exe_name=executable_descriptor,
+            executable_descriptor=executable_descriptor,
             main_script_path=cli_main_file,
             src_folder_name=src_folder_name,
             mode=mode,
@@ -262,6 +263,16 @@ def run_build_executable(
             collect_data_pkgs=collect_data_pkgs,
             collect_binary_pkgs=collect_binary_pkgs,
         )
+
+        # Export dynamic ONEDIR directory and binary name
+        export_build_env_vars(app_path=app_path, executable_descriptor=executable_descriptor)
+
+        # temp storage to disk, sue me; it would be better to use ENV VARS and not dworshak config
+        #config_mngr.set(service=APP_NAME, item="app_path",value=app_path.resolve(),overwrite=True)
+        #config_mngr.set(service=APP_NAME, item="app_filename",value=app_filename,overwrite=True)
+        #config_mngr.set(service=APP_NAME, item="executable_descriptor",value=executable_descriptor,overwrite=True)
+
+        
         return app_path, app_filename
     except SystemExit as e:
         sys.exit(e.code)

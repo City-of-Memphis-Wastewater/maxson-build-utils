@@ -1,4 +1,4 @@
-# maxson_build_utils/src/maxson_build_utils/helpers.py
+# src/maxson_build_utils/helpers.py
 from __future__ import annotations
 from enum import Enum
 from pathlib import Path
@@ -22,10 +22,10 @@ def form_dynamic_name(pkg_name: str, version: str, mode: PyinsMode|None = None) 
     os_tag = pyhabitat.SystemInfo().get_os_tag()
     arch = pyhabitat.SystemInfo().get_arch()
     py_ver = f"py{sys.version_info.major}{sys.version_info.minor}"
-    dynamic_exe_name = f"{pkg_name}-{version}-{py_ver}-{os_tag}-{arch}"
+    executable_descriptor = f"{pkg_name}-{version}-{py_ver}-{os_tag}-{arch}"
     if mode == PyinsMode.ONEFILE:
-        dynamic_exe_name += f"-{PyinsMode.ONEFILE.value}"
-    return dynamic_exe_name
+        executable_descriptor += f"-{PyinsMode.ONEFILE.value}"
+    return executable_descriptor
 
 def resolve_icon_filetype(icon_src: Path) -> IconFileType | None:
     """Resolves and validates the extension of a given icon path."""
@@ -38,7 +38,3 @@ def resolve_icon_filetype(icon_src: Path) -> IconFileType | None:
 def get_cli_main_file(project_root: Path, src_folder_name: str) -> Path:
     """Locates the entry point module inside the package source folder."""
     return project_root / "src" / src_folder_name / "__main__.py"
-
-
-
-

@@ -15,10 +15,10 @@ STANDARD_MACOS_APP_DIST_DIR = Path("dist")
 DIST_DIR_ONEDIR = Path("dist") / PyinsMode.ONEDIR.value
 
 
-def purge_raw_unix_structure_from_macos_build(dynamic_exe_name: str, mode: PyinsMode) -> None:
+def purge_raw_unix_structure_from_macos_build(executable_descriptor: str, mode: PyinsMode) -> None:
     """Removes duplicate CLI directories created by PyInstaller next to .app bundles."""
     if pyhabitat.on_macos() and mode == PyinsMode.ONEDIR:
-        duplicate_cli_dir = Path("dist") / dynamic_exe_name
+        duplicate_cli_dir = Path("dist") / executable_descriptor
         if duplicate_cli_dir.exists() and duplicate_cli_dir.is_dir():
             print(f"Cleaning up duplicate raw Unix folder: {duplicate_cli_dir.resolve()}")
             shutil.rmtree(duplicate_cli_dir)

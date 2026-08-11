@@ -41,13 +41,34 @@ jobs:
           uv sync --group dev
           uv pip install maxson-build-utils
 
-      - name: Run AppImage Builder CLI
+      - name: Run AppImage Builder CLI, defunct
+        if: false
         run: |
           uv run maxson-build-utils build-appimage \
             --app-dir "dist/onedir/${{ inputs.exe_name }}" \
             --exe-name "${{ inputs.exe_name }}" \
             --pretty-name "${{ inputs.pretty_name }}" \
             --icon "${{ inputs.icon_path }}"
+
+      - name: Assemble AppImage
+        run: |
+          # Resolve target app directory (Input override -> Environment export)
+          TARGET_APP_DIR="${{ inputs.app_dir }}"
+          if [ -z "$TARGET_APP_DIR" ]; then
+            TARGET_APP_DIR="$PYINSTALLER_ONEDIR_BUILD_DIR"
+          fi
+
+          # Resolve target binary executable name (Input override -> Environment export)
+          TARGET_EXE_NAME="${{ inputs.exe_name }}"
+          if [ -z "$TARGET_EXE_NAME" ]; then
+            TARGET_EXE_NAME="$EXE_NAME"
+          fi
+
+          uv run maxson-build-utils build-appimage \
+            --pretty-name "${{ inputs.pretty_name }}" \
+            --icon "${{ inputs.icon_path }}" \
+            --app-dir "$TARGET_APP_DIR" \
+            --exe-name "$TARGET_EXE_NAME" \
 
       - name: Publish to GitHub Release
         shell: bash
