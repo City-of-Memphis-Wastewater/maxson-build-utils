@@ -8,7 +8,7 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ## [0.1.5] - 2026-08-10
 ### Fixed:
-- Previous approach to running pyinstaller before appimage build, in reusable_appimage.yml, was conflated. We must reference scripts/build_executable.py now, as a standard, or other wise reference the local script that indicates how to build it, feeding the run_build_executable() function"
+- Previous approach to running pyinstaller before appimage build, in reusable_appimage.yml, was conflated. We must reference scripts/build_executable.py now, as a standard, or other wise reference the local script that indicates how to build it, feeding the run_build_executable() function.
 
 ---
 
