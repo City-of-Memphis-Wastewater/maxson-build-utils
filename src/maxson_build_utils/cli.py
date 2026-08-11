@@ -56,20 +56,12 @@ def main(
 add_typer_helptree(app = app, console = console, version = __version__, hidden = False)
 
 
-@app.command(name="prepare-flatpak")
-def prepare_flatpak(
-    dist_dir: Path = Path("dist"),
-    vendor_dir: Path = Path("vendor-wheels")
-):
-    """Build project wheel and vendor offline dependencies for Flatpak."""
-    run_vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir)
-
 @app.command(name="vendor-wheels")
 def vendor_wheels(
     dist_dir: Path = Path("dist"),
     vendor_dir: Path = Path("vendor-wheels")
 ):
-    """Build project wheel and vendor offline dependencies for Flatpak."""
+    """Build project wheel and vendor offline dependencies, like when preparing for Flatpak."""
     run_vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir)
 
 
