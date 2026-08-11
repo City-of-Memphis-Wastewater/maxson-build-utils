@@ -7,7 +7,7 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ## [0.1.8] - 2026-08-10
 ### Fixed:
-- reusable-appimage.py had blatant errors for routing `--exe-path`
+- reusable-appimage.yml had blatant errors for routing `--exe-path`
 
 ---
 
