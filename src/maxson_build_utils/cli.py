@@ -16,6 +16,15 @@ def prepare_flatpak(
     """Build project wheel and vendor offline dependencies for Flatpak."""
     vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir)
 
+@app.command(name="vendor-wheels")
+def vendor_wheels(
+    dist_dir: Path = Path("dist"),
+    vendor_dir: Path = Path("vendor-wheels")
+):
+    """Build project wheel and vendor offline dependencies for Flatpak."""
+    vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir)
+
+
 @app.command(name="build-deb")
 def build_deb(
     app_name: str = typer.Option("cellshift", "--app-name", help="Package application name"),
