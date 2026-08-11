@@ -47,23 +47,16 @@ jobs:
           uv sync --group dev
           uv pip install maxson-build-utils
 
-      
-      - name: Install Project & Build Tools
-        run: |
-          uv sync --group dev
-          uv pip install maxson-build-utils
-
       # Execute repo-specific Python script to generate ONEDIR output
       - name: Run PyInstaller Build Script
-        run: uv run python ${{ inputs.build_script }} --mode 
+        run: uv run python ${{ inputs.build_script }}
 
       - name: Assemble AppImage
         run: |
           uv run maxson-build-utils build-appimage \
             --pretty-name "${{ inputs.pretty_name }}" \
             --icon "${{ inputs.icon_path }}" \
-            --app-dir "$TARGET_APP_DIR" \
-            --exe-path "$TARGET_EXE_NAME" \
+            --exe-path "${{ inputs.exe_path }}" 
 
       - name: Publish to GitHub Release
         shell: bash

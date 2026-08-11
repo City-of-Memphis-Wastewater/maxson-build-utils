@@ -5,6 +5,12 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.8] - 2026-08-10
+### Fixed:
+- reusable-appimage.py had blatant errors for routing `--exe-path`
+
+---
+
 ## [0.1.7] - 2026-08-10
 ### Changed:
 - Leverage the internal call to consuming-app-based build_executable.py in reusable_appimage.py, for tighter integration, to avoid mutli job race conditon and instead act in series.
