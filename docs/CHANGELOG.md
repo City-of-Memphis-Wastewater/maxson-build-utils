@@ -10,7 +10,11 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 - vendor.vendor_wheels() function changed to vendor.run_vendor_wheels()
 
 ### Added:
-- helptree asset, README.md reference
+- helptree asset, with README.md reference
+- logging_setup.py, with functions for library and app logging
+
+### Changed:
+- Leverage typer CLI best practices, included main entry func, debug logging. There is not a gui for this app.
 
 ---
 
