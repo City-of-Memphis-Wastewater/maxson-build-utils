@@ -8,19 +8,16 @@ Modular build execution orchestrator for PyInstaller, AppImage, and DMG workflow
 
 from __future__ import annotations
 
-import argparse
-from enum import Enum
 import logging
 import os
 from pathlib import Path
 import shutil
 import subprocess
 import sys
-import tempfile
 
 import pyhabitat
 
-from .helpers import form_dynamic_name, PyinsMode, IconFileType
+from .helpers import form_dynamic_name, PyinsMode, IconFileType, get_cli_main_file
 
 logger = logging.getLogger(__name__)
 
@@ -34,25 +31,6 @@ RC_TEMPLATE = Path("build_assets") / "version.rc.template"
 RC_FILE = Path("build_assets") / "version.rc"
 PROJECT_ROOT = Path.cwd()
 HOOKS_DIR_ABS = PROJECT_ROOT / "pyinstaller_hooks"
-
-
-def resolve_icon_filetype(icon_src: Path) -> IconFileType | None:
-    """Resolves and validates the extension of a given icon path."""
-    suffix = icon_src.suffix.lower().removeprefix(".")
-    try:
-        return IconFileType(suffix)
-    except ValueError:
-        return None
-
-
-def form_dynamic_name(src_folder_name: str, version: str, mode: PyinsMode) -> str:
-    """Forms a standard dynamic build descriptor string."""
-    return f"{src_folder_name}-{version}-{mode.value}"
-
-
-def get_cli_main_file(src_folder_name: str) -> Path:
-    """Locates the entry point module inside the package source folder."""
-    return PROJECT_ROOT / "src" / src_folder_name / "__main__.py"
 
 
 def generate_rc_file(package_version: str) -> None:
@@ -129,85 +107,6 @@ def determine_app_path_and_dist_path(
     dist_path.mkdir(parents=True, exist_ok=True)
     logger.info("Executable target path: %s", app_path.resolve())
     return app_filename, dist_path, app_path, ext
-
-
-def build_linux_appimage(
-    app_dir_path: Path,
-    dynamic_exe_name: str,
-    app_name_pretty: str,
-    icon_src: Path,
-) -> Path:
-    """Packages a PyInstaller ONEDIR bundle into a standalone Linux AppImage."""
-    logger.info("Executing build_linux_appimage()")
-    logger.info("Source AppDir components from: %s", app_dir_path)
-
-    if shutil.which("appimagetool") is None:
-        raise RuntimeError(
-            "appimagetool is not installed. Please download it or install via your package manager."
-        )
-
-    upload_dir = DIST_DIR / "upload"
-    upload_dir.mkdir(parents=True, exist_ok=True)
-    appimage_output_path = upload_dir / f"{dynamic_exe_name}-x86_64.AppImage"
-
-    with tempfile.TemporaryDirectory() as tmp:
-        tmp_dir = Path(tmp)
-        staged_appdir = tmp_dir / f"{dynamic_exe_name}.AppDir"
-        staged_appdir.mkdir(parents=True, exist_ok=True)
-
-        usr_bin = staged_appdir / "usr" / "bin"
-        usr_bin.mkdir(parents=True, exist_ok=True)
-        shutil.copytree(app_dir_path, usr_bin / dynamic_exe_name)
-
-        apprun_path = staged_appdir / "AppRun"
-        apprun_content = f"""#!/bin/sh
-HERE="$(dirname "$(readlink -f "${{0}}")")"
-EXEC="${{HERE}}/usr/bin/{dynamic_exe_name}/{dynamic_exe_name}"
-exec "${{EXEC}}" "$@"
-"""
-        apprun_path.write_text(apprun_content, encoding="utf-8")
-        apprun_path.chmod(0o755)
-
-        desktop_path = staged_appdir / f"{dynamic_exe_name}.desktop"
-        desktop_content = f"""[Desktop Entry]
-Type=Application
-Name={app_name_pretty}
-Exec=AppRun
-Icon={dynamic_exe_name}
-Categories=Utility;
-Terminal=true
-"""
-        desktop_path.write_text(desktop_content, encoding="utf-8")
-
-        icon_filetype = resolve_icon_filetype(icon_src)
-        if icon_filetype is None:
-            raise ValueError(
-                f"Unsupported icon type: '{icon_src.suffix}'. "
-                f"Supported types: {[x.value for x in IconFileType]}"
-            )
-
-        icon_dst = staged_appdir / f"{dynamic_exe_name}.{icon_filetype.value}"
-
-        logger.info("Staging Linux AppImage icon: %s -> %s", icon_src.name, icon_dst.name)
-        if icon_src.exists():
-            shutil.copy2(icon_src, icon_dst)
-        else:
-            raise FileNotFoundError(
-                f"Critical asset missing! Could not locate icon at: {icon_src.resolve()}"
-            )
-
-        logger.info("Compiling AppImage to %s...", appimage_output_path)
-        subprocess.run(
-            [
-                "appimagetool",
-                str(staged_appdir.resolve()),
-                str(appimage_output_path.resolve()),
-            ],
-            check=True,
-            env=os.environ.copy(),
-        )
-
-    return appimage_output_path
 
 
 def construct_pyinstaller_command(
@@ -323,25 +222,18 @@ def run_pyinstaller(
 def run_build_executable(
     src_folder_name: str,
     version: str,
-    app_name_pretty: str,
-    icon_png_path: Path | None = None,
+    mode: PyinsMode = PyinsMode.ONEDIR,
+    is_windowed_build: bool | None = None,
     icon_ico_path: Path | None = None,
     icon_icns_path: Path | None = None,
     collect_data_pkgs: list[str] | set[str] | None = None,
     collect_binary_pkgs: list[str] | set[str] | None = None,
-    args_list: list[str] | None = None
-) -> None:
+) -> tuple[Path, str]:
     """Primary entry point for downstream project packaging scripts."""
-    parser = argparse.ArgumentParser(description=f"Build runner for {app_name_pretty}")
-    parser.add_argument(
-        "--mode",
-        type=PyinsMode,
-        choices=list(PyinsMode),
-        default=PyinsMode.ONEDIR,
-        help="PyInstaller build mode.",
-    )
-    args = parser.parse_args(args_list)
-    mode = args.mode
+
+    if not version or version == "0.0.0":
+        logger.error("FATAL: Invalid package version provided.")
+        sys.exit(1)
 
     is_windowed_build = (
         (pyhabitat.on_windows() or pyhabitat.on_macos())
@@ -356,7 +248,7 @@ def run_build_executable(
 
         generate_rc_file(version)
         executable_descriptor = form_dynamic_name(src_folder_name, version, mode)
-        cli_main_file = get_cli_main_file(src_folder_name)
+        cli_main_file = get_cli_main_file(project_root=PROJECT_ROOT, src_folder_name=src_folder_name)
 
         app_path, app_filename = run_pyinstaller(
             dynamic_exe_name=executable_descriptor,
@@ -369,18 +261,7 @@ def run_build_executable(
             collect_data_pkgs=collect_data_pkgs,
             collect_binary_pkgs=collect_binary_pkgs,
         )
-        """
-        if icon_png_path and icon_png_path.exists():
-            appimage_path = post_process_linux_build(
-                app_path=app_path,
-                dynamic_exe_name=executable_descriptor,
-                app_name_pretty=app_name_pretty,
-                icon_src=icon_png_path,
-                mode=mode,
-            )
-            if appimage_path:
-                logger.info("AppImage successfully generated at: %s", appimage_path)
-        """
+        return app_path, app_filename
     except SystemExit as e:
         sys.exit(e.code)
     except Exception as e:
