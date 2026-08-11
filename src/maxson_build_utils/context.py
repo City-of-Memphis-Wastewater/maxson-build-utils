@@ -7,9 +7,10 @@ SRC_FOLDER_NAME = "maxson_build_utils"
 APP_NAME_PRETTY = "maxson-build-utils"
 APP_DIR = Path.home() / f".{APP_NAME}"
 APP_DIR.mkdir(parents=True,exist_ok=True)
+LOG_FILE_PATH = APP_DIR / f"{APP_NAME}_errors.log"
 
 SERVICE = APP_NAME
-DESCRIPTION_STR = "Centralized build tools for the standard Maxson architecture."
+DESCRIPTION_STR = "Centralized build and packaging tools for the standard Maxson architecture."
 
 def get_config_mngr():
     from dworshak_config import DworshakConfig

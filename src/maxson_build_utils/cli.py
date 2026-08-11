@@ -1,12 +1,60 @@
 # src/maxson_build_utils/cli.py
+import os
+import sys
 import typer
 from pathlib import Path
+from typer_helptree import add_typer_helptree
+from rich.console import Console
+import logging
+
+from .context import DESCRIPTION_STR, APP_NAME
+from ._version import __version__
+from .logging_setup import configure_logging_for_application
 
 from maxson_build_utils.deb import build_debian_package
-from maxson_build_utils.vendor import vendor_wheels
+from maxson_build_utils.vendor import run_vendor_wheels
 from maxson_build_utils.linux_app_image import build_linux_appimage
 
-app = typer.Typer(help="Maxson build and packaging tools.")
+console = Console(stderr=True)
+
+# Force Rich to always enable colors, even when running from a .pyz bundle
+os.environ["FORCE_COLOR"] = "1"
+# Optional but helpful for full terminal feature detection
+os.environ["TERM"] = "xterm-256color"
+
+
+app = typer.Typer(
+    name=APP_NAME,
+    help=f"{DESCRIPTION_STR} (v{__version__})",
+    add_completion=False,
+    invoke_without_command = True,
+    no_args_is_help = True,
+    context_settings={"ignore_unknown_options": True,
+                      "allow_extra_args": True,
+                      "help_option_names": ["-h", "--help"]},
+)
+
+@app.callback(invoke_without_command=True, no_args_is_help=False)
+def main(
+    ctx: typer.Context,
+    version: bool = typer.Option(False, "--version", is_flag=True),
+    debug: bool = typer.Option(False, "--debug","-d", is_flag=True),
+    verbose: bool = typer.Option(False, "--verbose","-v", is_flag=True),
+):
+    if version:
+        typer.echo(__version__)
+        raise typer.Exit()
+
+    configure_logging_for_application(debug,verbose)
+
+    # Join the string from the command line arg and log debug to show the command.
+    full_command_list = sys.argv
+    command_string = " ".join(full_command_list)
+    logging.debug(f"command:\n{command_string}\n")
+
+
+add_typer_helptree(app = app, console = console, version = __version__, hidden = False)
+
 
 @app.command(name="prepare-flatpak")
 def prepare_flatpak(
@@ -14,7 +62,7 @@ def prepare_flatpak(
     vendor_dir: Path = Path("vendor-wheels")
 ):
     """Build project wheel and vendor offline dependencies for Flatpak."""
-    vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir)
+    run_vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir)
 
 @app.command(name="vendor-wheels")
 def vendor_wheels(
@@ -22,7 +70,7 @@ def vendor_wheels(
     vendor_dir: Path = Path("vendor-wheels")
 ):
     """Build project wheel and vendor offline dependencies for Flatpak."""
-    vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir)
+    run_vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir)
 
 
 @app.command(name="build-deb")
