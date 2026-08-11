@@ -14,4 +14,4 @@ DESCRIPTION_STR = "Centralized build tools for the standard Maxson architecture.
 def get_config_mngr():
     from dworshak_config import DworshakConfig
     config_mngr = DworshakConfig(path = APP_DIR / "config.json")
-    config_mngr.set(service=APP_NAME, item="dummy",value="null",overwrite=False)
+    return config_mngr

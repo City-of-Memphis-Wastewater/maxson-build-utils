@@ -265,9 +265,8 @@ def run_build_executable(
 
         app_filepath = app_path / app_filename
         # Export dynamic ONEDIR directory and binary name
-        if mode == PyinsMode.ONEDIR:
-            export_build_env_vars(app_filepath=app_filepath, executable_descriptor=executable_descriptor)
-
+        #if mode == PyinsMode.ONEDIR:
+        export_build_env_vars(app_filepath=app_filepath, executable_descriptor=executable_descriptor)
         
         return app_path, app_filename
     except SystemExit as e:
