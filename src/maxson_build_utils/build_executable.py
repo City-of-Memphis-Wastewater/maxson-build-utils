@@ -235,11 +235,12 @@ def run_build_executable(
         logger.error("FATAL: Invalid package version provided.")
         sys.exit(1)
 
-    is_windowed_build = (
-        (pyhabitat.on_windows() or pyhabitat.on_macos())
-        and (mode == PyinsMode.ONEDIR)
-        and pyhabitat.tkinter_is_available()
-    )
+    if not is_windowed_build:
+        is_windowed_build = (
+            (pyhabitat.on_windows() or pyhabitat.on_macos())
+            and (mode == PyinsMode.ONEDIR)
+            and pyhabitat.tkinter_is_available()
+        )
 
     try:
         if version == "0.0.0" or not version:
@@ -247,7 +248,7 @@ def run_build_executable(
             sys.exit(1)
 
         generate_rc_file(version)
-        executable_descriptor = form_dynamic_name(src_folder_name, version, mode)
+        executable_descriptor = form_dynamic_name(pkg_name=src_folder_name, version=version, mode=mode)
         cli_main_file = get_cli_main_file(project_root=PROJECT_ROOT, src_folder_name=src_folder_name)
 
         app_path, app_filename = run_pyinstaller(

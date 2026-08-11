@@ -16,13 +16,14 @@ import tempfile
 import pyhabitat
 
 from .build_executable import run_build_executable
-from .helpers import PyinsMode, IconFileType, resolve_icon_filetype
+from .helpers import PyinsMode, IconFileType, resolve_icon_filetype, form_dynamic_name
 
 logger = logging.getLogger(__name__)
 
 def build_linux_appimage(
     app_dir_path: Path,
-    dynamic_exe_name: str,
+    src_folder_name: str, 
+    version: str,
     app_name_pretty: str,
     icon_src: Path,
 ) -> Path:
@@ -32,6 +33,8 @@ def build_linux_appimage(
             f"Build directory '{app_dir_path}' does not exist.\n"
             f"Run 'maxson-build-utils build-executable --mode onedir' before calling build-appimage."
         )
+
+    executable_descriptor = form_dynamic_name(pkg_name=src_folder_name, version=version, mode=PyinsMode.ONEDIR)
 
     logger.info("Executing build_linux_appimage()")
     logger.info("Source AppDir components from: %s", app_dir_path)
@@ -43,11 +46,11 @@ def build_linux_appimage(
 
     appimage_dir = Path("dist/appimage")
     appimage_dir.mkdir(parents=True, exist_ok=True)
-    appimage_output_path = appimage_dir / f"{dynamic_exe_name}-x86_64.AppImage"
+    appimage_output_path = appimage_dir / f"{executable_descriptor}-x86_64.AppImage"
 
     with tempfile.TemporaryDirectory() as tmp:
         tmp_dir = Path(tmp)
-        staged_appdir = tmp_dir / f"{dynamic_exe_name}.AppDir"
+        staged_appdir = tmp_dir / f"{executable_descriptor}.AppDir"
         staged_appdir.mkdir(parents=True, exist_ok=True)
 
         # 1. Populate the usr/bin directory with the PyInstaller bundle

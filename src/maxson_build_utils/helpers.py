@@ -2,7 +2,8 @@
 from __future__ import annotations
 from enum import Enum
 from pathlib import Path
-from typing import Any
+import sys
+import pyhabitat
 
 
 class PyinsMode(str, Enum):
@@ -15,14 +16,16 @@ class IconFileType(str, Enum):
     SVG = "svg"
 
 
-def form_dynamic_name(src_folder_name: str, version: str, mode: Any = None) -> str:
-    """Forms a dynamic output artifact base name."""
-    if mode is None:
-        return f"{src_folder_name}-{version}"
+def form_dynamic_name(pkg_name: str, version: str, mode: PyinsMode|None = None) -> str:
+    """Creates a standardized binary name descriptor."""
 
-    mode_str = mode.value if hasattr(mode, "value") else str(mode)
-    return f"{src_folder_name}-{version}-{mode_str}"
-
+    os_tag = pyhabitat.SystemInfo().get_os_tag()
+    arch = pyhabitat.SystemInfo().get_arch()
+    py_ver = f"py{sys.version_info.major}{sys.version_info.minor}"
+    dynamic_exe_name = f"{pkg_name}-{version}-{py_ver}-{os_tag}-{arch}"
+    if mode == PyinsMode.ONEFILE:
+        dynamic_exe_name += f"-{PyinsMode.ONEFILE.value}"
+    return dynamic_exe_name
 
 def resolve_icon_filetype(icon_src: Path) -> IconFileType | None:
     """Resolves and validates the extension of a given icon path."""

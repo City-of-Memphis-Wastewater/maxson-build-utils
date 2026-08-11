@@ -9,7 +9,7 @@ import tempfile
 from pathlib import Path
 import pyhabitat
 
-from maxson_build_utils.build_utils import PyinsMode
+from maxson_build_utils.helpers import PyinsMode
 
 STANDARD_MACOS_APP_DIST_DIR = Path("dist")
 DIST_DIR_ONEDIR = Path("dist") / PyinsMode.ONEDIR.value

@@ -29,14 +29,12 @@ def build_deb(
 @app.command(name="build-appimage")
 def build_appimage(
     app_dir: Path = typer.Option(..., "--app-dir", help="Path to PyInstaller bundle directory"),
-    exe_name: str = typer.Option(..., "--exe-name", help="Dynamic executable binary name"),
     pretty_name: str = typer.Option(..., "--pretty-name", help="Pretty desktop app display name"),
     icon: Path = typer.Option(Path("assets/icon.png"), "--icon", help="Path to source icon file")
 ):
     """Package a PyInstaller ONEDIR bundle into a standalone Linux AppImage."""
     build_linux_appimage(
         app_dir_path=app_dir,
-        dynamic_exe_name=exe_name,
         app_name_pretty=pretty_name,
         icon_src=icon,
     )
