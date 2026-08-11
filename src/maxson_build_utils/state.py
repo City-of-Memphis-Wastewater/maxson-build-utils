@@ -2,12 +2,11 @@
 import os
 from pathlib import Path
 
-def export_build_env_vars(app_path: Path, executable_descriptor: str) -> None:
+def export_build_env_vars(app_file_path: Path, executable_descriptor: str) -> None:
     """Exports dynamic PyInstaller paths to os.environ and GitHub Actions runner state."""
     env_vars = {
-        "PYINSTALLER_ONEDIR_BUILD_DIR": str(app_path),
         "EXECUTABLE_DESCRIPTOR": executable_descriptor,
-        "PYINSTALLER_ONEDIR_EXE_NAME": executable_descriptor,
+        "PYINSTALLER_ONEDIR_EXE_PATH": str(app_file_path),
     }
 
     for key, value in env_vars.items():
@@ -24,8 +23,8 @@ def export_build_env_vars(app_path: Path, executable_descriptor: str) -> None:
             with open(gha_output, "a", encoding="utf-8") as f:
                 f.write(f"{key.lower()}={value}\n")
 
-def get_pyinstaller_onedir_exe_filename():
-    return os.environ.get("EXE_NAME")
+def get_pyinstaller_onedir_exe_filepath():
+    return os.environ.get("PYINSTALLER_ONEDIR_EXE_PATH")
 
-def get_pyinstaller_onedir_build_dir():
-    return os.environ.get("PYINSTALLER_ONEDIR_BUILD_DIR")
+def get_executable_descriptor():
+    return os.environ.get("EXECUTABLE_DESCRIPTOR")

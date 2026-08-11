@@ -15,24 +15,21 @@ import tempfile
 import pyhabitat
 
 from .helpers import PyinsMode, IconFileType, resolve_icon_filetype
-from .state import get_pyinstaller_onedir_build_dir, get_pyinstaller_onedir_exe_filename
+from .state import get_pyinstaller_onedir_exe_filepath
 
 logger = logging.getLogger(__name__)
 
 def build_linux_appimage(
     app_name_pretty: str, # for metadata
     icon_src: Path,
-    app_dir_path: Path | str | None = None, # pyinstaller_onedir_build_dir
-    app_filename: str | None = None, # pyinstaller produced executable filename
+    app_filepath: Path | None = None, # pyinstaller produced executable filename
 ) -> Path:
     """Packages a PyInstaller ONEDIR bundle into a standalone Linux AppImage. This assume it has already been build and that strings were written to the dworshak config file as state."""
 
+    if app_filepath is None:
+        app_filepath = get_pyinstaller_onedir_exe_filepath()
 
-    if app_dir_path is None:
-        app_dir_path = get_pyinstaller_onedir_build_dir()
-
-    if app_filename is None:
-        app_filename = get_pyinstaller_onedir_exe_filename()
+    app_dir_path = app_filepath.parent
 
     if not app_dir_path.exists():
         raise FileNotFoundError(
@@ -40,7 +37,7 @@ def build_linux_appimage(
             f"Run package's expection 'build_executable.py' script first."
         )
 
-    executable_descriptor = app_filename.stem
+    executable_descriptor = app_filepath.stem
     logger.info("Executing build_linux_appimage()")
     logger.info("Source AppDir components from: %s", app_dir_path)
 
