@@ -3,6 +3,11 @@ name: Reusable AppImage Builder
 on:
   workflow_call:
     inputs:
+      build_script:
+        description: 'Path to repository build entrypoint script'
+        required: false
+        type: string
+        default: 'build_executable.py'
       exe_path:
         description: 'Optional target binary executable path, produced by PyInstaller with the onedir setting. Defaults to internal environment state captured during pyinstaller run.'
         required: false
@@ -41,6 +46,16 @@ jobs:
         run: |
           uv sync --group dev
           uv pip install maxson-build-utils
+
+      
+      - name: Install Project & Build Tools
+        run: |
+          uv sync --group dev
+          uv pip install maxson-build-utils
+
+      # Execute repo-specific Python script to generate ONEDIR output
+      - name: Run PyInstaller Build Script
+        run: uv run python ${{ inputs.build_script }}
 
       - name: Assemble AppImage
         run: |
