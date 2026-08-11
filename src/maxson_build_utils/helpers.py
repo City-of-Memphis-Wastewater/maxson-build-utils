@@ -38,3 +38,34 @@ def resolve_icon_filetype(icon_src: Path) -> IconFileType | None:
 def get_cli_main_file(project_root: Path, src_folder_name: str) -> Path:
     """Locates the entry point module inside the package source folder."""
     return project_root / "src" / src_folder_name / "__main__.py"
+
+from pathlib import Path
+import logging
+
+logger = logging.getLogger(__name__)
+
+def resolve_icon_path(provided_icon: Path | str | None) -> Path:
+    """Resolves icon path from explicit argument, glob search, or asset fallback."""
+    # 1. Explicit input provided and exists
+    if provided_icon and str(provided_icon).strip():
+        icon_path = Path(provided_icon).expanduser().resolve()
+        if icon_path.exists():
+            return icon_path
+        logger.warning(f"Specified icon '{provided_icon}' not found. Attempting auto-discovery...")
+
+    # 2. Glob pattern discovery: src/*/data/icons/*.png
+    matches = sorted(Path("src").glob("*/data/icons/*.png"))
+    if matches:
+        found_icon = matches[0].resolve()
+        logger.info("Auto-discovered icon: %s", found_icon)
+        return found_icon
+
+    # 3. Fallback to assets/icon.png if present
+    fallback_assets = Path("assets/icon.png").resolve()
+    if fallback_assets.exists():
+        return fallback_assets
+
+    raise FileNotFoundError(
+        "Could not resolve an icon path. Searched explicit input, "
+        "'src/*/data/icons/*.png', and 'assets/icon.png'."
+    )

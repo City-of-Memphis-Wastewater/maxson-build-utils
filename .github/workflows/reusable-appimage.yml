@@ -3,10 +3,11 @@ name: Reusable AppImage Builder
 on:
   workflow_call:
     inputs:
-      exe_name:
-        description: 'Target binary executable name'
-        required: true
+      exe_path:
+        description: 'Optional target binary executable path, produced by PyInstaller with the onedir setting. Defaults to internal environment state captured during pyinstaller run.'
+        required: false
         type: string
+        default: ''
       pretty_name:
         description: 'Desktop display name'
         required: true
@@ -15,7 +16,7 @@ on:
         description: 'Path to icon asset'
         required: false
         type: string
-        default: 'assets/icon.png'
+        default: ''
 
 jobs:
   build-appimage:
@@ -41,34 +42,13 @@ jobs:
           uv sync --group dev
           uv pip install maxson-build-utils
 
-      - name: Run AppImage Builder CLI, defunct
-        if: false
-        run: |
-          uv run maxson-build-utils build-appimage \
-            --app-dir "dist/onedir/${{ inputs.exe_name }}" \
-            --exe-name "${{ inputs.exe_name }}" \
-            --pretty-name "${{ inputs.pretty_name }}" \
-            --icon "${{ inputs.icon_path }}"
-
       - name: Assemble AppImage
         run: |
-          # Resolve target app directory (Input override -> Environment export)
-          TARGET_APP_DIR="${{ inputs.app_dir }}"
-          if [ -z "$TARGET_APP_DIR" ]; then
-            TARGET_APP_DIR="$PYINSTALLER_ONEDIR_BUILD_DIR"
-          fi
-
-          # Resolve target binary executable name (Input override -> Environment export)
-          TARGET_EXE_NAME="${{ inputs.exe_name }}"
-          if [ -z "$TARGET_EXE_NAME" ]; then
-            TARGET_EXE_NAME="$EXE_NAME"
-          fi
-
           uv run maxson-build-utils build-appimage \
             --pretty-name "${{ inputs.pretty_name }}" \
             --icon "${{ inputs.icon_path }}" \
             --app-dir "$TARGET_APP_DIR" \
-            --exe-name "$TARGET_EXE_NAME" \
+            --exe-path "$TARGET_EXE_NAME" \
 
       - name: Publish to GitHub Release
         shell: bash

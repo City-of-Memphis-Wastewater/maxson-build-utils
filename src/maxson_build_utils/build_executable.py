@@ -266,6 +266,7 @@ def run_build_executable(
 
         app_filepath = app_path / app_filename
         # Export dynamic ONEDIR directory and binary name
+        #if mode == PyinsMode.ONEDIR:
         export_build_env_vars(app_filepath=app_filepath, executable_descriptor=executable_descriptor)
 
         # temp storage to disk, sue me; it would be better to use ENV VARS and not dworshak config
