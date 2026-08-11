@@ -18,7 +18,6 @@ import sys
 import pyhabitat
 
 from .helpers import form_dynamic_name, PyinsMode, IconFileType, get_cli_main_file
-#from .context import config_mngr, APP_NAME
 from .state import export_build_env_vars
 
 logger = logging.getLogger(__name__)
@@ -266,13 +265,8 @@ def run_build_executable(
 
         app_filepath = app_path / app_filename
         # Export dynamic ONEDIR directory and binary name
-        #if mode == PyinsMode.ONEDIR:
-        export_build_env_vars(app_filepath=app_filepath, executable_descriptor=executable_descriptor)
-
-        # temp storage to disk, sue me; it would be better to use ENV VARS and not dworshak config
-        #config_mngr.set(service=APP_NAME, item="app_path",value=app_path.resolve(),overwrite=True)
-        #config_mngr.set(service=APP_NAME, item="app_filename",value=app_filename,overwrite=True)
-        #config_mngr.set(service=APP_NAME, item="executable_descriptor",value=executable_descriptor,overwrite=True)
+        if mode == PyinsMode.ONEDIR:
+            export_build_env_vars(app_filepath=app_filepath, executable_descriptor=executable_descriptor)
 
         
         return app_path, app_filename
