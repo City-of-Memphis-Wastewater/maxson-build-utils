@@ -86,7 +86,7 @@ def clean_artifacts(exe_name: str, mode: PyinsMode, file_extension: str) -> None
     if pyhabitat.on_windows() and RC_FILE.exists():
         RC_FILE.unlink()
 
-def determine_app_path_and_dist_path(
+def determine_app_filepath_and_dist_path(
     executable_descriptor: str, mode: PyinsMode, is_windowed_build: bool
 ) -> tuple[str, Path, Path, str]:
     """Calculates distribution targets and final artifact file paths."""
@@ -95,18 +95,18 @@ def determine_app_path_and_dist_path(
 
     if mode == PyinsMode.ONEFILE:
         dist_path = DIST_DIR_ONEFILE
-        app_path = DIST_DIR_ONEFILE / app_filename
+        app_filepath = DIST_DIR_ONEFILE / app_filename
     else:
         if pyhabitat.on_macos():
             dist_path = STANDARD_MACOS_APP_DIST_DIR
-            app_path = STANDARD_MACOS_APP_DIST_DIR / app_filename
+            app_filepath = STANDARD_MACOS_APP_DIST_DIR / app_filename
         else:
             dist_path = DIST_DIR_ONEDIR
-            app_path = DIST_DIR_ONEDIR / executable_descriptor / app_filename
+            app_filepath = DIST_DIR_ONEDIR / executable_descriptor / app_filename
 
     dist_path.mkdir(parents=True, exist_ok=True)
-    logger.info("Executable target path: %s", app_path.resolve())
-    return app_filename, dist_path, app_path, ext
+    logger.info("Executable target path: %s", app_filepath.resolve())
+    return app_filename, dist_path, app_filepath, ext
 
 
 def construct_pyinstaller_command(
@@ -184,7 +184,7 @@ def run_pyinstaller(
 ) -> tuple[Path, str]:
     """Executes the PyInstaller command within a subshell."""
     logger.info("--- %s Executable Builder ---", src_folder_name)
-    app_filename, dist_path, app_path, ext = determine_app_path_and_dist_path(
+    app_filename, dist_path, app_filepath, ext = determine_app_filepath_and_dist_path(
         executable_descriptor, mode, is_windowed_build
     )
 
@@ -216,7 +216,7 @@ def run_pyinstaller(
         if duplicate_cli_dir.exists() and duplicate_cli_dir.is_dir():
             shutil.rmtree(duplicate_cli_dir)
 
-    return app_path.resolve(), app_filename
+    return app_filepath.resolve(), app_filename
 
 
 def run_build_executable(
@@ -251,7 +251,7 @@ def run_build_executable(
         executable_descriptor = form_dynamic_name(pkg_name=src_folder_name, version=version, mode=mode)
         cli_main_file = get_cli_main_file(project_root=PROJECT_ROOT, src_folder_name=src_folder_name)
 
-        app_path, app_filename = run_pyinstaller(
+        app_filepath, app_filename = run_pyinstaller(
             executable_descriptor=executable_descriptor,
             main_script_path=cli_main_file,
             src_folder_name=src_folder_name,
@@ -263,12 +263,11 @@ def run_build_executable(
             collect_binary_pkgs=collect_binary_pkgs,
         )
 
-        app_filepath = app_path / app_filename
         # Export dynamic ONEDIR directory and binary name
         #if mode == PyinsMode.ONEDIR:
         export_build_env_vars(app_filepath=app_filepath, executable_descriptor=executable_descriptor)
         
-        return app_path, app_filename
+        return app_filepath, app_filename
     except SystemExit as e:
         sys.exit(e.code)
     except Exception as e:
