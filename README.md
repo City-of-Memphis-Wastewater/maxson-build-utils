@@ -11,5 +11,5 @@ maxson-build-utils helptree
 ```
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/City-of-Memphis-Wastewater/maxson-build-utils/main/assets/maxson-build-utils_v0.1.15_helptree.svg" width="100%" alt="SVG of the CLI helptree">
+  <img src="https://raw.githubusercontent.com/City-of-Memphis-Wastewater/maxson-build-utils/main/assets/maxson-build-utils_v0.1.16_helptree.svg" width="100%" alt="SVG of the CLI helptree">
 </p>
