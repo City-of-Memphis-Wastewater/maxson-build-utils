@@ -5,6 +5,13 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.15] - 2026-08-12
+### Changed:
+- Add version.py and version CLI command
+- Remove pyproject.get_toml_value() function in __init__ in favor of pyproject.PyProject
+
+---
+
 ## [0.1.14] - 2026-08-12
 ### Added:
 - src/maxson_build_utils/pyproject.py
