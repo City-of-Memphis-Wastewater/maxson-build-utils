@@ -88,6 +88,27 @@ def build_appimage(
         app_filepath = pyinstaller_onedir_exe_path
     )
 
+@app.command()
+def pyproject(
+    key: list[str] = typer.Option(
+        ...,
+        "--key",
+        "-k",
+        help="Nested TOML key. Repeat to traverse.",
+    ),
+    path: Path = typer.Option(
+        Path.cwd() / "pyproject.toml",
+        "--path",
+        "-p",
+        help="Path to pyproject.toml",
+    ),
+):
+    value = get_toml_value(*key, pyproject=path)
+
+    if isinstance(value, (dict, list)):
+        print(json.dumps(value, indent=2))
+    else:
+        print(value)
 
 if __name__ == "__main__":
     app()
