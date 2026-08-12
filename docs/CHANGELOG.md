@@ -5,6 +5,14 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.16] - 2026-08-12
+### Changed:
+- Return None for missing pyproject.toml values.
+- Remove properties from PyProject.toml class
+- Allow pyproject CLI command to report missing keys to stderr.
+
+---
+
 ## [0.1.15] - 2026-08-12
 ### Changed:
 - Add version.py and version CLI command
