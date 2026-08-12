@@ -82,6 +82,11 @@ import = "maxson_build_utils"
 pretty = "Maxson Build Utils"
 
 [tool.maxson-build-utils.icons]
-png-256x256 = { path = "src/maxson_build_utils/data/icons/water-green_256x256.png" }
-png-1024x1024 = { path = "src/maxson_build_utils/data/icons/water-green_1024x1024.png" }
+png-256 = { path = "src/maxson_build_utils/data/icons/water-green_256x256.png" }
+png-1024 = { path = "src/maxson_build_utils/data/icons/water-green_1024x1024.png" }
 svg = { path = "src/maxson_build_utils/data/icons/water-green.svg" }
+ico-256 = { path = "src/maxson_build_utils/data/icons/max-green_256x256.ico" }
+icns = { path = "src/maxson_build_utils/data/icons/max-green.icns" }
+iconset = { path = "src/maxson_build_utils/data/icons/max-green.iconset" }
+
+
