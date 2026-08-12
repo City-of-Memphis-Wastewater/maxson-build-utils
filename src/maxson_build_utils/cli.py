@@ -55,7 +55,7 @@ def main(
     logging.debug(f"command:\n{command_string}\n")
 
 
-add_typer_helptree(app = app, console = console, version = __version__, hidden = False)
+add_typer_helptree(app = app, console = console_stderr, version = __version__, hidden = False)
 
 
 @app.command(name="vendor-wheels")
