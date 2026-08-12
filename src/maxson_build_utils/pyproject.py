@@ -9,8 +9,9 @@ try:
 except ImportError:
     import tomli as tomllib  # Python 3.10 and earlier
 
-_MISSING = object()
 '''
+_MISSING = object()
+
 def get_toml_value(
     *keys: str,
     pyproject: str | Path | None = None,
@@ -41,27 +42,6 @@ def get_toml_value(
 
     return value
 
-def get_project_name(pyproject: str | Path | None = None) -> str:
-    return get_toml_value("project", "name", pyproject=pyproject)
-
-
-def get_project_version(pyproject: str | Path | None = None) -> str:
-    return get_toml_value("project", "version", pyproject=pyproject)
-
-
-def get_project_description(pyproject: str | Path | None = None) -> str:
-    return get_toml_value("project", "description", pyproject=pyproject)
-
-
-def get_project_dependencies(pyproject: str | Path | None = None) -> list[str]:
-    return get_toml_value("project", "dependencies", pyproject=pyproject)
-
-
-def get_project_urls(pyproject: str | Path | None = None) -> dict[str, str]:
-    return get_toml_value("project", "urls", pyproject=pyproject)
-
-
-# ---
 '''
 class PyProject:
     """
@@ -76,16 +56,14 @@ class PyProject:
         with self.path.open("rb") as f:
             self.data = tomllib.load(f)
 
-    def require(self, *keys: str, default: Any = _MISSING) -> Any:
+    def require(self, *keys: str) -> Any:
         value: Any = self.data
 
         for key in keys:
-            try:
-                value = value[key]
-            except (KeyError, TypeError):
-                if default is not _MISSING:
-                    return default
-                raise
+            if not isinstance(value, dict) or key not in value:
+                raise KeyError(".".join(keys))
+
+            value = value[key]
 
         return value
 
@@ -99,26 +77,6 @@ class PyProject:
             value = value[key]
 
         return value
-
-    @property
-    def name(self) -> str:
-        return self.get("project", "name")
-
-    @property
-    def version(self) -> str | None:
-        return self.get("project", "version")
-
-    @property
-    def description(self) -> str | None:
-        return self.get("project", "description")
-
-    @property
-    def dependencies(self) -> list[str] | None:
-        return self.get("project", "dependencies", default=[])
-
-    @property
-    def urls(self) -> dict[str, str] | None:
-        return self.get("project", "urls", default={})
 
 # ---
 
