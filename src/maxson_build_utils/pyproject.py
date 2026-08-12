@@ -12,7 +12,7 @@ except ImportError:
 _MISSING = object()
 
 def get_toml_value(
-    pyproject: str | Path,
+    pyproject: str | Path | None = None,
     *keys: str,
     default: Any = _MISSING,
 ) -> Any:
@@ -25,6 +25,8 @@ def get_toml_value(
 
         get_toml_value("pyproject.toml", "tool", "maxson-build-utils", "pretty-name")
     """
+    if pyproject is None:
+        pyproject = Path.cwd() / "pyproject.toml"
     with open(pyproject, "rb") as f:
         data = tomllib.load(f)
 
