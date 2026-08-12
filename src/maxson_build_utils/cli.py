@@ -68,9 +68,9 @@ def vendor_wheels(
 
 @app.command(name="build-deb")
 def build_deb(
-    app_name: str = typer.Option("cellshift", "--app-name", help="Package application name"),
-    version: str = typer.Option("0.1.0", "--version", help="Version string"),
-    arch: str = typer.Option("amd64", "--arch", help="Target architecture")
+    app_name: str = typer.Option(None, "--app-name", help="Package application name"),
+    version: str = typer.Option(None, "--version", help="Version string"),
+    arch: str = typer.Option(None, "--arch", help="Target architecture")
 ):
     """Assemble and build a Debian .deb package."""
     build_debian_package(app_name=app_name, version=version, arch=arch)
@@ -98,7 +98,7 @@ def pyproject(
         help="Nested TOML key. Repeat to traverse.",
     ),
     path: Path = typer.Option(
-        Path.cwd() / "pyproject.toml",
+        None,
         "--path",
         "-p",
         help="Path to pyproject.toml",
