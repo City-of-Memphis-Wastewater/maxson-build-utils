@@ -10,6 +10,7 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 - Return None for missing pyproject.toml values.
 - Remove properties from PyProject.toml class
 - Allow pyproject CLI command to report missing keys to stderr.
+- Exemplify [tool.maxson-build-utils] usage
 
 ---
 
