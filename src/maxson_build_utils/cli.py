@@ -16,7 +16,7 @@ from maxson_build_utils.vendor import run_vendor_wheels
 from maxson_build_utils.linux_app_image import build_linux_appimage
 from .pyproject import get_toml_value, PyProject, format_value
 
-console = Console(stderr=True)
+console_stderr = Console(stderr=True)
 console_stdout = Console()
 
 # Force Rich to always enable colors, even when running from a .pyz bundle
