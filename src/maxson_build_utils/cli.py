@@ -104,6 +104,7 @@ def pyproject(
         help="Path to pyproject.toml",
     ),
 ):
+    """Extract project values using keys."""
     value = get_toml_value(*key, pyproject=path)
 
     if isinstance(value, (dict, list)):
