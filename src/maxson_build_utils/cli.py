@@ -14,9 +14,10 @@ from .logging_setup import configure_logging_for_application
 from maxson_build_utils.deb import build_debian_package
 from maxson_build_utils.vendor import run_vendor_wheels
 from maxson_build_utils.linux_app_image import build_linux_appimage
-from .pyproject import get_toml_value
+from .pyproject import get_toml_value, PyProject, format_value
 
 console = Console(stderr=True)
+console_stdout = Console()
 
 # Force Rich to always enable colors, even when running from a .pyz bundle
 os.environ["FORCE_COLOR"] = "1"
@@ -105,12 +106,10 @@ def pyproject(
     ),
 ):
     """Extract project values using keys."""
-    value = get_toml_value(*key, pyproject=path)
-
-    if isinstance(value, (dict, list)):
-        print(json.dumps(value, indent=2))
-    else:
-        print(value)
+    #value = get_toml_value(*key, pyproject=path)
+    pyproject = PyProject(path)
+    value = pyproject.get(*key)
+    console_stdout.print(format_value(value))
 
 if __name__ == "__main__":
     app()
