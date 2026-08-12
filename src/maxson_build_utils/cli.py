@@ -14,7 +14,8 @@ from .logging_setup import configure_logging_for_application
 from maxson_build_utils.deb import build_debian_package
 from maxson_build_utils.vendor import run_vendor_wheels
 from maxson_build_utils.linux_app_image import build_linux_appimage
-from .pyproject import get_toml_value, PyProject, format_value
+from .pyproject import PyProject, format_value
+from .version import get_version
 
 console_stderr = Console(stderr=True)
 console_stdout = Console()
@@ -110,6 +111,18 @@ def pyproject(
     pyproject = PyProject(path)
     value = pyproject.get(*key)
     console_stdout.print(format_value(value))
+
+@app.command()
+def version(
+    path: Path | None = typer.Option(
+        None,
+        "--path",
+        "-p",
+        help="Path to pyproject.toml",
+    ),
+):
+    """Determine the effective project version."""
+    console_stdout.print(get_version(path))
 
 if __name__ == "__main__":
     app()

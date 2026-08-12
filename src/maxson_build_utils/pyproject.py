@@ -10,7 +10,7 @@ except ImportError:
     import tomli as tomllib  # Python 3.10 and earlier
 
 _MISSING = object()
-
+'''
 def get_toml_value(
     *keys: str,
     pyproject: str | Path | None = None,
@@ -62,7 +62,7 @@ def get_project_urls(pyproject: str | Path | None = None) -> dict[str, str]:
 
 
 # ---
-
+'''
 class PyProject:
     def __init__(self, path: str | Path | None = None):
         self.path = Path(path) if path else Path.cwd() / "pyproject.toml"
