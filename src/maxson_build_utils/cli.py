@@ -110,6 +110,12 @@ def pyproject(
     #value = get_toml_value(*key, pyproject=path)
     pyproject = PyProject(path)
     value = pyproject.get(*key)
+    if value is None:
+        console_stderr.print(
+            f"Key not found: {'.'.join(key)}",
+            style="yellow",
+        )
+        raise typer.Exit(code=1)
     console_stdout.print(format_value(value))
 
 @app.command()

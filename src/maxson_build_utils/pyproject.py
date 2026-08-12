@@ -64,13 +64,19 @@ def get_project_urls(pyproject: str | Path | None = None) -> dict[str, str]:
 # ---
 '''
 class PyProject:
+    """
+    missing → None
+    empty string → ""
+    empty list → []
+    empty dict → {}
+    """
     def __init__(self, path: str | Path | None = None):
         self.path = Path(path) if path else Path.cwd() / "pyproject.toml"
 
         with self.path.open("rb") as f:
             self.data = tomllib.load(f)
 
-    def get(self, *keys: str, default: Any = _MISSING) -> Any:
+    def require(self, *keys: str, default: Any = _MISSING) -> Any:
         value: Any = self.data
 
         for key in keys:
@@ -83,24 +89,35 @@ class PyProject:
 
         return value
 
+    def get(self, *keys: str) -> Any | None:
+        value: Any = self.data
+
+        for key in keys:
+            if not isinstance(value, dict) or key not in value:
+                return None
+
+            value = value[key]
+
+        return value
+
     @property
     def name(self) -> str:
         return self.get("project", "name")
 
     @property
-    def version(self) -> str:
+    def version(self) -> str | None:
         return self.get("project", "version")
 
     @property
-    def description(self) -> str:
+    def description(self) -> str | None:
         return self.get("project", "description")
 
     @property
-    def dependencies(self) -> list[str]:
+    def dependencies(self) -> list[str] | None:
         return self.get("project", "dependencies", default=[])
 
     @property
-    def urls(self) -> dict[str, str]:
+    def urls(self) -> dict[str, str] | None:
         return self.get("project", "urls", default={})
 
 # ---
