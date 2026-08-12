@@ -5,7 +5,7 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
-## [0.1.16] - 2026-08-12
+## [0.1.17] - 2026-08-12
 ### Added:
 - Stock icons carried here in src/*/data/icons/ can be referenced by consumers of this library
 
