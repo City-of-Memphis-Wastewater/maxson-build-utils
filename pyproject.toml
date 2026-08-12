@@ -76,3 +76,7 @@ maxson-build-utils = { path = "src/maxson_build_utils" }
 
 [tool.setuptools.dynamic]
 version = {file = "src/maxson_build_utils/VERSION"}
+
+[tool.maxson-build-utils.names]
+import = "maxson_build_utils"
+pretty = "Maxson Build Utils"
