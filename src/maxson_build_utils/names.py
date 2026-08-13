@@ -35,13 +35,5 @@ def get_src_dir(path:str|Path|None=None) -> Path:
     src_dir = Path.cwd() /"src"/ import_name
     return src_dir
 
-def get_app_name(path:str|Path|None=None) -> str:
-    from .pyproject import PyProject
-    keys=["project","name"]
-    pyproject=PyProject(path)
-    app_name=pyproject.get(*keys)
-    if app_name is None:
-        app_name=pyproject("project","name")
-    return to_kebab_case(app_name)
 '''
 
