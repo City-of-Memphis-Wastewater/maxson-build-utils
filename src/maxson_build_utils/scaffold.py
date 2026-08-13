@@ -53,9 +53,10 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 """
+
     if not changelog.exists():
-        with changelog as f:
-            f.open()
+        changelog.parent.mkdir(parents=True, exist_ok=True)
+        with changelog.open("w", encoding="utf-8") as f:
             f.write(new_changelog)
     else:
         logger.debug(f"CHANGELOG.md already exists at {changelog}")
