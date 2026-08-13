@@ -119,6 +119,10 @@ def pyproject(
     console_stdout.print(format_value(value))
 
 @app.command()
+def copy_stock_icons():
+    """Gather icons from site-packages/maxson-build-utils/ and copy them locally in src/*/data/icons/"""
+
+@app.command()
 def version(
     path: Path | None = typer.Option(
         None,
