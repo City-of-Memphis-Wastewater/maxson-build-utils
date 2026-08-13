@@ -20,6 +20,7 @@ Also init_icons
 """
 
 def init_icons(dst:Path|str|None=None)->dict:
+    keys = ["tool","maxson-build-utils","icons"]
     copy_stock_icons(dst)
     
 
