@@ -22,6 +22,11 @@ from .scaffold import (
     run_init_icons,
     run_init_all
     )
+from .scaffold_gui import run_init_gui
+from .scaffold_cli import run_init_cli
+from .scaffold_webapp import run_init_webapp
+from .scaffold_context import run_init_context # config_mngr
+
 console_stderr = Console(stderr=True)
 console_stdout = Console()
 
@@ -163,6 +168,29 @@ def init_changelog():
     path = run_init_changelog()
     console_stdout.print(f"Created: {path}")
 
+@init_app.command("gui")
+def init_gui():
+    """Create src/<app>/gui.py."""
+    path = run_init_gui()
+    console_stdout.print(f"Created: {path}")
+
+@init_app.command("cli")
+def init_cli():
+    """Create src/<app>/gui.py."""
+    path = run_init_cli()
+    console_stdout.print(f"Created: {path}")
+
+@init_app.command("webapp")
+def init_webapp():
+    """Create src/<app>/webapp.py."""
+    path = run_init_webapp()
+    console_stdout.print(f"Created: {path}")
+
+@init_app.command("context")
+def init_context():
+    """Create src/<app>/context.py."""
+    path = run_init_context()
+    console_stdout.print(f"Created: {path}")
 
 @init_app.command("packaging")
 def init_packaging():
