@@ -14,7 +14,7 @@ def copy_stock_icons(
     ) -> Path:
     if dst is None:
         pyproject = PyProject(root_dir) # force local pyproject.toml
-        path pyproject.icons_dir
+        dst = pyproject.icons_dir
 
     dst = Path(dst)
     dst.mkdir(parents=True, exist_ok=True)
