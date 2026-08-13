@@ -51,7 +51,7 @@ def get_app_name(path:str|Path|None=None) -> str:
     pyproject=PyProject(path)
     app_name=pyproject.get(*keys)
     if app_name is None:
-        app_name=pyproject.name_to_title_case()
-    return app_name
+        app_name=pyproject("project","name")
+    return to_kebab_case(app_name)
 
 
