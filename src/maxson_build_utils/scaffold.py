@@ -21,7 +21,6 @@ Implement src/*/ dir with __init__.py (possibly a template), when init-src is ca
 Also init_icons
 """
 
-
 def run_init_icons(
     dst:Path|str|None=None,
     root_dir: Path | str | None = None
@@ -43,9 +42,10 @@ def run_init_icons(
     return copy_stock_icons(dst)
 
 
-def run_init_src()->Path:
+def run_init_src(root_dir:Path|None=None)->Path:
     """intended to be run after uv init"""
-    src_dir = get_src_dir()
+    pyproject = PyProject(root_dir)
+    src_dir = pyproject.src_dir
     src_dir.mkdir(parents=True, exist_ok=True)
     return src_dir
 
