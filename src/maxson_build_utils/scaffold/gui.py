@@ -1,4 +1,4 @@
-# src/maxson_build_utils/scaffold_gui.py
+# src/maxson_build_utils/scaffold/gui.py
 from __future__ import annotations
 from pathlib import Path
 import logging

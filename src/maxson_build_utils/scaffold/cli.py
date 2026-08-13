@@ -1,4 +1,4 @@
-# src/maxson_build_utils/scaffold_cli.py
+# src/maxson_build_utils/scaffold/cli.py
 from __future__ import annotations
 from pathlib import Path
 import logging

@@ -1,4 +1,4 @@
-# src/maxson_build_utils/scaffold_context.py
+# src/maxson_build_utils/scaffold/context.py
 from __future__ import annotations
 from pathlib import Path
 import logging
