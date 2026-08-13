@@ -4,19 +4,11 @@ on:
   workflow_call:
     inputs:
       manifest_path:
-        description: 'Path to Flatpak manifest file (e.g., packaging/flatpak/app.yaml)'
+        description: 'Path to Flatpak YAML/JSON manifest file'
         required: true
         type: string
-      desktop_path:
-        description: 'Path to desktop entry file'
-        required: false
-        type: string
-      metainfo_path:
-        description: 'Path to AppStream metainfo.xml file'
-        required: false
-        type: string
       app_id:
-        description: 'Flatpak Application ID'
+        description: 'Flatpak Application ID (e.g., io.github.city_of_memphis_wastewater.cellshift)'
         required: true
         type: string
       app_name:
@@ -52,24 +44,23 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Validate Packaging Assets
+      - name: Install Dependencies & Build Tools
         run: |
-          if [ ! -f "${{ inputs.manifest_path }}" ]; then
-            echo "::error::Flatpak manifest not found at: ${{ inputs.manifest_path }}"
-            echo "Run 'mbu init packaging flatpak' locally to scaffold packaging assets."
-            exit 1
-          fi
+          uv sync --group dev || true
+          uv pip install maxson-build-utils
 
-      - name: Export requirements & Vendor Wheels
+      - name: Export requirements & Prepare Flatpak Assets
         run: |
           uv export --format requirements-txt --no-editable --no-dev > requirements.txt
+          #uv run maxson-build-utils prepare-flatpak
           uv run maxson-build-utils vendor-wheels
 
       - name: Compute Build Metadata
         run: |
-          VERSION=$(uv run maxson-build-utils version 2>/dev/null || echo "0.1.0")
+          VERSION=$(uv run dworshak-config get version 2>/dev/null || echo "0.1.0")
           ARCH=$(uname -m)
           FILENAME="${{ inputs.app_name }}-${VERSION}-${ARCH}.flatpak"
+
           echo "FILENAME=$FILENAME" >> $GITHUB_ENV
 
       - name: Build and Package Flatpak Bundle
