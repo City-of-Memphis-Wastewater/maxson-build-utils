@@ -1,9 +1,16 @@
-
-raw_cli_str = '''
-# src/<app>/cli.py
-import os                                               import sys
+# src/maxson_build_utils/scaffold_cli.py
+from __future__ import annotations
+from .helpers import write_str_to_file
+from .names import get_src_dir, get_src_name
+def run_init_context( ):
+    write_str_to_file(path= get_src_dir() / "cli.py", text = raw_cli_str)
+raw_cli_str = f'''
+# src/{get_src_name()}/cli.py
+import os
+import sys
 import typer
-from pathlib import Path                                from typer_helptree import add_typer_helptree
+from pathlib import Path
+from typer_helptree import add_typer_helptree
 from rich.console import Console
 import logging
 
