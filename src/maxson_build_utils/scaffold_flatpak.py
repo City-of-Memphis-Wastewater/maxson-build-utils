@@ -3,34 +3,8 @@ from __future__ import annotations
 
 from pathlib import Path
 from .helpers import write_str_to_file
-from .names import get_app_name, get_import_name, to_kebab_case, to_snake_case
+from .names import to_kebab_case
 from .pyproject import PyProject
-
-def resolve_flatpak_metadata(path: Path | str | None = None) -> dict[str, str]:
-    """Resolve APP_ID, APP_NAME, and IMPORT_NAME using project helpers."""
-    pyproject = PyProject(path)
-
-    import_name = get_import_name(path)  # Respects explicit TOML override or falls back to snake_case
-    app_name = get_app_name(path)        # Strictly kebab-case
-
-    # Resolve reverse-DNS APP_ID
-    app_id = pyproject.get("tool", "maxson-build-utils", "flatpak", "app-id")
-    if not app_id:
-        app_id = pyproject.get("tool", "maxson-build-utils", "packaging", "flatpak", "app-id")
-
-    if not app_id:
-        domain = pyproject.get("tool", "maxson-build-utils", "flatpak", "domain") or "io.github"
-        org = pyproject.get("tool", "maxson-build-utils", "flatpak", "org") or "city_of_memphis_wastewater"
-        
-        org_clean = to_snake_case(org)
-        app_id = f"{domain}.{org_clean}.{app_name}"
-
-    return {
-        "APP_ID": app_id,
-        "APP_NAME": app_name,
-        "IMPORT_NAME": import_name,
-    }
-    
 
 def resolve_flatpak_metadata(path: Path | str | None = None) -> dict[str, str]:
     """Resolve APP_ID, APP_NAME, and IMPORT_NAME using pyproject.toml configuration
@@ -40,14 +14,11 @@ def resolve_flatpak_metadata(path: Path | str | None = None) -> dict[str, str]:
     pyproject = PyProject(path)
 
     # 1. Resolve IMPORT_NAME (e.g. 'cellshift' or 'maxson_build_utils')
-    keys = ["tool", "maxson-build-utils", "names", "import"]
-    import_name = pyproject.get(*keys)
-    if not import_name:
-        import_name = to_snake_case(pyproject.name)
+    import_name = pyproject.import_name # expected to be snake case, but src/*/ pathing is what matters
 
     # 2. Resolve APP_NAME (e.g. 'cellshift' or 'maxson-build-utils')
-    app_name = get_app_name(path)
-    app_name_kebab = to_kebab_case(app_name)
+    app_name = pyproject.app_name
+    app_name_kebab = to_kebab_case(app_name) # expected to already be kebab, but ensures it
 
     # 3. Resolve APP_ID
     # Check explicit app-id first
