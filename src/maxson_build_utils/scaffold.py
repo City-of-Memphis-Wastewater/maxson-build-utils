@@ -14,7 +14,6 @@ from .packaging import (
     PackageType
     )
 from .icons import copy_stock_icons, bundled_icons
-from .pyproject import PyProject
 from .names import get_src_dir
 """
 Implement src/*/ dir with __init__.py (possibly a template), when init-src is called
