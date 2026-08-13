@@ -221,8 +221,30 @@ def init_pack_pyinstaller():
 
 @init_pack_app.command("shiv")
 def init_pack_shiv():
-    """Scaffold packaging/pyinstaller/build_pyz.py metadata and manifests."""
+    """Scaffold packaging/shiv/build_pyz.py metadata and manifests."""
     paths = run_init_shiv()
+    for path in paths:
+        console_stdout.print(f"Created: {path}")
+
+@init_pack_app.command("msix")
+def init_pack_msix():
+    """Scaffold packaging/msix/msix.py metadata and manifests."""
+    paths = run_init_msix()
+    for path in paths:
+        console_stdout.print(f"Created: {path}")
+
+
+@init_pack_app.command("deb")
+def init_pack_deb():
+    """Scaffold packaging/deb/deb.py metadata and manifests."""
+    paths = run_init_deb()
+    for path in paths:
+        console_stdout.print(f"Created: {path}")
+
+@init_pack_app.command("dmg")
+def init_pack_dmg():
+    """Scaffold packaging/macos/dmg.py metadata and manifests."""
+    paths = run_init_dmg()
     for path in paths:
         console_stdout.print(f"Created: {path}")
 
