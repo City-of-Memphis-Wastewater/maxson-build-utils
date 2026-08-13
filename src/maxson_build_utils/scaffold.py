@@ -28,6 +28,12 @@ def run_init_icons(dst:Path|str|None=None):
     if dst is None:
         dst = run_init_src() / "data" / "icons"
 
+    dst = Path(dst)
+
+    if dst.resolve() == Path(bundled_icons()).resolve():
+        logger.debug("Stock icon destination is the bundled icon directory; nothing to copy.")
+        return dst
+
     return copy_stock_icons(dst)
 
 def run_init_src()->Path:
