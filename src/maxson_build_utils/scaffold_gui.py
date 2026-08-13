@@ -3,8 +3,8 @@ from __future__ import annotations
 from .helpers import write_str_to_file
 from .pyproject import PyProject
 
-pyproject = PyProject()
-def run_init_gui( ):
+def run_init_gui(root_dir: Path | str | None = None) -> None:
+    pyproject = PyProject(root_dir)
     write_str_to_file(pyproject.src_dir / "gui.py", text = raw_gui_str)
 
 raw_gui_str = '''
