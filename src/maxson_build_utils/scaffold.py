@@ -15,6 +15,7 @@ from .packaging import (
     )
 from .icons import copy_stock_icons, bundled_icons
 from .pyproject import PyProject
+from .names import get_src_dir
 """
 Implement src/*/ dir with __init__.py (possibly a template), when init-src is called
 Also init_icons
@@ -38,13 +39,7 @@ def run_init_icons(dst:Path|str|None=None):
 
 def run_init_src()->Path:
     """intended to be run after uv init"""
-    keys=["tool","maxson-build-utils","names","import"]
-    pyproject=PyProject()
-    import_name=pyproject.get(*keys)
-    if import_name is None:
-        import_name=pyproject.name_to_snake_case()
-        import_name_dict = pyproject.write(keys=keys,value=import_name)
-    src_dir = Path.cwd() /"src"/ import_name
+    src_dir = get_src_dir()
     src_dir.mkdir(parents=True, exist_ok=True)
     return src_dir
 

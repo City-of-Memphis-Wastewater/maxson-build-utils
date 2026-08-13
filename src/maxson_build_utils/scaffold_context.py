@@ -12,7 +12,8 @@ SERVICE = APP_NAME # for dworshak basic ref
 APP_DIR = Path.home() / f".{APP_NAME}"
 APP_DIR.mkdir(parents=True,exist_ok=True)
 LOG_FILE_PATH = APP_DIR / f"{APP_NAME}_errors.log"
-SRC_FOLDER_NAME = pyproject.get("tools","maxson-build-utils","names","import")
+SRC_FOLDER_NAME = pyproject.get("tools","maxson-build-utils","names","import") # no vall the mbu function that falls back to snake case in names.py 
+SRc_FOLDER
 APP_NAME_PRETTY = pyproject.get("tools","maxson-build-utils","names","pretty")
 config_mngr = DworshakConfig(path = APP_DIR / "config.json")
 config_mngr.set(service=SERVICE,item="dummy",value=str(0))

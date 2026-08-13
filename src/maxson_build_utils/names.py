@@ -19,3 +19,11 @@ def to_title_case(value: str) -> str:
     words = re.split(r"[-_\s]+", value.strip())
     return " ".join(word.capitalize() for word in words if word)
 
+def get_src_dir():
+    keys=["tool","maxson-build-utils","names","import"]
+    pyproject=PyProject()
+    import_name=pyproject.get(*keys)
+    if import_name is None:
+        import_name=pyproject.name_to_snake_case()
+    src_dir = Path.cwd() /"src"/ import_name
+    return src_dir

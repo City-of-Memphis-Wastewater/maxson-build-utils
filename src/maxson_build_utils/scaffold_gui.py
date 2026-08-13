@@ -1,6 +1,8 @@
 # src/maxson_build_utils/scaffold_gui.py
 
-raw_gui_template_str_new = '''
+def run_init_gui():
+    write_str_to_file(path=, text = raw_gui_str)
+raw_gui_str = '''
 #!/usr/bin/env python3
 # src/<appn>/gui.py
 from __future__ import annotations
