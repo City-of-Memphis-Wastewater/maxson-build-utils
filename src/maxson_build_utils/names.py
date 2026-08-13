@@ -35,15 +35,6 @@ def get_src_dir(path:str|Path|None=None) -> Path:
     src_dir = Path.cwd() /"src"/ import_name
     return src_dir
 
-def get_pretty_name(path:str|Path|None=None) -> str:
-    from .pyproject import PyProject
-    keys=["tool","maxson-build-utils","names","pretty"]
-    pyproject=PyProject(path)
-    pretty_name=pyproject.get(*keys)
-    if pretty_name is None:
-        pretty_name=pyproject.name_to_title_case()
-    return pretty_name
-
 def get_app_name(path:str|Path|None=None) -> str:
     from .pyproject import PyProject
     keys=["project","name"]
