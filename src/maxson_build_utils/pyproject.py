@@ -4,45 +4,14 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 import json
+
+from .names import to_snake_case
+
 try:
     import tomllib  # Python 3.11+
 except ImportError:
     import tomli as tomllib  # Python 3.10 and earlier
 
-'''
-_MISSING = object()
-
-def get_toml_value(
-    *keys: str,
-    pyproject: str | Path | None = None,
-    default: Any = _MISSING,
-) -> Any:
-    """
-    Extract a nested value from a TOML file.
-
-    Example:
-        get_toml_value("pyproject.toml", "project", "name")
-        -> "my-package"
-
-        get_toml_value("pyproject.toml", "tool", "maxson-build-utils", "pretty-name")
-    """
-    if pyproject is None:
-        pyproject = Path.cwd() / "pyproject.toml"
-    with open(pyproject, "rb") as f:
-        data = tomllib.load(f)
-
-    value: Any = data
-    for key in keys:
-        try:
-            value = value[key]
-        except (KeyError, TypeError):
-            if default is not _MISSING:
-                return default
-            raise
-
-    return value
-
-'''
 class PyProject:
     """
     missing → None
@@ -78,6 +47,8 @@ class PyProject:
 
         return value
 
+    def name_to_snake_case(self):
+        return to_snake_case(self.get("project","name"))
 # ---
 
 def format_value(value: Any) -> str:

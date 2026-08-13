@@ -77,6 +77,12 @@ maxson-build-utils = { path = "src/maxson_build_utils" }
 [tool.setuptools.dynamic]
 version = {file = "src/maxson_build_utils/VERSION"}
 
+[tool.setuptools.package-data] # in service of maxson_build_utils.icons
+maxson_build_utils = [
+    "data/icons/*",
+    "data/icons/**/*",
+]
+
 [tool.maxson-build-utils.names]
 import = "maxson_build_utils"
 pretty = "Maxson Build Utils"

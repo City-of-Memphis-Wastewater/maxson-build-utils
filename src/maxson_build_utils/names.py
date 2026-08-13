@@ -18,3 +18,4 @@ def to_title_case(value: str) -> str:
     """Convert a string to Title Case."""
     words = re.split(r"[-_\s]+", value.strip())
     return " ".join(word.capitalize() for word in words if word)
+
