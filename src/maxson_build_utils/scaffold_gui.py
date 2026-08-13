@@ -1,14 +1,15 @@
 # src/maxson_build_utils/scaffold_gui.py
 from __future__ import annotations
 from .helpers import write_str_to_file
-from .names import get_src_dir, get_src_name
+from .pyproject import PyProject
 
+pyproject = PyProject()
 def run_init_gui( ):
-    write_str_to_file(path= get_src_dir() / "gui.py", text = raw_gui_str)
+    write_str_to_file(pyproject.src_dir / "gui.py", text = raw_gui_str)
 
 raw_gui_str = '''
 #!/usr/bin/env python3
-# src/__SRC_NAME__/gui.py
+# src/__IMPORT_NAME__/gui.py
 from __future__ import annotations
 import pyhabitat
 import tkinter as tk
@@ -278,4 +279,4 @@ def start_gui(time_auto_close: int = 0):
 if __name__ == "__main__":
     start_gui()
 '''
-raw_gui_str = raw_gui_str.replace("__SRC_NAME__", get_src_name())
+raw_gui_str = raw_gui_str.replace("__IMPORT_NAME__", pyproject.src_name)
