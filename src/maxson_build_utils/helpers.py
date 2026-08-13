@@ -15,6 +15,16 @@ class IconFileType(str, Enum):
     ICO = "ico"
     SVG = "svg"
 
+def write_str_to_file(path:str|Path,text:str)->Path:
+    """Reusable"""
+    path=Path(path).expanduser().resolve()
+    if not path.exists():
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("w", encoding="utf-8") as f:
+            f.write(text)
+    else:
+        logger.debug(f"File already exists at {changelog}")
+    return path
 
 def form_dynamic_name(pkg_name: str, version: str, mode: PyinsMode|None = None) -> str:
     """Creates a standardized binary name descriptor."""
@@ -69,3 +79,4 @@ def resolve_icon_path(provided_icon: Path | str | None) -> Path:
         "Could not resolve an icon path. Searched explicit input, "
         "'src/*/data/icons/*.png', and 'assets/icon.png'."
     )
+

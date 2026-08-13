@@ -4,6 +4,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+from .helpers import write_str_to_file
 from .packaging import (
     flatpak,
     deb, 
@@ -18,7 +19,6 @@ from .pyproject import PyProject
 Implement src/*/ dir with __init__.py (possibly a template), when init-src is called
 Also init_icons
 """
-
 
 def run_init_icons(dst:Path|str|None=None):
     # write is dead, dont expect to write to pyproject.toml
@@ -48,7 +48,18 @@ def run_init_src()->Path:
     src_dir.mkdir(parents=True, exist_ok=True)
     return src_dir
 
-def run_init_changelog():
+def write_str_to_file(path:str|Path,text:str)->Path:
+    """Reusable"""
+    path=Path(path).expanduser().resolve()
+    if not path.exists():
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("w", encoding="utf-8") as f:
+            f.write(text)
+    else:
+        logger.debug(f"File already exists at {changelog}")
+    return path
+    
+def run_init_changelog()->Path:
     """Write blank changelog file to docs/CHANGELOG.md"""
     changelog = Path.cwd() / "docs" / "CHANGELOG.md"
     new_changelog="""
@@ -65,13 +76,7 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 """
-
-    if not changelog.exists():
-        changelog.parent.mkdir(parents=True, exist_ok=True)
-        with changelog.open("w", encoding="utf-8") as f:
-            f.write(new_changelog)
-    else:
-        logger.debug(f"CHANGELOG.md already exists at {changelog}")
+    write_str_to_file(path=changelog,text=new_changelog)
     return changelog
 
 def run_init_packaging(PackageType)->dict:
