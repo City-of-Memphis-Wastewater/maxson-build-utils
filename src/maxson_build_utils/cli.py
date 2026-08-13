@@ -119,30 +119,6 @@ def pyproject(
     console_stdout.print(format_value(value))
 
 @app.command()
-def init_icons():
-    """Gather icons from site-packages/maxson-build-utils/ and copy them locally in src/*/data/icons/"""
-    pass
-
-
-@app.command()
-def init_src():
-    """Build src/app_name/ dir, with automatic snake case"""
-    pass
-
-@app.command()
-def init(
-    path: Path = typer.Option(
-        None,
-        "--path",
-        "-p",
-        help="Path to pyproject.toml",
-    ),
-):
-    """Don't faff about with various specific inits. Build them all. May be better suited as a typer sub app and accept an enum?"""
-    from .init import run_init_all
-    run_init_all()
-    
-@app.command()
 def version(
     path: Path | None = typer.Option(
         None,
@@ -153,6 +129,51 @@ def version(
 ):
     """Determine the effective project version."""
     console_stdout.print(get_version(path))
+
+init_app = typer.Typer(
+    name="init",
+    help="Scaffold project files and directories.",
+    no_args_is_help=True,
+)
+
+app.add_typer(init_app)
+
+@init_app.command("src")
+def init_src():
+    """Build src/<app_name>/ with automatic snake case."""
+    path = run_init_src()
+    console_stdout.print(f"Created: {path}")
+
+
+@init_app.command("icons")
+def init_icons():
+    """Copy the stock Maxson icons into the project's data/icons directory."""
+    path = run_init_icons()
+    console_stdout.print(f"Created: {path}")
+
+
+@init_app.command("changelog")
+def init_changelog():
+    """Create docs/CHANGELOG.md."""
+    path = run_init_changelog()
+    console_stdout.print(f"Created: {path}")
+
+
+@init_app.command("packaging")
+def init_packaging():
+    """Create packaging scaffolding."""
+    paths = run_init_packaging()
+    for path in paths:
+        console_stdout.print(f"Created: {path}")
+
+
+@init_app.command("all")
+def init_all():
+    """Run all project scaffolding steps."""
+    paths = run_init_all()
+
+    for name, path in paths.items():
+        console_stdout.print(f"{name}: {path}")
 
 if __name__ == "__main__":
     app()

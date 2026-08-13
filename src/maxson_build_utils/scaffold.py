@@ -66,8 +66,12 @@ def run_init_packaging(PackageType)->dict:
 def run_init_packaging_all():
     pass
 
-def run_init_all():
-    run_init_src()
-    run_init_changelog()
-    run_init_icons()
-    run_init_packaging_all()
+def run_init_all() -> dict:
+    return {
+        "src": run_init_src(),
+        "changelog": run_init_changelog(),
+        "icons": run_init_icons(),
+        "packaging": run_init_packaging_all(),
+    }
+
+
