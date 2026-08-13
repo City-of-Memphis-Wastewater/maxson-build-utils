@@ -20,8 +20,13 @@ class PyProject:
     empty dict → {}
     """
     def __init__(self, path: str | Path | None = None):
-        self.path = Path(path) if path else Path.cwd() / "pyproject.toml"
+        if path is None:
+            resolved_path = Path.cwd() / "pyproject.toml"
+        else:
+            p = Path(path)
+            resolved_path = p / "pyproject.toml" if p.is_dir() else p
 
+        self.path = resolved_path
         with self.path.open("rb") as f:
             self.data = tomllib.load(f)
 
