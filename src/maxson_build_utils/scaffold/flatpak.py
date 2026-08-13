@@ -7,6 +7,56 @@ from ..helpers import write_str_to_file
 from ..names import to_kebab_case
 from ..pyproject import PyProject
 
+MANIFEST_TEMPLATE = """id: {APP_ID}
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+command: {APP_NAME}
+
+build-options:
+  env:
+    APP_ID: {APP_ID}
+    APP_NAME: {APP_NAME}
+    IMPORT_NAME: {IMPORT_NAME}
+
+modules:
+  - name: {APP_NAME}
+    buildsystem: simple
+    build-commands:
+      # 1. Install wheel
+      - pip3 install --ignore-installed --no-index --find-links=vendor-wheels --prefix=/app dist/*.whl
+
+      # 2. Desktop Integration Files
+      - install -Dm644 packaging/flatpak/$APP_ID.desktop /app/share/applications/$APP_ID.desktop
+      - install -Dm644 packaging/flatpak/$APP_ID.metainfo.xml /app/share/metainfo/$APP_ID.metainfo.xml
+      - install -Dm644 src/$IMPORT_NAME/data/icons/placeholder.svg /app/share/icons/hicolor/scalable/apps/$APP_ID.svg
+
+      # 3. License
+      - install -Dm644 LICENSE /app/share/licenses/$APP_NAME/LICENSE
+    sources:
+      - type: dir
+        path: .
+"""
+
+DESKTOP_TEMPLATE = """[Desktop Entry]
+Name={APP_NAME}
+Exec={APP_NAME}
+Icon={APP_ID}
+Type=Application
+Categories=Utility;
+"""
+
+METAINFO_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>{APP_ID}</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>{APP_NAME}</name>
+  <summary>Application generated with maxson-build-utils</summary>
+  <launchable type="desktop-id">{APP_ID}.desktop</launchable>
+</component>
+"""
+
 
 def resolve_flatpak_metadata(path: Path | str | None = None) -> dict[str, str]:
     pyproject = PyProject(path)
@@ -31,7 +81,6 @@ def resolve_flatpak_metadata(path: Path | str | None = None) -> dict[str, str]:
         "IMPORT_NAME": import_name,
     }
 
-# MANIFEST_TEMPLATE, DESKTOP_TEMPLATE, METAINFO_TEMPLATE stay here...
 
 def run_init_flatpak(root_dir: Path | str | None = None) -> list[Path]:
     """Scaffold packaging/flatpak/ assets and return generated file paths."""

@@ -24,6 +24,7 @@ from .scaffold import (
     run_init_gui,
     run_init_cli,
     run_init_context,
+    run_init_flatpak,
     #run_init_webapp,
 )
 console_stderr = Console(stderr=True)
