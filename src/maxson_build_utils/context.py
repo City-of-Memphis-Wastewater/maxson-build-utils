@@ -4,7 +4,7 @@ from pathlib import Path
 from maxson_build_utils.names import get_src_dir, get_pretty_name, get_app_name
 
 APP_NAME = get_app_name()
-SRC_FOLDER_NAME = get_src_dir()
+SRC_FOLDER_NAME = get_src_name()
 APP_NAME_PRETTY = get_pretty_name()
 APP_DIR = Path.home() / f".{APP_NAME}"
 APP_DIR.mkdir(parents=True,exist_ok=True)

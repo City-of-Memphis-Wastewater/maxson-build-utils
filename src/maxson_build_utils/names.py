@@ -1,6 +1,7 @@
 # src/maxson_build_utils/names.py
 from __future__ import annotations
 import re
+from pathlib import Path
 
 def to_snake_case(value: str) -> str:
     """Convert a string to snake_case."""
@@ -29,7 +30,7 @@ def get_src_name(path:str|Path|None=None) -> Path:
     return import_name
 
 def get_src_dir(path:str|Path|None=None) -> Path:
-    import_name = git get_src_name(path)
+    import_name = get_src_name(path)
     src_dir = Path.cwd() /"src"/ import_name
     return src_dir
 
