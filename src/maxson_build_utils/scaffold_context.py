@@ -1,11 +1,12 @@
 # src/maxson_build_utils/scaffold_context.py
 from __future__ import annotations
 from .helpers import write_str_to_file
-from .names import get_src_dir, get_src_name
+from .pyproject import PyProject 
+pyproject = PyProject()
 def run_init_context( ):
-    write_str_to_file(path= get_src_dir() / "context.py", text = raw_context_str)
+    write_str_to_file(pyproject.src_dir / "context.py", text = raw_context_str)
 raw_context_str='''
-# src/__SRC_NAME__/context.py
+# src/__IMPORT_NAME__/context.py
 from __future__ import annotations
 from pathlib import Path
 from maxson_build_utils import PyProject 
@@ -27,4 +28,4 @@ LOG_FILE_PATH = APP_DIR / f"{APP_NAME}_errors.log"
 config_mngr = DworshakConfig(path = APP_DIR / "config.json")
 config_mngr.set(service=SERVICE,item="dummy",value=str(0))
 '''
-raw_context_str = raw_context_str.replace("__SRC_NAME__", get_src_name())
+raw_context_str = raw_context_str.replace("__IMPORT_NAME__", pyproject.import_name)
