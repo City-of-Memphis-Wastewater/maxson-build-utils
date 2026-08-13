@@ -12,7 +12,7 @@ from .packaging import (
     appimage, 
     PackageType
     )
-from .icons import copy_stock_icons
+from .icons import copy_stock_icons, bundled_icons
 from .pyproject import PyProject
 """
 Implement src/*/ dir with __init__.py (possibly a template), when init-src is called
