@@ -43,7 +43,7 @@ def resolve_flatpak_metadata(path: Path | str | None = None) -> dict[str, str]:
     keys = ["tool", "maxson-build-utils", "names", "import"]
     import_name = pyproject.get(*keys)
     if not import_name:
-        import_name = pyproject.name_to_snake_case()
+        import_name = to_snake_case(pyproject.name)
 
     # 2. Resolve APP_NAME (e.g. 'cellshift' or 'maxson-build-utils')
     app_name = get_app_name(path)

@@ -20,6 +20,7 @@ def to_title_case(value: str) -> str:
     words = re.split(r"[-_\s]+", value.strip())
     return " ".join(word.capitalize() for word in words if word)
 
+'''
 def get_import_name(path:str|Path|None=None) -> str:
     from .pyproject import PyProject
     keys=["tool","maxson-build-utils","names","import"]
@@ -53,5 +54,5 @@ def get_app_name(path:str|Path|None=None) -> str:
     if app_name is None:
         app_name=pyproject("project","name")
     return to_kebab_case(app_name)
-
+'''
 

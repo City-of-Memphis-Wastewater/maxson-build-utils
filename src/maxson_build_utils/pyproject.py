@@ -47,8 +47,57 @@ class PyProject:
 
         return value
 
-    def name_to_snake_case(self):
-        return to_snake_case(self.get("project","name"))
+    # --- Raw Metadata Properties ---
+
+    @property
+    def name(self) -> str | None:
+        """Raw [project.name] string from TOML."""
+        return self.get("project", "name")
+
+    # --- Resolved Naming Properties ---
+
+    @property
+    def app_name(self) -> str:
+        """Distribution / binary name strictly formatted in kebab-case (e.g. 'maxson-build-utils')."""
+        raw_name = self.name or self.path.parent.name
+        return to_kebab_case(raw_name)
+
+    @property
+    def import_name(self) -> str:
+        """Python module import name in snake_case (e.g. 'maxson_build_utils').
+
+        Checks [tool.maxson-build-utils.names.import] first, falling back to
+        snake_case(name).
+        """
+        custom_import = self.get("tool", "maxson-build-utils", "names", "import")
+        if custom_import:
+            return to_snake_case(custom_import)
+        return to_snake_case(self.name or self.path.parent.name)
+
+    @property
+    def pretty_name(self) -> str:
+        """Human-readable project title (e.g. 'Maxson Build Utils').
+
+        Checks [tool.maxson-build-utils.names.pretty] first, falling back to
+        Title Case.
+        """
+        custom_pretty = self.get("tool", "maxson-build-utils", "names", "pretty")
+        if custom_pretty:
+            return custom_pretty
+        return to_title_case(self.name or self.path.parent.name)
+
+    @property
+    def src_dir(self) -> Path:
+        """Path to internal src module directory (e.g. project_root / 'src' / import_name)."""
+        return self.path.parent / "src" / self.import_name
+
+    # --- Backward-Compatibility Helpers ---
+
+    def name_to_snake_case(self) -> str:
+        return to_snake_case(self.name or self.path.parent.name)
+
+    def name_to_title_case(self) -> str:
+        return to_title_case(self.name or self.path.parent.name)
 
 # ---
 
