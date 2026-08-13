@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # src/maxson_build_utils/cli.py
 import os
 import sys

@@ -1,11 +1,14 @@
 # src/maxson_build_utils/scaffold_gui.py
 from __future__ import annotations
 from .helpers import write_str_to_file
-def run_init_gui():
-    write_str_to_file(path=, text = raw_gui_str)
+from .names import get_src_dir, get_src_name
+
+def run_init_gui( ):
+    write_str_to_file(path= get_src_dir() / "gui.py", text = raw_gui_str)
+
 raw_gui_str = '''
 #!/usr/bin/env python3
-# src/<appn>/gui.py
+# src/{get_src_name()}/gui.py
 from __future__ import annotations
 import pyhabitat
 import tkinter as tk

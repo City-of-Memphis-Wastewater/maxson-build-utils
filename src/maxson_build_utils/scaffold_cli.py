@@ -2,9 +2,11 @@
 from __future__ import annotations
 from .helpers import write_str_to_file
 from .names import get_src_dir, get_src_name
-def run_init_context( ):
+
+def run_init_cli( ):
     write_str_to_file(path= get_src_dir() / "cli.py", text = raw_cli_str)
 raw_cli_str = f'''
+#!/usr/bin/env python3
 # src/{get_src_name()}/cli.py
 import os
 import sys
