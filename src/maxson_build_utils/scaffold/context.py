@@ -1,9 +1,11 @@
 # src/maxson_build_utils/scaffold_context.py
 from __future__ import annotations
 from pathlib import Path
+import logging
+logger = logging.getLogger(__name__)
 
-from .helpers import write_str_to_file
-from .pyproject import PyProject 
+from ..helpers import write_str_to_file
+from ..pyproject import PyProject 
 
 def run_init_context(root_dir: Path | str | None = None) -> None:
     pyproject = PyProject(root_dir)
