@@ -19,11 +19,36 @@ def to_title_case(value: str) -> str:
     words = re.split(r"[-_\s]+", value.strip())
     return " ".join(word.capitalize() for word in words if word)
 
-def get_src_dir():
+def get_src_name(path:str|Path|None=None) -> Path:
+    from .pyproject import PyProject
     keys=["tool","maxson-build-utils","names","import"]
     pyproject=PyProject()
     import_name=pyproject.get(*keys)
     if import_name is None:
         import_name=pyproject.name_to_snake_case()
+    return import_name
+
+def get_src_dir(path:str|Path|None=None) -> Path:
+    import_name = git get_src_name(path)
     src_dir = Path.cwd() /"src"/ import_name
     return src_dir
+
+def get_pretty_name(path:str|Path|None=None) -> str:
+    from .pyproject import PyProject
+    keys=["tool","maxson-build-utils","names","pretty"]
+    pyproject=PyProject(path)
+    pretty_name=pyproject.get(*keys)
+    if pretty_name is None:
+        pretty_name=pyproject.name_to_title_case()
+    return pretty_name
+
+def get_app_name(path:str|Path|None=None) -> str:
+    from .pyproject import PyProject
+    keys=["project","name"]
+    pyproject=PyProject(path)
+    app_name=pyproject.get(*keys)
+    if app_name is None:
+        app_name=pyproject.name_to_title_case()
+    return app_name
+
+
