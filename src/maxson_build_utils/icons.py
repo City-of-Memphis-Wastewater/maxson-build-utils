@@ -9,7 +9,7 @@ def bundled_icons():
     return files("maxson_build_utils") / "data" / "icons"
 
 def copy_stock_icons(
-    dst: Path | str | None = None
+    dst: Path | str | None = None,
     root_dir: Path | str | None = None
     ) -> Path:
     if dst is None:
