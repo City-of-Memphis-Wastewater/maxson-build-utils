@@ -49,26 +49,6 @@ def run_init_src(root_dir:Path|None=None)->Path:
     src_dir.mkdir(parents=True, exist_ok=True)
     return src_dir
 
-def run_init_changelog()->Path:
-    """Write blank changelog file to docs/CHANGELOG.md"""
-    changelog = Path.cwd() / "docs" / "CHANGELOG.md"
-    new_changelog="""
-# Changelog
-
-All notable changes to this project will be documented in this file.
-The format is (read: strives to be) based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
-
----
-
-## [0.1.0] - YYYY-MM-DD
-### Added:
--
-
----
-"""
-    write_str_to_file(path=changelog,text=new_changelog)
-    return changelog
-
 def run_init_packaging(PackageType)->dict:
     """generate contents of packaging/flatpak"""
     pass
