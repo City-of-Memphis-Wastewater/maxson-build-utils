@@ -190,7 +190,13 @@ def init_cli():
     path = run_init_cli()
     console_stdout.print(f"Created: {path}")
 
-@init_app.command("pyrpoject")
+@init_app.command("core")
+def init_core():
+    """Create src/<app>/core.py."""
+    path = run_init_core()
+    console_stdout.print(f"Created: {path}")
+
+@init_app.command("pyproject")
 def init_pyproject():
     """Update pyproject.toml in our own image, after running `uv init`."""
     path = run_init_pyproject()
