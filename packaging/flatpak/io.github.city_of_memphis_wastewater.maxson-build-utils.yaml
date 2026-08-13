@@ -1,0 +1,29 @@
+id: io.github.city_of_memphis_wastewater.maxson-build-utils
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+command: maxson-build-utils
+
+build-options:
+  env:
+    APP_ID: io.github.city_of_memphis_wastewater.maxson-build-utils
+    APP_NAME: maxson-build-utils
+    IMPORT_NAME: maxson_build_utils
+
+modules:
+  - name: maxson-build-utils
+    buildsystem: simple
+    build-commands:
+      # 1. Install wheel
+      - pip3 install --ignore-installed --no-index --find-links=vendor-wheels --prefix=/app dist/*.whl
+
+      # 2. Desktop Integration Files
+      - install -Dm644 packaging/flatpak/$APP_ID.desktop /app/share/applications/$APP_ID.desktop
+      - install -Dm644 packaging/flatpak/$APP_ID.metainfo.xml /app/share/metainfo/$APP_ID.metainfo.xml
+      - install -Dm644 src/$IMPORT_NAME/data/icons/placeholder.svg /app/share/icons/hicolor/scalable/apps/$APP_ID.svg
+
+      # 3. License
+      - install -Dm644 LICENSE /app/share/licenses/$APP_NAME/LICENSE
+    sources:
+      - type: dir
+        path: .
