@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from typing import Any,List
 import json
 
 from .names import to_snake_case
@@ -49,6 +49,10 @@ class PyProject:
 
     def name_to_snake_case(self):
         return to_snake_case(self.get("project","name"))
+
+    def write(self,keys:List):
+        pass
+
 # ---
 
 def format_value(value: Any) -> str:
