@@ -212,6 +212,20 @@ def init_pack_flatpak():
     for path in paths:
         console_stdout.print(f"Created: {path}")
 
+@init_pack_app.command("pyinstaller")
+def init_pack_pyinstaller():
+    """Scaffold packaging/pyinstaller/build_executable.py metadata and manifests."""
+    paths = run_init_pyinstaller()
+    for path in paths:
+        console_stdout.print(f"Created: {path}")
+
+@init_pack_app.command("shiv")
+def init_pack_shiv():
+    """Scaffold packaging/pyinstaller/build_pyz.py metadata and manifests."""
+    paths = run_init_shiv()
+    for path in paths:
+        console_stdout.print(f"Created: {path}")
+
 @init_app.command("packaging")
 def init_packaging():
     """Create packaging scaffolding."""
