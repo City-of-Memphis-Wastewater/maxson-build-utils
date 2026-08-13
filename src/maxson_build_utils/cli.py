@@ -177,7 +177,7 @@ def init_gui():
 
 @init_app.command("cli")
 def init_cli():
-    """Create src/<app>/gui.py."""
+    """Create src/<app>/cli.py."""
     path = run_init_cli()
     console_stdout.print(f"Created: {path}")
 

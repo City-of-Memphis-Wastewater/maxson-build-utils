@@ -27,7 +27,7 @@ def run_init_icons(dst:Path|str|None=None):
     # what a smell
     #keys = ["tool","maxson-build-utils","icons"]
     if dst is None:
-        dst = run_init_src() / "data" / "icons"
+        dst = get_src_dir() / "data" / "icons"
 
     dst = Path(dst)
 
@@ -44,17 +44,6 @@ def run_init_src()->Path:
     src_dir.mkdir(parents=True, exist_ok=True)
     return src_dir
 
-def write_str_to_file(path:str|Path,text:str)->Path:
-    """Reusable"""
-    path=Path(path).expanduser().resolve()
-    if not path.exists():
-        path.parent.mkdir(parents=True, exist_ok=True)
-        with path.open("w", encoding="utf-8") as f:
-            f.write(text)
-    else:
-        logger.debug(f"File already exists at {changelog}")
-    return path
-    
 def run_init_changelog()->Path:
     """Write blank changelog file to docs/CHANGELOG.md"""
     changelog = Path.cwd() / "docs" / "CHANGELOG.md"
