@@ -279,4 +279,4 @@ def start_gui(time_auto_close: int = 0):
 if __name__ == "__main__":
     start_gui()
 '''
-raw_gui_str = raw_gui_str.replace("__IMPORT_NAME__", pyproject.src_name)
+raw_gui_str = raw_gui_str.replace("__IMPORT_NAME__", pyproject.import_name)

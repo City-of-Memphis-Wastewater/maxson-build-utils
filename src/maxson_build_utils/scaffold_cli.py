@@ -75,4 +75,4 @@ def placeholder(
 if __name__ == "__main__":
     app()
 '''
-raw_cli_str = raw_cli_str.replace("__IMPORT_NAME__", pyproject.src_name)
+raw_cli_str = raw_cli_str.replace("__IMPORT_NAME__", pyproject.import_name)

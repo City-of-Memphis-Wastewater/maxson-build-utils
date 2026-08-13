@@ -29,11 +29,9 @@ def get_import_name(path:str|Path|None=None) -> str:
     if import_name is None:
         import_name=pyproject.name_to_snake_case()
     return import_name
-# Alias for backward compatibility
-get_src_name = get_import_name
 
 def get_src_dir(path:str|Path|None=None) -> Path:
-    import_name = get_src_name(path)
+    import_name = get_import_name(path)
     src_dir = Path.cwd() /"src"/ import_name
     return src_dir
 
