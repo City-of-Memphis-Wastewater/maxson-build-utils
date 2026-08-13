@@ -12,7 +12,7 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ### Added:
 - Expose init packaging sub app in CLI.py
-- local flatpak spec
+- local flatpak spec files in /packaging/flatpak/
 
 ---
 
