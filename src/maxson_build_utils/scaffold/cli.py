@@ -9,7 +9,6 @@ from ..pyproject import PyProject
 
 def run_init_cli(root_dir: Path | str | None = None) -> None:
     pyproject = PyProject(root_dir)
-    write_str_to_file(pyproject.src_dir / "cli.py", text = raw_cli_str)
 
     raw_cli_str = '''
     #!/usr/bin/env python3
@@ -80,3 +79,4 @@ def run_init_cli(root_dir: Path | str | None = None) -> None:
         app()
     '''
     raw_cli_str = raw_cli_str.replace("__IMPORT_NAME__", pyproject.import_name)
+    write_str_to_file(pyproject.src_dir / "cli.py", text = raw_cli_str)

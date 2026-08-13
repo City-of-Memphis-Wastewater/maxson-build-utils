@@ -9,7 +9,6 @@ from ..pyproject import PyProject
 
 def run_init_context(root_dir: Path | str | None = None) -> None:
     pyproject = PyProject(root_dir)
-    write_str_to_file(pyproject.src_dir / "context.py", text = raw_context_str)
 
     raw_context_str='''
     # src/__IMPORT_NAME__/context.py
@@ -35,3 +34,4 @@ def run_init_context(root_dir: Path | str | None = None) -> None:
     config_mngr.set(service=SERVICE,item="dummy",value=str(0))
     '''
     raw_context_str = raw_context_str.replace("__IMPORT_NAME__", pyproject.import_name)
+    write_str_to_file(pyproject.src_dir / "context.py", text = raw_context_str)

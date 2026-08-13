@@ -9,7 +9,6 @@ from ..pyproject import PyProject
 
 def run_init_gui(root_dir: Path | str | None = None) -> None:
     pyproject = PyProject(root_dir)
-    write_str_to_file(pyproject.src_dir / "gui.py", text = raw_gui_str)
 
     raw_gui_str = '''
     #!/usr/bin/env python3
@@ -284,3 +283,4 @@ def run_init_gui(root_dir: Path | str | None = None) -> None:
         start_gui()
     '''
     raw_gui_str = raw_gui_str.replace("__IMPORT_NAME__", pyproject.import_name)
+    write_str_to_file(pyproject.src_dir / "gui.py", text = raw_gui_str)
