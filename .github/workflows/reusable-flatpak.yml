@@ -7,22 +7,6 @@ on:
         description: 'Path to Flatpak manifest file (e.g., packaging/flatpak/app.yaml)'
         required: true
         type: string
-      desktop_path:
-        description: 'Path to desktop entry file'
-        required: false
-        type: string
-      metainfo_path:
-        description: 'Path to AppStream metainfo.xml file'
-        required: false
-        type: string
-      app_id:
-        description: 'Flatpak Application ID'
-        required: true
-        type: string
-      app_name:
-        description: 'Short application name used for binary naming'
-        required: true
-        type: string
       run_smoke_test:
         description: 'Run basic execution test on assembled Flatpak'
         required: false
@@ -59,6 +43,20 @@ jobs:
             echo "Run 'mbu init packaging flatpak' locally to scaffold packaging assets."
             exit 1
           fi
+
+      - name: Infer App Metadata
+        run: |
+          # 1. Get filename: "io.github.city_of_memphis_wastewater.cellshift.yaml"
+          MANIFEST_FILE=$(basename "${{ inputs.manifest_path }}"
+
+          # 2. Strip extension -> "io.github.city_of_memphis_wastewater.cellshift"
+          APP_ID="${MANIFEST_FILE%.yaml}"
+
+          # 3. Take substring after last dot -> "cellshift"
+          APP_NAME="${APP_ID##*.}"
+
+          echo "APP_ID=$APP_ID" >> $GITHUB_ENV
+          echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
 
       - name: Export requirements & Vendor Wheels
         run: |
