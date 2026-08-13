@@ -130,6 +130,12 @@ def init_src():
     pass
 
 @app.command()
+def init():
+    """Don't faff about with various specific inits. Build them all."""
+    from .init import run_init_all
+    run_init_all()
+
+@app.command()
 def version(
     path: Path | None = typer.Option(
         None,
