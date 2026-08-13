@@ -20,7 +20,7 @@ def to_title_case(value: str) -> str:
     words = re.split(r"[-_\s]+", value.strip())
     return " ".join(word.capitalize() for word in words if word)
 
-def get_src_name(path:str|Path|None=None) -> Path:
+def get_src_name(path:str|Path|None=None) -> str:
     from .pyproject import PyProject
     keys=["tool","maxson-build-utils","names","import"]
     pyproject=PyProject()
