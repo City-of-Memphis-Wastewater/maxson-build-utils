@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any,List
 import json
 
-from .names import to_snake_case
+from .names import to_snake_case, to_kebab_case, to_title_case
 
 try:
     import tomllib  # Python 3.11+
@@ -99,7 +99,7 @@ class PyProject:
     @property
     def data_dir(self) -> Path:
         """Path to internal data directory (e.g. project_root / 'src' / import_name / 'data' / )."""
-        return self.scr_dir / 'data'
+        return self.src_dir / 'data'
 
     @property
     def icons_dir(self) -> Path:
@@ -107,7 +107,7 @@ class PyProject:
         # only hardcode, or allow config pull in like 
         custom_icons_dir = self.get("tool", "maxson-build-utils", "icons", "dir")
         if custom_icons_dir:
-            return custom_icons_dir
+            return self.path.parent / custom_icons_dir
         return self.data_dir / 'icons'
 
     # --- Backward-Compatibility Helpers ---
