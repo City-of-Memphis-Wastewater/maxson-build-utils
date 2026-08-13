@@ -8,7 +8,7 @@ def run_init_gui( ):
 
 raw_gui_str = '''
 #!/usr/bin/env python3
-# src/{get_src_name()}/gui.py
+# src/__SRC_NAME__/gui.py
 from __future__ import annotations
 import pyhabitat
 import tkinter as tk
@@ -278,3 +278,4 @@ def start_gui(time_auto_close: int = 0):
 if __name__ == "__main__":
     start_gui()
 '''
+raw_gui_str = raw_gui_str.replace("__SRC_NAME__", get_src_name())

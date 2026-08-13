@@ -5,9 +5,9 @@ from .names import get_src_dir, get_src_name
 
 def run_init_cli( ):
     write_str_to_file(path= get_src_dir() / "cli.py", text = raw_cli_str)
-raw_cli_str = f'''
+raw_cli_str = '''
 #!/usr/bin/env python3
-# src/{get_src_name()}/cli.py
+# src/__SRC_NAME__/cli.py
 import os
 import sys
 import typer
@@ -73,3 +73,4 @@ def placeholder(
 if __name__ == "__main__":
     app()
 '''
+raw_cli_str = raw_cli_str.replace("__SRC_NAME__", get_src_name())
