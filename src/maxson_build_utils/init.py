@@ -19,12 +19,12 @@ Implement src/*/ dir with __init__.py (possibly a template), when init-src is ca
 Also init_icons
 """
 
-def init_icons(dst:Path|str|None=None)->dict:
+def run_init_icons(dst:Path|str|None=None)->dict:
     keys = ["tool","maxson-build-utils","icons"]
     copy_stock_icons(dst)
     
 
-def init_src()->Path:
+def run_init_src()->Path:
     """intended to be run after uv init"""
     keys=["tool","maxson-build-utils","names","import"]
     pyproject=PyProject()
@@ -36,7 +36,7 @@ def init_src()->Path:
     src_dir.mkdir(parents=True, exist_ok=True)
     return src_dir
 
-def init_changelog():
+def run_init_changelog():
     """Write blank changelog file to docs/CHANGELOG.md"""
     changelog = Path.cwd() / "docs" / "CHANGELOG.md"
     new_changelog="""
@@ -53,11 +53,21 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 """
-    with changelog as f:
-        f.open()
-        f.write(new_changelog)
-
-def init_packaging(PackageType)->dict:
+    if not changelog.exists():
+        with changelog as f:
+            f.open()
+            f.write(new_changelog)
+    return changelog
+def run_init_packaging(PackageType)->dict:
     """generate contents of packaging/flatpak"""
     pass
 
+
+def run_init_packaging_all():
+    pass
+
+def run_init_all():
+    run_init_src()
+    run_init_changelog()
+    run_init_icons()
+    run_init_packaging_all()
