@@ -130,11 +130,18 @@ def init_src():
     pass
 
 @app.command()
-def init():
-    """Don't faff about with various specific inits. Build them all."""
+def init(
+    path: Path = typer.Option(
+        None,
+        "--path",
+        "-p",
+        help="Path to pyproject.toml",
+    ),
+):
+    """Don't faff about with various specific inits. Build them all. May be better suited as a typer sub app and accept an enum?"""
     from .init import run_init_all
     run_init_all()
-
+    
 @app.command()
 def version(
     path: Path | None = typer.Option(

@@ -1,5 +1,5 @@
 # src/maxson_build_utils/names.py
-from __future import annotations
+from __future__ import annotations
 import re
 
 def to_snake_case(value: str) -> str:

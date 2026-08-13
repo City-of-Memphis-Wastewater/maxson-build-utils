@@ -19,6 +19,7 @@ def PackageType(str, Enum):
     msix:MSIX
     dmg:DMG
     appimage:APPIMAGE
+    all:ALL
 
 def flatpak():
     pass
