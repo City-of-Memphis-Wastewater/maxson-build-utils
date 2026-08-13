@@ -24,7 +24,7 @@ def run_init_icons(dst:Path|str|None=None):
     # write is dead, dont expect to write to pyproject.toml
     # but we can print to console a recommended cooy and paste pyptoject.toml section
     # what a smell
-    keys = ["tool","maxson-build-utils","icons"]
+    #keys = ["tool","maxson-build-utils","icons"]
     if dst is None:
         dst = run_init_src() / "data" / "icons"
 
