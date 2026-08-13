@@ -1,5 +1,7 @@
 # src/maxson_build_utils/scaffold_cli.py
 from __future__ import annotations
+from pathlib import Path
+
 from .helpers import write_str_to_file
 from .pyproject import PyProject
 
