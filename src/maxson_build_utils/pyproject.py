@@ -50,7 +50,7 @@ class PyProject:
     def name_to_snake_case(self):
         return to_snake_case(self.get("project","name"))
 
-    def write(self,keys:List):
+    def write(self, keys: list[str], value: Any) -> None:
         pass
 
 # ---
