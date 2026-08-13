@@ -23,7 +23,7 @@ def write_str_to_file(path:str|Path,text:str)->Path:
         with path.open("w", encoding="utf-8") as f:
             f.write(text)
     else:
-        logger.debug(f"File already exists at {changelog}")
+        logger.debug(f"File already exists at {path}")
     return path
 
 def form_dynamic_name(pkg_name: str, version: str, mode: PyinsMode|None = None) -> str:
