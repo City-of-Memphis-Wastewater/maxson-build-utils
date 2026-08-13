@@ -24,7 +24,7 @@ def run_init_context(root_dir: Path | str | None = None) -> None:
     SRC_DIR = _pyproject.src_dir
     SRC_FOLDER_NAME = IMPORT_NAME
     SERVICE = APP_NAME
-    DESCRIPTION_STR = pyproject.get("project","description")
+    DESCRIPTION_STR = _pyproject.get("project","description")
     APP_DIR = Path.home() / f".{APP_NAME}"
     APP_DIR.mkdir(parents=True,exist_ok=True)
     LOG_FILE_PATH = APP_DIR / f"{APP_NAME}_errors.log"
