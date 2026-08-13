@@ -5,6 +5,12 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.21] - 2026-08-13
+### Changed:
+- remove get_* wrappers in names.py in favor of PyProject class instance properties, like pyproject.src_dir and *.import_name
+
+---
+
 ## [0.1.20] - 2026-08-13
 ### Fixed:
 - icon init call properly shows existing dir
