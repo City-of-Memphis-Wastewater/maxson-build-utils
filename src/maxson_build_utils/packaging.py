@@ -13,13 +13,13 @@ mbu init-packaging msix
 mbu init-packaging dmg
 """
 
-def PackageType(str, Enum):
-    flatpak:FLATPAK
-    deb:DEB
-    msix:MSIX
-    dmg:DMG
-    appimage:APPIMAGE
-    all:ALL
+class PackageType(str, Enum):
+    FLATPAK = "flatpak"
+    DEB = "deb"
+    APPIMAGE = "appimage"
+    DMG = "dmg"
+    MSIX = "msix"
+    ALL = "all"
 
 def flatpak():
     pass
