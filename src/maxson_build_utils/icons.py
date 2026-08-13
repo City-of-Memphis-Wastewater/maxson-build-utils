@@ -8,8 +8,7 @@ from .names import get_src_dir
 def bundled_icons():
     return files("maxson_build_utils") / "data" / "icons"
 
-def copy_stock_icons(path: Path | str | None = None):
-    """Copy bundled stock icons into a destination directory."""
+def copy_stock_icons(path: Path | str | None = None) -> Path:
     if path is None:
         path = get_src_dir() / "data" / "icons"
 
@@ -19,3 +18,5 @@ def copy_stock_icons(path: Path | str | None = None):
     for icon in bundled_icons().iterdir():
         if icon.is_file():
             shutil.copy2(icon, path / icon.name)
+
+    return path

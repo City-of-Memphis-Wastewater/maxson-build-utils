@@ -35,8 +35,8 @@ def run_init_icons(dst:Path|str|None=None):
         logger.debug("Stock icon destination is the bundled icon directory; nothing to copy.")
         return dst
 
-    copy_stock_icons(dst)
-    return dst
+    return copy_stock_icons(dst)
+
 
 def run_init_src()->Path:
     """intended to be run after uv init"""
