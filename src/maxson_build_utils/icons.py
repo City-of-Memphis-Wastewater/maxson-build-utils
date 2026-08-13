@@ -17,7 +17,7 @@ def copy_stock_icons(
         path pyproject.icons_dir
 
     dst = Path(dst)
-    path.mkdir(parents=True, exist_ok=True)
+    dst.mkdir(parents=True, exist_ok=True)
 
     for icon in bundled_icons().iterdir():
         if icon.is_file():

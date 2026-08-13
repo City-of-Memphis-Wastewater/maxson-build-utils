@@ -14,19 +14,25 @@ from .packaging import (
     PackageType
     )
 from .icons import copy_stock_icons, bundled_icons
-from .names import get_src_dir
+from .pyproject import PyProject
+
 """
 Implement src/*/ dir with __init__.py (possibly a template), when init-src is called
 Also init_icons
 """
 
-def run_init_icons(dst:Path|str|None=None):
+
+def run_init_icons(
+    dst:Path|str|None=None,
+    root_dir: Path | str | None = None
+    ) -> Path:
     # write is dead, dont expect to write to pyproject.toml
     # but we can print to console a recommended cooy and paste pyptoject.toml section
     # what a smell
     #keys = ["tool","maxson-build-utils","icons"]
     if dst is None:
-        dst = get_src_dir() / "data" / "icons"
+        pyproject = PyProject(root_dir)
+        dst = pyproject.icons_dir
 
     dst = Path(dst)
 
