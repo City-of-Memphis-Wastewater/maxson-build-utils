@@ -10,10 +10,10 @@ def bundled_icons():
 
 def copy_stock_icons(
     dst: Path | str | None = None
-    pyproject_path: Path | str | None = None
+    root_dir: Path | str | None = None
     ) -> Path:
     if dst is None:
-        pyproject = PyProject(pyproject_path) # force local pyproject.toml
+        pyproject = PyProject(root_dir) # force local pyproject.toml
         path pyproject.icons_dir
 
     dst = Path(dst)
