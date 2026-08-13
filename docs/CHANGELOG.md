@@ -8,6 +8,7 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 ## [0.1.19] - 2026-08-13
 ### Added:
 - Templates for cli, gui, and context, exposed in the init sub app.
+- mbu cli alias
 
 ---
 
