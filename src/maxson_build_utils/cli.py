@@ -48,6 +48,23 @@ app = typer.Typer(
                       "help_option_names": ["-h", "--help"]},
 )
 
+init_app = typer.Typer(
+    name="init",
+    help="Scaffold project files and directories.",
+    no_args_is_help=True,
+)
+
+app.add_typer(init_app)
+
+init_pack_app = typer.Typer(
+    name="packaging",
+    help="Scaffold packaging assets (Flatpak, Debian, etc.).",
+    no_args_is_help=True,
+)
+
+# Nest packaging inside init -> `maxson-build-utils init packaging ...`
+init_app.add_typer(init_pack_app)
+
 @app.callback(invoke_without_command=True, no_args_is_help=False)
 def main(
     ctx: typer.Context,
@@ -141,13 +158,6 @@ def version(
     """Determine the effective project version."""
     console_stdout.print(get_version(path))
 
-init_app = typer.Typer(
-    name="init",
-    help="Scaffold project files and directories.",
-    no_args_is_help=True,
-)
-
-app.add_typer(init_app)
 
 @init_app.command("src")
 def init_src():
@@ -193,6 +203,15 @@ def init_context():
     """Create src/<app>/context.py."""
     path = run_init_context()
     console_stdout.print(f"Created: {path}")
+
+# --- Sub-App: `init packaging` Commands ---
+
+@init_pack_app.command("flatpak")
+def init_pack_flatpak():
+    """Scaffold packaging/flatpak/ metadata and manifests."""
+    paths = run_init_flatpak()
+    for path in paths:
+        console_stdout.print(f"Created: {path}")
 
 @init_app.command("packaging")
 def init_packaging():
