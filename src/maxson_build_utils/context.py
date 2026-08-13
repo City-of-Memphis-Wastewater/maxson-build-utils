@@ -1,7 +1,7 @@
 # src/maxson_build_utils/context.py
 from __future__ import annotations
 from pathlib import Path
-from maxson_build_utils.names import get_src_dir, get_pretty_name, get_app_name
+from maxson_build_utils.names import get_src_dir, get_pretty_name, get_app_name, get_src_name
 
 APP_NAME = get_app_name()
 SRC_FOLDER_NAME = get_src_name()
