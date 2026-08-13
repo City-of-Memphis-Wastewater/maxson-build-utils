@@ -19,10 +19,16 @@ Implement src/*/ dir with __init__.py (possibly a template), when init-src is ca
 Also init_icons
 """
 
-def run_init_icons(dst:Path|str|None=None)->dict:
+
+def run_init_icons(dst:Path|str|None=None):
+    # write is dead, dont expect to write to pyproject.toml
+    # but we can print to console a recommended cooy and paste pyptoject.toml section
+    # what a smell
     keys = ["tool","maxson-build-utils","icons"]
-    copy_stock_icons(dst)
-    
+    if dst is None:
+        dst = run_init_src() / "data" / "icons"
+
+    return copy_stock_icons(dst)
 
 def run_init_src()->Path:
     """intended to be run after uv init"""
