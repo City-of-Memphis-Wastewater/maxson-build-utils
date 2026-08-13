@@ -19,16 +19,3 @@ def to_title_case(value: str) -> str:
     """Convert a string to Title Case."""
     words = re.split(r"[-_\s]+", value.strip())
     return " ".join(word.capitalize() for word in words if word)
-
-'''
-def get_import_name(path:str|Path|None=None) -> str:
-    from .pyproject import PyProject
-    keys=["tool","maxson-build-utils","names","import"]
-    pyproject=PyProject(path)
-    import_name=pyproject.get(*keys)
-    if import_name is None:
-        import_name=pyproject.name_to_snake_case()
-    return import_name
-
-'''
-
