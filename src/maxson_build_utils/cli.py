@@ -21,13 +21,11 @@ from .scaffold import (
     run_init_changelog,
     run_init_src,
     run_init_icons,
-    run_init_all
-    )
-from .scaffold_gui import run_init_gui
-from .scaffold_cli import run_init_cli
-#from .scaffold_webapp import run_init_webapp
-from .scaffold_context import run_init_context # config_mngr
-
+    run_init_gui,
+    run_init_cli,
+    run_init_context,
+    #run_init_webapp,
+)
 console_stderr = Console(stderr=True)
 console_stdout = Console()
 
@@ -220,14 +218,18 @@ def init_packaging():
     for path in paths:
         console_stdout.print(f"Created: {path}")
 
-
 @init_app.command("all")
 def init_all():
     """Run all project scaffolding steps."""
-    paths = run_init_all()
-
-    for name, path in paths.items():
-        console_stdout.print(f"{name}: {path}")
-
+    # Execute core files + packaging
+    run_init_src()
+    run_init_context()
+    run_init_cli()
+    run_init_gui()
+    run_init_icons()
+    run_init_changelog()
+    run_init_flatpak()
+    console_stdout.print("Successfully initialized all project scaffolds.")
+    
 if __name__ == "__main__":
     app()
