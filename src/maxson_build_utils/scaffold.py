@@ -28,7 +28,7 @@ def run_init_src()->Path:
     """intended to be run after uv init"""
     keys=["tool","maxson-build-utils","names","import"]
     pyproject=PyProject()
-    import_name=pyproject.get(keys=keys)
+    import_name=pyproject.get(*keys)
     if import_name is None:
         import_name=pyproject.name_to_snake_case()
         import_name_dict = pyproject.write(keys=keys,value=import_name)
