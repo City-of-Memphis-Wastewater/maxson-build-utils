@@ -24,7 +24,7 @@ from .scaffold import (
     )
 from .scaffold_gui import run_init_gui
 from .scaffold_cli import run_init_cli
-from .scaffold_webapp import run_init_webapp
+#from .scaffold_webapp import run_init_webapp
 from .scaffold_context import run_init_context # config_mngr
 
 console_stderr = Console(stderr=True)
@@ -180,11 +180,12 @@ def init_cli():
     path = run_init_cli()
     console_stdout.print(f"Created: {path}")
 
-@init_app.command("webapp")
+'''@init_app.command("webapp")
 def init_webapp():
     """Create src/<app>/webapp.py."""
     path = run_init_webapp()
     console_stdout.print(f"Created: {path}")
+'''
 
 @init_app.command("context")
 def init_context():
