@@ -60,6 +60,7 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
     else:
         logger.debug(f"CHANGELOG.md already exists at {changelog}")
     return changelog
+
 def run_init_packaging(PackageType)->dict:
     """generate contents of packaging/flatpak"""
     pass
