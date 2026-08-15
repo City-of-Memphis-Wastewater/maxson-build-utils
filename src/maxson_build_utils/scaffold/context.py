@@ -5,9 +5,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 from ..helpers import write_str_to_file
-from ..pyproject import PyProject 
 
 def run_init_context(root_dir: Path | str | None = None) -> None:
+    from ..pyproject import PyProject 
     pyproject = PyProject(root_dir)
 
     raw_context_str='''

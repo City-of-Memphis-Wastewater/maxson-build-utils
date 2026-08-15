@@ -22,6 +22,11 @@ class PyProject:
     def __init__(self, path: str | Path | None = None):
         if path is None:
             resolved_path = Path.cwd() / "pyproject.toml"
+            if not resolved_path.exists():
+                self.path = None
+                self.data = None
+                raise "You ust have an existing pyproject.toml file to function in this life."
+                return
         else:
             p = Path(path)
             resolved_path = p / "pyproject.toml" if p.is_dir() else p

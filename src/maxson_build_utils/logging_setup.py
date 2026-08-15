@@ -3,13 +3,19 @@ from __future__ import annotations
 import logging
 import sys
 import traceback
-from .context import SRC_FOLDER_NAME, LOG_FILE_PATH
-
-logger = logging.getLogger(SRC_FOLDER_NAME)
+LOG_FILE_PATH = APP_DIR / f"{APP_NAME}_errors.log"
+def get_logger():
+    from .pyproject import PyProject
+    _pyproject = PyProject()
+    logger = logging.getLogger(_pyproject.import_name)
+    #from .context import SRC_FOLDER_NAME
+    #logger = logging.getLogger(SRC_FOLDER_NAME)
+    return logger
 
 def configure_logging_for_application(debug: bool = False, verbose: bool = False) -> None:
     """Configures the application-level logger using standard built-in formats."""
     INTENT="app"
+    logger = get_logger()
     # Priority: debug > verbose (info) > default (WARNING)
     if debug:
         level = logging.DEBUG
@@ -47,6 +53,7 @@ def configure_logging_for_library(debug: bool = False, verbose: bool = False) ->
     application has no active handlers configured.
     """
     INTENT="library"
+    logger = get_logger()
     # Priority: debug > verbose (info) > default (WARNING)
     if debug:
         level = logging.DEBUG
