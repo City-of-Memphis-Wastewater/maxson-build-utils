@@ -8,6 +8,7 @@ from .flatpak import run_init_flatpak
 from .gui import run_init_gui
 from .icons import run_init_icons
 from .src import run_init_src
+from .pyproject import run_init_pyproject
 
 __all__ = [
     "run_init_changelog",
@@ -17,4 +18,5 @@ __all__ = [
     "run_init_gui",
     "run_init_icons",
     "run_init_src",
+    "run_init_pyproject",
 ]
