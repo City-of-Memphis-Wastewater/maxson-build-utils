@@ -5,6 +5,13 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.22] - 2026-08-15
+### Changed:
+- Pursue scaffolding by leveraging string.Template, with a first pass at scaffols/pyproject.py
+- docs/string-Template.md
+
+---
+
 ## [0.1.21] - 2026-08-13
 ### Changed:
 - remove get_* wrappers in names.py in favor of PyProject class instance properties, like pyproject.src_dir and *.import_name
