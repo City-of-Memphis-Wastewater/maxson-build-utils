@@ -164,39 +164,39 @@ def version(
 def init_src():
     """Build src/<app_name>/ with automatic snake case."""
     path = run_init_src()
-    console_stdout.print(f"Created: {path}")
+    console_stdout.print(f"{path}")
 
 
 @init_app.command("icons")
 def init_icons():
     """Copy the stock Maxson icons into the project's data/icons directory."""
     path = run_init_icons()
-    console_stdout.print(f"Created: {path}")
+    console_stdout.print(f"{path}")
 
 
 @init_app.command("changelog")
 def init_changelog():
     """Create docs/CHANGELOG.md."""
     path = run_init_changelog()
-    console_stdout.print(f"Created: {path}")
+    console_stdout.print(f"{path}")
 
 @init_app.command("gui")
 def init_gui():
     """Create src/<app>/gui.py."""
     path = run_init_gui()
-    console_stdout.print(f"Created: {path}")
+    console_stdout.print(f"{path}")
 
 @init_app.command("cli")
 def init_cli():
     """Create src/<app>/cli.py."""
     path = run_init_cli()
-    console_stdout.print(f"Created: {path}")
+    console_stdout.print(f"{path}")
 
 @init_app.command("core")
 def init_core():
     """Create src/<app>/core.py."""
     path = run_init_core()
-    console_stdout.print(f"Created: {path}")
+    console_stdout.print(f"{path}")
 
 @init_app.command("pyproject")
 def init_pyproject(
@@ -208,7 +208,7 @@ def init_pyproject(
 ):
     """Update pyproject.toml in our own image, after running `uv init`."""
     path = run_init_pyproject(root_dir=None,overwrite=overwrite)
-    console_stdout.print(f"Created: {path}")
+    console_stdout.print(f"{path}")
 
 @init_app.command("init")
 def init_init(
@@ -220,20 +220,20 @@ def init_init(
 ):
     """Create src/<app>/__init__.py"""
     path = run_init_init(root_dir=None,overwrite=overwrite)
-    console_stdout.print(f"Created: {path}")
+    console_stdout.print(f"{path}")
 
 '''@init_app.command("webapp")
 def init_webapp():
     """Create src/<app>/webapp.py."""
     path = run_init_webapp()
-    console_stdout.print(f"Created: {path}")
+    console_stdout.print(f"{path}")
 '''
 
 @init_app.command("context")
 def init_context():
     """Create src/<app>/context.py."""
     path = run_init_context()
-    console_stdout.print(f"Created: {path}")
+    console_stdout.print(f"{path}")
 
 # --- Sub-App: `init packaging` Commands ---
 
@@ -242,28 +242,28 @@ def init_pack_flatpak():
     """Scaffold packaging/flatpak/ metadata and manifests."""
     paths = run_init_flatpak()
     for path in paths:
-        console_stdout.print(f"Created: {path}")
+        console_stdout.print(f"{path}")
 
 @init_pack_app.command("pyinstaller")
 def init_pack_pyinstaller():
     """Scaffold packaging/pyinstaller/build_executable.py metadata and manifests."""
     paths = run_init_pyinstaller()
     for path in paths:
-        console_stdout.print(f"Created: {path}")
+        console_stdout.print(f"{path}")
 
 @init_pack_app.command("shiv")
 def init_pack_shiv():
     """Scaffold packaging/shiv/build_pyz.py metadata and manifests."""
     paths = run_init_shiv()
     for path in paths:
-        console_stdout.print(f"Created: {path}")
+        console_stdout.print(f"{path}")
 
 @init_pack_app.command("msix")
 def init_pack_msix():
     """Scaffold packaging/msix/msix.py metadata and manifests."""
     paths = run_init_msix()
     for path in paths:
-        console_stdout.print(f"Created: {path}")
+        console_stdout.print(f"{path}")
 
 
 @init_pack_app.command("deb")
@@ -271,21 +271,21 @@ def init_pack_deb():
     """Scaffold packaging/deb/deb.py metadata and manifests."""
     paths = run_init_deb()
     for path in paths:
-        console_stdout.print(f"Created: {path}")
+        console_stdout.print(f"{path}")
 
 @init_pack_app.command("dmg")
 def init_pack_dmg():
     """Scaffold packaging/macos/dmg.py metadata and manifests."""
     paths = run_init_dmg()
     for path in paths:
-        console_stdout.print(f"Created: {path}")
+        console_stdout.print(f"{path}")
 
 @init_app.command("packaging")
 def init_packaging():
     """Create packaging scaffolding."""
     paths = run_init_packaging()
     for path in paths:
-        console_stdout.print(f"Created: {path}")
+        console_stdout.print(f"{path}")
 
 @init_app.command("all")
 def init_all():
