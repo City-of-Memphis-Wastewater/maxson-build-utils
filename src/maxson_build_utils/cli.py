@@ -207,7 +207,7 @@ def init_pyproject(
 )
 ):
     """Update pyproject.toml in our own image, after running `uv init`."""
-    path = run_init_pyproject(overwrite)
+    path = run_init_pyproject(root_dir=None,overwrite=overwrite)
     console_stdout.print(f"Created: {path}")
 
 @init_app.command("init")
