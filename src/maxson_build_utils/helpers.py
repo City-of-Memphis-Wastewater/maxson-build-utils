@@ -15,7 +15,7 @@ class IconFileType(str, Enum):
     ICO = "ico"
     SVG = "svg"
 
-def write_str_to_file(path:str|Path,text:str)->Path:
+def write_str_to_file_defunct(path:str|Path,text:str)->Path:
     """Reusable"""
     path=Path(path).expanduser().resolve()
     if not path.exists():
@@ -24,6 +24,26 @@ def write_str_to_file(path:str|Path,text:str)->Path:
             f.write(text)
     else:
         logger.debug(f"File already exists at {path}")
+    return path
+
+def write_str_to_file(
+    path: str | Path,
+    text: str,
+    overwrite: bool = False,
+) -> Path:
+    """Write text to a file, optionally overwriting an existing file."""
+
+    path = Path(path).expanduser().resolve()
+
+    if path.exists() and not overwrite:
+        logger.debug(f"File already exists at {path}")
+        return path
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    with path.open("w", encoding="utf-8") as f:
+        f.write(text)
+
     return path
 
 def form_dynamic_name(pkg_name: str, version: str, mode: PyinsMode|None = None) -> str:

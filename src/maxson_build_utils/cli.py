@@ -26,6 +26,7 @@ from .scaffold import (
     run_init_context,
     run_init_flatpak,
     run_init_pyproject,
+    run_init_init,
     #run_init_webapp,
 )
 console_stderr = Console(stderr=True)
@@ -198,9 +199,27 @@ def init_core():
     console_stdout.print(f"Created: {path}")
 
 @init_app.command("pyproject")
-def init_pyproject():
+def init_pyproject(
+    overwrite: bool = typer.Option(
+    False,
+    "--overwrite",
+    help="Allow overwriting an existing pyproject.toml.",
+)
+):
     """Update pyproject.toml in our own image, after running `uv init`."""
-    path = run_init_pyproject()
+    path = run_init_pyproject(overwrite)
+    console_stdout.print(f"Created: {path}")
+
+@init_app.command("init")
+def init_init(
+    overwrite: bool = typer.Option(
+    False,
+    "--overwrite",
+    help="Allow overwriting an existing pyproject.toml.",
+)
+):
+    """Create src/<app>/__init__.py"""
+    path = run_init_init(overwrite)
     console_stdout.print(f"Created: {path}")
 
 '''@init_app.command("webapp")

@@ -268,18 +268,15 @@ def render_pyproject(pyproject: PyProject) -> str:
 
 def run_init_pyproject(
     root_dir: Path | str | None = None,
+    *,
+    overwrite: bool = False,
 ) -> Path:
-    """Normalize a project pyproject.toml to the Maxson project convention."""
-
     pyproject = PyProject(root_dir)
-
-    path = pyproject.path
 
     text = render_pyproject(pyproject)
 
-    write_str_to_file(
-        path=path,
+    return write_str_to_file(
+        pyproject.path,
         text=text,
+        overwrite=overwrite,
     )
-
-    return path
