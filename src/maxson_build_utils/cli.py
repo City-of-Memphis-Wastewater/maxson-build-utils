@@ -219,7 +219,7 @@ def init_init(
 )
 ):
     """Create src/<app>/__init__.py"""
-    path = run_init_init(overwrite)
+    path = run_init_init(root_dir=None,overwrite=overwrite)
     console_stdout.print(f"Created: {path}")
 
 '''@init_app.command("webapp")

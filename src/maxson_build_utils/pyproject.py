@@ -25,7 +25,7 @@ class PyProject:
             if not resolved_path.exists():
                 self.path = None
                 self.data = None
-                raise "You ust have an existing pyproject.toml file to function in this life."
+                raise "You must have an existing pyproject.toml file to function in this life."
                 return
         else:
             p = Path(path)
