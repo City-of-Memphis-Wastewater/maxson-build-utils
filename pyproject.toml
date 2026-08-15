@@ -3,7 +3,7 @@ name = "maxson-build-utils"
 dynamic = ["version"]
 description = "Common tools for deploying packages to EXE, MSIX, DMG, DEB, PYZ, flatpak, and more. Templated approach to mkdocs."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
     "dworshak-config>=0.2.8",
     "pyhabitat>=1.3.9",
