@@ -157,7 +157,7 @@ def render_init_py(
     )
 
 
-def run_init_init_py(
+def run_init_init(
     root_dir: Path | str | None = None,
     *,
     exports: dict[str, str] | None = None,

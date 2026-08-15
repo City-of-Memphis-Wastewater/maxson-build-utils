@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 import sys
 import traceback
+from .context import APP_DIR, APP_NAME, SRC_FOLDER_NAME
 LOG_FILE_PATH = APP_DIR / f"{APP_NAME}_errors.log"
 def get_logger():
     from .pyproject import PyProject
