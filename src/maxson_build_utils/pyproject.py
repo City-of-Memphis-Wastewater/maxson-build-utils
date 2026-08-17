@@ -76,7 +76,7 @@ class PyProject:
 
     @property
     def app_dir(self) -> Path | None:
-        configured = self._configured_path("app")
+        configured = self._configured_path("app_dir")
 
         if configured is not None:
             configured.mkdir(parents=True, exist_ok=True)
