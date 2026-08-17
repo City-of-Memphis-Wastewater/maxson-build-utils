@@ -22,16 +22,16 @@ class PyProject:
     def __init__(self, path: str | Path | None = None):
         if path is None:
             resolved_path = Path.cwd() / "pyproject.toml"
-            if not resolved_path.exists():
-                self.path = None
-                self.data = None
-                raise "You must have an existing pyproject.toml file to function in this life."
-                return
         else:
             p = Path(path)
             resolved_path = p / "pyproject.toml" if p.is_dir() else p
 
-        self.path = resolved_path
+        self.path = resolved_path if resolved_path.exists() else None
+
+        if self.path is None:
+            self.data = None
+            return
+
         with self.path.open("rb") as f:
             self.data = tomllib.load(f)
 
