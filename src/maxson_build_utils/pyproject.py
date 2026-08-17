@@ -65,38 +65,80 @@ class PyProject:
     # --- Resolved Naming Properties ---
 
     @property
-    def app_name(self) -> str:
-        """Distribution / binary name strictly formatted in kebab-case (e.g. 'maxson-build-utils')."""
-        raw_name = self.name or self.path.parent.name
-        return to_kebab_case(raw_name)
+    def app_name(self) -> str | None:
+        if self.name:
+            return to_kebab_case(self.name)
+
+        if self.path is not None:
+            return to_kebab_case(self.path.parent.name)
+
+        return None
 
     @property
-    def import_name(self) -> str:
+    def app_dir(self) -> Path | None:
+        if self.app_name is None:
+            return None
+
+        path = Path.home() / f".{self.app_name}"
+        path.mkdir(parents=True, exist_ok=True)
+        return path
+
+    @property
+    def import_name(self) -> str | None:
         """Python module import name in snake_case (e.g. 'maxson_build_utils').
 
         Checks [tool.maxson-build-utils.names.import] first, falling back to
         snake_case(name).
         """
-        custom_import = self.get("tool", "maxson-build-utils", "names", "import")
+        custom_import = self.get(
+            "tool",
+            "maxson-build-utils",
+            "names",
+            "import",
+        )
+
         if custom_import:
             return to_snake_case(custom_import)
-        return to_snake_case(self.name or self.path.parent.name)
+
+        if self.name:
+            return to_snake_case(self.name)
+
+        if self.path is not None:
+            return to_snake_case(self.path.parent.name)
+
+        return None
 
     @property
-    def pretty_name(self) -> str:
+    def pretty_name(self) -> str | None:
         """Human-readable project title (e.g. 'Maxson Build Utils').
 
         Checks [tool.maxson-build-utils.names.pretty] first, falling back to
         Title Case.
         """
-        custom_pretty = self.get("tool", "maxson-build-utils", "names", "pretty")
+        custom_pretty = self.get(
+            "tool",
+            "maxson-build-utils",
+            "names",
+            "pretty",
+        )
+
         if custom_pretty:
             return custom_pretty
-        return to_title_case(self.name or self.path.parent.name)
+
+        if self.name:
+            return to_title_case(self.name)
+
+        if self.path is not None:
+            return to_title_case(self.path.parent.name)
+
+        return None
 
     @property
-    def src_dir(self) -> Path:
+    def src_dir(self) -> Path | None:
         """Path to internal src module directory (e.g. project_root / 'src' / import_name)."""
+        if self.path is None or self.import_name is None:
+            return None
+
         return self.path.parent / "src" / self.import_name
 
     @property
