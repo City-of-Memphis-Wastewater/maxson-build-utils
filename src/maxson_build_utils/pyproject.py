@@ -133,6 +133,7 @@ class PyProject:
 
         return None
 
+    # --- Path resolution ---
     @property
     def src_dir(self) -> Path | None:
         """Path to internal src module directory (e.g. project_root / 'src' / import_name)."""
@@ -142,18 +143,46 @@ class PyProject:
         return self.path.parent / "src" / self.import_name
 
     @property
-    def data_dir(self) -> Path:
+    def data_dir(self) -> Path | None:
         """Path to internal data directory (e.g. project_root / 'src' / import_name / 'data' / )."""
-        return self.src_dir / 'data'
+        if self.src_dir is None:
+            return None
+
+        return self.src_dir / "data"
+
 
     @property
-    def icons_dir(self) -> Path:
+    def icons_dir(self) -> Path | None:
         """Path to internal data directory (e.g. project_root / 'src' / import_name / 'data' / 'icons' )."""
-        # only hardcode, or allow config pull in like 
-        custom_icons_dir = self.get("tool", "maxson-build-utils", "icons", "dir")
-        if custom_icons_dir:
-            return self.path.parent / custom_icons_dir
-        return self.data_dir / 'icons'
+        if self.data_dir is None:
+            return None
+
+        return self.data_dir / "icons"
+
+    @property
+    def log_file_path(self) -> Path | None:
+        configured = self._configured_path("log_file")
+
+        if configured is not None:
+            return configured
+
+        if self.app_dir is None or self.app_name is None:
+            return None
+
+        return self.app_dir / f"{self.app_name}_errors.log"
+
+    def _configured_path(self, *keys: str) -> Path | None:
+        value = self.get(
+            "tool",
+            "maxson-build-utils",
+            "paths",
+            *keys,
+        )
+
+        if value is None or self.path is None:
+            return None
+
+        return self.path.parent / value
 
     # --- Backward-Compatibility Helpers ---
 
