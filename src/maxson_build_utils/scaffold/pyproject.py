@@ -111,10 +111,6 @@ version = { file = "src/$import_name/VERSION" }
 import = $import_name
 pretty = $pretty_name
 
-[tool.maxson-build-utils.paths]
-app = $app_dir
-log_file = $log_file_path
-config_file = $config_file_path
 """
 )
 
@@ -263,15 +259,6 @@ def render_pyproject(pyproject: PyProject) -> str:
         ),
         pretty_name=_toml_string(
             pyproject.pretty_name
-        ),
-        app_dir=_toml_string(
-            pyproject.app_dir
-        ),
-        log_file_path=_toml_string(
-            pyproject.log_file_path
-        ),
-        config_file_path=_toml_string(
-            pyproject.config_file_path
         ),
     )
 
