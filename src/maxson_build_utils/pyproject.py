@@ -190,12 +190,14 @@ class PyProject:
             "paths",
             *keys,
         )
+
+        if value is None or self.path is None:
+            return None
+
         if not isinstance(value, str):
             raise TypeError(
                 f"Configured path {'.'.join(keys)!r} must be a string"
             )
-        if value is None or self.path is None:
-            return None
 
         return self.path.parent / value
 
