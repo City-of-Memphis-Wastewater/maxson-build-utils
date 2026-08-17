@@ -14,7 +14,7 @@ from ..pyproject import PyProject
 # Maxson project conventions
 # ---------------------------------------------------------------------------
 
-REQUIRES_PYTHON = ">=3.10,<3.15"
+REQUIRES_PYTHON = ">=3.10"
 
 DEFAULT_DEPENDENCIES = [
     "dworshak-config>=0.2.8",
@@ -102,10 +102,16 @@ requires = ["setuptools>=64", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.uv.sources]
-$name = { path = "src/$import_name" }
+$name = { path = $source_path }
 
 [tool.setuptools.dynamic]
-version = { file = "src/$import_name/VERSION" }
+version = { file = $version_file }
+
+[tool.setuptools.package-data]
+$import_name = [
+    "data/icons/*",
+    "data/icons/**/*",
+]
 
 [tool.maxson-build-utils.names]
 import = $import_name
@@ -250,8 +256,19 @@ def render_pyproject(pyproject: PyProject) -> str:
             _script_name(pyproject)
         ),
 
+        script_target=_toml_string(
+            f"{pyproject.import_name}.__main__:app"
+        ),
+
         dev_dependencies=_toml_array(
             DEFAULT_DEV_DEPENDENCIES
+        ),
+
+        source_path=_toml_string(
+            f"src/{pyproject.import_name}"
+        ),
+        version_file=_toml_string(
+            f"src/{pyproject.import_name}/VERSION"
         ),
 
         import_name=_toml_string(
