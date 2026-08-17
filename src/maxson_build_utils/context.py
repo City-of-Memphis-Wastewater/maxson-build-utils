@@ -11,6 +11,7 @@ IMPORT_NAME = _pyproject.import_name
 SRC_DIR = _pyproject.src_dir
 SRC_FOLDER_NAME = IMPORT_NAME
 APP_DIR = _pyproject.app_dir
+LOG_FILE_PATH = _pyproject.log_file_path
 SERVICE = APP_NAME
 DESCRIPTION_STR = "Centralized build and packaging tools for the standard Maxson architecture."
 
