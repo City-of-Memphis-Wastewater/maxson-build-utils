@@ -35,23 +35,24 @@ class PyProject:
         with self.path.open("rb") as f:
             self.data = tomllib.load(f)
 
+    def get(self, *keys: str) -> Any | None:
+        if self.data is None:
+            return None
+
+        value: Any = self.data
+
+        for key in keys:
+            if not isinstance(value, dict) or key not in value:
+                return None
+            value = value[key]
+
+        return value
     def require(self, *keys: str) -> Any:
         value: Any = self.data
 
         for key in keys:
             if not isinstance(value, dict) or key not in value:
                 raise KeyError(".".join(keys))
-
-            value = value[key]
-
-        return value
-
-    def get(self, *keys: str) -> Any | None:
-        value: Any = self.data
-
-        for key in keys:
-            if not isinstance(value, dict) or key not in value:
-                return None
 
             value = value[key]
 
