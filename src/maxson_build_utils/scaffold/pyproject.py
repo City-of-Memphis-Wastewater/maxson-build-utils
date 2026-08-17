@@ -8,7 +8,7 @@ from string import Template
 
 from ..helpers import write_str_to_file
 from ..pyproject import PyProject
-
+#from ..config import get_config_mngr
 
 # ---------------------------------------------------------------------------
 # Maxson project conventions
@@ -114,6 +114,7 @@ pretty = $pretty_name
 [tool.maxson-build-utils.paths]
 app = $app_dir
 log_file = $log_file_path
+config_file = $config_file_path
 """
 )
 
@@ -266,8 +267,11 @@ def render_pyproject(pyproject: PyProject) -> str:
         app_dir=_toml_string(
             pyproject.app_dir
         ),
-        log_file_dir=_toml_string(
-            pyproject.log_file_dir
+        log_file_path=_toml_string(
+            pyproject.log_file_path
+        ),
+        config_file_path=_toml_string(
+            pyproject.config_file_path
         ),
     )
 
