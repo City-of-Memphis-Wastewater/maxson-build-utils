@@ -26,8 +26,7 @@ SRC_DIR = _pyproject.src_dir
 SRC_FOLDER_NAME = IMPORT_NAME
 SERVICE = APP_NAME
 DESCRIPTION_STR = _pyproject.get("project","description")
-APP_DIR = Path.home() / f".{APP_NAME}"
-APP_DIR.mkdir(parents=True,exist_ok=True)
+APP_DIR = _pyproject.app_dir
 LOG_FILE_PATH = APP_DIR / f"{APP_NAME}_errors.log"
 
 config_mngr = DworshakConfig(path = APP_DIR / "config.json")
