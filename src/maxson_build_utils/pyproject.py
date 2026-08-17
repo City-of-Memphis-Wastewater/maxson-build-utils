@@ -47,17 +47,14 @@ class PyProject:
             value = value[key]
 
         return value
+
     def require(self, *keys: str) -> Any:
-        value: Any = self.data
+        value = self.get(*keys)
 
-        for key in keys:
-            if not isinstance(value, dict) or key not in value:
-                raise KeyError(".".join(keys))
-
-            value = value[key]
+        if value is None:
+            raise KeyError(".".join(keys))
 
         return value
-
     # --- Raw Metadata Properties ---
 
     @property
