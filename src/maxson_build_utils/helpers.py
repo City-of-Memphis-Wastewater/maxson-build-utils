@@ -6,6 +6,7 @@ import sys
 import pyhabitat
 
 
+
 class PyinsMode(str, Enum):
     ONEDIR = "onedir"
     ONEFILE = "onefile"
@@ -88,40 +89,4 @@ def resolve_icon_path(provided_icon: Path | str | None) -> Path:
         "Could not resolve an icon path. Searched explicit input, "
         "'src/*/data/icons/*.png', and 'assets/icon.png'."
     )
-
-
-# --- scaffold helpers ---
-
-def _get_git_config(key: str) -> str | None:
-    """Read a git config value if available."""
-    try:
-        res = subprocess.run(
-            ["git", "config", "get", key],
-            capture_output=True,
-            text=True,
-            check=False,
-        )
-        val = res.stdout.strip()
-        return val if val else None
-    except Exception:
-        return None
-
-
-def _author_info(pyproject: PyProject) -> tuple[str, str]:
-    """Determine author name and email dynamically."""
-    existing = pyproject.get("project", "authors")
-    if isinstance(existing, list) and existing and isinstance(existing[0], dict):
-        name = existing[0].get("name")
-        email = existing[0].get("email")
-        if name and email:
-            return str(name), str(email)
-
-    git_name = _get_git_config("user.name")
-    git_email = _get_git_config("user.email")
-
-    return (
-        git_name or "Your Name",
-        git_email or "you@example.com",
-    )
-
 

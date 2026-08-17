@@ -149,8 +149,29 @@ def _toml_array(items: list[str]) -> str:
         for item in items
     )
 
+
+def _project_url(
+    pyproject: PyProject,
+    key: str,
+    default: str = "",
+) -> str:
+    """Read a project URL, returning a default when it is absent."""
+    value = pyproject.get("project", "urls", key)
+    return default if value is None else str(value)
+
+
+def _keywords(pyproject: PyProject) -> list[str]:
+    """Return existing project keywords, or a small useful default."""
+    value = pyproject.get("project", "keywords")
+
+    if value is None:
+        return []
+
+    return [str(item) for item in value]
+
 def _get_git_config(key: str) -> str | None:
     """Read a git config value if available."""
+    import subprocess
     try:
         res = subprocess.run(
             ["git", "config", "get", key],
@@ -180,27 +201,6 @@ def _author_info(pyproject: PyProject) -> tuple[str, str]:
         git_name or "Your Name",
         git_email or "you@example.com",
     )
-
-
-def _project_url(
-    pyproject: PyProject,
-    key: str,
-    default: str = "",
-) -> str:
-    """Read a project URL, returning a default when it is absent."""
-    value = pyproject.get("project", "urls", key)
-    return default if value is None else str(value)
-
-
-def _keywords(pyproject: PyProject) -> list[str]:
-    """Return existing project keywords, or a small useful default."""
-    value = pyproject.get("project", "keywords")
-
-    if value is None:
-        return []
-
-    return [str(item) for item in value]
-
 
 def _description(pyproject: PyProject) -> str:
     """Return the existing project description, or a useful placeholder."""
@@ -259,6 +259,9 @@ def _changelog_url(pyproject: PyProject) -> str:
 def render_pyproject(pyproject: PyProject) -> str:
     """Render the canonical Maxson pyproject.toml."""
 
+    import_raw = pyproject.import_name
+    author_name, author_email = _author_info(pyproject)
+
     return PYPROJECT_TEMPLATE.substitute(
         name=_toml_string(pyproject.app_name),
         description=_toml_string(_description(pyproject)),
@@ -267,6 +270,8 @@ def render_pyproject(pyproject: PyProject) -> str:
         dependencies=_toml_array(
             _dependencies(pyproject)
         ),
+        author_name=_toml_string(author_name),
+        author_email=_toml_string(author_email),
 
         author_name=_toml_string(
             "George Clayton Bennett"
@@ -304,13 +309,13 @@ def render_pyproject(pyproject: PyProject) -> str:
             f"{pyproject.import_name}.__main__:app"
         ),
 
+        test_dependencies=_toml_array(
+                        DEFAULT_TEST_DEPENDENCIES
+        ),
+
         dev_dependencies=_toml_array(
             DEFAULT_DEV_DEPENDENCIES
         ),
-
-        test_dependencies=_toml_array(
-                DEFAULT_TEST_DEPENDENCIES
-                ),
 
         source_path=_toml_string(
             f"src/{pyproject.import_name}"
@@ -319,9 +324,12 @@ def render_pyproject(pyproject: PyProject) -> str:
             f"src/{pyproject.import_name}/VERSION"
         ),
 
-        import_name=_toml_string(
-            pyproject.import_name
-        ),
+        import_raw=import_raw,
+        import_name=_toml_string(import_raw),
+        
+        #import_name=_toml_string(
+        #    pyproject.import_name
+        #),
         pretty_name=_toml_string(
             pyproject.pretty_name
         ),
@@ -341,8 +349,18 @@ def run_init_pyproject(
 
     text = render_pyproject(pyproject)
 
-    return write_str_to_file(
+    path = write_str_to_file(
         pyproject.path,
         text=text,
         overwrite=overwrite,
     )
+
+    # Check for missing __main__.py and warn user
+    main_py = pyproject.root / "src" / pyproject.import_name / "__main__.py"
+    if not main_py.exists():
+        print(
+            f"  ⚠️ Warning: Entrypoint '{main_py.relative_to(pyproject.root)}' missing.\n"
+            f"     Run `mbu init __main__` to generate it."
+        )
+
+    return path
