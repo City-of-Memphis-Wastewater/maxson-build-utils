@@ -11,6 +11,7 @@ from .src import run_init_src
 from .pyproject import run_init_pyproject
 from ._init import run_init_init
 from ._main import run_init_main
+from .logging_setup import run_init_logging_setup
 
 __all__ = [
     "run_init_changelog",
@@ -23,4 +24,5 @@ __all__ = [
     "run_init_pyproject",
     "run_init_init",
     "run_init_main",
+    "run_init_logging_setup",
 ]

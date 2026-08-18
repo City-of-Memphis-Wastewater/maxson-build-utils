@@ -9,12 +9,12 @@ from ..helpers import write_str_to_file
 from ..pyproject import MaxsonPyProject
 
 
-# ---------------------------------------------------------------------------
+# -----
 # Template
-# ---------------------------------------------------------------------------
+# -----
 
 LOGGING_SETUP_TEMPLATE = Template(
-    """\
+    '''\
 # src/$import_name/logging_setup.py
 
 from __future__ import annotations
@@ -27,27 +27,27 @@ from logging.handlers import RotatingFileHandler
 from .context import APP_NAME, LOG_FILE_PATH
 
 
-# ---------------------------------------------------------------------------
+# -----
 # Constants
-# ---------------------------------------------------------------------------
+# -----
 
 FILE_LOG_LEVEL = logging.DEBUG
 FILE_LOG_MAX_BYTES = 5 * 1024 * 1024
 FILE_LOG_BACKUP_COUNT = 3
 
 
-# ---------------------------------------------------------------------------
+# -----
 # Logger
-# ---------------------------------------------------------------------------
+# -----
 
 def get_logger() -> logging.Logger:
     """Return the application's package logger."""
     return logging.getLogger("$import_name")
 
 
-# ---------------------------------------------------------------------------
+# -----
 # Formatters
-# ---------------------------------------------------------------------------
+# -----
 
 def _file_formatter() -> logging.Formatter:
     """Return the formatter used for persistent file logging."""
@@ -72,9 +72,9 @@ def _console_formatter(
     return logging.Formatter(fmt)
 
 
-# ---------------------------------------------------------------------------
+# -----
 # File logging
-# ---------------------------------------------------------------------------
+# -----
 
 def setup_file_logging() -> logging.Handler:
     """Create the persistent application log handler."""
@@ -101,9 +101,9 @@ def _has_file_handler(logger: logging.Logger) -> bool:
     )
 
 
-# ---------------------------------------------------------------------------
+# -----
 # Application logging
-# ---------------------------------------------------------------------------
+# -----
 
 def configure_logging_for_application(
     debug: bool = False,
@@ -152,9 +152,9 @@ def configure_logging_for_application(
     )
 
 
-# ---------------------------------------------------------------------------
+# -----
 # Library logging
-# ---------------------------------------------------------------------------
+# -----
 
 def configure_logging_for_library(
     debug: bool = False,
@@ -178,21 +178,21 @@ def configure_logging_for_library(
     logger.propagate = True
 
 
-# ---------------------------------------------------------------------------
+# -----
 # Traceback helpers
-# ---------------------------------------------------------------------------
+# -----
 
 def log_traceback(logger: logging.Logger) -> None:
     """Print the current traceback when debug logging is enabled."""
     if logger.isEnabledFor(logging.DEBUG):
         traceback.print_exc(file=sys.stderr)
-"""
+'''
 )
 
 
-# ---------------------------------------------------------------------------
+# -----
 # Rendering
-# ---------------------------------------------------------------------------
+# -----
 
 def render_logging_setup_py(import_name: str) -> str:
     """Render the standard logging_setup.py content."""
@@ -201,9 +201,9 @@ def render_logging_setup_py(import_name: str) -> str:
     )
 
 
-# ---------------------------------------------------------------------------
+# -----
 # Scaffold entry point
-# ---------------------------------------------------------------------------
+# -----
 
 def run_init_logging_setup(
     root_dir: Path | str | None = None,

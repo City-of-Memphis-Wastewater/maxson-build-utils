@@ -27,6 +27,7 @@ from .scaffold import (
     run_init_pyproject,
     run_init_init,
     run_init_main,
+    run_init_logging_setup,
     #run_init_webapp,
 )
 console_stderr = Console(stderr=True)
@@ -298,6 +299,11 @@ def init_all():
     run_init_icons()
     run_init_changelog()
     run_init_flatpak()
+    run_init_int()
+    run_init_pyproject()
+    run_init_main()
+    run_init_logging()
+    
     console_stdout.print("Successfully initialized all project scaffolds.")
     
 if __name__ == "__main__":
