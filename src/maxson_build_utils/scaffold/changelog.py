@@ -6,7 +6,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 from ..helpers import write_str_to_file
-from ..pyproject import PyProject
 
 
 def run_init_changelog()->Path:
