@@ -62,6 +62,13 @@ class PyProject:
         """Raw [project.name] string from TOML."""
         return self.get("project", "name")
 
+    @property
+    def root(self) -> Path | None:
+        """Path to module directory root (e.g. project_root )."""
+        if self.path is None:
+            return None
+
+        return self.path.parent
 
 class MaxsonPyProject(PyProject):
     """PyProject with Maxson architecture conventions."""
@@ -150,7 +157,7 @@ class MaxsonPyProject(PyProject):
         if self.path is None or self.import_name is None:
             return None
 
-        return self.path.parent / "src" / self.import_name
+        return self.root / "src" / self.import_name
 
     @property
     def data_dir(self) -> Path | None:
