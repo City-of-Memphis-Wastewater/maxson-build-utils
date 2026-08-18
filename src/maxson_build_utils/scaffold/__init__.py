@@ -9,7 +9,8 @@ from .gui import run_init_gui
 from .icons import run_init_icons
 from .src import run_init_src
 from .pyproject import run_init_pyproject
-from .init import run_init_init
+from ._init import run_init_init
+from ._main import run_init_main
 
 __all__ = [
     "run_init_changelog",
@@ -21,4 +22,5 @@ __all__ = [
     "run_init_src",
     "run_init_pyproject",
     "run_init_init",
+    "run_init_main",
 ]

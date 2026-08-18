@@ -27,6 +27,7 @@ from .scaffold import (
     run_init_flatpak,
     run_init_pyproject,
     run_init_init,
+    run_init_main,
     #run_init_webapp,
 )
 console_stderr = Console(stderr=True)
@@ -210,17 +211,30 @@ def init_pyproject(
     path = run_init_pyproject(root_dir=None,overwrite=overwrite)
     console_stdout.print(f"{path}")
 
-@init_app.command("init")
+@init_app.command("__init__")
 def init_init(
     overwrite: bool = typer.Option(
     False,
     "--overwrite",
-    help="Allow overwriting an existing pyproject.toml.",
+    help="Allow overwriting an existing file.",
 )
 ):
     """Create src/<app>/__init__.py"""
     path = run_init_init(root_dir=None,overwrite=overwrite)
     console_stdout.print(f"{path}")
+
+@init_app.command("__main__")
+def init_main(
+    overwrite: bool = typer.Option(
+    False,
+    "--overwrite",
+    help="Allow overwriting an existing file.",
+)
+):
+    """Create src/<app>/__main__.py"""
+    path = run_init_main(root_dir=None,overwrite=overwrite)
+    console_stdout.print(f"{path}")
+
 
 '''@init_app.command("webapp")
 def init_webapp():
