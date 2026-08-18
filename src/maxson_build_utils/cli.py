@@ -236,6 +236,12 @@ def init_context():
     path = run_init_context()
     console_stdout.print(f"{path}")
 
+@init_app.command("logging_setup")
+def init_logging_setup():
+    """Create src/<app>/logging_setup.py."""
+    path = run_init_logging_setup()
+    console_stdout.print(f"{path}")
+
 # --- Sub-App: `init packaging` Commands ---
 
 @init_pack_app.command("flatpak")
