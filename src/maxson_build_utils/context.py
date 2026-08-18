@@ -14,9 +14,3 @@ APP_DIR = _pyproject.app_dir
 LOG_FILE_PATH = _pyproject.log_file_path
 SERVICE = APP_NAME
 DESCRIPTION_STR = "Centralized build and packaging tools for the standard Maxson architecture."
-
-def get_config_mngr():
-    from dworshak_config import DworshakConfig
-    config_mngr = DworshakConfig(path = APP_DIR / "config.json")
-    return config_mngr
-

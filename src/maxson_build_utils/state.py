@@ -3,7 +3,8 @@ from pathlib import Path
 import logging
 logger = logging.getLogger(__name__)
 
-from .context import get_config_mngr, APP_NAME
+from .config import get_config_mngr
+from .context import APP_NAME
 
 def export_build_env_vars(app_filepath: Path, executable_descriptor: str) -> None:
     """Exports dynamic PyInstaller paths to os.environ and GitHub Actions runner state."""

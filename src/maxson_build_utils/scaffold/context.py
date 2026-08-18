@@ -30,7 +30,6 @@ APP_DIR = _pyproject.app_dir
 LOG_FILE_PATH = _pyproject.log_file_path
 
 config_mngr = DworshakConfig(path = APP_DIR / "config.json")
-config_mngr.set(service=SERVICE,item="dummy",value=str(0))
 '''
     raw_context_str = raw_context_str.replace("__IMPORT_NAME__", pyproject.import_name)
     write_str_to_file(pyproject.src_dir / "context.py", text = raw_context_str)
