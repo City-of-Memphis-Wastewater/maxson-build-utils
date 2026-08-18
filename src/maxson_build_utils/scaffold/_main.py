@@ -6,7 +6,7 @@ from pathlib import Path
 from string import Template
 
 from ..helpers import write_str_to_file
-from ..pyproject import PyProject
+from ..pyproject import MaxsonPyProject
 
 # ---------------------------------------------------------------------------
 # Template Definition
@@ -40,7 +40,7 @@ def run_init_main(
     overwrite: bool = False,
 ) -> Path:
     """Scaffold __main__.py inside src/<import_name>/."""
-    pyproject = PyProject(root_dir)
+    pyproject = MaxsonPyProject(root_dir)
     target_path = pyproject.src_dir / "__main__.py"
 
     text = render_main_py(import_name=pyproject.import_name)

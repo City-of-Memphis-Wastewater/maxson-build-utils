@@ -7,7 +7,7 @@ from string import Template
 from typing import Sequence
 
 from ..helpers import write_str_to_file
-from ..pyproject import PyProject
+from ..pyproject import MaxsonPyProject
 
 # ---------------------------------------------------------------------------
 # Template Definition
@@ -164,7 +164,7 @@ def run_init_init(
     overwrite: bool = False,
 ) -> Path:
     """Scaffold __init__.py inside src/<import_name>/."""
-    pyproject = PyProject(root_dir)
+    pyproject = MaxsonPyProject(root_dir)
     target_path = pyproject.src_dir / "__init__.py"
 
     text = render_init_py(

@@ -6,7 +6,7 @@ from pathlib import Path
 from string import Template
 
 from ..helpers import write_str_to_file
-from ..pyproject import PyProject
+from ..pyproject import MaxsonPyProject
 
 
 CONFIG_TEMPLATE = Template(
@@ -36,7 +36,7 @@ def run_init_config(
     root_dir: Path | str | None = None,
 ) -> Path:
     """Scaffold config.py inside src/<import_name>/."""
-    pyproject = PyProject(root_dir)
+    pyproject = MaxsonPyProject(root_dir)
     target_path = pyproject.src_dir / "config.py"
 
     text = render_config_py(
