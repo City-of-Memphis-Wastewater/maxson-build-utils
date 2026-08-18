@@ -349,7 +349,7 @@ def run_init_pyproject(
     )
 
     # Check for missing __main__.py and warn user
-    main_py = pyproject.root / "src" / pyproject.import_name / "__main__.py"
+    main_py = pyproject.src_dir / "__main__.py"
     if not main_py.exists():
         print(
             f"  ⚠️ Warning: Entrypoint '{main_py.relative_to(pyproject.root)}' missing.\n"
