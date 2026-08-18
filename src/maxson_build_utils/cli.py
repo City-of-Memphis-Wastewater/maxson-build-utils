@@ -148,19 +148,6 @@ def pyproject(
         raise typer.Exit(code=1)
     console_stdout.print(format_value(value))
 
-@app.command()
-def version(
-    path: Path | None = typer.Option(
-        None,
-        "--path",
-        "-p",
-        help="Path to pyproject.toml",
-    ),
-):
-    """Determine the effective project version."""
-    console_stdout.print(get_version(path))
-
-
 @init_app.command("src")
 def init_src():
     """Build src/<app_name>/ with automatic snake case."""
