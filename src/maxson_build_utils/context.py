@@ -1,6 +1,5 @@
 # src/maxson_build_utils/context.py
 from __future__ import annotations
-from pathlib import Path
 
 from .pyproject import MaxsonPyProject
 _pyproject = MaxsonPyProject()
