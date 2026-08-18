@@ -14,7 +14,7 @@ def run_init_context(root_dir: Path | str | None = None) -> None:
 # src/__IMPORT_NAME__/context.py
 from __future__ import annotations
 from pathlib import Path
-from maxson_build_utils import PyProject 
+from maxson_build_utils.pyproject import PyProject 
 from dworshak_config import DworshakConfig
 
 _pyproject = PyProject()
