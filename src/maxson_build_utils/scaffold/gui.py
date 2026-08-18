@@ -5,10 +5,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 from ..helpers import write_str_to_file
-from ..pyproject import PyProject
+from ..pyproject import MaxsonPyProject
 
 def run_init_gui(root_dir: Path | str | None = None) -> None:
-    pyproject = PyProject(root_dir)
+    pyproject = MaxsonPyProject(root_dir)
 
     raw_gui_str = '''
 #!/usr/bin/env python3

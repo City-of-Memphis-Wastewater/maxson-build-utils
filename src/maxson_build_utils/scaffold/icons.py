@@ -5,7 +5,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 from ..helpers import write_str_to_file
-from ..pyproject import PyProject
+from ..pyproject import MaxsonPyProject
 from ..icons import copy_stock_icons, bundled_icons
 
 """
@@ -18,7 +18,7 @@ def run_init_icons(
     # We need a way to encourage used to add refs to their tools.maxson-build-utils.icons section, but we do not do a magi write
     
     if dst is None:
-        pyproject = PyProject(root_dir)
+        pyproject = MaxsonPyProject(root_dir)
         dst = pyproject.icons_dir
 
     dst = Path(dst)
