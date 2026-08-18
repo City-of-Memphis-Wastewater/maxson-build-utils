@@ -273,13 +273,6 @@ def render_pyproject(pyproject: PyProject) -> str:
         author_name=_toml_string(author_name),
         author_email=_toml_string(author_email),
 
-        author_name=_toml_string(
-            "George Clayton Bennett"
-        ),
-        author_email=_toml_string(
-            "george.bennett@memphistn.gov"
-        ),
-
         classifiers=_toml_array(
             DEFAULT_CLASSIFIERS
         ),
