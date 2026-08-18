@@ -10,6 +10,10 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 - Pursue scaffolding by leveraging string.Template, with a first pass at scaffols/pyproject.py
 - docs/string-Template.md
 - Improve getters in PyProject class to allow None as the local pyproject.toml path
+- init init -> init __init__
+
+### Added:
+- init __main__
 
 ---
 
