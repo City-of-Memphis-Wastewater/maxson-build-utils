@@ -7,7 +7,7 @@ from pathlib import Path
 from string import Template
 
 from ..helpers import write_str_to_file
-from ..pyproject import PyProject
+from ..pyproject import MaxsonPyProject, PyProject
 #from ..config import get_config_mngr
 
 # ---------------------------------------------------------------------------
@@ -338,7 +338,7 @@ def run_init_pyproject(
     *,
     overwrite: bool = False,
 ) -> Path:
-    pyproject = PyProject(root_dir)
+    pyproject = MaxsonPyProject(root_dir)
 
     text = render_pyproject(pyproject)
 
