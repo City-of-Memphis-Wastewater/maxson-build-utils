@@ -3,7 +3,7 @@ import shutil
 from pathlib import Path
 from importlib.resources import files
 
-from .pyproject import PyProject
+from .pyproject import MaxsonPyProject
 
 def bundled_icons():
     return files("maxson_build_utils") / "data" / "icons"
@@ -13,7 +13,7 @@ def copy_stock_icons(
     root_dir: Path | str | None = None
     ) -> Path:
     if dst is None:
-        pyproject = PyProject(root_dir) # force local pyproject.toml
+        pyproject = MaxsonPyProject(root_dir) # force local pyproject.toml
         dst = pyproject.icons_dir
 
     dst = Path(dst)
