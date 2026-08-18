@@ -2,8 +2,8 @@
 from __future__ import annotations
 from pathlib import Path
 
-from .pyproject import PyProject
-_pyproject = PyProject()
+from .pyproject import MaxsonPyProject
+_pyproject = MaxsonPyProject()
 
 APP_NAME = _pyproject.app_name
 APP_NAME_PRETTY = _pyproject.pretty_name
