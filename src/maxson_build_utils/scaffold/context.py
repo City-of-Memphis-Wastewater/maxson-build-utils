@@ -6,15 +6,16 @@ import logging
 logger = logging.getLogger(__name__)
 
 from ..helpers import write_str_to_file
+from ..pyproject import MaxsonPyProject
 
 CONTEXT_TEMPLATE = Template(
     """\
 # src/$import_name/context.py
 from __future__ import annotations
 
-from maxson_build_utils.pyproject import PyProject
+from maxson_build_utils.pyproject import MaxsonPyProject
 
-_pyproject = PyProject()
+_pyproject = MaxsonPyProject()
 
 APP_NAME = _pyproject.app_name
 APP_NAME_PRETTY = _pyproject.pretty_name
@@ -40,7 +41,7 @@ def run_init_context(
     *,
     overwrite: bool = False,
 ) -> Path:
-    pyproject = PyProject(root_dir)
+    pyproject = MaxsonPyProject(root_dir)
 
     target_path = pyproject.src_dir / "context.py"
 
