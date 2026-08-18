@@ -62,6 +62,17 @@ class PyProject:
         """Raw [project.name] string from TOML."""
         return self.get("project", "name")
 
+    # --- Backward-Compatibility Helpers ---
+
+    def name_to_snake_case(self) -> str:
+        return to_snake_case(self.name or self.path.parent.name)
+
+    def name_to_title_case(self) -> str:
+        return to_title_case(self.name or self.path.parent.name)
+
+class MaxsonPyProject(PyProject):
+    """PyProject with Maxson architecture conventions."""
+
     # --- Resolved Naming Properties ---
 
     @property
@@ -207,13 +218,6 @@ class PyProject:
 
         return self.path.parent / value
 
-    # --- Backward-Compatibility Helpers ---
-
-    def name_to_snake_case(self) -> str:
-        return to_snake_case(self.name or self.path.parent.name)
-
-    def name_to_title_case(self) -> str:
-        return to_title_case(self.name or self.path.parent.name)
 
 # ---
 
