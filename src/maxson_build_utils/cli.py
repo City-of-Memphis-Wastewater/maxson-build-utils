@@ -16,7 +16,7 @@ from maxson_build_utils.deb import build_debian_package
 from maxson_build_utils.vendor import run_vendor_wheels
 from maxson_build_utils.linux_app_image import build_linux_appimage
 from .pyproject import PyProject, format_value
-from .version import get_version
+from ._version import get_version
 from .scaffold import (
     run_init_changelog,
     run_init_src,
