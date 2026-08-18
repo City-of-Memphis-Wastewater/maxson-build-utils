@@ -5,7 +5,7 @@ from pathlib import Path
 
 from ..helpers import write_str_to_file
 from ..names import to_kebab_case
-from ..pyproject import PyProject
+from ..pyproject import MaxsonPyProject
 
 MANIFEST_TEMPLATE = """id: {APP_ID}
 runtime: org.freedesktop.Platform
@@ -59,7 +59,7 @@ METAINFO_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
 
 
 def resolve_flatpak_metadata(path: Path | str | None = None) -> dict[str, str]:
-    pyproject = PyProject(path)
+    pyproject = MaxsonPyProject(path)
 
     import_name = pyproject.import_name
     app_name = pyproject.app_name
