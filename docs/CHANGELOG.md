@@ -5,6 +5,12 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.23] - 2026-08-18
+### Changed:
+- Implement opiniated MaxsonPyProject inherited class in many places, rather than generic PyProject class.
+
+---
+
 ## [0.1.22] - 2026-08-15
 ### Changed:
 - Pursue scaffolding by leveraging string.Template, with a first pass at scaffols/pyproject.py
