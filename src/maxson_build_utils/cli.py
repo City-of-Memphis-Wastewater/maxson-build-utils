@@ -305,7 +305,7 @@ def init_all():
     run_init_icons()
     run_init_changelog()
     run_init_flatpak()
-    run_init_int()
+    run_init_init()
     run_init_pyproject()
     run_init_main()
     run_init_logging()
