@@ -1,4 +1,4 @@
-# src/maxson_build_utils/scaffold/init_py.py
+# src/maxson_build_utils/scaffold/_init.py
 
 from __future__ import annotations
 
