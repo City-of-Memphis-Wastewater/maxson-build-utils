@@ -1,8 +1,8 @@
 # src/maxson-build-utils/config.py
 from __future__ import annotations
-from .pyproject import PyProject
+from .pyproject import MaxsonPyProject
 
-_pyproject = PyProject()
+_pyproject = MaxsonPyProject()
 
 def get_config_mngr():
     from dworshak_config import DworshakConfig

@@ -39,6 +39,10 @@ def __getattr__(name: str):
         from .pyproject import PyProject
         return PyProject
 
+    if name == "MaxsonPyProject":
+        from .pyproject import MaxsonPyProject
+        return MaxsonPyProject
+
     # Dynamic boolean evaluation for the breadcrumb attribute
     if name == "__gui_easteregg_enabled__":
         return _check_easteregg_env()

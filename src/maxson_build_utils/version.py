@@ -8,12 +8,12 @@ from .pyproject import PyProject
 def get_version(path: str | Path | None = None) -> str:
     project = PyProject(path)
 
-    version = project.get("project", "version", default=None)
+    version = project.get("project", "version")
 
     if version is not None:
         return version
 
-    dynamic = project.get("project", "dynamic", default=[])
+    dynamic = project.get("project", "dynamic")
 
     if "version" not in dynamic:
         raise ValueError("No project version found")
