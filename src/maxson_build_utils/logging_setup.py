@@ -6,8 +6,8 @@ import traceback
 from .context import APP_DIR, APP_NAME, SRC_FOLDER_NAME, LOG_FILE_PATH
 
 def get_logger():
-    from .pyproject import PyProject
-    _pyproject = PyProject()
+    from .pyproject import MaxsonPyProject
+    _pyproject = MaxsonPyProject()
     logger = logging.getLogger(_pyproject.import_name)
     #from .context import SRC_FOLDER_NAME
     #logger = logging.getLogger(SRC_FOLDER_NAME)
