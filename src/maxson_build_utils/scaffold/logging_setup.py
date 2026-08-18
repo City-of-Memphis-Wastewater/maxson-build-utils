@@ -6,7 +6,7 @@ from pathlib import Path
 from string import Template
 
 from ..helpers import write_str_to_file
-from ..pyproject import PyProject
+from ..pyproject import MaxsonPyProject
 
 
 # ---------------------------------------------------------------------------
@@ -211,7 +211,7 @@ def run_init_logging_setup(
     overwrite: bool = False,
 ) -> Path:
     """Scaffold logging_setup.py inside src/<import_name>/."""
-    pyproject = PyProject(root_dir)
+    pyproject = MaxsonPyProject(root_dir)
 
     target_path = pyproject.src_dir / "logging_setup.py"
 
