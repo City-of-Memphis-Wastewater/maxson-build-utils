@@ -22,19 +22,23 @@ from .scaffold import (
     run_init_git,
     run_init_readme,
     run_init_src,
-    run_init_icons,
     run_init_gui,
     run_init_cli,
     run_init_context,
     run_init_config,
     run_init_core,
     run_init_helpers,
-    run_init_flatpak,
     run_init_pyproject,
     run_init_init,
     run_init_main,
     run_init_logging_setup,
     #run_init_webapp,
+    # --- packaging ---
+    run_init_icons,
+    run_init_flatpak,
+    # --- ci ---
+    run_init_github_workflows,
+
 )
 console_stderr = Console(stderr=True)
 console_stdout = Console()
@@ -323,6 +327,8 @@ def init_all():
     # --- packaging ---
     run_init_icons()
     run_init_flatpak()
+    # --- ci ---
+    run_init_github_workflows()
 
     console_stdout.print("Successfully initialized all project scaffolds.")
 
