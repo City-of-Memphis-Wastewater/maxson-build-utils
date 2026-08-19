@@ -60,6 +60,14 @@ app = typer.Typer(
                       "help_option_names": ["-h", "--help"]},
 )
 
+build_app = typer.Typer(
+    name="build",
+    help="Run various builds. These rely on pre-exosting manifest and spec files to be scaffolded.",
+    no_args_is_help=True,
+)
+
+app.add_typer(build_app)
+
 init_app = typer.Typer(
     name="init",
     help="Scaffold project files and directories.",
@@ -115,7 +123,7 @@ def vendor_wheels(
     run_vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir)
 
 
-@app.command(name="build-deb")
+@build_app.command(name="deb")
 def build_deb(
     app_name: str = typer.Option(None, "--app-name", help="Package application name"),
     version: str = typer.Option(None, "--version", help="Version string"),
@@ -125,7 +133,7 @@ def build_deb(
     build_debian_package(app_name=app_name, version=version, arch=arch)
 
 
-@app.command(name="build-appimage")
+@build_app.command(name="appimage")
 def build_appimage(
     app_pretty_name: str = typer.Option(..., "--pretty-name", help="Pretty desktop app display name"),
     icon: Path = typer.Option(..., "--icon", help="Path to source icon file, PNG preferred"),
