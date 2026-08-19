@@ -290,7 +290,7 @@ def init_version():
     """Create src/<app>/_version.py and src/<app>/VERSION."""
     path = run_init_version()
     console_stdout.print(f"{path}")
-    path = run_init_version_num)
+    path = run_init_version_num()
     console_stdout.print(f"{path}")
 
 @init_src_app.command("config")
