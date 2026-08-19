@@ -31,6 +31,7 @@ from .scaffold import (
     run_init_pyproject,
     run_init_init,
     run_init_main,
+    run_init_version,
     run_init_logging_setup,
     #run_init_webapp,
     # --- packaging ---
