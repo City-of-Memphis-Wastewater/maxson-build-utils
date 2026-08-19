@@ -225,7 +225,7 @@ def init_pyproject(
     help="Allow overwriting an existing pyproject.toml.",
 )
 ):
-    """Update pyproject.toml in our own image, after running `uv init`."""
+    """Generate or overwrite pyproject.toml in our own image."""
     path = run_init_pyproject(root_dir=None,overwrite=overwrite)
     console_stdout.print(f"{path}")
 
