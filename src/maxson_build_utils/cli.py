@@ -329,7 +329,7 @@ def init_pack_dmg():
 
 @init_pack_app.command("appimage")
 def init_pack_appimage():
-    """Currentlt unnecessaey? Scaffold packaging/appimage/appimage.py metadata and manifests."""
+    """Scaffold packaging/appimage/ metadata and manifests."""
     paths = run_init_appimage()
     for path in paths:
         console_stdout.print(f"{path}")
