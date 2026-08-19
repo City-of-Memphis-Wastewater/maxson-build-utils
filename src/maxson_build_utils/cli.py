@@ -182,24 +182,49 @@ def pyproject(
         raise typer.Exit(code=1)
     console_stdout.print(format_value(value))
 
-@init_src_app.command("src")
-def init_src():
-    """Build src/<app_name>/ with automatic snake case."""
-    path = run_init_src()
+# --- base scaffolding --- 
+
+@init_base_app.command("pyproject")
+def init_pyproject(
+    overwrite: bool = typer.Option(
+    False,
+    "--overwrite",
+    help="Allow overwriting an existing pyproject.toml.",
+)
+):
+    """Generate or overwrite pyproject.toml in our own image."""
+    path = run_init_pyproject(root_dir=None,overwrite=overwrite)
     console_stdout.print(f"{path}")
-
-
-@init_pack_app.command("icons")
-def init_icons():
-    """Copy the stock Maxson icons into the project's data/icons directory."""
-    path = run_init_icons()
-    console_stdout.print(f"{path}")
-
 
 @init_base_app.command("changelog")
 def init_changelog():
     """Create docs/CHANGELOG.md."""
     path = run_init_changelog()
+    console_stdout.print(f"{path}")
+
+@init_base_app.command("readme")
+def init_readme():
+    """Create README.md."""
+    path = run_init_readme()
+    console_stdout.print(f"{path}")
+
+@init_base_app.command("git")
+def init_git():
+    """Create .git."""
+    path = run_init_git()
+    console_stdout.print(f"{path}")
+
+@init_base_app.command("gitignore")
+def init_gitignore():
+    """Create .gitignore."""
+    path = run_init_gitignore()
+    console_stdout.print(f"{path}")
+
+# --- source code scaffolding ---
+@init_src_app.command("src")
+def init_src():
+    """Build src/<app_name>/ with automatic snake case."""
+    path = run_init_src()
     console_stdout.print(f"{path}")
 
 @init_src_app.command("gui")
@@ -218,24 +243,6 @@ def init_cli():
 def init_core():
     """Create src/<app>/core.py."""
     path = run_init_core()
-    console_stdout.print(f"{path}")
-
-@init_base_app.command("gitignore")
-def init_gitignore():
-    """Create .gitignore."""
-    path = run_init_gitignore()
-    console_stdout.print(f"{path}")
-
-@init_base_app.command("pyproject")
-def init_pyproject(
-    overwrite: bool = typer.Option(
-    False,
-    "--overwrite",
-    help="Allow overwriting an existing pyproject.toml.",
-)
-):
-    """Generate or overwrite pyproject.toml in our own image."""
-    path = run_init_pyproject(root_dir=None,overwrite=overwrite)
     console_stdout.print(f"{path}")
 
 @init_src_app.command("__init__")
@@ -282,7 +289,13 @@ def init_logging_setup():
     path = run_init_logging_setup()
     console_stdout.print(f"{path}")
 
-# --- Sub-App: `init packaging` Commands ---
+# --- packaging scaffolding ---
+
+@init_pack_app.command("icons")
+def init_icons():
+    """Copy the stock Maxson icons into the project's data/icons directory."""
+    path = run_init_icons()
+    console_stdout.print(f"{path}")
 
 @init_pack_app.command("flatpak")
 def init_pack_flatpak():
