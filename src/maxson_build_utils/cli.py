@@ -17,7 +17,6 @@ from maxson_build_utils.vendor import run_vendor_wheels
 from maxson_build_utils.linux_app_image import build_linux_appimage
 from .pyproject import PyProject, format_value
 from .scaffold import (
-    run_uv_init_custom,
     run_init_changelog,
     run_init_src,
     run_init_icons,
@@ -299,21 +298,27 @@ def init_packaging():
 @init_app.command("all")
 def init_all():
     """Run all project scaffolding steps."""
-    # Execute core files + packaging
-    run_uv_init_custom()
+    # Execute source code files + packaging
+    # --- source code ---
     run_init_pyproject()
+    run_init_git()
+    run_init_gitignore()
+    run_init_readme()
+    run_init_changelog()
+    run_init_src()
     run_init_main()
     run_init_init()
-    run_init_src()
     run_init_context()
     run_init_config()
+    run_init_core()
+    run_init_helpers()
     run_init_cli()
     run_init_gui()
-    run_init_icons()
-    run_init_changelog()
-    run_init_flatpak()
     run_init_logging_setup()
-    
+    # --- packaging ---
+    run_init_icons()
+    run_init_flatpak()
+
     console_stdout.print("Successfully initialized all project scaffolds.")
 
 if __name__ == "__main__":
