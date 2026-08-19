@@ -308,9 +308,9 @@ def init_all():
     run_init_init()
     run_init_pyproject()
     run_init_main()
-    run_init_logging()
-    
+    run_init_logging_setup()
+
     console_stdout.print("Successfully initialized all project scaffolds.")
-    
+
 if __name__ == "__main__":
     app()
