@@ -196,6 +196,12 @@ def init_core():
     path = run_init_core()
     console_stdout.print(f"{path}")
 
+@init_app.command("gitignore")
+def init_gitignore():
+    """Create .gitignore."""
+    path = run_init_gitignore()
+    console_stdout.print(f"{path}")
+
 @init_app.command("pyproject")
 def init_pyproject(
     overwrite: bool = typer.Option(
