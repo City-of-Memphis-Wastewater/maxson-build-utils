@@ -5,6 +5,14 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.25] - 2026-08-19
+### Fixed:
+- Correct exposure of logging_setup in CLI all
+- Bug hunt, script reference in pyproject.toml scaffold
+- Stable use in email-maxson comsuming library, with minor interface feedback issues.
+
+---
+
 ## [0.1.24] - 2026-08-18
 ### Changed:
 - Expose logging_setup in CLI all collection and in distinct CLI sub command
