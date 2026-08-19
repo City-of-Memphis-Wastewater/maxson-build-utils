@@ -18,8 +18,9 @@ from .core import run_init_core
 from .helpers import run_init_helpers
 from .logging_setup import run_init_logging_setup
 # --- packaging ---
-from .flatpak import run_init_flatpak
 from .icons import run_init_icons
+from .flatpak import run_init_flatpak
+from .appimage import run_init_appimage
 # --- ci ---
 from .github_workflows import run_init_github_workflows
 
@@ -41,8 +42,9 @@ __all__ = [
     "run_init_main",
     "run_init_logging_setup",
     # --- packaging ---
-    "run_init_flatpak",
     "run_init_icons",
+    "run_init_flatpak",
+    "run_init_appimage",
     # --- ci ---,
     "run_init_github_workflows",
 ]

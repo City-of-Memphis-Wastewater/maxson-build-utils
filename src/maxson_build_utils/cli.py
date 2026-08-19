@@ -36,6 +36,7 @@ from .scaffold import (
     # --- packaging ---
     run_init_icons,
     run_init_flatpak,
+    run_init_appimage,
     # --- ci ---
     run_init_github_workflows,
 
@@ -326,12 +327,24 @@ def init_pack_dmg():
     for path in paths:
         console_stdout.print(f"{path}")
 
-@init_app.command("packaging")
-def init_packaging():
-    """Create packaging scaffolding."""
-    paths = run_init_packaging()
+@init_pack_app.command("appimage")
+def init_pack_appimage():
+    """Currentlt unnecessaey? Scaffold packaging/appimage/appimage.py metadata and manifests."""
+    paths = run_init_appimage()
     for path in paths:
         console_stdout.print(f"{path}")
+
+@init_pack_app.command("all")
+def init_pack_all():
+    """Create all packaging scaffolding."""
+    init_pack_deb()
+    init_pack_dmg()
+    init_pack_msix()
+    init_pack_shiv()
+    init_pack_pyinstaller()
+    init_pack_flatpak()
+    init_pack_appimage()
+
 
 @init_app.command("all")
 def init_all():
