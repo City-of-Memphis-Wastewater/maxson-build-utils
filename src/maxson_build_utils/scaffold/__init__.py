@@ -34,6 +34,8 @@ __all__ = [
     "run_init_cli",
     "run_init_context",
     "run_init_config",
+    "run_init_core",
+    "run_init_helpers",
     "run_init_gui",
     "run_init_init",
     "run_init_main",
