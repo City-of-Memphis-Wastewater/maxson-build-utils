@@ -76,11 +76,21 @@ init_app = typer.Typer(
 
 app.add_typer(init_app)
 
-init_src_app = typer.Typer(
-    name="source",
-    help="Scaffold typical source code assets.",
+init_base_app = typer.Typer(
+    name="base",
+    help="Scaffold typical base files.",
     no_args_is_help=True,
 )
+
+init_app.add_typer(init_base_app)
+
+init_src_app = typer.Typer(
+    name="source",
+    help="Scaffold typical source code files.",
+    no_args_is_help=True,
+)
+
+init_app.add_typer(init_src_app)
 
 init_pack_app = typer.Typer(
     name="packaging",
@@ -88,8 +98,6 @@ init_pack_app = typer.Typer(
     no_args_is_help=True,
 )
 
-init_app.add_typer(init_src_app)
-# Nest packaging inside init -> `maxson-build-utils init packaging ...`
 init_app.add_typer(init_pack_app)
 
 @app.callback(invoke_without_command=True, no_args_is_help=False)
@@ -187,7 +195,7 @@ def init_icons():
     console_stdout.print(f"{path}")
 
 
-@init_src_app.command("changelog")
+@init_base_app.command("changelog")
 def init_changelog():
     """Create docs/CHANGELOG.md."""
     path = run_init_changelog()
@@ -211,13 +219,13 @@ def init_core():
     path = run_init_core()
     console_stdout.print(f"{path}")
 
-@init_src_app.command("gitignore")
+@init_base_app.command("gitignore")
 def init_gitignore():
     """Create .gitignore."""
     path = run_init_gitignore()
     console_stdout.print(f"{path}")
 
-@init_src_app.command("pyproject")
+@init_base_app.command("pyproject")
 def init_pyproject(
     overwrite: bool = typer.Option(
     False,
