@@ -5,6 +5,16 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.26] - 2026-08-19
+### Added:
+- gitignore scaffold and imports
+- helpers scaffold and imports
+- core scaffold and imports
+- git scaffold and imports
+- readme scaffold and imports
+
+---
+
 ## [0.1.25] - 2026-08-19
 ### Fixed:
 - Correct exposure of logging_setup in CLI all
