@@ -1,4 +1,4 @@
-# src/maxson_build_utils/scaffold/pyproject.py
+2# src/maxson_build_utils/scaffold/pyproject.py
 
 from __future__ import annotations
 
@@ -97,7 +97,7 @@ Issues = $issues
 Changelog = $changelog
 
 [project.scripts]
-$script_name = "$import_name.__main__:app"
+$script_name = $script_target
 
 [dependency-groups]
 test = [
@@ -121,6 +121,7 @@ version = { file = $version_file }
 
 [tool.setuptools.package-data]
 $import_name = [
+    "data/*",
     "data/icons/*",
     "data/icons/**/*",
 ]
@@ -319,10 +320,7 @@ def render_pyproject(pyproject: PyProject) -> str:
 
         import_raw=import_raw,
         import_name=_toml_string(import_raw),
-        
-        #import_name=_toml_string(
-        #    pyproject.import_name
-        #),
+
         pretty_name=_toml_string(
             pyproject.pretty_name
         ),
