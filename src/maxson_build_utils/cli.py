@@ -283,6 +283,12 @@ def init_context():
     path = run_init_context()
     console_stdout.print(f"{path}")
 
+@init_src_app.command("config")
+def init_config():
+    """Create src/<app>/config.py."""
+    path = run_init_config()
+    console_stdout.print(f"{path}")
+
 @init_src_app.command("logging_setup")
 def init_logging_setup():
     """Create src/<app>/logging_setup.py."""
