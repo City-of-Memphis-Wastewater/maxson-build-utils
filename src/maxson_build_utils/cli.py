@@ -62,7 +62,7 @@ app = typer.Typer(
 
 build_app = typer.Typer(
     name="build",
-    help="Run various builds. These rely on pre-exosting manifest and spec files to be scaffolded.",
+    help="Run various builds. These rely on pre-existing manifest and spec files to be scaffolded.",
     no_args_is_help=True,
 )
 
