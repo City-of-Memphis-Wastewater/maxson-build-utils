@@ -32,6 +32,7 @@ from .scaffold import (
     run_init_init,
     run_init_main,
     run_init_version,
+    run_init_version_num,
     run_init_logging_setup,
     #run_init_webapp,
     # --- packaging ---
@@ -284,6 +285,14 @@ def init_context():
     path = run_init_context()
     console_stdout.print(f"{path}")
 
+@init_src_app.command("version")
+def init_version():
+    """Create src/<app>/_version.py and src/<app>/VERSION."""
+    path = run_init_version()
+    console_stdout.print(f"{path}")
+    path = run_init_version_num)
+    console_stdout.print(f"{path}")
+
 @init_src_app.command("config")
 def init_config():
     """Create src/<app>/config.py."""
@@ -383,6 +392,8 @@ def init_all():
     run_init_config()
     run_init_core()
     run_init_helpers()
+    run_init_version()
+    run_init_version_num()
     run_init_cli()
     run_init_gui()
     run_init_logging_setup()
