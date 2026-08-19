@@ -24,6 +24,8 @@ from .scaffold import (
     run_init_cli,
     run_init_context,
     run_init_config,
+    run_init_core,
+    run_init_helpers,
     run_init_flatpak,
     run_init_pyproject,
     run_init_init,
