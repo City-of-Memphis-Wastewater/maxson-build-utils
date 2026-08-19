@@ -25,7 +25,9 @@ See the `$app_name` Typer CLI structure.
 $app_name helptree
 ```
 """ )
-def run_init_readme( root_dir: Path | str | None = None, ) -> Path: """Create the project README.""" pyproject = MaxsonPyProject(root_dir)
+def run_init_readme( root_dir: Path | str | None = None, ) -> Path: 
+    """Create the project README.""" 
+    pyproject = MaxsonPyProject(root_dir)
     description = pyproject.description or ""
 
     text = README_TEMPLATE.substitute(
