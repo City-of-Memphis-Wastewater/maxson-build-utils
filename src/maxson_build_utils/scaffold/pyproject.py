@@ -1,4 +1,4 @@
-2# src/maxson_build_utils/scaffold/pyproject.py
+# src/maxson_build_utils/scaffold/pyproject.py
 
 from __future__ import annotations
 
