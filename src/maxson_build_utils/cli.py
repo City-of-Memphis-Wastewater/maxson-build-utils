@@ -327,6 +327,13 @@ def init_config():
     path = run_init_config()
     console_stdout.print(f"{path}")
 
+@init_src_app.command("helpers")
+def init_helpers():
+    """Create src/<app>/helpers.py."""
+    path = run_init_helpers()
+    console_stdout.print(f"{path}")
+
+
 @init_src_app.command("logging_setup")
 def init_logging_setup():
     """Create src/<app>/logging_setup.py."""
@@ -404,26 +411,26 @@ def init_github_workflows():
 
 @init_base_app.command("all")
 def init_base_all():
-    init_base_pyproject()
-    init_base_git()
-    init_base_gitignore()
-    init_base_readme()
-    init_base_changelog()
+    init_pyproject()
+    init_git()
+    init_gitignore()
+    init_readme()
+    init_changelog()
 
 
 @init_src_app.command("all")
 def init_source_all():
-    init_src_src()
-    init_src_main()
-    init_src_init()
-    init_src_context()
-    init_src_config()
-    init_src_core()
-    init_src_helpers()
-    init_src_version()
-    init_src_cli()
-    init_src_gui()
-    init_src_logging_setup()
+    init_src()
+    init_main()
+    init_init()
+    init_context()
+    init_config()
+    init_core()
+    init_helpers()
+    init_version()
+    init_cli()
+    init_gui()
+    init_logging_setup()
 
 
 @init_pack_app.command("all")
