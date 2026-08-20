@@ -363,6 +363,32 @@ def init_pack_appimage():
     for path in paths:
         console_stdout.print(f"{path}")
 
+# ---
+
+@init_base_app.command("all")
+def init_base_all():
+    init_base_pyproject()
+    init_base_git()
+    init_base_gitignore()
+    init_base_readme()
+    init_base_changelog()
+
+
+@init_src_app.command("all")
+def init_source_all():
+    init_src_src()
+    init_src_main()
+    init_src_init()
+    init_src_context()
+    init_src_config()
+    init_src_core()
+    init_src_helpers()
+    init_src_version()
+    init_src_cli()
+    init_src_gui()
+    init_src_logging_setup()
+
+
 @init_pack_app.command("all")
 def init_pack_all():
     """Create all packaging scaffolding."""
@@ -374,34 +400,18 @@ def init_pack_all():
     init_pack_flatpak()
     init_pack_appimage()
 
+@init_ci_app.command("all")
+def init_ci_all():
+    """Create all ci scaffolding."""
+    init_github_workflows()
 
 @init_app.command("all")
 def init_all():
     """Run all project scaffolding steps."""
-    # Execute source code files + packaging
-    # --- source code ---
-    run_init_pyproject()
-    run_init_git()
-    run_init_gitignore()
-    run_init_readme()
-    run_init_changelog()
-    run_init_src()
-    run_init_main()
-    run_init_init()
-    run_init_context()
-    run_init_config()
-    run_init_core()
-    run_init_helpers()
-    run_init_version()
-    run_init_version_num()
-    run_init_cli()
-    run_init_gui()
-    run_init_logging_setup()
-    # --- packaging ---
-    run_init_icons()
-    run_init_flatpak()
-    # --- ci ---
-    run_init_github_workflows()
+    init_base_all()
+    init_source_all()
+    init_pack_all()
+    init_ci_all()
 
     console_stdout.print("Successfully initialized all project scaffolds.")
 
