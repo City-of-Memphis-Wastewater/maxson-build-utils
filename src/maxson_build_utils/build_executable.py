@@ -17,7 +17,7 @@ import sys
 
 import pyhabitat
 
-from .helpers import form_dynamic_name, PyinsMode, IconFileType, get_cli_main_file
+from .helpers import form_dynamic_name, PyinsMode
 from .state import export_build_env_vars
 
 logger = logging.getLogger(__name__)
@@ -249,7 +249,7 @@ def run_build_executable(
 
         from maxson_build_utils import MaxsonPyProject
         _pyproject = MaxsonPyProject()
-        
+
         generate_rc_file(version)
         executable_descriptor = form_dynamic_name(pkg_name=src_folder_name, version=version, mode=mode)
         #cli_main_file = get_cli_main_file(project_root=PROJECT_ROOT, src_folder_name=src_folder_name)

@@ -88,6 +88,3 @@ def resolve_icon_path(provided_icon: Path | str | None) -> Path:
         "Could not resolve an icon path. Searched explicit input, "
         "'src/*/data/icons/*.png', and 'assets/icon.png'."
     )
-
-
-
