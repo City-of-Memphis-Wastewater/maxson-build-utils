@@ -4,8 +4,9 @@ from enum import Enum
 from pathlib import Path
 import sys
 import pyhabitat
+import logging
 
-
+logger = logging.getLogger(__name__)
 
 class PyinsMode(str, Enum):
     ONEDIR = "onedir"
@@ -17,24 +18,26 @@ class IconFileType(str, Enum):
     SVG = "svg"
 
 def write_str_to_file(
-    path: str | Path,
+    path: str | Path | None,
     text: str,
     overwrite: bool = False,
 ) -> Path:
     """Write text to a file, optionally overwriting an existing file."""
+    if path is None:
+        raise ValueError("Cannot write to a file path of 'None'. Ensure a valid path or root_dir is supplied.")
 
-    path = Path(path).expanduser().resolve()
+    resolved_path = Path(path).expanduser().resolve()
 
-    if path.exists() and not overwrite:
-        logger.debug(f"File already exists at {path}")
-        return path
+    if resolved_path.exists() and not overwrite:
+        logger.debug("File already exists at %s", resolved_path)
+        return resolved_path
 
-    path.parent.mkdir(parents=True, exist_ok=True)
+    resolved_path.parent.mkdir(parents=True, exist_ok=True)
 
-    with path.open("w", encoding="utf-8") as f:
+    with resolved_path.open("w", encoding="utf-8") as f:
         f.write(text)
 
-    return path
+    return resolved_path
 
 def form_dynamic_name(pkg_name: str, version: str, mode: PyinsMode|None = None) -> str:
     """Creates a standardized binary name descriptor."""
@@ -55,14 +58,10 @@ def resolve_icon_filetype(icon_src: Path) -> IconFileType | None:
     except ValueError:
         return None
 
-def get_cli_main_file(project_root: Path, src_folder_name: str) -> Path:
-    """Locates the entry point module inside the package source folder."""
-    return project_root / "src" / src_folder_name / "__main__.py"
+#def get_cli_main_file(project_root: Path, src_folder_name: str) -> Path:
+#    """Locates the entry point module inside the package source folder."""
+#    return project_root / "src" / src_folder_name / "__main__.py"
 
-from pathlib import Path
-import logging
-
-logger = logging.getLogger(__name__)
 
 def resolve_icon_path(provided_icon: Path | str | None) -> Path:
     """Resolves icon path from explicit argument, glob search, or asset fallback."""
@@ -71,7 +70,7 @@ def resolve_icon_path(provided_icon: Path | str | None) -> Path:
         icon_path = Path(provided_icon).expanduser().resolve()
         if icon_path.exists():
             return icon_path
-        logger.warning(f"Specified icon '{provided_icon}' not found. Attempting auto-discovery...")
+        logger.warning("Specified icon '%s' not found. Attempting auto-discovery...", provided_icon)
 
     # 2. Glob pattern discovery: src/*/data/icons/*.png
     matches = sorted(Path("src").glob("*/data/icons/*.png"))
@@ -89,4 +88,6 @@ def resolve_icon_path(provided_icon: Path | str | None) -> Path:
         "Could not resolve an icon path. Searched explicit input, "
         "'src/*/data/icons/*.png', and 'assets/icon.png'."
     )
+
+
 

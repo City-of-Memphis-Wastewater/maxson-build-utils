@@ -111,3 +111,48 @@ def log_traceback(logger_instance: logging.Logger) -> None:
     """Safely prints stack traces only when debug level is enabled."""
     if logger_instance.isEnabledFor(logging.DEBUG):
         traceback.print_exc(file=sys.stderr)
+
+# ---
+'''
+# src/maxson_build_utils/logging_setup.py
+from __future__ import annotations
+
+import logging
+import maxson_logging as mx_log
+
+from .context import IMPORT_NAME, LOG_FILE_PATH
+
+
+def get_logger(name: str | None = None) -> logging.Logger:
+    return mx_log.get_logger(name or IMPORT_NAME)
+
+
+def configure_logging_for_application(
+    debug: bool = False,
+    verbose: bool = False,
+    log_to_file: bool = True,
+) -> logging.Logger:
+    return mx_log.configure_logging_for_application(
+        module_name=IMPORT_NAME,
+        log_file_path=LOG_FILE_PATH,
+        debug=debug,
+        verbose=verbose,
+        log_to_file=log_to_file,
+    )
+
+
+def configure_logging_for_library(
+    debug: bool = False,
+    verbose: bool = False,
+) -> logging.Logger:
+    return mx_log.configure_logging_for_library(
+        module_name=IMPORT_NAME,
+        debug=debug,
+        verbose=verbose,
+    )
+
+
+# Expose un-wrapped core helpers directly
+configure_logging_all_debug = mx_log.configure_logging_all_debug
+log_traceback = mx_log.log_traceback
+'''

@@ -6,11 +6,18 @@ import typer
 from pathlib import Path
 from typer_helptree import add_typer_helptree
 from rich.console import Console
-import logging
+
+from maxson_build_utils import __version__
+from maxson_build_utils.logging_setup import (
+    configure_logging_all_debug,
+    configure_logging_for_application,
+    get_logger,
+)
+
+logger = get_logger(__name__)
 
 from .context import DESCRIPTION_STR, APP_NAME
 from ._version import __version__
-from .logging_setup import configure_logging_for_application
 
 from maxson_build_utils.deb import build_debian_package
 from maxson_build_utils.vendor import run_vendor_wheels
@@ -63,6 +70,44 @@ app = typer.Typer(
                       "help_option_names": ["-h", "--help"]},
 )
 
+
+@app.callback(invoke_without_command=True)
+def main(
+    ctx: typer.Context,
+    version: bool = typer.Option(False, "--version", "-V", help="Show application version and exit."),
+    debug: bool = typer.Option(False, "--debug", "-d", help="Enable debug level logs for app."),
+    all_debug: bool = typer.Option(False, "--all-debug", help="Enable debug logs for app AND dependencies."),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose info level logs."),
+    log_file: Path | None = typer.Option(None, "--log-file", help="Custom path to output log file."),
+):
+    if version:
+        typer.echo(__version__)
+        raise typer.Exit()
+
+    # Route logging configuration based on CLI options
+    if all_debug:
+        configure_logging_all_debug()
+    else:
+        configure_logging_for_application(
+            debug=debug,
+            verbose=verbose,
+            log_to_file=log_file is not None,
+        )
+
+    # Log invoked CLI command invocation string neatly
+    logger.debug("Executing command: %s", " ".join(sys.argv))
+
+    # Fallback to showing help if invoker passed no commands
+    if ctx.invoked_subcommand is None and not ctx.resilient_parsing:
+        typer.echo(ctx.get_help())
+        raise typer.Exit()
+    
+# ----
+
+add_typer_helptree(app = app, console = console_stderr, version = __version__, hidden = False)
+
+# --- sub apps ---
+
 build_app = typer.Typer(
     name="build",
     help="Run various builds. These rely on pre-existing manifest and spec files to be scaffolded.",
@@ -112,52 +157,6 @@ init_ci_app = typer.Typer(
 init_app.add_typer(init_ci_app)
 
 # ---
-
-#@app.callback(invoke_without_command=True, no_args_is_help=False)
-def main_maybe(
-    ctx: typer.Context,
-    version: bool = typer.Option(False, "--version", is_flag=True),
-    debug: bool = typer.Option(False, "--debug", "-d", is_flag=True),
-    verbose: bool = typer.Option(False, "--verbose", "-v", is_flag=True),
-    log_file: Path = typer.Option(None, "--log-file", help="Path to write log file output."),
-):
-    if version:
-        typer.echo(__version__)
-        raise typer.Exit()
-
-    # Configures logging lazily only when CLI commands execute
-    configure_logging_for_application(
-        debug=debug,
-        verbose=verbose,
-        log_file=log_file,
-        capture_third_party=True,
-    )
-
-    logger = logging.getLogger(__name__.split(".")[0])
-    logger.debug("Executing command: %s", " ".join(sys.argv))
-
-# ---
-@app.callback(invoke_without_command=True, no_args_is_help=False)
-def main(
-    ctx: typer.Context,
-    version: bool = typer.Option(False, "--version", is_flag=True),
-    debug: bool = typer.Option(False, "--debug","-d", is_flag=True),
-    verbose: bool = typer.Option(False, "--verbose","-v", is_flag=True),
-):
-    if version:
-        typer.echo(__version__)
-        raise typer.Exit()
-
-    configure_logging_for_application(debug,verbose)
-
-    # Join the string from the command line arg and log debug to show the command.
-    full_command_list = sys.argv
-    command_string = " ".join(full_command_list)
-    logging.debug(f"command:\n{command_string}\n")
-
-
-add_typer_helptree(app = app, console = console_stderr, version = __version__, hidden = False)
-
 
 @app.command(name="vendor-wheels")
 def vendor_wheels(
@@ -221,15 +220,10 @@ def pyproject(
 # --- base scaffolding --- 
 
 @init_base_app.command("pyproject")
-def init_pyproject(
-    overwrite: bool = typer.Option(
-    False,
-    "--overwrite",
-    help="Allow overwriting an existing pyproject.toml.",
-)
-):
+def init_pyproject(overwrite: bool = typer.Option(False, "--overwrite", "-o")):
     """Generate or overwrite pyproject.toml in our own image."""
-    path = run_init_pyproject(root_dir=None,overwrite=overwrite)
+    # Ensure root_dir resolves to current working directory if not explicitly provided
+    path = run_init_pyproject(root_dir=Path.cwd(), overwrite=overwrite)
     console_stdout.print(f"{path}")
 
 @init_base_app.command("changelog")
