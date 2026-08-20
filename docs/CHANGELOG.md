@@ -5,6 +5,14 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.28] - 2026-08-20
+### Changed:
+- logging_setup.py altered to be stable when eager
+- context.py altered to be stable when eager
+- pyproject.description property
+
+---
+
 ## [0.1.27] - 2026-08-19
 ### Added:
 - Breakup CLI into sane, clear init scaffold commands and groupings.
