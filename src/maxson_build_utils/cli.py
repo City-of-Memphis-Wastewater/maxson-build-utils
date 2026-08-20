@@ -403,9 +403,11 @@ def init_pack_appimage():
 @init_ci_app.command("github_workflows")
 def init_github_workflows():
     """Scaffold github workers"""
-    paths = run_init_github_workflows()
-    for path in paths:
-        console_stdout.print(f"{path}")
+    path = run_init_github_workflows()
+    console_stdout.print(f"{path}")
+    #paths = run_init_github_workflows()
+    #for path in paths:
+    #    console_stdout.print(f"{path}")
 
 # ---
 
@@ -436,13 +438,13 @@ def init_source_all():
 @init_pack_app.command("all")
 def init_pack_all():
     """Create all packaging scaffolding."""
-    init_pack_deb()
-    init_pack_dmg()
-    init_pack_msix()
-    init_pack_shiv()
-    init_pack_pyinstaller()
+    #init_pack_deb()
+    #init_pack_dmg()
+    #init_pack_msix()
+    #init_pack_shiv()
+    #init_pack_pyinstaller()
     init_pack_flatpak()
-    init_pack_appimage()
+    #init_pack_appimage()
 
 @init_ci_app.command("all")
 def init_ci_all():
