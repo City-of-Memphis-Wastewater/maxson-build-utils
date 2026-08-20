@@ -7,7 +7,7 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ## [0.1.27] - 2026-08-19
 ### Added:
-- Breakup CLI into sane, clear scaffols commands and groupings.
+- Breakup CLI into sane, clear init scaffold commands and groupings.
 
 ---
 
