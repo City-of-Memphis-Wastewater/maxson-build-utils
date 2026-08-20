@@ -192,7 +192,7 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 ## [0.1.2] - 2026-08-10
 ### Fixed:
 - Add tests/test_null.py
-- Use context.py, not paths.py, to define and import SRC_FOLDER_NAME
+- Use context.py, not paths.py, to define and import SRC_FOLDER_NAME (changed to IMPORT_NAME)
 
 ---
 

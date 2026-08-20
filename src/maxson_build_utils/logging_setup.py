@@ -3,15 +3,18 @@ from __future__ import annotations
 import logging
 import sys
 import traceback
-from .context import APP_DIR, APP_NAME, SRC_FOLDER_NAME, LOG_FILE_PATH
+from pathlib import Path
+
+from .context import APP_DIR, APP_NAME, IMPORT_NAME, LOG_FILE_PATH
 
 def get_logger():
-    from .pyproject import MaxsonPyProject
-    _pyproject = MaxsonPyProject()
-    logger = logging.getLogger(_pyproject.import_name)
-    #from .context import SRC_FOLDER_NAME
-    #logger = logging.getLogger(SRC_FOLDER_NAME)
+    logger = logging.getLogger(IMPORT_NAME)
     return logger
+
+def get_log_file_path() -> Path | None:
+    # Resolve your log path dynamically based on context or pyproject locations.
+    # Return None safely if no valid log path exists.
+    pass 
 
 def configure_logging_for_application(debug: bool = False, verbose: bool = False) -> None:
     """Configures the application-level logger using standard built-in formats."""
@@ -80,7 +83,7 @@ def configure_logging_for_library(debug: bool = False, verbose: bool = False) ->
         handler.setFormatter(logging.Formatter(fmt))
         logger.addHandler(handler)
 
-    logger.debug(f"Library logger '{SRC_FOLDER_NAME}' level set to {logging.getLevelName(level)}.")
+    logger.debug(f"Library logger '{IMPORT_NAME}' level set to {logging.getLevelName(level)}.")
 
 
 def log_traceback(logger_instance):
@@ -92,12 +95,12 @@ def log_traceback(logger_instance):
 
 def setup_error_logger():
     """Configures a basic file logger that records warnings and errors."""
-    error_log = logging.getLogger('copy_n_launch_xlsx_error_logger')
+    error_log = logging.getLogger('')
     error_log.setLevel(logging.WARNING)
     error_log.propagate = False
 
     # Check if file handler already exists to prevent duplicates
-    if not any(isinstance(h, logging.FileHandler) for h in error_log.handlers):
+    if (LOG_FILE_PATH is not None) and (not any(isinstance(h, logging.FileHandler) for h in error_log.handlers)):
         file_handler = logging.FileHandler(LOG_FILE_PATH, mode='a')
         file_handler.setLevel(logging.WARNING)
         file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
@@ -105,4 +108,4 @@ def setup_error_logger():
 
     return error_log
 
-error_logger = setup_error_logger()
+# error_logger = setup_error_logger()

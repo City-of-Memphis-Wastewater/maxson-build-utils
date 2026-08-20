@@ -15,7 +15,7 @@ import logging
 
 # --- Core Imports ---
 
-from .paths import SRC_FOLDER_NAME
+from .context import IMPORT_NAME
 from ._version import get_version, __version__
 from .tk_utils import center_window_on_primary
 from .context import (
@@ -93,7 +93,7 @@ class GuiApp:
 
     # --- Theme & Visual Initialization ---
     def _initialize_forest_theme(self):
-        theme_dir = files(f"{SRC_FOLDER_NAME}.data.themes.forest")
+        theme_dir = files(f"{IMPORT_NAME}.data.themes.forest")
         self.root.tk.call("source", str(theme_dir / "forest-light.tcl"))
         self.root.tk.call("source", str(theme_dir / "forest-dark.tcl"))
 

@@ -111,6 +111,32 @@ init_ci_app = typer.Typer(
 
 init_app.add_typer(init_ci_app)
 
+# ---
+
+#@app.callback(invoke_without_command=True, no_args_is_help=False)
+def main_maybe(
+    ctx: typer.Context,
+    version: bool = typer.Option(False, "--version", is_flag=True),
+    debug: bool = typer.Option(False, "--debug", "-d", is_flag=True),
+    verbose: bool = typer.Option(False, "--verbose", "-v", is_flag=True),
+    log_file: Path = typer.Option(None, "--log-file", help="Path to write log file output."),
+):
+    if version:
+        typer.echo(__version__)
+        raise typer.Exit()
+
+    # Configures logging lazily only when CLI commands execute
+    configure_logging_for_application(
+        debug=debug,
+        verbose=verbose,
+        log_file=log_file,
+        capture_third_party=True,
+    )
+
+    logger = logging.getLogger(__name__.split(".")[0])
+    logger.debug("Executing command: %s", " ".join(sys.argv))
+
+# ---
 @app.callback(invoke_without_command=True, no_args_is_help=False)
 def main(
     ctx: typer.Context,
