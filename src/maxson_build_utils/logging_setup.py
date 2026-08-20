@@ -1,29 +1,31 @@
 # src/maxson_build_utils/logging_setup.py
 from __future__ import annotations
+
 import logging
 import sys
 import traceback
 from pathlib import Path
 
-from .context import APP_DIR, APP_NAME, IMPORT_NAME, LOG_FILE_PATH
+from .context import IMPORT_NAME, LOG_FILE_PATH
 
-def get_logger():
-    logger = logging.getLogger(IMPORT_NAME)
-    return logger
 
-def get_log_file_path() -> Path | None:
-    # Resolve your log path dynamically based on context or pyproject locations.
-    # Return None safely if no valid log path exists.
-    pass 
+def get_logger(name: str | None = None) -> logging.Logger:
+    """Returns a logger inside the package namespace."""
+    target_name = name or IMPORT_NAME
+    return logging.getLogger(target_name)
 
-def configure_logging_for_application(debug: bool = False, verbose: bool = False) -> None:
-    """Configures the application-level logger using standard built-in formats."""
-    INTENT="app"
+
+def configure_logging_for_application(
+    debug: bool = False,
+    verbose: bool = False,
+    log_to_file: bool = True,
+) -> logging.Logger:
+    """Configures application-level console logging and error file logging."""
     logger = get_logger()
-    # Priority: debug > verbose (info) > default (WARNING)
+
     if debug:
         level = logging.DEBUG
-        fmt = "%(levelname)-7s %(message)s"  # Left-aligned level name for neatness
+        fmt = "%(levelname)-7s %(message)s"
     elif verbose:
         level = logging.INFO
         fmt = "%(message)s"
@@ -32,80 +34,80 @@ def configure_logging_for_application(debug: bool = False, verbose: bool = False
         fmt = "%(levelname)s: %(message)s"
 
     logger.setLevel(level)
-
-    # Prevent leakage to root logger
     logger.propagate = False
 
-    # Safely clear existing handlers to avoid duplicates
     if logger.hasHandlers():
         logger.handlers.clear()
 
-    # Route strictly to stderr
-    handler = logging.StreamHandler(sys.stderr)
-    handler.setFormatter(logging.Formatter(fmt))
-    logger.addHandler(handler)
+    # Terminal output (stderr)
+    console_handler = logging.StreamHandler(sys.stderr)
+    console_handler.setLevel(level)
+    console_handler.setFormatter(logging.Formatter(fmt))
+    logger.addHandler(console_handler)
 
-    logger.debug("Debug logging enabled for app.")
-    logger.info("Verbose logging enabled for app.")
+    # File output (warnings & errors)
+    if log_to_file and LOG_FILE_PATH is not None:
+        try:
+            LOG_FILE_PATH.parent.mkdir(parents=True, exist_ok=True)
+            file_handler = logging.FileHandler(LOG_FILE_PATH, mode="a", encoding="utf-8")
+            file_handler.setLevel(logging.WARNING)
+            file_handler.setFormatter(
+                logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+            )
+            logger.addHandler(file_handler)
+        except (OSError, PermissionError) as err:
+            logger.warning(f"Failed to initialize file log at {LOG_FILE_PATH}: {err}")
+
+    logger.debug("Debug logging enabled.")
+    logger.info("Verbose logging enabled.")
+    return logger
 
 
-def configure_logging_for_library(debug: bool = False, verbose: bool = False) -> None:
-    """Configures namespace logging for a library.
-    
-    Sets a library's log level and ensures messages propagate to the host
-    application. A StreamHandler is attached as a fallback ONLY if the host
-    application has no active handlers configured.
-    """
-    INTENT="library"
+def configure_logging_for_library(debug: bool = False, verbose: bool = False) -> logging.Logger:
+    """Configures package logging for library consumption (attaches NullHandler)."""
     logger = get_logger()
-    # Priority: debug > verbose (info) > default (WARNING)
+
     if debug:
         level = logging.DEBUG
-        fmt = "%(levelname)-7s %(message)s"  # Left-aligned level name for neatness
     elif verbose:
         level = logging.INFO
-        fmt = "%(message)s"
     else:
         level = logging.WARNING
-        fmt = "%(levelname)s: %(message)s"
 
     logger.setLevel(level)
-
-    # propogate up to host applications root logger
     logger.propagate = True
 
-    # 3. Fallback: Only add a handler if no root or parent loggers have handlers set
-    root_has_handlers = bool(logging.getLogger().handlers)
-    parent_has_handlers = any(h for p in logger.parent.handlers) if logger.parent else False
+    # Standard Python library best practice: attach NullHandler if no handlers exist
+    if not logger.handlers:
+        logger.addHandler(logging.NullHandler())
 
-    if not (root_has_handlers or parent_has_handlers or logger.handlers):
-        handler = logging.StreamHandler(sys.stderr)
-        handler.setFormatter(logging.Formatter(fmt))
-        logger.addHandler(handler)
+    return logger
 
-    logger.debug(f"Library logger '{IMPORT_NAME}' level set to {logging.getLevelName(level)}.")
+def configure_logging_all_debug() -> None:
+    """Forces DEBUG logging across the current package AND all dependencies."""
+    # 1. Fetch the global root logger
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.DEBUG)
+
+    # 2. Clear pre-existing handlers across third-party libraries
+    if root_logger.hasHandlers():
+        root_logger.handlers.clear()
+
+    # 3. Create a console handler that prints logger names (%(name)s) to trace sources
+    console_handler = logging.StreamHandler(sys.stderr)
+    console_handler.setLevel(logging.DEBUG)
+    
+    # Detailed format showing timestamp, level, logger source, and message
+    formatter = logging.Formatter(
+        "%(asctime)s - %(levelname)-7s - [%(name)s] %(message)s"
+    )
+    console_handler.setFormatter(formatter)
+
+    # 4. Attach handler to root logger
+    root_logger.addHandler(console_handler)
 
 
-def log_traceback(logger_instance):
-    if logger_instance.level <= logging.DEBUG:
+def log_traceback(logger_instance: logging.Logger) -> None:
+    """Safely prints stack traces only when debug level is enabled."""
+    if logger_instance.isEnabledFor(logging.DEBUG):
         traceback.print_exc(file=sys.stderr)
-
-
-# --- Error Logging (File Bound) ---
-
-def setup_error_logger():
-    """Configures a basic file logger that records warnings and errors."""
-    error_log = logging.getLogger('')
-    error_log.setLevel(logging.WARNING)
-    error_log.propagate = False
-
-    # Check if file handler already exists to prevent duplicates
-    if (LOG_FILE_PATH is not None) and (not any(isinstance(h, logging.FileHandler) for h in error_log.handlers)):
-        file_handler = logging.FileHandler(LOG_FILE_PATH, mode='a')
-        file_handler.setLevel(logging.WARNING)
-        file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
-        error_log.addHandler(file_handler)
-
-    return error_log
-
-# error_logger = setup_error_logger()
