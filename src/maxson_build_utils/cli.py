@@ -103,6 +103,14 @@ init_pack_app = typer.Typer(
 
 init_app.add_typer(init_pack_app)
 
+init_ci_app = typer.Typer(
+    name="ci",
+    help="Scaffold ci assets (github runners).",
+    no_args_is_help=True,
+)
+
+init_app.add_typer(init_ci_app)
+
 @app.callback(invoke_without_command=True, no_args_is_help=False)
 def main(
     ctx: typer.Context,
@@ -360,6 +368,15 @@ def init_pack_dmg():
 def init_pack_appimage():
     """Scaffold packaging/appimage/ metadata and manifests."""
     paths = run_init_appimage()
+    for path in paths:
+        console_stdout.print(f"{path}")
+
+# ---
+
+@init_ci_app.command("github_workflows")
+def init_github_workflows():
+    """Scaffold github workers"""
+    paths = run_init_github_workflows()
     for path in paths:
         console_stdout.print(f"{path}")
 
