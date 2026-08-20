@@ -66,13 +66,13 @@ class PyProject:
         if project_name is not None:
             return project_name
 
-        if self.root is not None:
-            return self.root.name
+        if self.root_dir is not None:
+            return self.root_dir.name
 
         return Path.cwd().name
 
     @property
-    def root(self) -> Path | None:
+    def root_dir(self) -> Path | None:
         """Path to module directory root (e.g. project_root )."""
         if self.path is None:
             return None
@@ -91,6 +91,14 @@ class MaxsonPyProject(PyProject):
 
         target_dir = self.path.parent if self.path is not None else Path.cwd()
         return to_kebab_case(target_dir.name)
+
+    @property
+    def description(self) -> str | None:
+        project_description = self.get("project", "name")
+        if project_description is not None:
+            return project_description
+        else:
+            return ""
     
     @property
     def app_dir(self) -> Path | None:
@@ -164,7 +172,7 @@ class MaxsonPyProject(PyProject):
         if self.path is None or self.import_name is None:
             return None
 
-        return self.root / "src" / self.import_name
+        return self.root_dir / "src" / self.import_name
 
     @property
     def data_dir(self) -> Path | None:

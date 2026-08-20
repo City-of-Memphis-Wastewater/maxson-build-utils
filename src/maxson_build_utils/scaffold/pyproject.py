@@ -356,7 +356,7 @@ def run_init_pyproject(
     main_py = pyproject.src_dir / "__main__.py"
     if not main_py.exists():
         print(
-            f"  ⚠️ Warning: Entrypoint '{main_py.relative_to(pyproject.root)}' missing.\n"
+            f"  ⚠️ Warning: Entrypoint '{main_py.relative_to(pyproject.root_dir)}' missing.\n"
             f"     Run `mbu init __main__` to generate it."
         )
 
