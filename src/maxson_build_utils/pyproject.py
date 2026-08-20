@@ -60,9 +60,16 @@ class PyProject:
     # --- Raw Metadata Properties ---
 
     @property
-    def name(self) -> str | None:
-        """Raw [project.name] string from TOML."""
-        return self.get("project", "name")
+    def name(self) -> str:
+        """Raw [project.name] string from TOML, defaulting to the project directory name."""
+        project_name = self.get("project", "name")
+        if project_name is not None:
+            return project_name
+
+        if self.root is not None:
+            return self.root.name
+
+        return Path.cwd().name
 
     @property
     def root(self) -> Path | None:
@@ -82,11 +89,9 @@ class MaxsonPyProject(PyProject):
         if self.name:
             return to_kebab_case(self.name)
 
-        if self.path is not None:
-            return to_kebab_case(self.path.parent.name)
-
-        return None
-
+        target_dir = self.path.parent if self.path is not None else Path.cwd()
+        return to_kebab_case(target_dir.name)
+    
     @property
     def app_dir(self) -> Path | None:
         configured = self._configured_path("app_dir")

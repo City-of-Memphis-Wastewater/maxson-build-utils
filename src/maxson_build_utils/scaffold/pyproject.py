@@ -340,11 +340,17 @@ def run_init_pyproject(
 
     text = render_pyproject(pyproject)
 
+    path_pyproject = pyproject.path
+    if path_pyproject is None:
+        path_pyproject = Path.cwd() / "pyproject.toml"
+
     path = write_str_to_file(
-        pyproject.path,
+        path_pyproject,
         text=text,
         overwrite=overwrite,
     )
+
+    pyproject = MaxsonPyProject(root_dir)
 
     # Check for missing __main__.py and warn user
     main_py = pyproject.src_dir / "__main__.py"
