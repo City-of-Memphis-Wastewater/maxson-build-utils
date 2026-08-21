@@ -4,9 +4,9 @@ from pathlib import Path
 import logging
 logger = logging.getLogger(__name__)
 
-from ..helpers import write_str_to_file
-from ..pyproject import MaxsonPyProject
-from ..icons import copy_stock_icons, bundled_icons
+from ...helpers import write_str_to_file
+from ...pyproject import MaxsonPyProject
+from ...icons import copy_stock_icons, bundled_icons
 
 """
 """

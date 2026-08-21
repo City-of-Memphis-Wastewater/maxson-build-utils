@@ -42,13 +42,14 @@ from .scaffold import (
     run_init_version_num,
     run_init_logging_setup,
     #run_init_webapp,
+    # --- ci ---
+    run_init_github_workflows,
+)
+from .scaffold.packaging import (
     # --- packaging ---
     run_init_icons,
     run_init_flatpak,
     run_init_appimage,
-    # --- ci ---
-    run_init_github_workflows,
-
 )
 console_stderr = Console(stderr=True)
 console_stdout = Console()

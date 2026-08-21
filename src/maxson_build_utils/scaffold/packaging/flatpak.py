@@ -3,9 +3,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from ..helpers import write_str_to_file
-from ..names import to_kebab_case
-from ..pyproject import MaxsonPyProject
+from ...helpers import write_str_to_file
+from ...names import to_kebab_case
+from ...pyproject import MaxsonPyProject
 
 MANIFEST_TEMPLATE = """id: {APP_ID}
 runtime: org.freedesktop.Platform
