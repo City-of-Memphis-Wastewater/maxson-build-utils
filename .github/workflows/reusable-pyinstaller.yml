@@ -7,7 +7,7 @@ on:
         description: 'Path to repository build entrypoint script'
         required: false
         type: string
-        default: 'build_executable.py'
+        default: 'packaging/pyinstaller/build_executable.py'
 
 jobs:
   build-executable:

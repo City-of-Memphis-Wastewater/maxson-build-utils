@@ -22,15 +22,7 @@ def _check_easteregg_env() -> bool:
 
 # 2. Fully dynamic attribute routing
 def __getattr__(name: str):
-    """
-    from maxson_build_utils.build_executable import run_build_executable
-    from maxson_build_utils.build_pyz import run_build_pyz
 
-    __all__ = [
-        "run_build_executable", 
-        "run_build_pyz", 
-    ]
-    """
     if name == "write_str_to_file":
         from .helpers import write_str_to_file
         return write_str_to_file

@@ -7,7 +7,7 @@ on:
         description: 'Path to repository build entrypoint script'
         required: false
         type: string
-        default: 'build_executable.py'
+        default: 'packaging/pyinstaller/build_executable.py'
       exe_path:
         description: 'Optional target binary executable path, produced by PyInstaller with the onedir setting. Defaults to internal environment state captured during pyinstaller run.'
         required: false
