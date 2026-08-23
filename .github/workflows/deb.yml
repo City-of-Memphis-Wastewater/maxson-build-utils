@@ -1,0 +1,191 @@
+name: Build Debian Package
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  deb:
+    name: Build .deb (${{ matrix.arch }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [amd64]
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          version: "latest"
+
+      - name: Install system packaging tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y dpkg-dev fakeroot
+
+      - name: Install Python dependencies
+        run: |
+          uv sync --group dev
+
+      # ------------------------------------------------------------
+      # Extract version metadata
+      # ------------------------------------------------------------
+      - name: Compute version + naming
+        id: meta
+        run: |
+          VERSION=$(uv run python -c "from maxson_build_utils._version import get_version; print(get_version())")
+
+          ARCH="${{ matrix.arch }}"
+          APP_NAME="maxson-build-utils"
+
+          DEB_NAME="${APP_NAME}_${VERSION}_${ARCH}.deb"
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "arch=$ARCH" >> $GITHUB_OUTPUT
+          echo "deb_name=$DEB_NAME" >> $GITHUB_OUTPUT
+
+      # ------------------------------------------------------------
+      # Create Debian filesystem layout
+      # ------------------------------------------------------------
+      - name: Create package directory structure
+        run: |
+          APP_NAME="maxson-build-utils"
+
+          mkdir -p deb/pkg/DEBIAN
+          mkdir -p deb/pkg/opt/$APP_NAME
+          mkdir -p deb/pkg/usr/bin
+          mkdir -p deb/pkg/usr/share/applications
+
+          # Icon directories (hicolor standard)
+          #mkdir -p deb/pkg/usr/share/icons/hicolor/1024x1024/apps
+          mkdir -p deb/pkg/usr/share/icons/hicolor/scalable/apps
+
+      - name: Create venv
+        run: |
+          python3 -m venv deb/pkg/opt/maxson-build-utils/venv
+          deb/pkg/opt/maxson-build-utils/venv/bin/pip install --upgrade pip
+          deb/pkg/opt/maxson-build-utils/venv/bin/pip install .
+          
+      # ------------------------------------------------------------
+      # Install launcher wrapper
+      # ------------------------------------------------------------
+      - name: Install launcher
+        run: |
+          install -Dm755 \
+            deb/launcher.sh \
+            deb/pkg/usr/bin/maxson-build-utils
+          chmod +x deb/pkg/usr/bin/maxson-build-utils
+          
+      # ------------------------------------------------------------
+      # Desktop entry
+      # ------------------------------------------------------------
+      - name: Install desktop entry
+        run: |
+          install -Dm644 \
+            deb/maxson-build-utils.desktop \
+            deb/pkg/usr/share/applications/maxson-build-utils.desktop
+
+      # ------------------------------------------------------------
+      # Install icons (Linux hicolor spec)
+      # ------------------------------------------------------------
+      - name: Install icons
+        run: |
+          APP_NAME="maxson-build-utils"
+
+          ICON_SRC="src/maxson_build_utils/data/icons"
+
+          #cp "$ICON_SRC/max-green_1024x1024.png" \
+          #  "deb/pkg/usr/share/icons/hicolor/1024x1024/apps/$APP_NAME.png"
+
+          cp "$ICON_SRC/max-green.svg" \
+            "deb/pkg/usr/share/icons/hicolor/scalable/apps/$APP_NAME.svg"
+
+      # ------------------------------------------------------------
+      # Create DEBIAN control file
+      # ------------------------------------------------------------
+      - name: Generate DEBIAN control file from template
+        run: |
+          set -euo pipefail
+
+          VERSION="${{ steps.meta.outputs.version }}"
+          ARCH="${{ matrix.arch }}"
+
+          mkdir -p deb/pkg/DEBIAN
+
+          sed -e "s/__VERSION__/${VERSION}/g" \
+              -e "s/__ARCH__/${ARCH}/g" \
+              deb/control.in > deb/pkg/DEBIAN/control
+
+          # echo "" >> deb/pkg/DEBIAN/control
+
+          cat deb/pkg/DEBIAN/control
+          
+      # ------------------------------------------------------------
+      # Build .deb
+      # ------------------------------------------------------------
+      - name: Build Debian package
+        run: |
+          DEB_NAME="${{ steps.meta.outputs.deb_name }}"
+
+          fakeroot dpkg-deb --build deb/pkg "deb/$DEB_NAME"
+
+      # ------------------------------------------------------------
+      # Smoke test installed package
+      # ------------------------------------------------------------
+      - name: Smoke test .deb package
+        run: |
+          set -euo pipefail
+
+          DEB_FILE=$(ls deb/*.deb | head -n 1)
+
+          echo "Testing package: $DEB_FILE"
+
+          sudo apt-get update
+          sudo apt-get install -y ./deb/*.deb
+
+          echo "Checking CLI exists..."
+          which maxson-build-utils
+
+          echo "Running CLI smoke test..."
+          maxson-build-utils --help || true
+          maxson-build-utils --version
+
+          echo "Import test..."
+          /opt/maxson-build-utils/venv/bin/python -c "import maxson_build_utils; print('import ok')"
+
+      # ------------------------------------------------------------
+      # Verify output
+      # ------------------------------------------------------------
+      - name: Inspect output
+        run: |
+          echo "Generated Debian package:"
+          ls -lah deb/
+
+      # ------------------------------------------------------------
+      # Upload artifact
+      # ------------------------------------------------------------
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: maxson-build-utils-${{ steps.meta.outputs.version }}-${{ matrix.arch }}
+          path: deb/*.deb
+
+      # ------------------------------------------------------------
+      # Attach to GitHub Release
+      # ------------------------------------------------------------
+      - name: Publish release asset
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v3
+        with:
+          files: deb/*.deb
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
