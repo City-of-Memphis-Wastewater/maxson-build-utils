@@ -59,6 +59,14 @@ def write_str_to_file(
         overwritten=existed,
     )
 
+def print_write_result(result: WriteResult) -> None:
+    if result.created:
+        console_stdout.print(f"Created {result.path}")
+    elif result.overwritten:
+        console_stdout.print(f"Overwrote {result.path}")
+    else:
+        console_stdout.print(f"Already exists: {result.path}")
+
 def form_dynamic_name(pkg_name: str, version: str, mode: PyinsMode|None = None) -> str:
     """Creates a standardized binary name descriptor."""
 

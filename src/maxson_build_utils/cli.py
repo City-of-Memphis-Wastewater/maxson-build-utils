@@ -231,8 +231,13 @@ def init_pyproject(overwrite: bool = typer.Option(False, "--overwrite", "-o")):
 @init_base_app.command("changelog")
 def init_changelog():
     """Create docs/CHANGELOG.md."""
-    path = run_init_changelog()
-    console_stdout.print(f"{path}")
+    result = run_init_changelog()
+    if result.created:
+        console_stdout.print(f"Created {result.path}")
+    elif result.overwritten:
+        console_stdout.print(f"Overwrote {result.path}")
+    else:
+        console_stdout.print(f"Already exists: {result.path}")
 
 @init_base_app.command("readme")
 def init_readme():
