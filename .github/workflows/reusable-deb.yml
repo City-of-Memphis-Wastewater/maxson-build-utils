@@ -57,46 +57,47 @@ jobs:
           DEB_NAME="${APP_NAME}_${VERSION}_${ARCH}.deb"
 
           echo "APP_NAME=$APP_NAME" >> $GITHUB_ENV
-          echo "# Infer app name directly from generated deb control file
+          echo "IMPORT_NAME=$IMPORT_NAME" >> $GITHUB_ENV
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "ARCH=$ARCH" >> $GITHUB_ENV
           echo "DEB_NAME=$DEB_NAME" >> $GITHUB_ENV
 
       - name: Create package directory structure
         run: |
-          mkdir -p deb/pkg/DEBIAN
-          mkdir -p deb/pkg/opt/$APP_NAME
-          mkdir -p deb/pkg/usr/bin
-          mkdir -p deb/pkg/usr/share/applications
-          mkdir -p deb/pkg/usr/share/icons/hicolor/scalable/apps
+          mkdir -p build/deb/staging/DEBIAN
+          mkdir -p build/deb/staging/opt/$APP_NAME
+          mkdir -p build/deb/staging/usr/bin
+          mkdir -p build/deb/staging/usr/share/applications
+          mkdir -p build/deb/staging/usr/share/icons/hicolor/scalable/apps
+          mkdir -p dist/deb
 
       - name: Create venv and install package
         run: |
           uv build --wheel
-          python3 -m venv deb/pkg/opt/$APP_NAME/venv
-          deb/pkg/opt/$APP_NAME/venv/bin/pip install --upgrade pip
-          deb/pkg/opt/$APP_NAME/venv/bin/pip install dist/*.whl
+          python3 -m venv build/deb/staging/opt/$APP_NAME/venv
+          build/deb/staging/opt/$APP_NAME/venv/bin/pip install --upgrade pip
+          build/deb/staging/opt/$APP_NAME/venv/bin/pip install dist/*.whl
 
       - name: Install launcher wrapper
         run: |
           if [ -f "packaging/deb/launcher.sh" ]; then
-            install -Dm755 packaging/deb/launcher.sh deb/pkg/usr/bin/$APP_NAME
+            install -Dm755 packaging/deb/launcher.sh build/deb/staging/usr/bin/$APP_NAME
           else
-            echo -e "#!/bin/bash\nexec /opt/$APP_NAME/venv/bin/$APP_NAME \"\$@\"" > deb/pkg/usr/bin/$APP_NAME
-            chmod +x deb/pkg/usr/bin/$APP_NAME
+            echo -e "#!/bin/bash\nexec /opt/$APP_NAME/venv/bin/$APP_NAME \"\$@\"" > build/deb/staging/usr/bin/$APP_NAME
+            chmod +x build/deb/staging/usr/bin/$APP_NAME
           fi
 
       - name: Install desktop entry and icons
         run: |
           if [ -f "packaging/deb/$APP_NAME.desktop" ]; then
-            install -Dm644 packaging/deb/$APP_NAME.desktop deb/pkg/usr/share/applications/$APP_NAME.desktop
+            install -Dm644 packaging/deb/$APP_NAME.desktop build/deb/staging/usr/share/applications/$APP_NAME.desktop
           fi
 
           ICON_SRC="src/$IMPORT_NAME/data/icons"
           if [ -f "$ICON_SRC/$APP_NAME.svg" ]; then
-            cp "$ICON_SRC/$APP_NAME.svg" "deb/pkg/usr/share/icons/hicolor/scalable/apps/$APP_NAME.svg"
+            cp "$ICON_SRC/$APP_NAME.svg" "build/deb/staging/usr/share/icons/hicolor/scalable/apps/$APP_NAME.svg"
           elif [ -f "$ICON_SRC/placeholder.svg" ]; then
-            cp "$ICON_SRC/placeholder.svg" "deb/pkg/usr/share/icons/hicolor/scalable/apps/$APP_NAME.svg"
+            cp "$ICON_SRC/placeholder.svg" "build/deb/staging/usr/share/icons/hicolor/scalable/apps/$APP_NAME.svg"
           fi
 
       - name: Generate DEBIAN control file
@@ -104,18 +105,18 @@ jobs:
           set -euo pipefail
           sed -e "s/__VERSION__/${VERSION}/g" \
               -e "s/__ARCH__/${ARCH}/g" \
-              packaging/deb/control.in > deb/pkg/DEBIAN/control
+              packaging/deb/control.in > build/deb/staging/DEBIAN/control
 
       - name: Build Debian package
         run: |
-          fakeroot dpkg-deb --build deb/pkg "deb/$DEB_NAME"
+          fakeroot dpkg-deb --build build/deb/staging "dist/deb/$DEB_NAME"
 
       - name: Smoke test .deb package
         if: ${{ inputs.run_smoke_test }}
         run: |
           set -euo pipefail
           sudo apt-get update
-          sudo apt-get install -y ./deb/"$DEB_NAME"
+          sudo apt-get install -y ./dist/deb/"$DEB_NAME"
           which $APP_NAME
           $APP_NAME --help || true
 
@@ -128,7 +129,7 @@ jobs:
           if [ -z "$TAG_NAME" ]; then
             echo "No release tag found on this event. Skipping release upload."
           else
-            gh release upload "$TAG_NAME" deb/*.deb --clobber
+            gh release upload "$TAG_NAME" dist/deb/*.deb --clobber
           fi
 
       - name: Upload Build Artifacts
@@ -136,4 +137,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: deb-dist-${{ matrix.arch }}
-          path: deb/*.deb
+          path: dist/deb/*.deb

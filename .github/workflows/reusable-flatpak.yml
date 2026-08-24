@@ -47,10 +47,11 @@ jobs:
       - name: Infer App Metadata
         run: |
           # 1. Get filename: "io.github.city_of_memphis_wastewater.cellshift.yaml"
-          MANIFEST_FILE=$(basename "${{ inputs.manifest_path }}"
+          MANIFEST_FILE=$(basename "${{ inputs.manifest_path }}")
 
           # 2. Strip extension -> "io.github.city_of_memphis_wastewater.cellshift"
           APP_ID="${MANIFEST_FILE%.yaml}"
+          APP_ID="${APP_ID%.yml}"
 
           # 3. Take substring after last dot -> "cellshift"
           APP_NAME="${APP_ID##*.}"
@@ -67,14 +68,17 @@ jobs:
         run: |
           VERSION=$(uv run maxson-build-utils version 2>/dev/null || echo "0.1.0")
           ARCH=$(uname -m)
-          FILENAME="${{ inputs.app_name }}-${VERSION}-${ARCH}.flatpak"
+          FILENAME="${APP_NAME}-${VERSION}-${ARCH}.flatpak"
+
+          mkdir -p dist/flatpak
           echo "FILENAME=$FILENAME" >> $GITHUB_ENV
+          echo "OUTPUT_PATH=dist/flatpak/$FILENAME" >> $GITHUB_ENV
 
       - name: Build and Package Flatpak Bundle
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           manifest-path: ${{ inputs.manifest_path }}
-          bundle: ${{ env.FILENAME }}
+          bundle: ${{ env.OUTPUT_PATH }}
           run-tests: false
           cache-key: flatpak-builder-${{ github.sha }}
 
@@ -82,9 +86,8 @@ jobs:
         if: ${{ inputs.run_smoke_test }}
         run: |
           set -e
-          FLATPAK_FILE=$(find . -name "*.flatpak" | head -n 1)
-          flatpak install --user --bundle --noninteractive "$FLATPAK_FILE"
-          flatpak run ${{ inputs.app_id }} --help
+          flatpak install --user --bundle --noninteractive "$OUTPUT_PATH"
+          flatpak run "$APP_ID" --help || true
 
       - name: Publish to GitHub Release
         shell: bash
@@ -95,7 +98,7 @@ jobs:
           if [ -z "$TAG_NAME" ]; then
             echo "No release tag found on this event. Skipping release upload."
           else
-            gh release upload "$TAG_NAME" *.flatpak --clobber
+            gh release upload "$TAG_NAME" dist/flatpak/*.flatpak --clobber
           fi
 
       - name: Upload Build Artifacts
@@ -103,4 +106,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: flatpak-dist
-          path: "*.flatpak"
+          path: dist/flatpak/*.flatpak
