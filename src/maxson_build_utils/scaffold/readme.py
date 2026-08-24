@@ -7,7 +7,7 @@ from __future__ import annotations
 from pathlib import Path
 from string import Template
 
-from ..helpers import write_str_to_file
+from ..helpers import write_str_to_file, WriteResult
 from ..pyproject import MaxsonPyProject
 
 
@@ -25,7 +25,7 @@ See the `$app_name` Typer CLI structure.
 $app_name helptree
 ```
 """ )
-def run_init_readme( root_dir: Path | str | None = None, ) -> Path: 
+def run_init_readme( root_dir: Path | str | None = None, ) -> WriteResult: 
     """Create the project README.""" 
     pyproject = MaxsonPyProject(root_dir)
     description = pyproject.description or ""

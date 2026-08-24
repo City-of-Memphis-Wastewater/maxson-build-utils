@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from string import Template
 
-from ..helpers import write_str_to_file
+from ..helpers import write_str_to_file, WriteResult
 from ..pyproject import MaxsonPyProject
 
 # ---------------------------------------------------------------------------
@@ -38,7 +38,7 @@ def run_init_main(
     root_dir: Path | str | None = None,
     *,
     overwrite: bool = False,
-) -> Path:
+) -> WriteResult:
     """Scaffold __main__.py inside src/<import_name>/."""
     pyproject = MaxsonPyProject(root_dir)
     target_path = pyproject.src_dir / "__main__.py"

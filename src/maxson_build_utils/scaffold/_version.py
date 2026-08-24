@@ -4,10 +4,10 @@ from pathlib import Path
 import logging
 logger = logging.getLogger(__name__)
 
-from ..helpers import write_str_to_file
+from ..helpers import write_str_to_file, WriteResult
 from ..pyproject import MaxsonPyProject
 
-def run_init_version(root_dir: Path | str | None = None) -> None:
+def run_init_version(root_dir: Path | str | None = None) -> WriteResult:
     pyproject = MaxsonPyProject(root_dir)
 
     raw_version_str='''
@@ -35,9 +35,9 @@ def get_version() -> str:
 __version__ = get_version()
 '''
     raw_version_str=raw_version_str.replace("__IMPORT_NAME__", pyproject.import_name)
-    write_str_to_file(pyproject.src_dir / "_version.py", text = raw_version_str)
+    return write_str_to_file(pyproject.src_dir / "_version.py", text = raw_version_str)
 
-def run_init_version_num(root_dir: Path | str | None = None) -> None:
+def run_init_version_num(root_dir: Path | str | None = None) -> WriteResult:
     pyproject = MaxsonPyProject(root_dir)
 
     raw_version_num_str='''
@@ -45,4 +45,4 @@ def run_init_version_num(root_dir: Path | str | None = None) -> None:
 
 '''
     raw_version_num_str=raw_version_num_str.replace("__IMPORT_NAME__", pyproject.import_name)
-    write_str_to_file(pyproject.src_dir / "VERSION", text = raw_version_num_str)
+    return write_str_to_file(pyproject.src_dir / "VERSION", text = raw_version_num_str)

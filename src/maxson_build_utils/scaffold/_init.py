@@ -6,7 +6,7 @@ from pathlib import Path
 from string import Template
 from typing import Sequence
 
-from ..helpers import write_str_to_file
+from ..helpers import write_str_to_file, WriteResult
 from ..pyproject import MaxsonPyProject
 
 # ---------------------------------------------------------------------------
@@ -162,7 +162,7 @@ def run_init_init(
     *,
     exports: dict[str, str] | None = None,
     overwrite: bool = False,
-) -> Path:
+) -> WriteResult:
     """Scaffold __init__.py inside src/<import_name>/."""
     pyproject = MaxsonPyProject(root_dir)
     target_path = pyproject.src_dir / "__init__.py"

@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from string import Template
 
-from ..helpers import write_str_to_file
+from ..helpers import write_str_to_file, WriteResult
 from ..pyproject import MaxsonPyProject, PyProject
 #from ..config import get_config_mngr
 
@@ -335,7 +335,7 @@ def run_init_pyproject(
     root_dir: Path | str | None = None,
     *,
     overwrite: bool = False,
-) -> Path:
+) -> WriteResult:
     pyproject = MaxsonPyProject(root_dir)
 
     text = render_pyproject(pyproject)
