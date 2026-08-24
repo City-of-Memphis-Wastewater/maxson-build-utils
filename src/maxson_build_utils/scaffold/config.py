@@ -14,13 +14,12 @@ CONFIG_TEMPLATE = Template(
 # src/$import_name/config.py
 from __future__ import annotations
 
-from .context import APP_DIR
-
 
 def get_config_manager():
+    from .context import APP_DIR
     from dworshak_config import DworshakConfig
-
     return DworshakConfig(path=APP_DIR / "config.json")
+
 """
 )
 
