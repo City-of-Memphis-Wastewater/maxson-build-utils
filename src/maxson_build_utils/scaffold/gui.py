@@ -4,10 +4,10 @@ from pathlib import Path
 import logging
 logger = logging.getLogger(__name__)
 
-from ..helpers import write_str_to_file
+from ..helpers import write_str_to_file, WriteResult
 from ..pyproject import MaxsonPyProject
 
-def run_init_gui(root_dir: Path | str | None = None) -> None:
+def run_init_gui(root_dir: Path | str | None = None) -> WriteResult:
     pyproject = MaxsonPyProject(root_dir)
 
     raw_gui_str = '''
@@ -283,4 +283,4 @@ if __name__ == "__main__":
     start_gui()
 '''
     raw_gui_str = raw_gui_str.replace("__IMPORT_NAME__", pyproject.import_name)
-    write_str_to_file(pyproject.src_dir / "gui.py", text = raw_gui_str)
+    return write_str_to_file(pyproject.src_dir / "gui.py", text = raw_gui_str)

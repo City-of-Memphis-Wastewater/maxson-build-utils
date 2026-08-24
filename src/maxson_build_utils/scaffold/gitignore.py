@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from ..helpers import write_str_to_file
+from ..helpers import write_str_to_file,WriteResult
 
 
 GITIGNORE = """\
@@ -27,7 +27,7 @@ wheels/
 
 def run_init_gitignore(
     root_dir: Path | str | None = None,
-) -> Path:
+) -> WriteResult:
     """Create the standard Maxson .gitignore."""
     root = Path(root_dir or ".").resolve()
 
@@ -35,6 +35,3 @@ def run_init_gitignore(
         root / ".gitignore",
         text=GITIGNORE,
     )
-    
-def run_init_gitignore():
-    pass

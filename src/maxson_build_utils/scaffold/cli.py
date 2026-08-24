@@ -4,10 +4,10 @@ from pathlib import Path
 import logging
 logger = logging.getLogger(__name__)
 
-from ..helpers import write_str_to_file
+from ..helpers import write_str_to_file, WriteResult
 from ..pyproject import MaxsonPyProject
 
-def run_init_cli(root_dir: Path | str | None = None) -> None:
+def run_init_cli(root_dir: Path | str | None = None) -> WriteResult:
     pyproject = MaxsonPyProject(root_dir)
 
     raw_cli_str = '''
@@ -79,4 +79,4 @@ if __name__ == "__main__":
     app()
 '''
     raw_cli_str = raw_cli_str.replace("__IMPORT_NAME__", pyproject.import_name)
-    write_str_to_file(pyproject.src_dir / "cli.py", text = raw_cli_str)
+    return write_str_to_file(pyproject.src_dir / "cli.py", text = raw_cli_str)

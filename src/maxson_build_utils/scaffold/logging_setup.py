@@ -5,12 +5,12 @@ from __future__ import annotations
 from pathlib import Path
 from string import Template
 
-from ..helpers import write_str_to_file
+from ..helpers import write_str_to_file, WriteResult
 from ..pyproject import MaxsonPyProject
 
-# ---------------------------------------------------------------------------
+# -----
 # Template
-# ---------------------------------------------------------------------------
+# -----
 
 LOGGING_SETUP_TEMPLATE = Template(
     '''\
@@ -27,18 +27,18 @@ from pathlib import Path
 from .context import APP_NAME, LOG_FILE_PATH
 
 
-# ---------------------------------------------------------------------------
+# -----
 # Constants
-# ---------------------------------------------------------------------------
+# -----
 
 FILE_LOG_LEVEL = logging.DEBUG
 FILE_LOG_MAX_BYTES = 5 * 1024 * 1024
 FILE_LOG_BACKUP_COUNT = 3
 
 
-# ---------------------------------------------------------------------------
+# -----
 # Logger Access
-# ---------------------------------------------------------------------------
+# -----
 
 def get_logger(name: str | None = None) -> logging.Logger:
     """Return the package logger or a sub-logger under its namespace."""
@@ -46,9 +46,9 @@ def get_logger(name: str | None = None) -> logging.Logger:
     return logging.getLogger(target_name)
 
 
-# ---------------------------------------------------------------------------
+# -----
 # Formatters
-# ---------------------------------------------------------------------------
+# -----
 
 def _file_formatter() -> logging.Formatter:
     """Return the formatter used for persistent file logging."""
@@ -73,9 +73,9 @@ def _console_formatter(
     return logging.Formatter(fmt)
 
 
-# ---------------------------------------------------------------------------
+# -----
 # Handlers
-# ---------------------------------------------------------------------------
+# -----
 
 def setup_file_logging() -> logging.Handler | None:
     """Create the persistent application log handler safely."""
@@ -100,9 +100,9 @@ def setup_file_logging() -> logging.Handler | None:
         return None
 
 
-# ---------------------------------------------------------------------------
+# -----
 # Configurations
-# ---------------------------------------------------------------------------
+# -----
 
 def configure_logging_for_application(
     debug: bool = False,
@@ -182,9 +182,9 @@ def configure_logging_all_debug() -> None:
     root_logger.addHandler(console_handler)
 
 
-# ---------------------------------------------------------------------------
+# -----
 # Diagnostics
-# ---------------------------------------------------------------------------
+# -----
 
 def log_traceback(logger_instance: logging.Logger | None = None) -> None:
     """Safely print stack traces to stderr if debug level is active."""
@@ -195,9 +195,9 @@ def log_traceback(logger_instance: logging.Logger | None = None) -> None:
 )
 
 
-# ---------------------------------------------------------------------------
+# -----
 # Rendering & Execution
-# ---------------------------------------------------------------------------
+# -----
 
 def render_logging_setup_py(import_name: str) -> str:
     """Render the standard logging_setup.py template string."""
@@ -210,7 +210,7 @@ def run_init_logging_setup(
     root_dir: Path | str | None = None,
     *,
     overwrite: bool = False,
-) -> Path:
+) -> WriteResult:
     """Scaffold logging_setup.py inside src/<import_name>/."""
     pyproject = MaxsonPyProject(root_dir)
 

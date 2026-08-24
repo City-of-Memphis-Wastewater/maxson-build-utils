@@ -5,7 +5,7 @@ from string import Template
 import logging
 logger = logging.getLogger(__name__)
 
-from ..helpers import write_str_to_file
+from ..helpers import write_str_to_file, WriteResult
 from ..pyproject import MaxsonPyProject
 
 CONTEXT_TEMPLATE = Template(
@@ -97,7 +97,7 @@ def run_init_context(
     root_dir: Path | str | None = None,
     *,
     overwrite: bool = False,
-) -> Path:
+) -> WriteResult:
     pyproject = MaxsonPyProject(root_dir)
 
     src_dir = pyproject.src_dir
