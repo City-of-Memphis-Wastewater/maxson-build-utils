@@ -58,7 +58,6 @@ def build_appimage() -> Path:
 
     out_dir = root_dir / "dist" / "appimage"
     out_dir.mkdir(parents=True, exist_ok=True)
-    appimage_output = out_dir / f"{{APP_NAME}}-x86_64.AppImage"
 
     with tempfile.TemporaryDirectory() as tmp:
         appdir = Path(tmp) / f"{{APP_NAME}}.AppDir"
