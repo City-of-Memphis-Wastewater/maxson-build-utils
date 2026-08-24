@@ -17,27 +17,45 @@ class IconFileType(str, Enum):
     ICO = "ico"
     SVG = "svg"
 
+@dataclass(frozen=True)
+class WriteResult:
+    path: Path
+    created: bool
+    overwritten: bool
+
 def write_str_to_file(
     path: str | Path | None,
     text: str,
     overwrite: bool = False,
-) -> Path:
-    """Write text to a file, optionally overwriting an existing file."""
+) -> WriteResult:
+    """Write text to a file and report what happened."""
     if path is None:
-        raise ValueError("Cannot write to a file path of 'None'. Ensure a valid path or root_dir is supplied.")
+        raise ValueError(
+            "Cannot write to a file path of 'None'. "
+            "Ensure a valid path or root_dir is supplied."
+        )
 
     resolved_path = Path(path).expanduser().resolve()
 
-    if resolved_path.exists() and not overwrite:
-        logger.debug("File already exists at %s", resolved_path)
-        return resolved_path
+    existed = resolved_path.exists()
+
+    if existed and not overwrite:
+        return WriteResult(
+            path=resolved_path,
+            created=False,
+            overwritten=False,
+        )
 
     resolved_path.parent.mkdir(parents=True, exist_ok=True)
 
     with resolved_path.open("w", encoding="utf-8") as f:
         f.write(text)
 
-    return resolved_path
+    return WriteResult(
+        path=resolved_path,
+        created=not existed,
+        overwritten=existed,
+    )
 
 def form_dynamic_name(pkg_name: str, version: str, mode: PyinsMode|None = None) -> str:
     """Creates a standardized binary name descriptor."""

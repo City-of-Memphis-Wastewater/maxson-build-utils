@@ -100,9 +100,9 @@ def build_appimage() -> Path:
         # Pass the dynamic architecture directly to appimagetool environment
 
         system = pyhabitat.SystemInfo()
-        arch = system.get_arch()
 
-        appimage_output = out_dir / f"{APP_NAME}-{arch}.AppImage"
+        arch = system.get_arch()
+        appimage_output = out_dir / f"{{APP_NAME}}-{{arch}}.AppImage"
 
         env = os.environ.copy()
         env["ARCH"] = arch
