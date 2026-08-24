@@ -203,18 +203,6 @@ class MaxsonPyProject(PyProject):
 
         return self.app_dir / f"{self.app_name}_errors.log"
 
-    @property
-    def config_file_path(self) -> Path | None:
-        configured = self._configured_path("config_file")
-
-        if configured is not None:
-            return configured
-
-        if self.app_dir is None:
-            return None
-
-        return self.app_dir / "config.json"
-
     def _configured_path(self, *keys: str) -> Path | None:
         value = self.get(
             "tool",
