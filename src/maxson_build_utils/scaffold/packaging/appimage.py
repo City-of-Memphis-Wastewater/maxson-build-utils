@@ -7,7 +7,7 @@ from ...helpers import write_str_to_file
 from ...names import to_kebab_case
 from ...pyproject import MaxsonPyProject
 
-APPRUN_TEMPLATE = """#!/bin/sh
+APPRUN_TEMPLATE_DEFUNCT = """#!/bin/sh
 set -e
 HERE="$(dirname "$(readlink -f "${0}")")"
 export PATH="${HERE}/usr/bin:${PATH}"
@@ -16,6 +16,17 @@ export XDG_DATA_DIRS="${HERE}/usr/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/s
 
 EXEC="${HERE}/usr/bin/{APP_NAME}"
 exec "${EXEC}" "$@"
+"""
+
+APPRUN_TEMPLATE = """#!/bin/sh
+set -e
+HERE="$(dirname "$(readlink -f "${{0}}")")"
+export PATH="${{HERE}}/usr/bin:${{PATH}}"
+export LD_LIBRARY_PATH="${{HERE}}/usr/lib:${{LD_LIBRARY_PATH}}"
+export XDG_DATA_DIRS="${{HERE}}/usr/share:${{XDG_DATA_DIRS:-/usr/local/share:/usr/share}}"
+
+EXEC="${{HERE}}/usr/bin/{APP_NAME}"
+exec "${{EXEC}}" "$@"
 """
 
 DESKTOP_TEMPLATE = """[Desktop Entry]

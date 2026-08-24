@@ -1,0 +1,79 @@
+name: Reusable PyInstaller Builder, Favoring OneDir
+
+on:
+  workflow_call:
+    inputs:
+      pretty_name:
+        description: 'Pretty desktop app display name'
+        required: false
+        type: string
+        default: ''
+      icon:
+        description: 'Path to source icon file'
+        required: false
+        type: string
+        default: ''
+      exe_name:
+        description: 'Name of the generated binary inside onedir folder'
+        required: false
+        type: string
+        default: ''
+
+jobs:
+  build-executable:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Project & Build Tools
+        run: |
+          uv sync --group dev
+
+      # Step 1: Run standard PyInstaller script to output a onedir build
+      - name: PyInstaller OneDir Build
+        run: |
+          uv run python packaging/pyinstaller/build_executable.py
+
+      # Step 2: Initialize AppImage packaging structure
+      - name: MBU Init AppImage Packaging
+        run: |
+          CMD="uv run mbu init packaging appimage"
+          [ -n "${{ inputs.pretty_name }}" ] && CMD="$CMD --pretty-name '${{ inputs.pretty_name }}'"
+          [ -n "${{ inputs.icon }}" ] && CMD="$CMD --icon '${{ inputs.icon }}'"
+          [ -n "${{ inputs.exe_name }}" ] && CMD="$CMD --exe-name '${{ inputs.exe_name }}'"
+          eval $CMD
+
+      # Step 3: Bundle into final AppImage
+      - name: MBU Build AppImage
+        run: |
+          uv run mbu build appimage
+
+      - name: Publish to GitHub Release
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ github.event.release.tag_name }}
+        run: |
+          if [ -z "$TAG_NAME" ]; then
+            echo "No release tag found on this event. Skipping release upload."
+          else
+            gh release upload "$TAG_NAME" dist/* --clobber
+          fi
+
+      - name: Upload Build Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appimage-dist
+          path: dist/*
