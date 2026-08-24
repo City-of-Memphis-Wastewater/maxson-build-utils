@@ -2,6 +2,7 @@
 from __future__ import annotations
 from enum import Enum
 from pathlib import Path
+from dataclasses import dataclass
 import sys
 import pyhabitat
 import logging
@@ -29,16 +30,11 @@ class WriteResult:
         return self.created or self.overwritten
 
 def write_str_to_file(
-    path: str | Path | None,
+    path: str | Path,
     text: str,
     overwrite: bool = False,
 ) -> WriteResult:
     """Write text to a file and report what happened."""
-    if path is None:
-        raise ValueError(
-            "Cannot write to a file path of 'None'. "
-            "Ensure a valid path or root_dir is supplied."
-        )
 
     resolved_path = Path(path).expanduser().resolve()
 
@@ -69,6 +65,10 @@ def print_write_result(result: WriteResult) -> None:
         console_stdout.print(f"Overwrote {result.path}")
     else:
         console_stdout.print(f"Already exists: {result.path}")
+
+def print_write_results(results: list[WriteResult]) -> None:
+    for result in results:
+        print_write_result(result)
 
 def form_dynamic_name(pkg_name: str, version: str, mode: PyinsMode|None = None) -> str:
     """Creates a standardized binary name descriptor."""

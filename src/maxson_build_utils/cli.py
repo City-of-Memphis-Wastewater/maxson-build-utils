@@ -17,6 +17,7 @@ from maxson_build_utils.logging_setup import (
 logger = get_logger(__name__)
 
 from .context import DESCRIPTION_STR, APP_NAME
+from .helpers import print_write_result, print_write_results
 from ._version import __version__
 
 from maxson_build_utils.deb import build_debian_package
@@ -225,62 +226,49 @@ def pyproject(
 def init_pyproject(overwrite: bool = typer.Option(False, "--overwrite", "-o")):
     """Generate or overwrite pyproject.toml in our own image."""
     # Ensure root_dir resolves to current working directory if not explicitly provided
-    path = run_init_pyproject(root_dir=Path.cwd(), overwrite=overwrite)
-    console_stdout.print(f"{path}")
+    print_write_result(run_init_pyproject(root_dir=Path.cwd(), overwrite=overwrite))
 
 @init_base_app.command("changelog")
 def init_changelog():
     """Create docs/CHANGELOG.md."""
-    result = run_init_changelog()
-    if result.created:
-        console_stdout.print(f"Created {result.path}")
-    elif result.overwritten:
-        console_stdout.print(f"Overwrote {result.path}")
-    else:
-        console_stdout.print(f"Already exists: {result.path}")
+    print_write_result(run_init_changelog())
 
 @init_base_app.command("readme")
 def init_readme():
     """Create README.md."""
-    path = run_init_readme()
-    console_stdout.print(f"{path}")
+    print_write_result(run_init_readme())
 
 @init_base_app.command("git")
 def init_git():
     """Create .git."""
-    path = run_init_git()
-    console_stdout.print(f"{path}")
+    print_write_result(run_init_git())
+
 
 @init_base_app.command("gitignore")
 def init_gitignore():
     """Create .gitignore."""
-    path = run_init_gitignore()
-    console_stdout.print(f"{path}")
+    print_write_result(run_init_gitignore())
 
 # --- source code scaffolding ---
 @init_src_app.command("src")
 def init_src():
     """Build src/<app_name>/ with automatic snake case."""
-    path = run_init_src()
-    console_stdout.print(f"{path}")
+    print_write_result(run_init_src())
 
 @init_src_app.command("gui")
 def init_gui():
     """Create src/<app>/gui.py."""
-    path = run_init_gui()
-    console_stdout.print(f"{path}")
+    print_write_result(run_init_gui())
 
 @init_src_app.command("cli")
 def init_cli():
     """Create src/<app>/cli.py."""
-    path = run_init_cli()
-    console_stdout.print(f"{path}")
+    print_write_result(run_init_cli())
 
 @init_src_app.command("core")
 def init_core():
     """Create src/<app>/core.py."""
-    path = run_init_core()
-    console_stdout.print(f"{path}")
+    print_write_result(run_init_core())
 
 @init_src_app.command("__init__")
 def init_init(
@@ -291,8 +279,7 @@ def init_init(
 )
 ):
     """Create src/<app>/__init__.py"""
-    path = run_init_init(root_dir=None,overwrite=overwrite)
-    console_stdout.print(f"{path}")
+    print_write_result(run_init_init(root_dir=None,overwrite=overwrite))
 
 @init_src_app.command("__main__")
 def init_main(
@@ -303,118 +290,89 @@ def init_main(
 )
 ):
     """Create src/<app>/__main__.py"""
-    path = run_init_main(root_dir=None,overwrite=overwrite)
-    console_stdout.print(f"{path}")
+    print_write_result(run_init_main(root_dir=None,overwrite=overwrite))
 
 
 '''@init_src_app.command("webapp")
 def init_webapp():
     """Create src/<app>/webapp.py."""
-    path = run_init_webapp()
-    console_stdout.print(f"{path}")
+    print_write_result(run_init_webapp())
 '''
 
 @init_src_app.command("context")
 def init_context():
     """Create src/<app>/context.py."""
-    path = run_init_context()
-    console_stdout.print(f"{path}")
+    print_write_result(run_init_context())
 
 @init_src_app.command("version")
 def init_version():
     """Create src/<app>/_version.py and src/<app>/VERSION."""
-    path = run_init_version()
-    console_stdout.print(f"{path}")
-    path = run_init_version_num()
-    console_stdout.print(f"{path}")
+    print_write_result(run_init_version())
+    print_write_result(run_init_version_num())
 
 @init_src_app.command("config")
 def init_config():
     """Create src/<app>/config.py."""
-    path = run_init_config()
-    console_stdout.print(f"{path}")
+    print_write_result(run_init_config())
 
 @init_src_app.command("helpers")
 def init_helpers():
     """Create src/<app>/helpers.py."""
-    path = run_init_helpers()
-    console_stdout.print(f"{path}")
-
+    print_write_result(run_init_helpers())
 
 @init_src_app.command("logging_setup")
 def init_logging_setup():
     """Create src/<app>/logging_setup.py."""
-    path = run_init_logging_setup()
-    console_stdout.print(f"{path}")
+    print_write_result(run_init_logging_setup())
 
 # --- packaging scaffolding ---
 
 @init_pack_app.command("icons")
 def init_icons():
     """Copy the stock Maxson icons into the project's data/icons directory."""
-    path = run_init_icons()
-    console_stdout.print(f"{path}")
+    print_write_results(run_init_icons())
 
 @init_pack_app.command("flatpak")
 def init_pack_flatpak():
     """Scaffold packaging/flatpak/ metadata and manifests."""
-    paths = run_init_flatpak()
-    for path in paths:
-        console_stdout.print(f"{path}")
+    print_write_results(run_init_flatpak())
 
 @init_pack_app.command("pyinstaller")
 def init_pack_pyinstaller():
     """Scaffold packaging/pyinstaller/build_executable.py metadata and manifests."""
-    paths = run_init_pyinstaller()
-    for path in paths:
-        console_stdout.print(f"{path}")
+    print_write_results(run_init_pyinstaller())
 
 @init_pack_app.command("shiv")
 def init_pack_shiv():
     """Scaffold packaging/shiv/build_pyz.py metadata and manifests."""
-    paths = run_init_shiv()
-    for path in paths:
-        console_stdout.print(f"{path}")
+    print_write_results(run_init_shiv())
 
 @init_pack_app.command("msix")
 def init_pack_msix():
     """Scaffold packaging/msix/msix.py metadata and manifests."""
-    paths = run_init_msix()
-    for path in paths:
-        console_stdout.print(f"{path}")
-
+    print_write_results(run_init_msix())
 
 @init_pack_app.command("deb")
 def init_pack_deb():
     """Scaffold packaging/deb/deb.py metadata and manifests."""
-    paths = run_init_deb()
-    for path in paths:
-        console_stdout.print(f"{path}")
+    print_write_results(run_init_deb())
 
 @init_pack_app.command("dmg")
 def init_pack_dmg():
     """Scaffold packaging/macos/dmg.py metadata and manifests."""
-    paths = run_init_dmg()
-    for path in paths:
-        console_stdout.print(f"{path}")
+    print_write_results(run_init_dmg())
 
 @init_pack_app.command("appimage")
 def init_pack_appimage():
     """Scaffold packaging/appimage/ metadata and manifests."""
-    paths = run_init_appimage()
-    for path in paths:
-        console_stdout.print(f"{path}")
+    print_write_results(run_init_appimage())
 
 # ---
 
 @init_ci_app.command("github_workflows")
 def init_github_workflows():
     """Scaffold github workers"""
-    path = run_init_github_workflows()
-    console_stdout.print(f"{path}")
-    #paths = run_init_github_workflows()
-    #for path in paths:
-    #    console_stdout.print(f"{path}")
+    print_write_results(run_init_github_workflows())
 
 # ---
 
