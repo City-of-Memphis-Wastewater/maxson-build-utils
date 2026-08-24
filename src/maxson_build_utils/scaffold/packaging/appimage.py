@@ -34,7 +34,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import tempfile
-import platform
+import pyhabitat
 
 APP_NAME = "{APP_NAME}"
 APP_ID = "{APP_ID}"
@@ -98,11 +98,15 @@ def build_appimage() -> Path:
 
         # 5. Execute appimagetool
         # Pass the dynamic architecture directly to appimagetool environment
-        arch = platform.machine()
-        appimage_output = out_dir / f"{{APP_NAME}}-{{arch}}.AppImage"
+
+        system = pyhabitat.SystemInfo()
+        arch = system.get_arch()
+
+        appimage_output = out_dir / f"{APP_NAME}-{arch}.AppImage"
 
         env = os.environ.copy()
         env["ARCH"] = arch
+
         subprocess.run(
             ["appimagetool", str(appdir), str(appimage_output)],
             check=True,

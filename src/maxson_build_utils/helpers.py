@@ -42,8 +42,9 @@ def write_str_to_file(
 def form_dynamic_name(pkg_name: str, version: str, mode: PyinsMode|None = None) -> str:
     """Creates a standardized binary name descriptor."""
 
-    os_tag = pyhabitat.SystemInfo().get_os_tag()
-    arch = pyhabitat.SystemInfo().get_arch()
+    system = pyhabitat.SystemInfo()
+    os_tag = system.get_os_tag()
+    arch = system.get_arch()
     py_ver = f"py{sys.version_info.major}{sys.version_info.minor}"
     executable_descriptor = f"{pkg_name}-{version}-{py_ver}-{os_tag}-{arch}"
     if mode == PyinsMode.ONEFILE:
