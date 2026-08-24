@@ -22,6 +22,8 @@ class WriteResult:
     path: Path
     created: bool
     overwritten: bool
+    def __bool__(self) -> bool:
+        return self.created or self.overwritten
 
 def write_str_to_file(
     path: str | Path | None,
