@@ -281,7 +281,6 @@ def render_pyproject(pyproject: MaxsonPyProject) -> str:
     # 1. Retrieve config values via dworshak-config manager
     raw_publisher_cn = config_mngr.get(service="msix", item="publisher-cn")
     raw_publisher_display_name = config_mngr.get(service="msix", item="publisher-display-name")
-    raw_publisher_identity = config_mngr.get(service="msix", item="identity-name")
 
     # 2. Resolve publisher defaults
     pub_cn = raw_publisher_cn or "CN=Development"
@@ -294,7 +293,7 @@ def render_pyproject(pyproject: MaxsonPyProject) -> str:
     # Generate identity name dynamically if missing
     clean_display = pub_display_name.replace(" ", "")
     clean_app = to_pascal_case(pyproject.app_name).replace(" ", "")
-    pub_identity = raw_publisher_identity or f"{clean_display}.{clean_app}"
+    pub_identity = get_default_identity_name(clean_display,clean_app)
 
     return PYPROJECT_TEMPLATE.substitute(
         name=_toml_string(pyproject.app_name),
@@ -363,6 +362,11 @@ def render_pyproject(pyproject: MaxsonPyProject) -> str:
         windows_publisher_identity_name=_toml_string(pub_identity),
     )
 
+def get_default_identity_name(publisher_display_name: str, pretty_name: str) -> str:
+    # Remove spaces/symbols from publisher and project name for valid identity string
+    clean_publisher = "".join(c for c in publisher_display_name if c.isalnum())
+    clean_app = "".join(word.capitalize() for word in pretty_name.replace("-", " ").replace("_", " ").split())
+    return f"{clean_publisher}.{clean_app}"
 
 # ---------------------------------------------------------------------------
 # Scaffold entry point

@@ -97,7 +97,7 @@ collect_binary_pkgs = []
 [tool.maxson-build-utils.packaging.msix]
 publisher = "CN=806FDEBD-B014-4625-85AE-058C714FC7F2"
 publisher_display_name = "George Clayton Bennett"
-identity_name = "GeorgeClaytonBennett.PDFLinkCheck"
+identity_name = "GeorgeClaytonBennett.MaxsonBuildUtils"
 
 [tool.maxson-build-utils.icons]
 png-256 = { path = "src/maxson_build_utils/data/icons/water-green_256x256.png" }
