@@ -2,6 +2,8 @@
 
 Centralized org tooling for PyInstaller, DMG, AppImage, DEB, PYZ, etc.
 
+A convention-optional build and deployment framework, with an opinionated Maxson project scaffold available as a convenience.
+
 ## Helptree
 
 See the `maxson-build-utils` Typer CLI structure.
