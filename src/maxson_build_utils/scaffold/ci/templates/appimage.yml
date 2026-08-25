@@ -2,17 +2,17 @@ name: Build AppImage
 
 on:
   release:
-      types: [published]
-        workflow_dispatch:
+    types: [published]
+  workflow_dispatch:
 
-        jobs:
-          appimage:
-              permissions:
-                    contents: write
+jobs:
+  appimage:
+    permissions:
+      contents: write
 
-                        uses: City-of-Memphis-Wastewater/maxson-build-utils/.github/workflows/reusable-appimage.yml@main
+    uses: City-of-Memphis-Wastewater/maxson-build-utils/.github/workflows/reusable-appimage.yml@main
 
-                            with:
-                                  build_script: "build_executable.py"
-                                        pretty_name: "{APP_NAME}"
-                                              icon_path: "src/{IMPORT_NAME}/data/icons/placeholder_1024x1024.png"
+    with:
+      build_script: "build_executable.py"
+      pretty_name: "{APP_NAME}"
+      icon_path: "src/{IMPORT_NAME}/data/icons/placeholder_1024x1024.png"
