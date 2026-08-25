@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from ...rendering import render_template
-from ...helpers import WriteResult, write_str_to_file
-from ...pyproject import MaxsonPyProject
+from ....rendering import render_template
+from ....helpers import WriteResult, write_str_to_file
+from ....pyproject import MaxsonPyProject
 
 
 TEMPLATE_DIR = Path(__file__).parent / "github" / "templates"

@@ -372,8 +372,8 @@ def init_pack_appimage():
 
 # ---
 
-@init_ci_app.command("github_workflows")
-def init_github_workflows():
+@init_ci_app.command("github")
+def init_github_ci():
     """Scaffold github workers"""
     print_write_results(run_init_github_ci(),console_stdout)
 
@@ -417,7 +417,7 @@ def init_pack_all():
 @init_ci_app.command("all")
 def init_ci_all():
     """Create all ci scaffolding."""
-    init_github_workflows()
+    init_github_ci()
 
 @init_app.command("all")
 def init_all():
