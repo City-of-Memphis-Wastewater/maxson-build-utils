@@ -40,6 +40,7 @@ class WriteResult:
     ) -> None:
         for result in results:
             result.print_path(console)
+
 def write_str_to_file(
     path: str | Path,
     text: str,

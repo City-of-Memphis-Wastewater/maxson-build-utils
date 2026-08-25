@@ -331,49 +331,49 @@ def init_logging_setup():
 @init_pack_app.command("icons")
 def init_icons():
     """Copy the stock Maxson icons into the project's data/icons directory."""
-    print_write_results(run_init_icons())
+    print_write_results(run_init_icons(),console_stdout
 
 @init_pack_app.command("flatpak")
 def init_pack_flatpak():
     """Scaffold packaging/flatpak/ metadata and manifests."""
-    print_write_results(run_init_flatpak())
+    print_write_results(run_init_flatpak(),console_stdout)
 
 @init_pack_app.command("pyinstaller")
 def init_pack_pyinstaller():
     """Scaffold packaging/pyinstaller/build_executable.py metadata and manifests."""
-    print_write_results(run_init_pyinstaller())
+    print_write_results(run_init_pyinstaller(),console_stdout
 
 @init_pack_app.command("shiv")
 def init_pack_shiv():
     """Scaffold packaging/shiv/build_pyz.py metadata and manifests."""
-    print_write_results(run_init_shiv())
+    print_write_results(run_init_shiv(),console_stdout
 
 @init_pack_app.command("msix")
 def init_pack_msix():
     """Scaffold packaging/msix/msix.py metadata and manifests."""
-    print_write_results(run_init_msix())
+    print_write_results(run_init_msix(),console_stdout
 
 @init_pack_app.command("deb")
 def init_pack_deb():
     """Scaffold packaging/deb/deb.py metadata and manifests."""
-    print_write_results(run_init_deb())
+    print_write_results(run_init_deb(),console_stdout
 
 @init_pack_app.command("dmg")
 def init_pack_dmg():
     """Scaffold packaging/macos/dmg.py metadata and manifests."""
-    print_write_results(run_init_dmg())
+    print_write_results(run_init_dmg(),console_stdout
 
 @init_pack_app.command("appimage")
 def init_pack_appimage():
     """Scaffold packaging/appimage/ metadata and manifests."""
-    print_write_results(run_init_appimage())
+    print_write_results(run_init_appimage(),console_stdout
 
 # ---
 
 @init_ci_app.command("github_workflows")
 def init_github_workflows():
     """Scaffold github workers"""
-    print_write_results(run_init_github_workflows())
+    print_write_results(run_init_github_workflows(),console_stdout
 
 # ---
 
