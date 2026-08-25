@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# src/maxson_build_utils/build/pyinstaller.py
+# src/maxson_build_utils/builders/pyinstaller.py
 
 """
 Modular build execution orchestrator for PyInstaller, AppImage, and DMG workflows.

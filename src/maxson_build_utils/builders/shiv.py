@@ -1,4 +1,4 @@
-# maxson_build_utils/src/maxson_build_utils/build_pyz.py
+# src/maxson_build_utils/builders/shiv.py
 from __future__ import annotations
 
 import os
@@ -10,8 +10,8 @@ import tempfile
 from pathlib import Path
 import pyhabitat
 
-from .helpers import form_dynamic_name
-from .cli_utils import get_cli_commands
+from ..helpers import form_dynamic_name
+from ..cli_utils import get_cli_commands
 
 
 def run_command(cmd: list[str], check: bool = True, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:

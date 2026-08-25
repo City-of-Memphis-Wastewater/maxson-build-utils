@@ -1,4 +1,4 @@
-# src/maxson_build_utils/build/dmg.py
+# src/maxson_build_utils/builders/dmg.py
 from __future__ import annotations
 
 import shutil

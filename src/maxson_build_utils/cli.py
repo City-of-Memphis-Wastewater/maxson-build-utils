@@ -22,7 +22,7 @@ from .helpers import print_write_results
 from ._version import __version__
 
 from maxson_build_utils import MaxsonPyProject
-from maxson_build_utils.build.pyinstaller import run_build_executable
+from maxson_build_utils.builders.pyinstaller import run_build_executable
 from maxson_build_utils.helpers import PyinsMode
 from maxson_build_utils.deb import build_debian_package
 from maxson_build_utils.vendor import run_vendor_wheels
