@@ -1,0 +1,28 @@
+version: 2
+updates:
+  # 1. Python Dependencies (pyproject.toml)
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "04:00" # Runs before your workday starts
+      timezone: "America/Chicago"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "python"
+    # Grouping prevents "PR fatigue"
+    groups:
+      python-dependencies:
+        patterns:
+          - "*"
+
+  # 2. GitHub Actions (Keeps your CI/CD steps secure)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      actions:
+        patterns:
+          - "*"

@@ -1,10 +1,8 @@
-# src/maxson_build_utils/scaffold/__init__.py
+# src/maxson_build_utils/scaffold/ci/__init__.py
 from __future__ import annotations
 
-# --- ci ---
-from .github_workflows import run_init_github_workflows
+from .github import run_init_github_ci
 
 __all__ = [
-    # --- ci ---,
-    "run_init_github_workflows",
+    "run_init_github_ci",
 ]
