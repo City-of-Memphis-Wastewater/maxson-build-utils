@@ -124,7 +124,7 @@ def run_init_msix(
     pyproject = MaxsonPyProject(root_dir)
     root = Path(root_dir) if root_dir else pyproject.root_dir or Path.cwd()
 
-    msix_dir = root / "msix"
+    msix_dir = root / "packaging" / "msix"
     assets_dir = msix_dir / "Assets"
     assets_dir.mkdir(parents=True, exist_ok=True)
 

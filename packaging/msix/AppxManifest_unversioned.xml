@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package
+    xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+    xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+    xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
+    xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+    IgnorableNamespaces="uap uap5 rescap">
+
+  <Identity
+      Name="GeorgeClaytonBennett.PDFLinkCheck"
+      Publisher="CN=806FDEBD-B014-4625-85AE-058C714FC7F2"
+      Version="@@VERSION_PLACEHOLDER@@"
+      ProcessorArchitecture="x64" />
+
+  <Properties>
+    <DisplayName>Maxson Build Utils</DisplayName>
+    <PublisherDisplayName>George Clayton Bennett</PublisherDisplayName>
+    <Description>Common tools for deploying packages to EXE, MSIX, DMG, DEB, PYZ, flatpak, and more. Templated approach to mkdocs.</Description>
+    <Logo>Assets\StoreLogo-50x50.png</Logo>
+  </Properties>
+
+  <Resources>
+    <Resource Language="en-us" />
+  </Resources>
+
+  <Dependencies>
+    <TargetDeviceFamily
+        Name="Windows.Desktop"
+        MinVersion="10.0.17763.0"
+        MaxVersionTested="10.0.22000.1" />
+  </Dependencies>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+
+  <Applications>
+    <Application
+        Id="maxson_build_utils"
+        Executable="maxson_build_utils.exe"
+        EntryPoint="Windows.FullTrustApplication">
+
+      <uap:VisualElements
+          DisplayName="Maxson Build Utils"
+          Description="Common tools for deploying packages to EXE, MSIX, DMG, DEB, PYZ, flatpak, and more. Templated approach to mkdocs."
+          BackgroundColor="transparent"
+          Square150x150Logo="Assets\Logo-150x150.png"
+          Square44x44Logo="Assets\SmallLogo-44x44.png">
+
+        <uap:DefaultTile
+            Wide310x150Logo="Assets\WideLogo-310x150.png" />
+
+        <uap:SplashScreen
+            Image="Assets\SplashScreen-620x300.png" />
+
+      </uap:VisualElements>
+      <Extensions>
+        <uap5:Extension Category="windows.appExecutionAlias">
+          <uap5:AppExecutionAlias>
+            <uap5:ExecutionAlias Alias="maxson_build_utils.exe" />
+          </uap5:AppExecutionAlias>
+        </uap5:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+</Package>

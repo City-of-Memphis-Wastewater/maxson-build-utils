@@ -58,6 +58,7 @@ from .scaffold.packaging import (
     run_init_flatpak,
     run_init_appimage,
     run_init_deb,
+    run_init_msix
 )
 console_stderr = Console(stderr=True)
 console_stdout = Console()
