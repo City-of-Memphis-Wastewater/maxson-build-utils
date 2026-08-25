@@ -19,7 +19,15 @@ def to_title_case(value: str) -> str:
     words = re.split(r"[-_\s]+", value.strip())
     return " ".join(word.capitalize() for word in words if word)
 
-def to_pascal_case(value: str) -> str:
-    """Convert a kebab, snake, or space-delimited string to PascalCase without spaces."""
-    words = re.split(r"[-_\s]+", value.strip())
+def to_pascal_case(val: str) -> str:
+    # Insert space before capital letters to preserve camel/pascal words
+    val = re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", val)
+    # Replace non-alphanumeric separators with spaces
+    words = re.sub(r"[^a-zA-Z0-9]", " ", val).split()
     return "".join(word.capitalize() for word in words if word)
+
+
+def get_default_identity_name(publisher_display_name: str, pretty_name: str) -> str:
+    clean_pub = to_pascal_case(publisher_display_name)
+    clean_app = to_pascal_case(pretty_name)
+    return f"{clean_pub}.{clean_app}"

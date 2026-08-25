@@ -11,7 +11,7 @@ from maxson_build_utils.context import APP_NAME
 from ..helpers import write_str_to_file, WriteResult
 from ..pyproject import MaxsonPyProject, PyProject
 from ..config import get_config_mngr
-from ..names import to_pascal_case
+from ..names import to_pascal_case, get_default_identity_name
 config_mngr = get_config_mngr()
 
 
@@ -290,10 +290,8 @@ def render_pyproject(pyproject: MaxsonPyProject) -> str:
     if not pub_cn.startswith("CN="):
         pub_cn = f"CN={pub_cn}"
 
-    # Generate identity name dynamically if missing
-    clean_display = pub_display_name.replace(" ", "")
-    clean_app = to_pascal_case(pyproject.app_name).replace(" ", "")
-    pub_identity = get_default_identity_name(clean_display,clean_app)
+    # Pass raw values—get_default_identity_name handles parsing and capitalization
+    pub_identity = get_default_identity_name(pub_display_name, pyproject.app_name)
 
     return PYPROJECT_TEMPLATE.substitute(
         name=_toml_string(pyproject.app_name),
@@ -362,11 +360,6 @@ def render_pyproject(pyproject: MaxsonPyProject) -> str:
         windows_publisher_identity_name=_toml_string(pub_identity),
     )
 
-def get_default_identity_name(publisher_display_name: str, pretty_name: str) -> str:
-    # Remove spaces/symbols from publisher and project name for valid identity string
-    clean_publisher = "".join(c for c in publisher_display_name if c.isalnum())
-    clean_app = "".join(word.capitalize() for word in pretty_name.replace("-", " ").replace("_", " ").split())
-    return f"{clean_publisher}.{clean_app}"
 
 # ---------------------------------------------------------------------------
 # Scaffold entry point
