@@ -28,7 +28,21 @@ class WriteResult:
     overwritten: bool
     def __bool__(self) -> bool:
         return self.created or self.overwritten
+    def print_path(self, console: Console) -> None:
+        if self.created:
+            console.print(f"Created {self.path}")
+        elif self.overwritten:
+            console.print(f"Overwrote {self.path}")
+        else:
+            console.print(f"Already exists: {self.path}")
 
+    @staticmethod
+    def print_paths(
+        results: list["WriteResult"],
+        console: Console,
+    ) -> None:
+        for result in results:
+            result.print_path(console)
 def write_str_to_file(
     path: str | Path,
     text: str,
@@ -58,17 +72,12 @@ def write_str_to_file(
         overwritten=existed,
     )
 
-def print_write_result(result: WriteResult) -> None:
-    if result.created:
-        console_stdout.print(f"Created {result.path}")
-    elif result.overwritten:
-        console_stdout.print(f"Overwrote {result.path}")
-    else:
-        console_stdout.print(f"Already exists: {result.path}")
-
-def print_write_results(results: list[WriteResult]) -> None:
+def print_write_results(
+    results: list[WriteResult],
+    console: Console,
+) -> None:
     for result in results:
-        print_write_result(result)
+        result.print_path(console)
 
 def form_dynamic_name(pkg_name: str, version: str, mode: PyinsMode|None = None) -> str:
     """Creates a standardized binary name descriptor."""

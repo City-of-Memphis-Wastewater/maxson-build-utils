@@ -231,44 +231,44 @@ def init_pyproject(overwrite: bool = typer.Option(False, "--overwrite", "-o")):
 @init_base_app.command("changelog")
 def init_changelog():
     """Create docs/CHANGELOG.md."""
-    print_write_result(run_init_changelog())
+    run_init_changelog().print_path(console_stdout)
 
 @init_base_app.command("readme")
 def init_readme():
     """Create README.md."""
-    print_write_result(run_init_readme())
+    run_init_readme().print_path(console_stdout)
 
 @init_base_app.command("git")
 def init_git():
     """Create .git."""
-    print_write_result(run_init_git())
+    run_init_git().print_path(console_stdout)
 
 
 @init_base_app.command("gitignore")
 def init_gitignore():
     """Create .gitignore."""
-    print_write_result(run_init_gitignore())
+    run_init_gitignore().print_path(console_stdout)
 
 # --- source code scaffolding ---
 @init_src_app.command("src")
 def init_src():
     """Build src/<app_name>/ with automatic snake case."""
-    print_write_result(run_init_src())
+    run_init_src().print_path(console_stdout)
 
 @init_src_app.command("gui")
 def init_gui():
     """Create src/<app>/gui.py."""
-    print_write_result(run_init_gui())
+    run_init_gui().print_path(console_stdout)
 
 @init_src_app.command("cli")
 def init_cli():
     """Create src/<app>/cli.py."""
-    print_write_result(run_init_cli())
+    run_init_cli().print_path(console_stdout)
 
 @init_src_app.command("core")
 def init_core():
     """Create src/<app>/core.py."""
-    print_write_result(run_init_core())
+    run_init_core().print_path(console_stdout)
 
 @init_src_app.command("__init__")
 def init_init(
@@ -279,7 +279,7 @@ def init_init(
 )
 ):
     """Create src/<app>/__init__.py"""
-    print_write_result(run_init_init(root_dir=None,overwrite=overwrite))
+    run_init_init(root_dir=None,overwrite=overwrite).print_path(console_stdout)
 
 @init_src_app.command("__main__")
 def init_main(
@@ -290,40 +290,40 @@ def init_main(
 )
 ):
     """Create src/<app>/__main__.py"""
-    print_write_result(run_init_main(root_dir=None,overwrite=overwrite))
+    run_init_main(root_dir=None,overwrite=overwrite).print_path(console_stdout)
 
 
 '''@init_src_app.command("webapp")
 def init_webapp():
     """Create src/<app>/webapp.py."""
-    print_write_result(run_init_webapp())
+    run_init_webapp().print_path(console_stdout)
 '''
 
 @init_src_app.command("context")
 def init_context():
     """Create src/<app>/context.py."""
-    print_write_result(run_init_context())
+    run_init_context().print_path(console_stdout)
 
 @init_src_app.command("version")
 def init_version():
     """Create src/<app>/_version.py and src/<app>/VERSION."""
-    print_write_result(run_init_version())
-    print_write_result(run_init_version_num())
+    run_init_version().print_path(console_stdout)
+    run_init_version_num().print_path(console_stdout)
 
 @init_src_app.command("config")
 def init_config():
     """Create src/<app>/config.py."""
-    print_write_result(run_init_config())
+    run_init_config().print_path(console_stdout)
 
 @init_src_app.command("helpers")
 def init_helpers():
     """Create src/<app>/helpers.py."""
-    print_write_result(run_init_helpers())
+    run_init_helpers().print_path(console_stdout)
 
 @init_src_app.command("logging_setup")
 def init_logging_setup():
     """Create src/<app>/logging_setup.py."""
-    print_write_result(run_init_logging_setup())
+    run_init_logging_setup().print_path(console_stdout)
 
 # --- packaging scaffolding ---
 

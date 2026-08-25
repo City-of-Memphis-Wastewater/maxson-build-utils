@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from ...helpers import write_str_to_file
+from ...helpers import write_str_to_file, WriteResult
 from ...names import to_kebab_case
 from ...pyproject import MaxsonPyProject
 
