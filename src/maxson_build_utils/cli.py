@@ -21,6 +21,9 @@ from .context import DESCRIPTION_STR, APP_NAME
 from .helpers import print_write_results
 from ._version import __version__
 
+from maxson_build_utils import MaxsonPyProject
+from maxson_build_utils.build.pyinstaller import run_build_executable
+from maxson_build_utils.helpers import PyinsMode
 from maxson_build_utils.deb import build_debian_package
 from maxson_build_utils.vendor import run_vendor_wheels
 from maxson_build_utils.linux_app_image import build_linux_appimage
@@ -55,7 +58,6 @@ from .scaffold.packaging import (
     run_init_flatpak,
     run_init_appimage,
     run_init_deb,
-    run_init_pyinstaller,
 )
 console_stderr = Console(stderr=True)
 console_stdout = Console()
@@ -173,29 +175,6 @@ def vendor_wheels(
     """Build project wheel and vendor offline dependencies, like when preparing for Flatpak."""
     run_vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir)
 
-@build_app.command(name="pyinstaller_defunct")
-def build_pyinstaller_defunct(
-    script_path: Path = Path("packaging/pyinstaller/pyinstaller.py"),
-):
-    """Execute the local project's PyInstaller build script."""
-    if not script_path.is_file():
-        typer.secho(
-            f"Error: Build script not found at '{script_path}'. "
-            "Run 'mbu init packaging pyinstaller' first.",
-            fg=typer.colors.RED,
-            err=True,
-        )
-        raise typer.Exit(code=1)
-
-    typer.echo(f"Running build script: {script_path}")
-    
-    result = subprocess.run([sys.executable, str(script_path)], check=False)
-    if result.returncode != 0:
-        raise typer.Exit(code=result.returncode)
-
-from maxson_build_utils import MaxsonPyProject
-from maxson_build_utils.build.pyinstaller import run_build_executable
-from maxson_build_utils.helpers import PyinsMode
 
 @build_app.command(name="pyinstaller")
 def build_pyinstaller(
@@ -433,15 +412,6 @@ def init_pack_flatpak():
     """Scaffold packaging/flatpak/ metadata and manifests."""
     print_write_results(run_init_flatpak(),console_stdout)
 
-@init_pack_app.command("pyinstaller")
-def init_pack_pyinstaller(
-    overwrite: bool = typer.Option(
-    False,
-    "--overwrite")
-):
-    """Scaffold packaging/pyinstaller/build_executable.py metadata and manifests."""
-    run_init_pyinstaller(overwrite=overwrite).print_path(console_stdout)
-
 @init_pack_app.command("shiv")
 def init_pack_shiv():
     """Scaffold packaging/shiv/build_pyz.py metadata and manifests."""
@@ -484,7 +454,6 @@ def init_base_all():
     init_readme()
     init_changelog()
 
-
 @init_src_app.command("all")
 def init_source_all():
     init_src()
@@ -499,7 +468,6 @@ def init_source_all():
     init_gui()
     init_logging_setup()
 
-
 @init_pack_app.command("all")
 def init_pack_all():
     """Create all packaging scaffolding."""
@@ -507,7 +475,6 @@ def init_pack_all():
     #init_pack_dmg()
     #init_pack_msix()
     #init_pack_shiv()
-    #init_pack_pyinstaller()
     init_pack_flatpak()
     #init_pack_appimage()
 

@@ -8,7 +8,6 @@ from .deb import run_init_deb
 from .dmg import run_init_dmg
 from .flatpak import run_init_flatpak
 from .msix import run_init_msix
-from .pyinstaller import run_init_pyinstaller
 from .shiv import run_init_shiv
 
 __all__ = [
@@ -19,7 +18,5 @@ __all__ = [
     "run_init_dmg",
     "run_init_flatpak",
     "run_init_msix",
-    "run_init_pyinstaller",
     "run_init_shiv",
-
 ]
