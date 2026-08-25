@@ -1,0 +1,49 @@
+# .github/workflows/publish.yml
+
+name: Check and Publish ${{ pretty_name }} to PyPI and Releases
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  pypi-publish:
+    if: github.event.release.prerelease == false && !contains(github.ref, '-test')
+    runs-on: ubuntu-latest
+
+    environment: pypi
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.x'
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          version: "latest"
+
+      - name: Create isolated environment and install build dependencies
+        run: uv sync --group dev
+
+      - name: Build source distribution and wheel
+        run: uv build
+
+      - name: Sanity check the built wheel
+        run: |
+          uv pip uninstall -y @@app_name@@ || true
+          uv pip install dist/@@app_name@@*.whl
+          @@app_name@@ --help
+
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

@@ -4,12 +4,12 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from ....rendering import render_template
+from ....rendering import render_template_safe, render_template
 from ....helpers import WriteResult, write_str_to_file
 from ....pyproject import MaxsonPyProject
 
 
-TEMPLATE_DIR = Path(__file__).parent / "github" / "templates"
+TEMPLATE_DIR = Path(__file__).parent / "templates"
 
 
 def run_init_github_workflows(
@@ -55,7 +55,7 @@ def run_init_github_workflows(
     results = []
 
     for target_path, template_path in workflows.items():
-        text = render_template(template_path, context)
+        text = render_template_safe(template_path, context)
         results.append(write_str_to_file(target_path, text))
 
     return results

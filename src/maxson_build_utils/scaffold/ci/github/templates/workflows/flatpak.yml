@@ -1,0 +1,67 @@
+name: Build Flatpak Bundle
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  flatpak:
+    name: Build Flatpak Application
+    runs-on: ubuntu-latest
+
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:freedesktop-24.08
+      options: --privileged
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          version: "latest"
+
+      - name: Generate requirements.txt
+        run: |
+          uv export --format requirements-txt --no-editable --no-dev \
+            > requirements.txt
+
+      - name: Vendor Python Dependencies
+        run: |
+          mkdir -p vendor-wheels
+          uv build
+          uv run pip download \
+            dist/*.whl \
+            -d vendor-wheels
+
+      - name: Build Flatpak
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          manifest-path: packaging/flatpak/@@flatpak_manifest_filename@@
+          bundle: @@app_name@@.flatpak
+          run-tests: false
+          cache-key: flatpak-builder-${{ github.sha }}
+
+      - name: Smoke test
+        run: |
+          flatpak install \
+            --user \
+            --bundle \
+            --noninteractive \
+            @@app_name@@.flatpak
+
+          flatpak run @@flatpak_app_id@@ --help
+          flatpak run @@flatpak_app_id@@ --version
+
+      - name: Attach Flatpak to GitHub Release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v3
+        with:
+          files: "*.flatpak"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
