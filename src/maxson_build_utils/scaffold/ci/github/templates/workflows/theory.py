@@ -1,0 +1,117 @@
+name: Build & Package Artifacts
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Stage 1: Core Compilation (Run Once)
+  # ---------------------------------------------------------------------------
+  build-onedir:
+    name: Core PyInstaller Build (onedir)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install .
+
+      - name: Build Canonical onedir Payload
+        run: mbu build pyinstaller --mode onedir
+
+      - name: Upload onedir Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: canonical-onedir-payload
+          path: dist/onedir/
+          retention-days: 1
+
+  # ---------------------------------------------------------------------------
+  # Stage 2: Parallel Downstream Distribution Runners
+  # ---------------------------------------------------------------------------
+  package-appimage:
+    name: Package AppImage
+    needs: build-onedir
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download Canonical onedir Payload
+        uses: actions/download-artifact@v4
+        with:
+          name: canonical-onedir-payload
+          path: dist/onedir/
+
+      - name: Install mbu
+        run: pip install .
+
+      - name: Build AppImage
+        run: mbu build appimage
+
+      - name: Upload AppImage
+        uses: actions/upload-artifact@v4
+        with:
+          name: appimage-dist
+          path: dist/appimage/
+
+  package-deb:
+    name: Package Debian (.deb)
+    needs: build-onedir
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download Canonical onedir Payload
+        uses: actions/download-artifact@v4
+        with:
+          name: canonical-onedir-payload
+          path: dist/onedir/
+
+      - name: Install mbu
+        run: pip install .
+
+      - name: Build Deb Package
+        run: mbu build deb
+
+      - name: Upload Deb
+        uses: actions/upload-artifact@v4
+        with:
+          name: deb-dist
+          path: dist/deb/
+
+  package-flatpak:
+    name: Package Flatpak
+    needs: build-onedir
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/flathub/sdk-container:46
+      options: --privileged
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Download Canonical onedir Payload
+        uses: actions/download-artifact@v4
+        with:
+          name: canonical-onedir-payload
+          path: dist/onedir/
+
+      - name: Build Flatpak
+        run: |
+          # Flatpak manifest pulls straight from the populated dist/onedir path
+          flatpak-builder --force-clean build-dir packaging/flatpak/*.yaml

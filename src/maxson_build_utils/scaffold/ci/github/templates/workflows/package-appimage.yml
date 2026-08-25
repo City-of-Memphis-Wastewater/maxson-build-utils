@@ -1,0 +1,31 @@
+name: Package AppImage
+
+on:
+  workflow_run:
+    workflows: ["Build Canonical Onedir Payload"]
+    types: [completed]
+  workflow_dispatch:
+
+jobs:
+  package:
+    name: Build AppImage
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download Canonical Payload
+        uses: actions/download-artifact@v4
+        with:
+          name: canonical-onedir-payload
+          path: dist/onedir/
+          run-id: ${{ github.event.workflow_run.id }}
+
+      - name: Install mbu
+        run: pip install .
+
+      - name: Build AppImage (Skips PyInstaller compilation)
+        run: mbu build appimage

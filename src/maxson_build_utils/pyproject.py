@@ -79,6 +79,32 @@ class PyProject:
 
         return self.path.parent
 
+    @property
+    def version_file(self) -> Path | None:
+        """Path to src/<import_name>/VERSION."""
+        if self.src_dir is None:
+            return None
+        return self.src_dir / "VERSION"
+
+    @property
+    def version(self) -> str:
+        """Dynamically read version from src/<import_name>/VERSION.
+        
+        Falls back to [project.version] in pyproject.toml if VERSION file doesn't exist.
+        """
+        vf = self.version_file
+        if vf is not None and vf.is_file():
+            ver = vf.read_text(encoding="utf-8").strip()
+            if ver:
+                return ver
+
+        # Fallback to pyproject.toml [project.version]
+        toml_ver = self.get("project", "version")
+        if toml_ver:
+            return str(toml_ver).strip()
+
+        return "0.1.0"
+
 class MaxsonPyProject(PyProject):
     """PyProject with Maxson architecture conventions."""
 
@@ -94,7 +120,7 @@ class MaxsonPyProject(PyProject):
 
     @property
     def description(self) -> str | None:
-        project_description = self.get("project", "name")
+        project_description = self.get("project", "description")
         if project_description is not None:
             return project_description
         else:

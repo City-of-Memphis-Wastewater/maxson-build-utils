@@ -130,6 +130,13 @@ $import_name = [
 import = $import_name
 pretty = $pretty_name
 
+[tool.maxson-build-utils.pyinstaller]
+mode = "onedir"
+windowed = false
+collect_data_pkgs = ["$import_name"]
+collect_binary_pkgs = []
+
+
 """
 )
 

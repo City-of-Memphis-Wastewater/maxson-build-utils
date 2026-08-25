@@ -173,8 +173,8 @@ def vendor_wheels(
     """Build project wheel and vendor offline dependencies, like when preparing for Flatpak."""
     run_vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir)
 
-@build_app.command(name="pyinstaller")
-def build_pyinstaller(
+@build_app.command(name="pyinstaller_defunct")
+def build_pyinstaller_defunct(
     script_path: Path = Path("packaging/pyinstaller/pyinstaller.py"),
 ):
     """Execute the local project's PyInstaller build script."""
@@ -193,6 +193,77 @@ def build_pyinstaller(
     if result.returncode != 0:
         raise typer.Exit(code=result.returncode)
 
+from maxson_build_utils import MaxsonPyProject
+from maxson_build_utils.build.pyinstaller import run_build_executable
+from maxson_build_utils.helpers import PyinsMode
+
+@build_app.command(name="pyinstaller")
+def build_pyinstaller(
+    mode: PyinsMode = typer.Option(
+        PyinsMode.ONEDIR,
+        "--mode",
+        "-m",
+        help="Build mode: 'onedir' (default for downstream pipelines) or 'onefile'.",
+    ),
+    version: str | None = typer.Option(
+        None,
+        "--version",
+        "-v",
+        help="Override target app version string. Defaults to src/<app>/VERSION file.",
+    ),
+    windowed: bool | None = typer.Option(
+        None,
+        "--windowed/--console",
+        help="Force windowed (GUI) or console mode. Overrides pyproject settings.",
+    ),
+    collect_data: list[str] = typer.Option(
+        [],
+        "--collect-data",
+        "-d",
+        help="Packages to collect data files from (can be passed multiple times).",
+    ),
+    collect_binary: list[str] = typer.Option(
+        [],
+        "--collect-binary",
+        "-b",
+        help="Packages to collect binary files from (can be passed multiple times).",
+    ),
+):
+    """Build PyInstaller binary using pyproject.toml configuration and CLI overrides."""
+    pyproject = MaxsonPyProject()
+
+    # Resolve target version: CLI parameter -> src/<app>/VERSION -> fallback
+    target_version = version or pyproject.version
+    
+    # Read [tool.mbu.pyinstaller] table from pyproject.toml if present
+    mbu_config = pyproject.get("tool", "maxson-build-utils", "pyinstaller") or {}
+    
+    # Resolve parameters: CLI arguments take precedence over pyproject.toml
+    final_mode = mode or PyinsMode(mbu_config.get("mode", "onedir"))
+    final_windowed = windowed if windowed is not None else mbu_config.get("windowed", None)
+    
+    # Merge CLI collect flags with TOML configuration sets
+    config_data_pkgs = set(mbu_config.get("collect_data_pkgs", []))
+    final_collect_data = list(config_data_pkgs.union(collect_data)) or [pyproject.import_name]
+    
+    config_binary_pkgs = set(mbu_config.get("collect_binary_pkgs", []))
+    final_collect_binary = list(config_binary_pkgs.union(collect_binary))
+
+    typer.secho(
+        f"Building '{pyproject.import_name}' v{target_version} ({final_mode.value}) via PyInstaller...",
+        fg=typer.colors.CYAN,
+    )
+
+    app_filepath, _ = run_build_executable(
+        src_folder_name=pyproject.import_name,
+        version=target_version,
+        mode=final_mode,
+        is_windowed_build=final_windowed,
+        collect_data_pkgs=final_collect_data,
+        collect_binary_pkgs=final_collect_binary,
+    )
+
+    typer.secho(f"Successfully built binary to: {app_filepath}", fg=typer.colors.GREEN)
 
 @build_app.command(name="deb")
 def build_deb(
