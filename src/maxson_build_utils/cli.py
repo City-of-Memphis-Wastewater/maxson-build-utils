@@ -241,8 +241,8 @@ def init_readme():
 @init_base_app.command("git")
 def init_git():
     """Create .git."""
-    run_init_git().print_path(console_stdout)
-
+    path = run_init_git()
+    console_stdout.print(path)
 
 @init_base_app.command("gitignore")
 def init_gitignore():

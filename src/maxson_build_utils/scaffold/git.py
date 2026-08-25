@@ -18,3 +18,4 @@ def run_init_git(
         check=True,
     )
 
+    return root / ".git"
