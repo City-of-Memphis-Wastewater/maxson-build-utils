@@ -6,9 +6,6 @@ from dataclasses import dataclass
 import sys
 import pyhabitat
 import logging
-from rich.console import Console
-
-console_stdout = Console()
 
 logger = logging.getLogger(__name__)
 
