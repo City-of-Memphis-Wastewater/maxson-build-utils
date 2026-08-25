@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component type="desktop-application">
-  <id>io.github.city_of_memphis_wastewater.maxson-build-utils</id>
-  <metadata_license>CC0-1.0</metadata_license>
-  <project_license>MIT</project_license>
-  <name>maxson-build-utils</name>
-  <summary>Application generated with maxson-build-utils</summary>
-  <launchable type="desktop-id">io.github.city_of_memphis_wastewater.maxson-build-utils.desktop</launchable>
-</component>

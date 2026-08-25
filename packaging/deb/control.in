@@ -1,7 +1,0 @@
-Package: maxson-build-utils
-Version: __VERSION__
-Section: utils
-Priority: optional
-Architecture: __ARCH__
-Maintainer: City of Memphis Wastewater <support@memphistn.gov>
-Description: maxson-build-utils

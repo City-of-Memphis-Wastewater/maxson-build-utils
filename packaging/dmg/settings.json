@@ -1,0 +1,16 @@
+{
+  "volname": "Maxson Build Utils 0.1.28",
+  "window_size": [
+    500,
+    300
+  ],
+  "icon_size": 100,
+  "app_icon_pos": [
+    150,
+    180
+  ],
+  "drop_link_pos": [
+    450,
+    180
+  ]
+}
