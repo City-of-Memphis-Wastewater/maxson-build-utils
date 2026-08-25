@@ -1,0 +1,7 @@
+Package: maxson-build-utils
+Version: 0.1.28
+Section: utils
+Priority: optional
+Architecture: amd64
+Maintainer: George Clayton Bennett <george.bennett@memphistn.gov>
+Description: Common tools for deploying packages to EXE, MSIX, DMG, DEB, PYZ, flatpak, and more. Templated approach to mkdocs.

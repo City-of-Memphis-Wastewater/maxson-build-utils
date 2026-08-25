@@ -229,6 +229,34 @@ class MaxsonPyProject(PyProject):
 
         return self.app_dir / f"{self.app_name}_errors.log"
 
+    @property
+    def author(self) -> str | None:
+        """Extract primary author or maintainer string from PEP 621 metadata."""
+        authors = self.get("project", "authors")
+        if isinstance(authors, list) and authors:
+            first = authors[0]
+            if isinstance(first, dict):
+                name = first.get("name", "")
+                email = first.get("email", "")
+                if name and email:
+                    return f"{name} <{email}>"
+                return name or email or None
+            if isinstance(first, str):
+                return first
+
+        # Fallback to direct string/dict if defined under author
+        author = self.get("project", "author")
+        if isinstance(author, dict):
+            name = author.get("name", "")
+            email = author.get("email", "")
+            if name and email:
+                return f"{name} <{email}>"
+            return name or email or None
+        if isinstance(author, str):
+            return author
+
+        return None
+
     def _configured_path(self, *keys: str) -> Path | None:
         value = self.get(
             "tool",

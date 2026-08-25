@@ -474,8 +474,8 @@ def init_source_all():
 def init_pack_all():
     """Create all packaging scaffolding."""
     #init_pack_deb()
-    #init_pack_dmg()
-    #init_pack_msix()
+    init_pack_dmg()
+    init_pack_msix()
     #init_pack_shiv()
     init_pack_flatpak()
     #init_pack_appimage()
