@@ -20,6 +20,7 @@ from .context import DESCRIPTION_STR, APP_NAME
 from .helpers import print_write_results
 from ._version import __version__
 
+from maxson_build_utils.build.pyinstaller import run_build_executable
 from maxson_build_utils.deb import build_debian_package
 from maxson_build_utils.vendor import run_vendor_wheels
 from maxson_build_utils.linux_app_image import build_linux_appimage
@@ -54,6 +55,7 @@ from .scaffold.packaging import (
     run_init_flatpak,
     run_init_appimage,
     run_init_deb,
+    run_init_pyinstaller,
 )
 console_stderr = Console(stderr=True)
 console_stdout = Console()
@@ -170,6 +172,16 @@ def vendor_wheels(
 ):
     """Build project wheel and vendor offline dependencies, like when preparing for Flatpak."""
     run_vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir)
+
+@build_app.command(name="pyinstaller")
+def build_pyinstaller(
+    app_name: str = typer.Option(None, "--app-name", help="Package application name"),
+    version: str = typer.Option(None, "--version", help="Version string"),
+    arch: str = typer.Option(None, "--arch", help="Target architecture")
+):
+    """Assemble and build a pyinstaller package based on the stub in ./packaging/pyinstaller."""
+    run_build_executable(app_name=app_name, version=version, arch=arch)
+
 
 
 @build_app.command(name="deb")
@@ -341,9 +353,13 @@ def init_pack_flatpak():
     print_write_results(run_init_flatpak(),console_stdout)
 
 @init_pack_app.command("pyinstaller")
-def init_pack_pyinstaller():
+def init_pack_pyinstaller(
+    overwrite: bool = typer.Option(
+    False,
+    "--overwrite")
+):
     """Scaffold packaging/pyinstaller/build_executable.py metadata and manifests."""
-    print_write_results(run_init_pyinstaller(),console_stdout)
+    run_init_pyinstaller(overwrite=overwrite).print_path(console_stdout)
 
 @init_pack_app.command("shiv")
 def init_pack_shiv():

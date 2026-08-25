@@ -9,7 +9,6 @@ from ._version import __version__
 # 1. Clean public-facing mapping
 __all__ = [
     "__version__",
-
     "__gui_easteregg_enabled__",
 ]
 
