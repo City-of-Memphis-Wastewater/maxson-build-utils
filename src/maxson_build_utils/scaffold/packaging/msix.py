@@ -128,8 +128,8 @@ def run_init_msix(
     msix_dir = root / "packaging" / "msix"
     assets_dir = msix_dir / "Assets"
     assets_dir.mkdir(parents=True, exist_ok=True)
-
-    copy_stock_icons(assets_dir)
+    if False: 
+        copy_stock_icons(assets_dir) # this is silly
 
     # Read config from [tool.maxson-build-utils.packaging.msix] or [tool.maxson-build-utils.msix]
     msix_cfg = (
