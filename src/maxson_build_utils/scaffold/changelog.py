@@ -5,10 +5,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-from ..helpers import write_str_to_file
+from ..helpers import write_str_to_file, WriteResult
 
 
-def run_init_changelog()->Path:
+def run_init_changelog()->WriteResult:
     """Write blank changelog file to docs/CHANGELOG.md"""
     changelog = Path.cwd() / "docs" / "CHANGELOG.md"
     new_changelog="""
@@ -25,5 +25,5 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 """
-    write_str_to_file(path=changelog,text=new_changelog)
-    return changelog
+    return write_str_to_file(path=changelog,text=new_changelog)
+
