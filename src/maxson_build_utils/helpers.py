@@ -5,6 +5,7 @@ from pathlib import Path
 from dataclasses import dataclass
 import sys
 import pyhabitat
+from rich.console import Console
 import logging
 
 logger = logging.getLogger(__name__)
