@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from ...helpers import write_str_to_file
+from ...helpers import write_str_to_file, WriteResult
 from ...names import to_kebab_case
 from ...pyproject import MaxsonPyProject
 
@@ -82,7 +82,7 @@ def resolve_flatpak_metadata(path: Path | str | None = None) -> dict[str, str]:
     }
 
 
-def run_init_flatpak(root_dir: Path | str | None = None) -> list[Path]:
+def run_init_flatpak_defunct(root_dir: Path | str | None = None) -> list[Path]:
     """Scaffold packaging/flatpak/ assets and return generated file paths."""
     target_dir = Path(root_dir) if root_dir else Path.cwd()
     meta = resolve_flatpak_metadata(target_dir / "pyproject.toml")
@@ -104,3 +104,34 @@ def run_init_flatpak(root_dir: Path | str | None = None) -> list[Path]:
         created_paths.append(path)
 
     return created_paths
+
+
+def run_init_flatpak(
+    root_dir: Path | str | None = None,
+) -> list[WriteResult]:
+    """Scaffold packaging/flatpak/ assets."""
+    target_dir = Path(root_dir) if root_dir else Path.cwd()
+    meta = resolve_flatpak_metadata(target_dir / "pyproject.toml")
+
+    flatpak_dir = target_dir / "packaging" / "flatpak"
+    flatpak_dir.mkdir(parents=True, exist_ok=True)
+
+    app_id = meta["APP_ID"]
+
+    files_to_create = {
+        flatpak_dir / f"{app_id}.yaml": MANIFEST_TEMPLATE,
+        flatpak_dir / f"{app_id}.desktop": DESKTOP_TEMPLATE,
+        flatpak_dir / f"{app_id}.metainfo.xml": METAINFO_TEMPLATE,
+    }
+
+    results: list[WriteResult] = []
+
+    for path, template in files_to_create.items():
+        results.append(
+            write_str_to_file(
+                path=path,
+                text=template.format(**meta),
+            )
+        )
+
+    return results
