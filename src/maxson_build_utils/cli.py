@@ -17,7 +17,7 @@ from maxson_build_utils.logging_setup import (
 logger = get_logger(__name__)
 
 from .context import DESCRIPTION_STR, APP_NAME
-from .helpers import print_write_result, print_write_results
+from .helpers import print_write_results
 from ._version import __version__
 
 from maxson_build_utils.deb import build_debian_package
