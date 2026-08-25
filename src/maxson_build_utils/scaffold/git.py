@@ -8,7 +8,7 @@ from pathlib import Path
 
 def run_init_git(
     root_dir: Path | str | None = None,
-) -> None:
+) -> Path:
     """Initialize a Git repository."""
     root = Path(root_dir or ".").resolve()
 
