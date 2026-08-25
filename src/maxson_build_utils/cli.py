@@ -253,7 +253,8 @@ def init_gitignore():
 @init_src_app.command("src")
 def init_src():
     """Build src/<app_name>/ with automatic snake case."""
-    run_init_src().print_path(console_stdout)
+    path = run_init_src()
+    console_stdout.print(path)
 
 @init_src_app.command("gui")
 def init_gui():
