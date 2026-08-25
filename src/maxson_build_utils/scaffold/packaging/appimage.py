@@ -145,8 +145,8 @@ def resolve_appimage_metadata(path: Path | str | None = None) -> dict[str, str]:
     }
 
 
-def run_init_appimage(root_dir: Path | str | None = None) -> list[Path]:
-    """Scaffold packaging/appimage/ assets and return generated file paths."""
+def run_init_appimage(root_dir: Path | str | None = None) -> list[WriteResult]:
+    """Scaffold packaging/appimage/ assets and return generation results."""
     target_dir = Path(root_dir) if root_dir else Path.cwd()
     meta = resolve_appimage_metadata(target_dir / "pyproject.toml")
 
@@ -161,11 +161,11 @@ def run_init_appimage(root_dir: Path | str | None = None) -> list[Path]:
         appimage_dir / "build_appimage.py": BUILD_SCRIPT_TEMPLATE,
     }
 
-    created_paths: list[Path] = []
+    results: list[WriteResult] = []
     for path, template in files_to_create.items():
-        write_str_to_file(path=path, text=template.format(**meta))
-        if path.name == "AppRun":
+        res = write_str_to_file(path=path, text=template.format(**meta))
+        if path.name == "AppRun" and path.exists():
             path.chmod(0o755)
-        created_paths.append(path)
+        results.append(res)
 
-    return created_paths
+    return results
