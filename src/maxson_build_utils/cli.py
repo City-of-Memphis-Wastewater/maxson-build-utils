@@ -226,7 +226,7 @@ def pyproject(
 def init_pyproject(overwrite: bool = typer.Option(False, "--overwrite", "-o")):
     """Generate or overwrite pyproject.toml in our own image."""
     # Ensure root_dir resolves to current working directory if not explicitly provided
-    print_write_result(run_init_pyproject(root_dir=Path.cwd(), overwrite=overwrite))
+    run_init_pyproject(root_dir=Path.cwd(), overwrite=overwrite).print_path(console_stdout)
 
 @init_base_app.command("changelog")
 def init_changelog():
