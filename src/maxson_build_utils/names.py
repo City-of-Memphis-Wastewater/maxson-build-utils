@@ -1,7 +1,6 @@
 # src/maxson_build_utils/names.py
 from __future__ import annotations
 import re
-from pathlib import Path
 
 def to_snake_case(value: str) -> str:
     """Convert a string to snake_case."""
@@ -19,3 +18,8 @@ def to_title_case(value: str) -> str:
     """Convert a string to Title Case."""
     words = re.split(r"[-_\s]+", value.strip())
     return " ".join(word.capitalize() for word in words if word)
+
+def to_pascal_case(value: str) -> str:
+    """Convert a kebab, snake, or space-delimited string to PascalCase without spaces."""
+    words = re.split(r"[-_\s]+", value.strip())
+    return "".join(word.capitalize() for word in words if word)

@@ -6,9 +6,14 @@ import json
 from pathlib import Path
 from string import Template
 
+from maxson_build_utils.context import APP_NAME
+
 from ..helpers import write_str_to_file, WriteResult
 from ..pyproject import MaxsonPyProject, PyProject
-#from ..config import get_config_mngr
+from ..config import get_config_mngr
+from ..names import to_pascal_case
+config_mngr = get_config_mngr()
+
 
 # ---------------------------------------------------------------------------
 # Maxson project conventions
@@ -133,10 +138,13 @@ pretty = $pretty_name
 [tool.maxson-build-utils.pyinstaller]
 mode = "onedir"
 windowed = false
-collect_data_pkgs = ["$import_name"]
+collect_data_pkgs = [$import_name]
 collect_binary_pkgs = []
 
-
+[tool.maxson-build-utils.packaging.msix]
+publisher = $windows_publisher_cn
+publisher_display_name = $windows_publisher_display_name
+identity_name = $windows_publisher_identity_name
 """
 )
 
@@ -159,7 +167,7 @@ def _toml_array(items: list[str]) -> str:
 
 
 def _project_url(
-    pyproject: PyProject,
+    pyproject: MaxsonPyProject,
     key: str,
     default: str = "",
 ) -> str:
@@ -168,7 +176,7 @@ def _project_url(
     return default if value is None else str(value)
 
 
-def _keywords(pyproject: PyProject) -> list[str]:
+def _keywords(pyproject: MaxsonPyProject) -> list[str]:
     """Return existing project keywords, or a small useful default."""
     value = pyproject.get("project", "keywords")
 
@@ -193,7 +201,7 @@ def _get_git_config(key: str) -> str | None:
         return None
 
 
-def _author_info(pyproject: PyProject) -> tuple[str, str]:
+def _author_info(pyproject: MaxsonPyProject) -> tuple[str, str]:
     """Determine author name and email dynamically."""
     existing = pyproject.get("project", "authors")
     if isinstance(existing, list) and existing and isinstance(existing[0], dict):
@@ -210,7 +218,7 @@ def _author_info(pyproject: PyProject) -> tuple[str, str]:
         git_email or "you@example.com",
     )
 
-def _description(pyproject: PyProject) -> str:
+def _description(pyproject: MaxsonPyProject) -> str:
     """Return the existing project description, or a useful placeholder."""
     value = pyproject.get("project", "description")
 
@@ -220,7 +228,7 @@ def _description(pyproject: PyProject) -> str:
     return str(value)
 
 
-def _dependencies(pyproject: PyProject) -> list[str]:
+def _dependencies(pyproject: MaxsonPyProject) -> list[str]:
     """Return existing dependencies, or the standard Maxson dependencies."""
     value = pyproject.get("project", "dependencies")
 
@@ -230,7 +238,7 @@ def _dependencies(pyproject: PyProject) -> list[str]:
     return [str(item) for item in value]
 
 
-def _script_name(pyproject: PyProject) -> str:
+def _script_name(pyproject: MaxsonPyProject) -> str:
     """Determine the primary console-script name."""
     scripts = pyproject.get("project", "scripts")
 
@@ -240,22 +248,22 @@ def _script_name(pyproject: PyProject) -> str:
     return str(pyproject.app_name)
 
 
-def _repository_url(pyproject: PyProject) -> str:
+def _repository_url(pyproject: MaxsonPyProject) -> str:
     """Return the repository URL when already present."""
     return _project_url(pyproject, "Repository")
 
 
-def _homepage_url(pyproject: PyProject) -> str:
+def _homepage_url(pyproject: MaxsonPyProject) -> str:
     """Return the homepage URL when already present."""
     return _project_url(pyproject, "Homepage")
 
 
-def _issues_url(pyproject: PyProject) -> str:
+def _issues_url(pyproject: MaxsonPyProject) -> str:
     """Return the issues URL when already present."""
     return _project_url(pyproject, "Issues")
 
 
-def _changelog_url(pyproject: PyProject) -> str:
+def _changelog_url(pyproject: MaxsonPyProject) -> str:
     """Return the changelog URL when already present."""
     return _project_url(pyproject, "Changelog")
 
@@ -264,11 +272,29 @@ def _changelog_url(pyproject: PyProject) -> str:
 # Rendering
 # ---------------------------------------------------------------------------
 
-def render_pyproject(pyproject: PyProject) -> str:
+def render_pyproject(pyproject: MaxsonPyProject) -> str:
     """Render the canonical Maxson pyproject.toml."""
 
     import_raw = pyproject.import_name
     author_name, author_email = _author_info(pyproject)
+
+    # 1. Retrieve config values via dworshak-config manager
+    raw_publisher_cn = config_mngr.get(service="msix", item="publisher-cn")
+    raw_publisher_display_name = config_mngr.get(service="msix", item="publisher-display-name")
+    raw_publisher_identity = config_mngr.get(service="msix", item="identity-name")
+
+    # 2. Resolve publisher defaults
+    pub_cn = raw_publisher_cn or "CN=Development"
+    pub_display_name = raw_publisher_display_name or author_name or "Developer"
+
+    # Ensure CN prefix formatting if raw GUID or Subject is supplied without 'CN='
+    if not pub_cn.startswith("CN="):
+        pub_cn = f"CN={pub_cn}"
+
+    # Generate identity name dynamically if missing
+    clean_display = pub_display_name.replace(" ", "")
+    clean_app = to_pascal_case(pyproject.app_name).replace(" ", "")
+    pub_identity = raw_publisher_identity or f"{clean_display}.{clean_app}"
 
     return PYPROJECT_TEMPLATE.substitute(
         name=_toml_string(pyproject.app_name),
@@ -331,6 +357,10 @@ def render_pyproject(pyproject: PyProject) -> str:
         pretty_name=_toml_string(
             pyproject.pretty_name
         ),
+
+        windows_publisher_cn=_toml_string(pub_cn),
+        windows_publisher_display_name=_toml_string(pub_display_name),
+        windows_publisher_identity_name=_toml_string(pub_identity),
     )
 
 
