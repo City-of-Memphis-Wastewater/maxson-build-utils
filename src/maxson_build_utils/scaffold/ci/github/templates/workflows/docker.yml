@@ -1,6 +1,6 @@
 # .github/workflows/docker.yml
 
-name: Build and push multi-arch ${{ app_name }} image
+name: Build and push multi-arch @@app_name@@ image
 
 on:
   release:
@@ -41,7 +41,7 @@ jobs:
 
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
-            -t ghcr.io/$LOWER_OWNER/${app_name}:$TAG \
-            -t ghcr.io/$LOWER_OWNER/${app_name}:latest \
+            -t ghcr.io/$LOWER_OWNER/@@app_name@@:$TAG \
+            -t ghcr.io/$LOWER_OWNER/@@app_name@@:latest \
             -f Dockerfile.multi-dev . \
             --push
