@@ -46,7 +46,7 @@ from .scaffold import (
 )
 from .scaffold.ci import (
     # --- ci ---
-    run_init_github_workflows,
+    run_init_github_ci,
 )
 from .scaffold.packaging import (
     # --- packaging ---
@@ -375,7 +375,7 @@ def init_pack_appimage():
 @init_ci_app.command("github_workflows")
 def init_github_workflows():
     """Scaffold github workers"""
-    print_write_results(run_init_github_workflows(),console_stdout)
+    print_write_results(run_init_github_ci(),console_stdout)
 
 # ---
 
