@@ -3,7 +3,6 @@
 from __future__ import annotations
 from pathlib import Path
 
-
 def run_init_github_workflows(
     root_dir: Path | str | None = None,
 ) -> Path:

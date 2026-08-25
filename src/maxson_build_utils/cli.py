@@ -43,6 +43,8 @@ from .scaffold import (
     run_init_version_num,
     run_init_logging_setup,
     #run_init_webapp,
+)
+from .scaffold.ci import (
     # --- ci ---
     run_init_github_workflows,
 )

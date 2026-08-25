@@ -19,9 +19,6 @@ from .core import run_init_core
 from .helpers import run_init_helpers
 from .logging_setup import run_init_logging_setup
 
-# --- ci ---
-from .github_workflows import run_init_github_workflows
-
 __all__ = [
     # --- source code --
     "run_init_pyproject",
@@ -41,6 +38,4 @@ __all__ = [
     "run_init_logging_setup",
     "run_init_version",
     "run_init_version_num",
-    # --- ci ---,
-    "run_init_github_workflows",
 ]
