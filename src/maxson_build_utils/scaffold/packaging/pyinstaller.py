@@ -27,13 +27,13 @@ from maxson_build_utils.build.pyinstaller import run_build_executable
 
 if __name__ == "__main__":
     run_build_executable(
-        src_folder_name=$import_name, 
+        src_folder_name="$import_name", 
         version=__version__,
         #icon_ico_path=get_ico_icon(), # update and improve, unclear
         #icon_icns_path=get_icns_icon(), # update and improve, unclear
-        collect_data_pkgs=[$import_name], 
+        collect_data_pkgs=["$import_name"], 
         collect_binary_pkgs=[],
-    )%
+    )
     ''')
 
 def render_pyinstaller_stub_py(import_name: str) -> str:

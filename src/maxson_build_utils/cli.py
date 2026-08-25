@@ -6,6 +6,7 @@ import typer
 from pathlib import Path
 from typer_helptree import add_typer_helptree
 from rich.console import Console
+import subprocess
 
 from maxson_build_utils import __version__
 from maxson_build_utils.logging_setup import (
@@ -20,7 +21,6 @@ from .context import DESCRIPTION_STR, APP_NAME
 from .helpers import print_write_results
 from ._version import __version__
 
-from maxson_build_utils.build.pyinstaller import run_build_executable
 from maxson_build_utils.deb import build_debian_package
 from maxson_build_utils.vendor import run_vendor_wheels
 from maxson_build_utils.linux_app_image import build_linux_appimage
@@ -175,13 +175,23 @@ def vendor_wheels(
 
 @build_app.command(name="pyinstaller")
 def build_pyinstaller(
-    app_name: str = typer.Option(None, "--app-name", help="Package application name"),
-    version: str = typer.Option(None, "--version", help="Version string"),
-    arch: str = typer.Option(None, "--arch", help="Target architecture")
+    script_path: Path = Path("packaging/pyinstaller/pyinstaller.py"),
 ):
-    """Assemble and build a pyinstaller package based on the stub in ./packaging/pyinstaller."""
-    run_build_executable(app_name=app_name, version=version, arch=arch)
+    """Execute the local project's PyInstaller build script."""
+    if not script_path.is_file():
+        typer.secho(
+            f"Error: Build script not found at '{script_path}'. "
+            "Run 'mbu init packaging pyinstaller' first.",
+            fg=typer.colors.RED,
+            err=True,
+        )
+        raise typer.Exit(code=1)
 
+    typer.echo(f"Running build script: {script_path}")
+    
+    result = subprocess.run([sys.executable, str(script_path)], check=False)
+    if result.returncode != 0:
+        raise typer.Exit(code=result.returncode)
 
 
 @build_app.command(name="deb")
