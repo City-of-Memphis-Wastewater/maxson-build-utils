@@ -12,6 +12,19 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 - Centralize entry point script standard for __main__.py
 - Expose dworshak as a subcommand
 
+### Internal:
+- Aim to replace current "mbu dowrhak" exposure with
+```
+from dworshak.typer import mount_dworshak
+mount_dworshak(
+    app,
+    app_dir=APP_DIR,
+    env_path=ENV_PATH,
+)
+```
+
+much like add_typer_helptree()
+
 ---
 
 ## [0.1.31] - 2026-08-26
