@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from maxson_build_utils._version import __version__
 from maxson_build_utils.context import IMPORT_NAME
-from maxson_build_utils.build_pyz import run_build_pyz
+from maxson_build_utils.builders.shiv import run_build_pyz
 
 if __name__ == "__main__":
     run_build_pyz(

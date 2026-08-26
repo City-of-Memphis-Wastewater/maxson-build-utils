@@ -258,9 +258,14 @@ def build_pyinstaller(
 @build_app.command(name="shiv")
 def build_pyz(
     version: str = typer.Option(None, "--version", help="Version string"),
+    test_gui: bool = typer.Option(
+    False,
+    "--test-gui",
+    help="Test the GUI launch for the generated PYZ.",
+    )
 ):
     """Assemble and build a Shiv .pyz package."""
-    run_build_pyz()
+    run_build_pyz(version=version,test_gui=test_gui)
 
 @build_app.command(name="deb")
 def build_deb(
