@@ -63,7 +63,7 @@ dev = [
 pyinstaller = [
     "pyinstaller>=6.17.0",
 ]
-build = [
+builds = [
     "pyinstaller>=6.17",
 ]
 [project.urls]
