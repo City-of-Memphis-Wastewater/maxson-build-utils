@@ -6,8 +6,6 @@ import typer
 from pathlib import Path
 from typer_helptree import add_typer_helptree
 from rich.console import Console
-import subprocess
-import shutil
 
 from maxson_build_utils.logging_setup import (
     configure_logging_all_debug,
@@ -200,6 +198,9 @@ much like add_typer_helptree()
 """
 def dworshak(ctx: typer.Context):
     """Run the Dworshak CLI using MBU's application config."""
+    import shutil
+    import subprocess
+
     args = list(ctx.args)
 
     # MBU owns all Dworshak storage paths. Do not permit callers
