@@ -12,10 +12,9 @@ from ..pyproject import MaxsonPyProject
 CLI_TEMPLATE = Template(
     '''\
 #!/usr/bin/env python3
+# src/$import_name/cli.py
 
-src/$import_name/cli.py
-
-from future import annotations
+from __future__ import annotations
 
 import logging
 import os
@@ -26,14 +25,14 @@ import typer
 from rich.console import Console
 from typer_helptree import add_typer_helptree
 
-from ._version import version
+from ._version import __version__
 from .context import APP_NAME, DESCRIPTION_STR
 from .logging_setup import (
     configure_logging_all_debug,
     configure_logging_for_application,
 )
 
-logger = logging.getLogger(name)
+logger = logging.getLogger(__name__)
 
 console_stderr = Console(stderr=True)
 console_stdout = Console()
@@ -46,7 +45,7 @@ os.environ["TERM"] = "xterm-256color"
 
 app = typer.Typer(
     name=APP_NAME,
-    help=f"{DESCRIPTION_STR} (v{version})",
+    help=f"{DESCRIPTION_STR} (v{__version__})",
     add_completion=False,
     invoke_without_command=True,
     no_args_is_help=True,
