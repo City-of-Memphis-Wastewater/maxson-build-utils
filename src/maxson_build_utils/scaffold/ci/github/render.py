@@ -11,6 +11,12 @@ from ....pyproject import MaxsonPyProject
 
 TEMPLATE_DIR = Path(__file__).parent / "templates"
 
+"""
+ls src/maxson_build_utils/scaffold/ci/github/templates/workflows
+appimage.yml      docker.yml            package-deb.yml  theory.yml
+build-onedir.yml  flatpak.yml           publish.yml
+ci.yml            package-appimage.yml  test.yml
+"""
 
 def run_init_github_workflows(
     root_dir: Path | str | None = None,
@@ -33,8 +39,8 @@ def run_init_github_workflows(
         workflow_dir / "test.yml":
             TEMPLATE_DIR / "workflows" / "test.yml",
 
-        workflow_dir / "build.yml":
-            TEMPLATE_DIR / "workflows" / "build.yml",
+        workflow_dir / "pyinstaller-onedir.yml":
+            TEMPLATE_DIR / "workflows" / "pyinstaller-onedir.yml",
 
         workflow_dir / "publish.yml":
             TEMPLATE_DIR / "workflows" / "publish.yml",
