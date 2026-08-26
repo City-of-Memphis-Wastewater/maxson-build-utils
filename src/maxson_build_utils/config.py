@@ -2,6 +2,6 @@
 from __future__ import annotations
 
 def get_config_mngr():
-    from .context import APP_DIR
+    from .context import APP_DIR, CONFIG_PATH
     from dworshak_config import DworshakConfig
-    return DworshakConfig(path=APP_DIR / "config.json")
+    return DworshakConfig(path=CONFIG_PATH)

@@ -68,3 +68,7 @@ DESCRIPTION_STR = get_description()
 APP_DIR = get_app_dir()
 LOG_FILE_PATH = get_log_file_path()
 SERVICE = APP_NAME
+
+CONFIG_PATH = APP_DIR / "config.json"
+SECRET_PATH = APP_DIR / "vault.db"
+ENV_PATH = Path.cwd() / ".env"

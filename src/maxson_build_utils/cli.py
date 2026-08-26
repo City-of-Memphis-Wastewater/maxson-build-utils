@@ -7,6 +7,7 @@ from pathlib import Path
 from typer_helptree import add_typer_helptree
 from rich.console import Console
 import subprocess
+import shutil
 
 from maxson_build_utils import __version__
 from maxson_build_utils.logging_setup import (
@@ -17,7 +18,7 @@ from maxson_build_utils.logging_setup import (
 
 logger = get_logger(__name__)
 
-from .context import DESCRIPTION_STR, APP_NAME
+from .context import DESCRIPTION_STR, APP_NAME, APP_DIR, CONFIG_PATH, ENV_PATH, SECRET_PATH
 from .helpers import print_write_results
 from ._version import __version__
 
@@ -120,14 +121,6 @@ add_typer_helptree(app = app, console = console_stderr, version = __version__, h
 
 # --- sub apps ---
 
-dworshak_app = typer.Typer(
-    name="dworshak",
-    help ="dworshak CLI with path resolved to this app.",
-    no_args_is_help=True,
-)
-
-app.add_typer(dworshak_app)
-
 build_app = typer.Typer(
     name="build",
     help="Run various builds. These rely on pre-existing manifest and spec files to be scaffolded.",
@@ -185,6 +178,39 @@ def vendor_wheels(
 ):
     """Build project wheel and vendor offline dependencies, like when preparing for Flatpak."""
     run_vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir)
+
+@app.command(
+    name="dworshak",
+    context_settings={
+        "allow_extra_args": True,
+        "ignore_unknown_options": True,
+    },
+)
+def dworshak(ctx: typer.Context):
+    """Run the Dworshak CLI using MBU's application config."""
+    args = list(ctx.args)
+
+    if args and args[0] == "config":
+        args.extend(["-p", str(CONFIG_PATH)])
+    if args and args[0] == "env":
+        args.extend(["-p", str(ENV_PATH)])
+    if args and args[0] == "secret":
+        args.extend(["-vp", str(SECRET_PATH)])
+
+    executable = shutil.which("dworshak")
+    if executable is None:
+        console_stderr.print(
+            "Dworshak executable not found.",
+            style="red",
+        )
+        raise typer.Exit(code=1)
+
+    result = subprocess.run(
+        [executable, *args],
+    )
+
+    raise typer.Exit(code=result.returncode)
+
 
 
 @build_app.command(name="pyinstaller")
