@@ -255,6 +255,13 @@ def build_pyinstaller(
 
     typer.secho(f"Successfully built binary to: {app_filepath}", fg=typer.colors.GREEN)
 
+@build_app.command(name="shiv")
+def build_pyz(
+    version: str = typer.Option(None, "--version", help="Version string"),
+):
+    """Assemble and build a Shiv .pyz package."""
+    run_build_pyz()
+
 @build_app.command(name="deb")
 def build_deb(
     app_name: str = typer.Option(None, "--app-name", help="Package application name"),
@@ -264,13 +271,6 @@ def build_deb(
     """Assemble and build a Debian .deb package."""
     build_debian_package(app_name=app_name, version=version, arch=arch)
 
-
-@build_app.command(name="shiv")
-def build_pyz(
-    version: str = typer.Option(None, "--version", help="Version string"),
-):
-    """Assemble and build a Shiv .pyz package."""
-    run_build_pyz()
 
 @build_app.command(name="appimage")
 def build_appimage(

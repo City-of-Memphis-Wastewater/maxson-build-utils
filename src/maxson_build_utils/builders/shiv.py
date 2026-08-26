@@ -12,7 +12,8 @@ import pyhabitat
 
 from ..helpers import form_dynamic_name
 from ..cli_utils import get_cli_commands
-
+from ..pyproject import MaxsonPyProject
+from ..context import get_pyproject
 
 def run_command(cmd: list[str], check: bool = True, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
     """Run command with logging and error reporting."""
@@ -90,9 +91,10 @@ def test_pyz_gui(output_path: Path):
 
 
 def run_build_pyz(
-    src_folder_name: str,
-    version: str,
-    entry_point: str,
+    root_dir: Path = Path.cwd(),
+    src_folder_name: str | None = None,
+    version: str | None = None,
+    entry_point: str | None = None,
     dist_dir: Path = Path("dist") / "zipapp",
     test_gui: bool = True,
 ) -> Path:
@@ -101,6 +103,17 @@ def run_build_pyz(
         raise ValueError("Cannot proceed without a valid version string.")
 
     dist_dir.mkdir(parents=True, exist_ok=True)
+
+    pyproject = MaxsonPyProject(path=root_dir)
+    if src_folder_name is None:
+        src_folder_name = pyproject.import_name
+    if version is None:
+        version = pyproject.version
+
+    #scripts = pyproject.get("project", "scripts")
+    #f"{pyproject.import_name}.__main__:app"
+    if entry_point is None:
+        entry_point = pyproject.get("project", "scripts",f"{pyproject.import_name}")
 
     # Configure isolated temporary root for Shiv internal caching
     build_temp = Path(tempfile.gettempdir()) / "shiv_build"
