@@ -9,7 +9,6 @@ from rich.console import Console
 import subprocess
 import shutil
 
-from maxson_build_utils import __version__
 from maxson_build_utils.logging_setup import (
     configure_logging_all_debug,
     configure_logging_for_application,
@@ -190,11 +189,35 @@ def dworshak(ctx: typer.Context):
     """Run the Dworshak CLI using MBU's application config."""
     args = list(ctx.args)
 
-    if args and args[0] == "config":
+    # MBU owns all Dworshak storage paths. Do not permit callers
+    # to override them through `mbu dworshak`.
+    forbidden_options = {
+        "-p",
+        "--path",
+        "-vp",
+        "--vault-path",
+    }
+
+    if any(arg in forbidden_options for arg in args):
+        console_stderr.print(
+            "Error: path options are not available with `mbu dworshak`.",
+            style="red",
+        )
+        raise typer.Exit(code=2)
+
+    if not args:
+        args = ["--help"]
+
+    command = args[0]
+    guard = len(args) >= 2
+
+    if command == "config" and guard:
         args.extend(["-p", str(CONFIG_PATH)])
-    if args and args[0] == "env":
+
+    elif command == "env" and guard:
         args.extend(["-p", str(ENV_PATH)])
-    if args and args[0] == "secret":
+
+    elif command == "secret" and guard:
         args.extend(["-vp", str(SECRET_PATH)])
 
     executable = shutil.which("dworshak")
