@@ -237,8 +237,10 @@ def dworshak(ctx: typer.Context):
     executable = shutil.which("dworshak")
     if executable is None:
         console_stderr.print(
-            "Dworshak executable not found.",
-            style="red",
+            "[red]Dworshak CLI is required for `mbu dworshak`.[/red]"
+        )
+        console_stderr.print(
+            '[yellow]Install it with:[/yellow] pipx install "dworshak[crypto], with the crypto extra if you plan to use encrypted secrets."'
         )
         raise typer.Exit(code=1)
 

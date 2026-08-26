@@ -6,6 +6,14 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.32] - 2026-08-26
+### Changed:
+- Stabilize shiv PYZ production.
+- Centralize entry point script standard for __main__.py
+- Expose dworshak as a subcommand
+
+---
+
 ## [0.1.31] - 2026-08-26
 ### Changed:
 - rendering.render_template() only accepts Path input, not optional Path or str.
