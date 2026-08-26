@@ -7,7 +7,7 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ## [0.1.35] - 2026-08-26
 ### Changed:
-- Adjust context to have hardcoded values. Because "mbu dowrshak-config" let to the app config, not the mbu config"
+- Adjust context to have hardcoded values. Because "mbu dowrshak-config" lead erroneously to the app config.
 
 ---
 
