@@ -106,7 +106,7 @@ jobs:
           #cp "$ICON_SRC/max-green_1024x1024.png" \
           #  "deb/pkg/usr/share/icons/hicolor/1024x1024/apps/$APP_NAME.png"
 
-          cp "$ICON_SRC/max-green.svg" \
+          cp "$ICON_SRC/water-green.svg" \
             "deb/pkg/usr/share/icons/hicolor/scalable/apps/$APP_NAME.svg"
 
       # ------------------------------------------------------------
