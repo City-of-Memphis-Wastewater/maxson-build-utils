@@ -61,6 +61,13 @@ dev = [
     "pytest-cov>=4.1.0",
 ]
 
+[project.optional-dependencies]
+pyinstaller = [
+    "pyinstaller>=6.17.0",
+]
+build = [
+    "pyinstaller>=6.17",
+]
 [project.urls]
 Homepage = "https://github.com/city-of-memphis-wastewater/maxson-build-utils"
 Repository = "https://github.com/city-of-memphis-wastewater/maxson-build-utils"
