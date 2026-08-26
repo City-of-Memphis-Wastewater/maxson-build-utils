@@ -260,8 +260,11 @@ class MaxsonPyProject(PyProject):
 
     @property
     def entry_point(self) -> str | None:
-        """Return the project's CLI entry point."""
+        """Return the primary CLI entry point.
 
+        Uses the first [project.scripts] entry when defined.
+        Falls back to the standard Maxson __main__:app convention.
+        """
         scripts = self.get("project", "scripts")
 
         if isinstance(scripts, dict) and scripts:
