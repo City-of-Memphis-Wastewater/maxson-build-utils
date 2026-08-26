@@ -22,12 +22,11 @@ def get_pyproject() -> MaxsonPyProject:
 
 
 def get_app_name() -> str:
-    return get_pyproject().app_name or PACKAGE_DIR.name.replace("_", "-")
+    return APP_NAME or PACKAGE_DIR.name.replace("_", "-")
 
-def get_pretty_name() -> str:
-    proj = get_pyproject()
-    if proj.pretty_name:
-        return proj.pretty_name
+def get_pretty_name(app_name:str|None=None) -> str:
+    if app_name is not None:
+        return to_title_case(app_name)
     return to_title_case(PACKAGE_DIR.name)
 
 def get_import_name() -> str:
@@ -40,33 +39,24 @@ def get_description() -> str:
     #return "Centralized build and packaging tools for the standard Maxson architecture." # no, don't hardcode
     return get_app_name()
 
-def get_app_dir() -> Path:
-    proj = get_pyproject()
-    if proj.app_dir is not None:
-        return proj.app_dir
-    
-    path = Path.home() / f".{get_app_name()}"
+def get_app_dir(app_name:str) -> Path:
+    path = Path.home() / f".{app_name()}"
     path.mkdir(parents=True, exist_ok=True)
     return path
 
-def get_log_file_path() -> Path | None:
-    proj = get_pyproject()
-    if proj.log_file_path is not None:
-        return proj.log_file_path
-    
-    # Fallback to standard OS cache path if app_dir cannot be created
-    app_name = get_app_name()
-    return Path.home() / ".cache" / app_name / f"{app_name}_errors.log"
+def get_log_file_path(app_dir,app_name) -> Path | None:
+    return app_dir / f"{app_name}_errors.log"
 
 
 # Legacy module-level exports (safely computed via path fallbacks)
-APP_NAME = get_app_name()
-APP_NAME_PRETTY = get_pretty_name()
-IMPORT_NAME = get_import_name()
-SRC_FOLDER_NAME = IMPORT_NAME
+APP_NAME = "maxson-build-utils"
+APP_NAME_PRETTY = "MaxsonBuildUtils"
 DESCRIPTION_STR = get_description()
-APP_DIR = get_app_dir()
-LOG_FILE_PATH = get_log_file_path()
+APP_DIR = get_app_dir(APP_NAME)
+IMPORT_NAME = "maxson_build_utils"
+
+LOG_FILE_PATH = get_log_file_path(APP_DIR,APP_NAME)
+SRC_FOLDER_NAME = IMPORT_NAME
 SERVICE = APP_NAME
 
 CONFIG_PATH = APP_DIR / "config.json"
