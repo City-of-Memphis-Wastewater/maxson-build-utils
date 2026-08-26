@@ -5,6 +5,15 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.29] - 2026-08-25
+### Changed:
+- Massive architectural implementation and clarification
+
+### Internal notes:
+- pyinstaller onedir products are known to have CLI failure, __main__ error, on 'mbu build pyinstaller'
+
+---
+
 ## [0.1.28] - 2026-08-20
 ### Changed:
 - logging_setup.py altered to be stable when eager
