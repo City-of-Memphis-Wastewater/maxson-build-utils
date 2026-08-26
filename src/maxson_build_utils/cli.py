@@ -189,7 +189,7 @@ mount_dworshak(
 
 much like add_typer_helptree()
 """
-@app.command(
+'''@app.command(
     name="dworshak",
     context_settings={
         "allow_extra_args": True,
@@ -244,6 +244,52 @@ def dworshak(ctx: typer.Context):
         )
         raise typer.Exit(code=1)
 
+    result = subprocess.run(
+        [executable, *args],
+    )
+
+    raise typer.Exit(code=result.returncode)
+'''
+
+@app.command(
+    name="dworshak-config",
+    context_settings={
+        "allow_extra_args": True,
+        "ignore_unknown_options": True,
+    },
+)
+def dworshak_config(ctx: typer.Context):
+    """Run the dworshak-config CLI using MBU's application config. This is carried as a dep."""
+    import shutil
+    import subprocess
+
+    args = list(ctx.args)
+
+    # MBU owns all Dworshak storage paths. Do not permit callers
+    # to override them through `mbu dworshak-config`.
+    forbidden_options = {
+        "-p",
+        "--path",
+        "-vp",
+        "--vault-path",
+    }
+
+    if any(arg in forbidden_options for arg in args):
+        console_stderr.print(
+            "Error: path options are not available with `mbu dworshak`.",
+            style="red",
+        )
+        raise typer.Exit(code=2)
+
+    if not args:
+        args = ["--help"]
+
+    guard = len(args) >= 1
+
+    if guard:
+        args.extend(["-p", str(CONFIG_PATH)])
+
+    executable = shutil.which("dworshak-config")
     result = subprocess.run(
         [executable, *args],
     )
