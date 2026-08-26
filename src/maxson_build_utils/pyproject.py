@@ -8,6 +8,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 from .names import to_snake_case, to_kebab_case, to_title_case
+from .entry import get_cli_entry_point
 
 try:
     import tomllib  # Python 3.11+
@@ -191,6 +192,34 @@ class MaxsonPyProject(PyProject):
 
         return None
 
+    @property
+    def author(self) -> str | None:
+        """Extract primary author or maintainer string from PEP 621 metadata."""
+        authors = self.get("project", "authors")
+        if isinstance(authors, list) and authors:
+            first = authors[0]
+            if isinstance(first, dict):
+                name = first.get("name", "")
+                email = first.get("email", "")
+                if name and email:
+                    return f"{name} <{email}>"
+                return name or email or None
+            if isinstance(first, str):
+                return first
+
+        # Fallback to direct string/dict if defined under author
+        author = self.get("project", "author")
+        if isinstance(author, dict):
+            name = author.get("name", "")
+            email = author.get("email", "")
+            if name and email:
+                return f"{name} <{email}>"
+            return name or email or None
+        if isinstance(author, str):
+            return author
+
+        return None
+
     # --- Path resolution ---
     @property
     def src_dir(self) -> Path | None:
@@ -230,32 +259,18 @@ class MaxsonPyProject(PyProject):
         return self.app_dir / f"{self.app_name}_errors.log"
 
     @property
-    def author(self) -> str | None:
-        """Extract primary author or maintainer string from PEP 621 metadata."""
-        authors = self.get("project", "authors")
-        if isinstance(authors, list) and authors:
-            first = authors[0]
-            if isinstance(first, dict):
-                name = first.get("name", "")
-                email = first.get("email", "")
-                if name and email:
-                    return f"{name} <{email}>"
-                return name or email or None
-            if isinstance(first, str):
-                return first
+    def entry_point(self) -> str | None:
+        """Return the project's CLI entry point."""
 
-        # Fallback to direct string/dict if defined under author
-        author = self.get("project", "author")
-        if isinstance(author, dict):
-            name = author.get("name", "")
-            email = author.get("email", "")
-            if name and email:
-                return f"{name} <{email}>"
-            return name or email or None
-        if isinstance(author, str):
-            return author
+        scripts = self.get("project", "scripts")
 
-        return None
+        if isinstance(scripts, dict) and scripts:
+            return str(next(iter(scripts.values())))
+
+        if self.import_name is None:
+            return None
+
+        return get_cli_entry_point(self.import_name)
 
     def _configured_path(self, *keys: str) -> Path | None:
         value = self.get(
