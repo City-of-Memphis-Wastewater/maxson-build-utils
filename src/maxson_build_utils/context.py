@@ -40,7 +40,7 @@ def get_description() -> str:
     return get_app_name()
 
 def get_app_dir(app_name:str) -> Path:
-    path = Path.home() / f".{app_name()}"
+    path = Path.home() / f".{app_name}"
     path.mkdir(parents=True, exist_ok=True)
     return path
 
