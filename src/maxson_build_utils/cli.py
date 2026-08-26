@@ -185,6 +185,19 @@ def vendor_wheels(
         "ignore_unknown_options": True,
     },
 )
+"""
+Aim to replace this with
+```
+from dworshak.typer import mount_dworshak
+mount_dworshak(
+    app,
+    app_dir=APP_DIR,
+    env_path=ENV_PATH,
+)
+```
+
+much like add_typer_helptree()
+"""
 def dworshak(ctx: typer.Context):
     """Run the Dworshak CLI using MBU's application config."""
     args = list(ctx.args)
