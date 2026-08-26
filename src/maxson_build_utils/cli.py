@@ -119,6 +119,14 @@ add_typer_helptree(app = app, console = console_stderr, version = __version__, h
 
 # --- sub apps ---
 
+dworshak_app = typer.Typer(
+    name="dworshak",
+    help "dworshak CLI with path resolved to this app."
+    no_args_is_help=True,
+)
+
+app.add_typer(dworshak_app)
+
 build_app = typer.Typer(
     name="build",
     help="Run various builds. These rely on pre-existing manifest and spec files to be scaffolded.",
