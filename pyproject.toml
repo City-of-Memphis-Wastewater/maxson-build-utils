@@ -110,6 +110,9 @@ publisher = "CN=806FDEBD-B014-4625-85AE-058C714FC7F2"
 publisher_display_name = "George Clayton Bennett"
 identity_name = "GeorgeClaytonBennett.MaxsonBuildUtils"
 
+[tool.maxson-build-utils.packaging.flatpak]
+manifest_filename = ""
+
 [tool.maxson-build-utils.icons]
 png-256 = { path = "src/maxson_build_utils/data/icons/water-green_256x256.png" }
 png-1024 = { path = "src/maxson_build_utils/data/icons/water-green_1024x1024.png" }

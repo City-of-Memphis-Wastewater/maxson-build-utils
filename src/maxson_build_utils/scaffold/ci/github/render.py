@@ -30,6 +30,7 @@ def run_init_github_workflows(
         "app_name": pyproject.app_name,
         "pretty_name": pyproject.pretty_name,
         "import_name": pyproject.import_name,
+        "flatpak_manifest_filename": get_flatpak_manifest_filename(),
     }
 
     workflows = {
@@ -75,6 +76,11 @@ def run_init_github_ci(
     results.append(run_init_dependabot(root_dir))
 
     return results
+
+def get_flatpak_manifest_filename()->str:
+    from maxson_build_utils import MaxsonPyProject
+    pyproject = MaxsonPyProject()
+    return pyproject.get("tools","maxson-build-utils","packaging","flatpak","manifest_filename")
 
 def run_init_dependabot(
     root_dir: Path | str | None = None,
