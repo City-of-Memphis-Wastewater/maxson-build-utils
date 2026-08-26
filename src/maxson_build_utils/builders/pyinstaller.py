@@ -132,7 +132,17 @@ def construct_pyinstaller_command(
         f"--distpath={dist_path}",
         f'--workpath={BUILD_DIR / "work"}',
         f"--specpath={BUILD_DIR}",
+        # Typer/Click/Rich
+        "--hidden-import", "typer.models",
+        "--hidden-import", "typer.main",
+        "--hidden-import", "typer",
+        "--hidden-import", "click",
+        "--hidden-import", "rich",
+
+        # Application CLI
+        "--hidden-import", f"{src_folder_name}.cli",
     ]
+
 
     # Explicit data directory check
     data_dir = PROJECT_ROOT / "src" / src_folder_name / "data"

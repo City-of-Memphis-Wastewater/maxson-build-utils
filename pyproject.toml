@@ -93,6 +93,8 @@ mode = "onedir"
 windowed = false
 collect_data_pkgs = ["maxson_build_utils"]
 collect_binary_pkgs = []
+collect_metadata_pkgs = ["typer", "click", "rich"]
+collect_submodules_pkgs = ["typer", "click", "rich"]
 
 [tool.maxson-build-utils.packaging.msix]
 publisher = "CN=806FDEBD-B014-4625-85AE-058C714FC7F2"
