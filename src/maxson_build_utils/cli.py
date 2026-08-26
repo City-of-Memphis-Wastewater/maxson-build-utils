@@ -121,7 +121,7 @@ add_typer_helptree(app = app, console = console_stderr, version = __version__, h
 
 dworshak_app = typer.Typer(
     name="dworshak",
-    help "dworshak CLI with path resolved to this app.",
+    help ="dworshak CLI with path resolved to this app.",
     no_args_is_help=True,
 )
 
