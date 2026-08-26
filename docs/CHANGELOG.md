@@ -5,6 +5,12 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.30] - 2026-08-25
+### Changed:
+- Carry pyinstaller extra
+
+---
+
 ## [0.1.29] - 2026-08-25
 ### Changed:
 - Massive architectural implementation and clarification
