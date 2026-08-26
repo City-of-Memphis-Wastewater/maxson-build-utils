@@ -6,6 +6,12 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.33] - 2026-08-26
+### Changed:
+- Expose dworshak-config instead of dworshak, due to expected scope and dependency handling
+
+---
+
 ## [0.1.32] - 2026-08-26
 ### Changed:
 - Stabilize shiv PYZ production.
