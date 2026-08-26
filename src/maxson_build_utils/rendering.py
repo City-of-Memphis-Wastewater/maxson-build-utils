@@ -15,7 +15,8 @@ def render_template(
     context: dict[str, str],
 ) -> str:
     """Render a text template using the supplied context."""
-    template = Template(Path(template_path.read_text()))
+    #template = Template(Path(template_path.read_text()))
+    template = Template(template_path.read_text())
 
     return template.substitute(context)
 
