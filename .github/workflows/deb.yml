@@ -81,7 +81,7 @@ jobs:
       - name: Install launcher
         run: |
           install -Dm755 \
-            deb/launcher.sh \
+            packaging/deb/launcher.sh \
             deb/pkg/usr/bin/maxson-build-utils
           chmod +x deb/pkg/usr/bin/maxson-build-utils
           
@@ -91,7 +91,7 @@ jobs:
       - name: Install desktop entry
         run: |
           install -Dm644 \
-            deb/maxson-build-utils.desktop \
+            packaging/deb/maxson-build-utils.desktop \
             deb/pkg/usr/share/applications/maxson-build-utils.desktop
 
       # ------------------------------------------------------------
@@ -123,7 +123,7 @@ jobs:
 
           sed -e "s/__VERSION__/${VERSION}/g" \
               -e "s/__ARCH__/${ARCH}/g" \
-              deb/control.in > deb/pkg/DEBIAN/control
+              packaging/deb/control.in > deb/pkg/DEBIAN/control
 
           # echo "" >> deb/pkg/DEBIAN/control
 
