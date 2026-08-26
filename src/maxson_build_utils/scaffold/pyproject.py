@@ -34,6 +34,7 @@ DEFAULT_DEV_DEPENDENCIES = [
     "pyinstaller>=6.17.0 ; platform_system == 'Linux' and platform_machine != 'aarch64'",
     "shiv>=1.0.8",
     "ruff>=0.7.0 ; platform_system == 'Linux' and platform_machine != 'aarch64'",
+    "maxson-build-utils>=0.1.33",
 ]
 
 DEFAULT_TEST_DEPENDENCIES = [
@@ -94,11 +95,11 @@ keywords = [
 $keywords
 ]
 
-[project.urls]
-Homepage = $homepage
-Repository = $repository
-Issues = $issues
-Changelog = $changelog
+#[project.urls]
+#Homepage = $homepage
+#Repository = $repository
+#Issues = $issues
+#Changelog = $changelog
 
 [project.scripts]
 $script_name = $script_target
