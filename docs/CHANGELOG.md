@@ -6,6 +6,12 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.34] - 2026-08-26
+### Changed:
+- Stabilize scaffolded CLI to use string.Template approach
+
+---
+
 ## [0.1.33] - 2026-08-26
 ### Changed:
 - Expose dworshak-config instead of dworshak, due to expected scope and dependency handling
