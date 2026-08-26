@@ -12,6 +12,8 @@ from ..helpers import write_str_to_file, WriteResult
 from ..pyproject import MaxsonPyProject, PyProject
 from ..config import get_config_mngr
 from ..names import to_pascal_case, get_default_identity_name
+from ..entry import get_cli_entry_point
+
 config_mngr = get_config_mngr()
 
 
@@ -328,10 +330,13 @@ def render_pyproject(pyproject: MaxsonPyProject) -> str:
         script_name=_toml_string(
             _script_name(pyproject)
         ),
-
         script_target=_toml_string(
-            f"{pyproject.import_name}.__main__:app"
+            get_cli_entry_point(pyproject.import_name)
         ),
+
+        #script_target=_toml_string(
+        #    f"{pyproject.import_name}.__main__:app"
+        #),
 
         test_dependencies=_toml_array(
                         DEFAULT_TEST_DEPENDENCIES

@@ -14,6 +14,7 @@ from ..helpers import form_dynamic_name
 from ..cli_utils import get_cli_commands
 from ..pyproject import MaxsonPyProject
 from ..context import get_pyproject
+from ..entry import get_cli_entry_point
 
 def run_command(cmd: list[str], check: bool = True, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
     """Run command with logging and error reporting."""
@@ -110,10 +111,10 @@ def run_build_pyz(
     if version is None:
         version = pyproject.version
 
-    #scripts = pyproject.get("project", "scripts")
-    #f"{pyproject.import_name}.__main__:app"
+    #if entry_point is None:
+    #    entry_point = pyproject.get("project", "scripts",f"{pyproject.app_name}")
     if entry_point is None:
-        entry_point = pyproject.get("project", "scripts",f"{pyproject.app_name}")
+        entry_point = get_cli_entry_point(pyproject.import_name)
 
     # Configure isolated temporary root for Shiv internal caching
     build_temp = Path(tempfile.gettempdir()) / "shiv_build"

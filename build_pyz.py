@@ -14,6 +14,5 @@ if __name__ == "__main__":
     run_build_pyz(
         src_folder_name=IMPORT_NAME,
         version=__version__,
-        entry_point="maxson_build_utils.__main__:app",
         test_gui=False
     )
