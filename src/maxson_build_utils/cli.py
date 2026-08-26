@@ -176,13 +176,6 @@ def vendor_wheels(
     """Build project wheel and vendor offline dependencies, like when preparing for Flatpak."""
     run_vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir)
 
-@app.command(
-    name="dworshak",
-    context_settings={
-        "allow_extra_args": True,
-        "ignore_unknown_options": True,
-    },
-)
 """
 Aim to replace this with
 ```
@@ -196,6 +189,13 @@ mount_dworshak(
 
 much like add_typer_helptree()
 """
+@app.command(
+    name="dworshak",
+    context_settings={
+        "allow_extra_args": True,
+        "ignore_unknown_options": True,
+    },
+)
 def dworshak(ctx: typer.Context):
     """Run the Dworshak CLI using MBU's application config."""
     import shutil
