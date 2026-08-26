@@ -11,7 +11,7 @@ _PATTERN = re.compile(r"@@([A-Za-z_][A-Za-z0-9_]*)@@")
 
 
 def render_template(
-    template_path: Path | str,
+    template_path: Path,
     context: dict[str, str],
 ) -> str:
     """Render a text template using the supplied context."""
