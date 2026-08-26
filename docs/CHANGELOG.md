@@ -9,6 +9,8 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 ## [0.1.34] - 2026-08-26
 ### Changed:
 - Stabilize scaffolded CLI to use string.Template approach
+- Ensure mbu is a dev dep in the consuming project
+- comment out URL section by default, for now, until we can route to dworshak-config
 
 ---
 
