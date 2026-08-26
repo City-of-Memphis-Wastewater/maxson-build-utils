@@ -85,10 +85,12 @@ maxson-build-utils = { path = "src/maxson_build_utils" }
 [tool.setuptools.dynamic]
 version = {file = "src/maxson_build_utils/VERSION"}
 
-[tool.setuptools.package-data] # in service of maxson_build_utils.icons
+[tool.setuptools.package-data]
 maxson_build_utils = [
     "data/icons/*",
     "data/icons/**/*",
+    "scaffold/ci/github/templates/*.yml",
+    "scaffold/ci/github/templates/workflows/*.yml",
 ]
 
 [tool.maxson-build-utils.names]
