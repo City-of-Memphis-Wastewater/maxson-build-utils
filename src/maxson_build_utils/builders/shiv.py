@@ -113,7 +113,7 @@ def run_build_pyz(
     #scripts = pyproject.get("project", "scripts")
     #f"{pyproject.import_name}.__main__:app"
     if entry_point is None:
-        entry_point = pyproject.get("project", "scripts",f"{pyproject.import_name}")
+        entry_point = pyproject.get("project", "scripts",f"{pyproject.app_name}")
 
     # Configure isolated temporary root for Shiv internal caching
     build_temp = Path(tempfile.gettempdir()) / "shiv_build"
