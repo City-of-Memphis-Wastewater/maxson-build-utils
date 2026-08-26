@@ -7,7 +7,7 @@ from pathlib import Path
 from ....rendering import render_template_safe, render_template
 from ....helpers import WriteResult, write_str_to_file
 from ....pyproject import MaxsonPyProject
-
+from ....scaffold.packaging.flatpak import resolve_flatpak_metadata
 
 TEMPLATE_DIR = Path(__file__).parent / "templates"
 
@@ -25,13 +25,15 @@ def run_init_github_workflows(
     pyproject = MaxsonPyProject(root)
 
     workflow_dir = root / ".github" / "workflows"
+    meta = resolve_flatpak_metadata(root / "pyproject.toml")
 
     context = {
         "app_name": pyproject.app_name,
         "pretty_name": pyproject.pretty_name,
         "import_name": pyproject.import_name,
-        "flatpak_manifest_filename": get_flatpak_manifest_filename(pyproject),
-    }
+        "flatpak_manifest_filename": f"{meta['APP_ID']}.yaml",
+        "flatpak_app_id": meta["APP_ID"],
+}
 
     workflows = {
         workflow_dir / "ci.yml":
