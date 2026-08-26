@@ -23,6 +23,7 @@ from ._version import __version__
 
 from maxson_build_utils import MaxsonPyProject
 from maxson_build_utils.builders.pyinstaller import run_build_executable
+from maxson_build_utils.builders.shiv import run_build_pyz
 from maxson_build_utils.helpers import PyinsMode
 from maxson_build_utils.deb import build_debian_package
 from maxson_build_utils.vendor import run_vendor_wheels
@@ -263,6 +264,13 @@ def build_deb(
     """Assemble and build a Debian .deb package."""
     build_debian_package(app_name=app_name, version=version, arch=arch)
 
+
+@build_app.command(name="shiv")
+def build_pyz(
+    version: str = typer.Option(None, "--version", help="Version string"),
+):
+    """Assemble and build a Shiv .pyz package."""
+    run_build_pyz()
 
 @build_app.command(name="appimage")
 def build_appimage(
