@@ -5,6 +5,12 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.38] - 2026-08-27
+### Changed:
+- Stabilize gui scaffold with testing; stop calling theme in scaffolded gui, for now. Also, auto close is a placeholder, set to None. Correct (remove) the newline injection.
+
+---
+
 ## [0.1.37] - 2026-08-27
 ### Changed:
 - Correct control file ref in scaffold/packaging/deb.py, from 'control.in' -> 'control'.
