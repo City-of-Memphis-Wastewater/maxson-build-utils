@@ -19,13 +19,13 @@ PACKAGE_DIR = Path(__file__).resolve().parent
 SRC_DIR = PACKAGE_DIR.parent
 PROJECT_ROOT = SRC_DIR.parent
 
-APP_NAME = @@app_name@@
-APP_NAME_PRETTY = @@pretty_name@@
-IMPORT_NAME = @@import_name@@
-SRC_FOLDER_NAME = @@import_name@@
-DESCRIPTION_STR = @@description@@
+APP_NAME = "@@app_name@@"
+APP_NAME_PRETTY = "@@pretty_name@@"
+IMPORT_NAME = "@@import_name@@"
+SRC_FOLDER_NAME = "@@import_name@@"
+DESCRIPTION_STR = "@@description@@"
 APP_DIR = Path.home() / ".@@app_name@@"
-LOG_FILE_PATH = @@log_path@@
+LOG_FILE_PATH = "@@log_path@@"
 SERVICE = APP_NAME
 """
 
