@@ -7,7 +7,7 @@ A convention-optional build and deployment framework, with an opinionated Maxson
 ## Spotlight IT
 
 ChatGPT or Gemini can provide good Python core logic.
-"Fix my problem, tell me the library, write a single script, give me some funtions with some args."
+"Fix my problem, tell me the library, write a single script, give me some functions with some arguments."
 
 But how do you run that solution on other computers? For coworkers? For contractors? 
 
