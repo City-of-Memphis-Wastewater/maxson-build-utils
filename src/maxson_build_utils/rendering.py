@@ -80,9 +80,9 @@ def get_template_context(
 
 
 def render_template(
-    template_str: str | None = None,
-    template_path: Path | None = None
     context: dict[str, Any],
+    template_str: str | None = None,
+    template_path: Path | None = None,
 ) -> str:
     """Render an MBU template using @@name@@ substitutions."""
     if template_str is None and template_path is None:
