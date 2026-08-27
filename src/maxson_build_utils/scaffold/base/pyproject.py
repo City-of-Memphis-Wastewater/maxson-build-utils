@@ -117,6 +117,8 @@ dev = [
     { include-group = "test" },
 $dev_dependencies
 ]
+
+[project.optional-dependencies]
 gui = [
 $gui_dependencies
 ]
