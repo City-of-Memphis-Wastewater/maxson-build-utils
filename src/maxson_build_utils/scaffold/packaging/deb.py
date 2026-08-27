@@ -72,7 +72,7 @@ def run_init_deb(
     app_name = meta["APP_NAME"]
 
     files_to_create: dict[Path, str] = {
-        deb_dir / "control": DEFAULT_CONTROL_TEMPLATE.format(**meta),
+        deb_dir / "control.in": DEFAULT_CONTROL_TEMPLATE.format(**meta),
         deb_dir / f"{app_name}.desktop": DEFAULT_DESKTOP_TEMPLATE.format(**meta),
         deb_dir / "launcher.sh": DEFAULT_LAUNCHER_TEMPLATE.format(APP_NAME=app_name),
     }
