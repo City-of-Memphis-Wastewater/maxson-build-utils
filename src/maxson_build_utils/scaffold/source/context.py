@@ -25,7 +25,7 @@ IMPORT_NAME = "@@import_name@@"
 SRC_FOLDER_NAME = "@@import_name@@"
 DESCRIPTION_STR = "@@description@@"
 APP_DIR = Path.home() / ".@@app_name@@"
-LOG_FILE_PATH = "@@log_path@@"
+LOG_FILE_PATH = APP_DIR / "@@app_name@@.log"
 SERVICE = APP_NAME
 """
 
@@ -67,10 +67,6 @@ def run_init_context(
     pyproject = MaxsonPyProject(root_dir)
 
     context = get_template_context(pyproject)
-    context.update(
-        {"log_path": pyproject.app_dir / f"{pyproject.app_name}.log"
-        }
-    )
     text = render_template(
         template_str=CONTEXT_TEMPLATE,
         context=context,

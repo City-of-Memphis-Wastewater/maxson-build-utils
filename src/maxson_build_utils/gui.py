@@ -6,6 +6,7 @@ import pyhabitat
 import tkinter as tk
 from tkinter import ttk, messagebox, PhotoImage
 from maxson_gui_utils.tk_utils import center_window_on_primary
+from maxson_gui_utils.external_web_launch import launch_configured_website
 from pathlib import Path
 from typing import Optional
 from importlib.resources import files

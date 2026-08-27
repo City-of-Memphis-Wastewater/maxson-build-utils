@@ -42,6 +42,11 @@ DEFAULT_TEST_DEPENDENCIES = [
     "pytest-cov>=4.1.0",
 ]
 
+OPTIONAL_GUI_DEPENDENCIES = [
+    "maxson_gui_utils>=0.1.4",
+]
+
+
 DEFAULT_CLASSIFIERS = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
@@ -111,6 +116,9 @@ $test_dependencies
 dev = [
     { include-group = "test" },
 $dev_dependencies
+]
+gui = [
+$gui_dependencies
 ]
 
 
@@ -347,6 +355,9 @@ def render_pyproject(pyproject: MaxsonPyProject) -> str:
 
         dev_dependencies=_toml_array(
             DEFAULT_DEV_DEPENDENCIES
+        ),
+        gui_dependencies=_toml_array(
+            OPTIONAL_GUI_DEPENDENCIES
         ),
 
         source_path=_toml_string(

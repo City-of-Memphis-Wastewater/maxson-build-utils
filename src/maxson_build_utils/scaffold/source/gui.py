@@ -20,11 +20,13 @@ import sys
 import tkinter as tk
 from importlib.resources import files
 from tkinter import messagebox, ttk
+from maxson_gui_utils.tk_utils import center_window_on_primary
+from maxson_gui_utils.external_web_launch import launch_configured_website
 
 import pyhabitat
 
 from ._version import __version__
-from .context import APP_NAME, IMPORT_NAME
+from .context import APP_NAME, IMPORT_NAME, APP_DIR
 
 logger = logging.getLogger(__name__)
 
@@ -120,6 +122,13 @@ class GuiApp:
             command=self._show_about,
         )
 
+        tools_menu = tk.Menu(menubar, tearoff=0)
+        menubar.add_cascade(label="Tools", menu=tools_menu)
+
+        tools_menu.add_command(label="Show Filled Files ", command=lambda: self._show_target_files_in_system_explorer())
+        tools_menu.add_command(label="Launch Configured Website ", command=lambda: self._launch_configured_website())
+
+        
         options.add_separator()
 
         options.add_command(
@@ -150,6 +159,21 @@ class GuiApp:
             "About",
             f"{APP_NAME}\n\nVersion {__version__}",
         )
+
+    def _show_target_files_in_system_explorer(self) -> None:
+        """
+        Opens the system file explorer to the directory containing
+        the exported files, with GUI error handling.
+        """
+        try:
+            target_dir = APP_DIR
+            pyhabitat.show_system_explorer(path = target_dir)
+        except Exception as e:
+            # The GUI catches the error to show a user-friendly popup
+            messagebox.showerror("Error", f"Could not open system explorer: {e}")
+
+    def _launch_configured_website(self):
+        launch_configured_website()
 
 
 def apply_windows_taskbar_icon() -> None:
