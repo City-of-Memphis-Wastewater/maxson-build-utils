@@ -478,7 +478,6 @@ def init_base_all():
 
 @init_src_app.command("all")
 def init_source_all():
-    init_src()
     init_main()
     init_init()
     init_context()
