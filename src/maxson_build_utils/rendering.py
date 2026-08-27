@@ -80,12 +80,12 @@ def get_template_context(
 
 
 def render_template(
-    template_path: Path,
+    template_str: str,
     context: dict[str, Any],
 ) -> str:
     """Render an MBU template using @@name@@ substitutions."""
-    text = template_path.read_text()
-
+    #text = template_path.read_text()
+    text = template_str
     def replace(match: re.Match[str]) -> str:
         name = match.group(1)
 

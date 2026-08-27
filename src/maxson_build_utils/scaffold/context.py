@@ -69,8 +69,8 @@ def run_init_context(
     context = get_template_context(pyproject)
 
     text = render_template(
-        TEMPLATE,
-        context,
+        text=CONTEXT_TEMPLATE,
+        context=context,
     )
 
     return write_str_to_file(
