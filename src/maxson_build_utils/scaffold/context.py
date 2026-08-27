@@ -67,7 +67,10 @@ def run_init_context(
     pyproject = MaxsonPyProject(root_dir)
 
     context = get_template_context(pyproject)
-
+    context.update(
+        {"log_path": pyproject.app_dir / f"{pyproject.app_name}.log"
+        }
+    )
     text = render_template(
         template_str=CONTEXT_TEMPLATE,
         context=context,
