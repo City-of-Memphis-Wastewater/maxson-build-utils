@@ -6,6 +6,7 @@ logger = logging.getLogger(__name__)
 
 from ..helpers import write_str_to_file, WriteResult
 from ..pyproject import MaxsonPyProject
+from ..rendering import get_template_context, render_template
 
 GUI_TEMPLATE= '''
 #!/usr/bin/env python3
