@@ -5,6 +5,7 @@ from __future__ import annotations
 import pyhabitat
 import tkinter as tk
 from tkinter import ttk, messagebox, PhotoImage
+from maxson_gui_utils.tk_utils import center_window_on_primary
 from pathlib import Path
 from typing import Optional
 from importlib.resources import files
@@ -18,7 +19,6 @@ logger = logging.getLogger(__name__)
 
 from .context import IMPORT_NAME
 from ._version import get_version, __version__
-#from .tk_utils import center_window_on_primary
 from .context import (
             APP_NAME,
             )
@@ -233,7 +233,7 @@ def start_gui(time_auto_close: int = 0):
         # Re-center the app window before showing it
         # Center and then reveal
         # 2. CONFIG: Set title and geometry while hidden
-        # center_window_on_primary(root, APP_W, APP_H)
+        center_window_on_primary(root, APP_W, APP_H)
 
 
         root.config(cursor="arrow")
