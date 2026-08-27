@@ -1,4 +1,4 @@
-# src/maxson_build_utils/scaffold/git.py
+# src/maxson_build_utils/scaffold/base/git.py
 
 from __future__ import annotations
 

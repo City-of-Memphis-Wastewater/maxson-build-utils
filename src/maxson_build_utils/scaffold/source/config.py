@@ -1,12 +1,12 @@
-# src/maxson_build_utils/scaffold/config.py
+# src/maxson_build_utils/scaffold/source/config.py
 
 from __future__ import annotations
 
 from pathlib import Path
 from string import Template
 
-from ..helpers import write_str_to_file, WriteResult
-from ..pyproject import MaxsonPyProject
+from ...helpers import write_str_to_file, WriteResult
+from ...pyproject import MaxsonPyProject
 
 
 CONFIG_TEMPLATE = Template(

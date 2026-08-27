@@ -1,11 +1,11 @@
-# src/maxson_build_utils/scaffold/version.py
+# src/maxson_build_utils/scaffold/source/version.py
 from __future__ import annotations
 from pathlib import Path
 import logging
 logger = logging.getLogger(__name__)
 
-from ..helpers import write_str_to_file, WriteResult
-from ..pyproject import MaxsonPyProject
+from ...helpers import write_str_to_file, WriteResult
+from ...pyproject import MaxsonPyProject
 
 def run_init_version(root_dir: Path | str | None = None) -> WriteResult:
     pyproject = MaxsonPyProject(root_dir)

@@ -1,12 +1,12 @@
-# src/maxson_build_utils/scaffold/logging_setup.py
+# src/maxson_build_utils/scaffold/source/logging_setup.py
 
 from __future__ import annotations
 
 from pathlib import Path
 from string import Template
 
-from ..helpers import write_str_to_file, WriteResult
-from ..pyproject import MaxsonPyProject
+from ...helpers import write_str_to_file, WriteResult
+from ...pyproject import MaxsonPyProject
 
 # -----
 # Template

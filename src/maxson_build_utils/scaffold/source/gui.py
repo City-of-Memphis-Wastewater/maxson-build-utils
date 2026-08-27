@@ -1,12 +1,12 @@
-# src/maxson_build_utils/scaffold/gui.py
+# src/maxson_build_utils/scaffold/source/gui.py
 from __future__ import annotations
 from pathlib import Path
 import logging
 logger = logging.getLogger(__name__)
 
-from ..helpers import write_str_to_file, WriteResult
-from ..pyproject import MaxsonPyProject
-from ..rendering import get_template_context, render_template
+from ...helpers import write_str_to_file, WriteResult
+from ...pyproject import MaxsonPyProject
+from ...rendering import get_template_context, render_template
 
 GUI_TEMPLATE= '''
 #!/usr/bin/env python3

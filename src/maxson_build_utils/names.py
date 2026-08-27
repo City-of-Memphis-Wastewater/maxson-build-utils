@@ -28,6 +28,7 @@ def to_pascal_case(val: str) -> str:
 
 
 def get_default_identity_name(publisher_display_name: str, pretty_name: str) -> str:
+    """msix packaging for windows store"""
     clean_pub = to_pascal_case(publisher_display_name)
     clean_app = to_pascal_case(pretty_name)
     return f"{clean_pub}.{clean_app}"

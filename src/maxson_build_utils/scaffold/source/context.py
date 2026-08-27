@@ -1,13 +1,13 @@
-# src/maxson_build_utils/scaffold/context.py
+# src/maxson_build_utils/scaffold/source/context.py
 from __future__ import annotations
 from pathlib import Path
 #from string import Template
 import logging
 logger = logging.getLogger(__name__)
 
-from ..helpers import write_str_to_file, WriteResult
-from ..pyproject import MaxsonPyProject
-from ..rendering import get_template_context, render_template
+from ...helpers import write_str_to_file, WriteResult
+from ...pyproject import MaxsonPyProject
+from ...rendering import get_template_context, render_template
 
 CONTEXT_TEMPLATE = """\
 # src/@@import_name@@/context.py

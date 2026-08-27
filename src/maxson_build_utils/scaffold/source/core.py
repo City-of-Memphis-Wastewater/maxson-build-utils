@@ -1,12 +1,12 @@
-# src/maxson_build_utils/scaffold/core.py
+# src/maxson_build_utils/scaffold/source/core.py
 
 from __future__ import annotations
 
 from pathlib import Path
 from string import Template
 
-from ..helpers import write_str_to_file, WriteResult
-from ..pyproject import MaxsonPyProject
+from ...helpers import write_str_to_file, WriteResult
+from ...pyproject import MaxsonPyProject
 
 
 CORE_TEMPLATE = Template(

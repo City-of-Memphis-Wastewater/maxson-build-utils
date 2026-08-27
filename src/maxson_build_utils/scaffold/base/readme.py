@@ -1,4 +1,4 @@
-# src/maxson_build_utils/scaffold/readme.py
+# src/maxson_build_utils/scaffold/base/readme.py
 """
 Readme.md should be generated to include the description (which may or may not exist yet but might be the only thing prompted for), and should include the helptree reference section.
 """
@@ -7,8 +7,8 @@ from __future__ import annotations
 from pathlib import Path
 from string import Template
 
-from ..helpers import write_str_to_file, WriteResult
-from ..pyproject import MaxsonPyProject
+from ...helpers import write_str_to_file, WriteResult
+from ...pyproject import MaxsonPyProject
 
 
 README_TEMPLATE = Template(

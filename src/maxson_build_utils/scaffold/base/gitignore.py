@@ -1,4 +1,4 @@
-# src/maxson_build_utils/scaffold/gitignore.py
+# src/maxson_build_utils/scaffold/base/gitignore.py
 """
 Use my custom .gitignore standard file.
 """
@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from ..helpers import write_str_to_file,WriteResult
+from ...helpers import write_str_to_file,WriteResult
 
 
 GITIGNORE = """\

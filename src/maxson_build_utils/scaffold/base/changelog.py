@@ -1,11 +1,11 @@
-# src/maxson_build_utils/scaffold/changelog.py
+# src/maxson_build_utils/scaffold/base/changelog.py
 from __future__ import annotations
 from pathlib import Path
 import logging
 
 logger = logging.getLogger(__name__)
 
-from ..helpers import write_str_to_file, WriteResult
+from ...helpers import write_str_to_file, WriteResult
 
 
 def run_init_changelog()->WriteResult:

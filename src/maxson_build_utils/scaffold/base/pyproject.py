@@ -1,4 +1,4 @@
-# src/maxson_build_utils/scaffold/pyproject.py
+# src/maxson_build_utils/scaffold/base/pyproject.py
 
 from __future__ import annotations
 
@@ -8,10 +8,10 @@ from string import Template
 
 from maxson_build_utils.context import APP_NAME
 
-from ..helpers import write_str_to_file, WriteResult
-from ..pyproject import MaxsonPyProject, PyProject
-from ..config import get_config_mngr
-from ..names import to_pascal_case, get_default_identity_name
+from ...helpers import write_str_to_file, WriteResult
+from ...pyproject import MaxsonPyProject
+from ...config import get_config_mngr
+from ...names import to_pascal_case, get_default_identity_name
 
 config_mngr = get_config_mngr()
 

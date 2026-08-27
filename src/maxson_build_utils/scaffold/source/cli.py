@@ -1,12 +1,12 @@
-# src/maxson_build_utils/scaffold/cli.py
+# src/maxson_build_utils/scaffold/source/cli.py
 
 from __future__ import annotations
 
 from pathlib import Path
 
-from ..helpers import WriteResult, write_str_to_file
-from ..pyproject import MaxsonPyProject
-from ..rendering import get_template_context, render_template
+from ...helpers import WriteResult, write_str_to_file
+from ...pyproject import MaxsonPyProject
+from ...rendering import get_template_context, render_template
 
 
 CLI_TEMPLATE = '''\
