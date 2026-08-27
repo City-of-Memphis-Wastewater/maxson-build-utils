@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "dworshak-config>=0.2.8",
-    "pyhabitat>=1.3.9",
+    "pyhabitat>=1.3.11",
     "typer>=0.27.0",
     "typer-helptree>=0.2.12",
 ]

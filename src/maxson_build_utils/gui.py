@@ -12,6 +12,7 @@ import pyhabitat
 import ctypes
 import sys
 import logging
+logger = logging.getLogger(__name__)
 
 # --- Core Imports ---
 
@@ -129,7 +130,7 @@ class GuiApp:
         menubar.add_cascade(label="Options", menu=tools_menu)
 
         tools_menu.add_command(label="Show Filled Files ", command=lambda: self._show_target_files_in_system_explorer())
-        #tools_menu.add_command(label="Launch Configured Website ", command=lambda: self._launch_configured_website())
+        tools_menu.add_command(label="Launch Configured Website ", command=lambda: self._launch_configured_website())
 
         #tools_menu.add_separator()
         #tools_menu.add_command(label="Readme", command=self._show_readme)

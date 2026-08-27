@@ -279,7 +279,7 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
-build = [
+builds = [
     { name = "pyinstaller" },
 ]
 pyinstaller = [
@@ -299,13 +299,13 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "dworshak-config", specifier = ">=0.2.8" },
-    { name = "pyhabitat", specifier = ">=1.3.9" },
-    { name = "pyinstaller", marker = "extra == 'build'", specifier = ">=6.17" },
+    { name = "pyhabitat", specifier = ">=1.3.10" },
+    { name = "pyinstaller", marker = "extra == 'builds'", specifier = ">=6.17" },
     { name = "pyinstaller", marker = "extra == 'pyinstaller'", specifier = ">=6.17.0" },
     { name = "typer", specifier = ">=0.27.0" },
     { name = "typer-helptree", specifier = ">=0.2.12" },
 ]
-provides-extras = ["pyinstaller", "build"]
+provides-extras = ["pyinstaller", "builds"]
 
 [package.metadata.requires-dev]
 dev = [
@@ -373,11 +373,11 @@ wheels = [
 
 [[package]]
 name = "pyhabitat"
-version = "1.3.9"
+version = "1.3.10"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/6c/e8/182d88b46d1275a12ed7cdf43e4c0f007f6526cb7c9138f27cd85d298551/pyhabitat-1.3.9.tar.gz", hash = "sha256:e8b5b11f1624682836d3011fa7bfc30ca5defe98a3e2c60e9129df4d53da65c6", size = 39667, upload-time = "2026-07-12T22:35:11.66Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/bd/40/d3062547db212a334f31f7b500f71b2e248a2a6d9b6dfed331b76dae4c7e/pyhabitat-1.3.10.tar.gz", hash = "sha256:f71d163cfea235bb0e2f2b1fda57ac072a104119db964805d71a91869c1e79a4", size = 39931, upload-time = "2026-08-27T18:30:42.945Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f9/9c/4bf5ab0219519a942393b7442a5f5fc64f70134b02840603ebc8ee36cf19/pyhabitat-1.3.9-py3-none-any.whl", hash = "sha256:145d48e7dbdff6d278c218472c1ab3b616d93ec9b3669450dcd706f2608d0e27", size = 41961, upload-time = "2026-07-12T22:35:10.531Z" },
+    { url = "https://files.pythonhosted.org/packages/ee/50/49e372025b8e5faf4765723b90f5b6af3ebb7513aacab1a2673f23cd6bf4/pyhabitat-1.3.10-py3-none-any.whl", hash = "sha256:21e378db19d3ae77d1442d80b95772ca42e1b6d92e00f54aee4f03987ed229d1", size = 42163, upload-time = "2026-08-27T18:30:41.559Z" },
 ]
 
 [[package]]
