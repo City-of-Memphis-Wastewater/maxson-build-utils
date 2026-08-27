@@ -36,6 +36,7 @@ from .scaffold.base import (
     run_init_gitignore,
     run_init_git,
     run_init_readme,
+    run_init_manifest,
 )
 from .scaffold.source import (
     run_init_gui,
@@ -340,6 +341,11 @@ def init_readme():
     """Create README.md."""
     run_init_readme().print_path(console_stdout)
 
+@init_base_app.command("manifest")
+def init_manifest():
+    """Create MANIFEST.in."""
+    run_init_manifest().print_path(console_stdout)
+
 @init_base_app.command("git")
 def init_git():
     """Create .git."""
@@ -475,6 +481,7 @@ def init_base_all():
     init_gitignore()
     init_readme()
     init_changelog()
+    init_manifest()
 
 @init_src_app.command("all")
 def init_source_all():
