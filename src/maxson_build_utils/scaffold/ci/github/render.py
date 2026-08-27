@@ -64,7 +64,7 @@ def run_init_github_workflows(
     results = []
 
     for target_path, template_path in workflows.items():
-        text = render_template(template_path, context)
+        text = render_template(template_path=template_path, context=context)
         results.append(write_str_to_file(target_path, text))
 
     return results
@@ -92,6 +92,6 @@ def run_init_dependabot(
 
     context = {} # no context required, just copy
 
-    text = render_template(template, context)
+    text = render_template(template_path=template, context=context)
 
     return write_str_to_file(target, text)
