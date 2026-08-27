@@ -351,12 +351,6 @@ def init_gitignore():
     run_init_gitignore().print_path(console_stdout)
 
 # --- source code scaffolding ---
-@init_src_app.command("src")
-def init_src():
-    """Build src/<app_name>/ with automatic snake case."""
-    path = run_init_src()
-    console_stdout.print(path)
-
 @init_src_app.command("gui")
 def init_gui():
     """Create src/<app>/gui.py."""
