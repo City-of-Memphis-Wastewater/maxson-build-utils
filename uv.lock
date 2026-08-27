@@ -282,6 +282,9 @@ dependencies = [
 builds = [
     { name = "pyinstaller" },
 ]
+gui = [
+    { name = "maxson-gui-utils" },
+]
 pyinstaller = [
     { name = "pyinstaller" },
 ]
@@ -299,13 +302,14 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "dworshak-config", specifier = ">=0.2.8" },
+    { name = "maxson-gui-utils", marker = "extra == 'gui'", specifier = ">=0.1.2" },
     { name = "pyhabitat", specifier = ">=1.3.11" },
     { name = "pyinstaller", marker = "extra == 'builds'", specifier = ">=6.17" },
     { name = "pyinstaller", marker = "extra == 'pyinstaller'", specifier = ">=6.17.0" },
     { name = "typer", specifier = ">=0.27.0" },
     { name = "typer-helptree", specifier = ">=0.2.12" },
 ]
-provides-extras = ["pyinstaller", "builds"]
+provides-extras = ["pyinstaller", "builds", "gui"]
 
 [package.metadata.requires-dev]
 dev = [
@@ -315,6 +319,21 @@ dev = [
     { name = "pytest-cov", specifier = ">=4.1.0" },
     { name = "ruff", marker = "platform_machine != 'aarch64' and sys_platform == 'linux'", specifier = ">=0.7.0" },
     { name = "shiv", specifier = ">=1.0.8" },
+]
+
+[[package]]
+name = "maxson-gui-utils"
+version = "0.1.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "dworshak-config" },
+    { name = "pyhabitat" },
+    { name = "typer" },
+    { name = "typer-helptree" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/21/b6/cd4e2c5e765d6b06102ac2e85a71da39969c007567ef56243c6f83c388f9/maxson_gui_utils-0.1.2.tar.gz", hash = "sha256:1005e35414c77577a1613694f7b9f14b3fe0bd2ca8fdb28f4549ff04baab8225", size = 445806, upload-time = "2026-08-27T21:53:59.945Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f3/f9/51caafe5ec6efca5b6ba875c503d8bce97305a48c2351919362e9ebc028f/maxson_gui_utils-0.1.2-py3-none-any.whl", hash = "sha256:e8febd7358d43a53eea37cf90a92a45eb552c2daeac1115ad7855172450d5a54", size = 492329, upload-time = "2026-08-27T21:53:58.66Z" },
 ]
 
 [[package]]
