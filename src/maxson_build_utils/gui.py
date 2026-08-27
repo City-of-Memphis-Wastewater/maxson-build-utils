@@ -17,18 +17,18 @@ import logging
 
 from .context import IMPORT_NAME
 from ._version import get_version, __version__
-from .tk_utils import center_window_on_primary
+#from .tk_utils import center_window_on_primary
 from .context import (
             APP_NAME,
             )
-from .paths import (
-            get_target_copy_dir,
-            LOGO_FILENAME_PNG,
-            LOGO_FILENAME_ICO,
-            get_icon_path,
-            REPO_URL
-            )
-from .external_web_launch import launch_configured_website
+#from .paths import (
+#            get_target_copy_dir,
+#            LOGO_FILENAME_PNG,
+#            LOGO_FILENAME_ICO,
+#            get_icon_path,
+#            REPO_URL
+#            )
+#from .external_web_launch import launch_configured_website
 
 logger=logging.getLogger(__name__)
 
@@ -106,14 +106,14 @@ class GuiApp:
 
     def _set_icon(self):
         try:
-            png_path = get_icon_path(LOGO_FILENAME_PNG)
+            png_path = None # get_icon_path(LOGO_FILENAME_PNG)
             if png_path.exists():
                 self.icon_img = PhotoImage(file=str(png_path))
                 self.root.iconphoto(True, self.icon_img)
         except Exception:
             pass
         try:
-            ico_path = get_icon_path(LOGO_FILENAME_ICO)
+            ico_path = None # get_icon_path(LOGO_FILENAME_ICO)
             if ico_path.exists():
                 self.root.iconbitmap(str(ico_path))
         except Exception:
@@ -129,7 +129,7 @@ class GuiApp:
         menubar.add_cascade(label="Options", menu=tools_menu)
 
         tools_menu.add_command(label="Show Filled Files ", command=lambda: self._show_target_files_in_system_explorer())
-        tools_menu.add_command(label="Launch Configured Website ", command=lambda: self._launch_configured_website())
+        #tools_menu.add_command(label="Launch Configured Website ", command=lambda: self._launch_configured_website())
 
         #tools_menu.add_separator()
         #tools_menu.add_command(label="Readme", command=self._show_readme)
@@ -146,11 +146,7 @@ class GuiApp:
     def _about_button(self):
         messagebox.showinfo(
             "About",
-            f"URL: 
-
-{REPO_URL} 
-
-For help, please see Clayton Bennett."
+            "For help, please see Clayton Bennett."
         )
     def _create_widgets(self):
         """Compact layout with reduced padding."""
@@ -188,7 +184,7 @@ For help, please see Clayton Bennett."
         the exported files, with GUI error handling.
         """
         try:
-            target_dir = get_target_copy_dir()
+            target_dir = Path.home() # et_target_copy_dir()
             pyhabitat.show_system_explorer(path = target_dir)
         except Exception as e:
             # The GUI catches the error to show a user-friendly popup
@@ -236,7 +232,7 @@ def start_gui(time_auto_close: int = 0):
         # Re-center the app window before showing it
         # Center and then reveal
         # 2. CONFIG: Set title and geometry while hidden
-        center_window_on_primary(root, APP_W, APP_H)
+        # center_window_on_primary(root, APP_W, APP_H)
 
 
         root.config(cursor="arrow")
