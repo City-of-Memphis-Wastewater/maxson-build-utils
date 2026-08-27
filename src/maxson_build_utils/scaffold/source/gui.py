@@ -40,7 +40,7 @@ class GuiApp:
     def __init__(self, root: tk.Tk):
         self.root = root
 
-        self._initialize_theme()
+        #self._initialize_theme()
         self._configure_window()
         self._create_menubar()
         self._create_widgets()
@@ -198,7 +198,7 @@ def apply_windows_taskbar_icon() -> None:
         )
 
 
-def start_gui() -> None:
+def start_gui(time_auto_close=None) -> None:
     """Start the graphical application."""
 
     apply_windows_taskbar_icon()
