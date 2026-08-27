@@ -5,6 +5,10 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+- scaffold/*.py files organized into scaffold/base/ and scaffold/source/
+
+---
+
 ## [0.1.35] - 2026-08-26
 ### Changed:
 - Adjust context to have hardcoded values. Because "mbu dworshak-config" lead erroneously to the app config.
