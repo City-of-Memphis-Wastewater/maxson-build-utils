@@ -5,20 +5,26 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
-## [0.1.36] - 2026-08-26
+## [0.1.37] - 2026-08-27
+### Changed:
+- Consume maxson-gui-utils 0.1.5
+
+---
+
+## [0.1.36] - 2026-08-27
 ### Changed:
 - scaffold/*.py files organized into scaffold/base/ and scaffold/source/
 - Now that we are adjusting the scaffolded files, build maxson-gui-utils to hold tkinter forest theme, tk_utils.py, splash.py, etc.
 
 ---
 
-## [0.1.35] - 2026-08-26
+## [0.1.35] - 2026-08-27
 ### Changed:
 - Adjust context to have hardcoded values. Because "mbu dworshak-config" lead erroneously to the app config.
 
 ---
 
-## [0.1.34] - 2026-08-26
+## [0.1.34] - 2026-08-27
 ### Changed:
 - Stabilize scaffolded CLI to use string.Template approach
 - Ensure mbu is a dev dep in the consuming project
