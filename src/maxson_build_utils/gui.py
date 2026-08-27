@@ -155,11 +155,11 @@ class GuiApp:
         control_frame = ttk.Frame(self.root, padding=(4, 2, 4, 2))
         control_frame.pack(fill='x', pady=(2, 2))
 
-        self.btn_open_browser_to_files = ttk.Button(control_frame, text="Generate Cast JSON", command=lambda: self._generate_blank_cast_json(), width=8)
+        self.btn_open_browser_to_files = ttk.Button(control_frame, text="Button 1", command=lambda: self._stuff_1(), width=8)
         self.btn_open_browser_to_files.grid(row=1, column=0, columnspan=1, pady=6, sticky='ew', padx=(0, 3))
 
         # === Row 3: Action Buttons ===
-        run_analysis_btn = ttk.Button(control_frame, text="▶ Cast Spreadsheet To Target Year", command=self._run_cast, style='Accent.TButton', width=16) #
+        run_analysis_btn = ttk.Button(control_frame, text="▶ Run Main", command=self._run_main, style='Accent.TButton', width=16) #
         run_analysis_btn.grid(row=1, column=1, columnspan=2, pady=6, sticky='ew', padx=(0, 3))
 
         # Grid configuration
@@ -167,16 +167,16 @@ class GuiApp:
         control_frame.grid_columnconfigure(1, weight=1)
         control_frame.grid_columnconfigure(2, weight=1)
 
-    def generate_blank_cast_json(self):
+    def _stuff_1(self):
         # tk var getters
-        generate_cast_template()
+        pass
 
-    def run_cast(self):
+    def _run_main(self):
         """
-        The core functionality of the cellshift app, spreadsheet casting.
+        The core functionality of the app.
         """
         #tk gar getters
-        cast_spreadsheet_source_year_to_target_year()
+        pass
 
     def _show_target_files_in_system_explorer(self) -> None:
         """
