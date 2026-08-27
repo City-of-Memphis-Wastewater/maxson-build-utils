@@ -69,7 +69,7 @@ def run_init_context(
     context = get_template_context(pyproject)
 
     text = render_template(
-        text=CONTEXT_TEMPLATE,
+        template_str=CONTEXT_TEMPLATE,
         context=context,
     )
 
