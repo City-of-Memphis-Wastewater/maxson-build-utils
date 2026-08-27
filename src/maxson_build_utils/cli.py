@@ -30,12 +30,13 @@ from maxson_build_utils.deb import build_debian_package
 from maxson_build_utils.vendor import run_vendor_wheels
 from maxson_build_utils.linux_app_image import build_linux_appimage
 from .pyproject import PyProject, format_value
-from .scaffold import (
+from .scaffold.base import (
     run_init_changelog,
     run_init_gitignore,
     run_init_git,
     run_init_readme,
-    run_init_src,
+)
+from .scaffold.source import (
     run_init_gui,
     run_init_cli,
     run_init_context,
