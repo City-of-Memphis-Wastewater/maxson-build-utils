@@ -135,6 +135,8 @@ $import_name = [
     "data/*",
     "data/icons/*",
     "data/icons/**/*",
+    "data/themes/*",
+    "data/themes/**/*",
 ]
 
 [tool.maxson-build-utils.names]

@@ -1,0 +1,4 @@
+include src/maxson_gui_utils/data/*
+recursive-include src/maxson_gui_utils/data/themes *
+recursive-include src/maxson_gui_utils/data/icons *
+
