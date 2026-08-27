@@ -41,9 +41,9 @@ jobs:
 
       - name: Sanity check the built wheel
         run: |
-          uv pip uninstall -y @@app_name@@ || true
+          uv pip uninstall @@app_name@@
           uv pip install dist/@@import_name@@*.whl
-          @@app_name@@ --help
+          uv run @@app_name@@ --help
 
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1

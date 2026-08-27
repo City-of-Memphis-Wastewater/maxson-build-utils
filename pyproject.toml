@@ -66,6 +66,10 @@ pyinstaller = [
 builds = [
     "pyinstaller>=6.17",
 ]
+gui = [
+    "maxson-gui-utils>=0.1.2",
+] 
+
 [project.urls]
 Homepage = "https://github.com/city-of-memphis-wastewater/maxson-build-utils"
 Repository = "https://github.com/city-of-memphis-wastewater/maxson-build-utils"
