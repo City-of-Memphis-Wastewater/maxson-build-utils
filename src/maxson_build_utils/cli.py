@@ -31,6 +31,7 @@ from maxson_build_utils.vendor import run_vendor_wheels
 from maxson_build_utils.linux_app_image import build_linux_appimage
 from .pyproject import PyProject, format_value
 from .scaffold.base import (
+    run_init_pyproject,
     run_init_changelog,
     run_init_gitignore,
     run_init_git,
@@ -43,7 +44,6 @@ from .scaffold.source import (
     run_init_config,
     run_init_core,
     run_init_helpers,
-    run_init_pyproject,
     run_init_init,
     run_init_main,
     run_init_version,
