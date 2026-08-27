@@ -26,7 +26,7 @@ from maxson_gui_utils.external_web_launch import launch_configured_website
 import pyhabitat
 
 from ._version import __version__
-from .context import APP_NAME, IMPORT_NAME, APP_DIR
+from .context import APP_NAME, IMPORT_NAME, CONFIG_PATH
 
 logger = logging.getLogger(__name__)
 
@@ -173,7 +173,7 @@ class GuiApp:
             messagebox.showerror("Error", f"Could not open system explorer: {e}")
 
     def _launch_configured_website(self):
-        launch_configured_website()
+        launch_configured_website(path = CONFIG_PATH)
 
 
 def apply_windows_taskbar_icon() -> None:

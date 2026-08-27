@@ -302,7 +302,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "dworshak-config", specifier = ">=0.2.8" },
-    { name = "maxson-gui-utils", marker = "extra == 'gui'", specifier = ">=0.1.3" },
+    { name = "maxson-gui-utils", marker = "extra == 'gui'", specifier = ">=0.1.4" },
     { name = "pyhabitat", specifier = ">=1.3.11" },
     { name = "pyinstaller", marker = "extra == 'builds'", specifier = ">=6.17" },
     { name = "pyinstaller", marker = "extra == 'pyinstaller'", specifier = ">=6.17.0" },
@@ -323,7 +323,7 @@ dev = [
 
 [[package]]
 name = "maxson-gui-utils"
-version = "0.1.3"
+version = "0.1.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "dworshak-config" },
@@ -331,9 +331,9 @@ dependencies = [
     { name = "typer" },
     { name = "typer-helptree" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/dc/3b/ef822eecf3fa6a1179127acbbed5911d0950e960c65bd13349fc821aaba9/maxson_gui_utils-0.1.3.tar.gz", hash = "sha256:0bb3468db40ad2997cb9fc740154a43e2964124aeeb28f5983ebb45c8c055a12", size = 447890, upload-time = "2026-08-27T22:04:32.779Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/31/dd/f1508529819e6fe9e3bb3dd41508ead9a49afd527460cdaeaa2ca1d206a1/maxson_gui_utils-0.1.4.tar.gz", hash = "sha256:aa29e590624601f635d754dcc5381df00e78c04840727817aa44b1f48e7e32e5", size = 448916, upload-time = "2026-08-27T22:32:42.821Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/86/79/f6335104eb01a36f48538ecf09a8ca67e42b679dbc6720d78e6b3a627b14/maxson_gui_utils-0.1.3-py3-none-any.whl", hash = "sha256:3445fbc54c48be0cfe938be66c060d4b82336dbca6f071d9c56bcdc2e6c910b8", size = 494911, upload-time = "2026-08-27T22:04:31.315Z" },
+    { url = "https://files.pythonhosted.org/packages/f5/1d/34b060af11a9082c9b9aacffc08d8c5f43d2745435e307cfd724909ffe08/maxson_gui_utils-0.1.4-py3-none-any.whl", hash = "sha256:706db76c1e19e0f35da43f9bc672f571a1e2cc44f472aae3edec821b40a5b8cc", size = 496321, upload-time = "2026-08-27T22:32:41.304Z" },
 ]
 
 [[package]]

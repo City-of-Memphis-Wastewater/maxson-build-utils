@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 # --- Core Imports ---
 
-from .context import IMPORT_NAME
+from .context import CONFIG_PATH, IMPORT_NAME
 from ._version import get_version, __version__
 from .context import (
             APP_NAME,
@@ -142,8 +142,8 @@ class GuiApp:
 
     # --- UI Component Building ---
     def _launch_configured_website(self):
-        launch_configured_website()
-        pass
+        launch_configured_website(path=CONFIG_PATH)
+        
 
     def _about_button(self):
         messagebox.showinfo(

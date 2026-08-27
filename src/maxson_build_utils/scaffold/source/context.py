@@ -27,38 +27,11 @@ DESCRIPTION_STR = "@@description@@"
 APP_DIR = Path.home() / ".@@app_name@@"
 LOG_FILE_PATH = APP_DIR / "@@app_name@@.log"
 SERVICE = APP_NAME
+CONFIG_PATH = APP_DIR / "config.json"
+SECRET_PATH = APP_DIR / "vault.db"
+ENV_PATH = PROJECT_ROOT / ".env"
 """
 
-'''
-def render_context_py(import_name: str) -> str:
-    return CONTEXT_TEMPLATE.substitute(import_name=import_name)
-
-
-def run_init_context(
-    root_dir: Path | str | None = None,
-    *,
-    overwrite: bool = False,
-) -> WriteResult:
-    pyproject = MaxsonPyProject(root_dir)
-
-    src_dir = pyproject.src_dir
-    if src_dir is None:
-        root = Path(root_dir) if root_dir else Path.cwd()
-        import_name = pyproject.import_name or root.name.replace("-", "_")
-        src_dir = root / "src" / import_name
-
-    target_path = src_dir / "context.py"
-
-    text = render_context_py(
-        import_name=pyproject.import_name or src_dir.name,
-    )
-
-    return write_str_to_file(
-        target_path,
-        text=text,
-        overwrite=overwrite,
-    )
-'''
 def run_init_context(
     root_dir: Path | str | None = None,
     *,

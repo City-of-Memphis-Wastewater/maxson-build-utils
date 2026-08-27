@@ -61,4 +61,4 @@ SERVICE = APP_NAME
 
 CONFIG_PATH = APP_DIR / "config.json"
 SECRET_PATH = APP_DIR / "vault.db"
-ENV_PATH = Path.cwd() / ".env"
+ENV_PATH = PROJECT_ROOT / ".env"
