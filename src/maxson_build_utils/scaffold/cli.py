@@ -1,18 +1,17 @@
 # src/maxson_build_utils/scaffold/cli.py
+
 from __future__ import annotations
+
 from pathlib import Path
-import logging
-from string import Template
-logger = logging.getLogger(__name__)
 
-from ..helpers import write_str_to_file, WriteResult
+from ..helpers import WriteResult, write_str_to_file
 from ..pyproject import MaxsonPyProject
+from ..rendering import get_template_context, render_template
 
 
-CLI_TEMPLATE = Template(
-    '''\
+CLI_TEMPLATE = '''\
 #!/usr/bin/env python3
-# src/$import_name/cli.py
+# src/@@import_name@@/cli.py
 
 from __future__ import annotations
 
@@ -37,10 +36,10 @@ logger = logging.getLogger(__name__)
 console_stderr = Console(stderr=True)
 console_stdout = Console()
 
-#Force Rich to always enable colors, even when running from a .pyz bundle.
+# Force Rich to always enable colors, even when running from a .pyz bundle.
 os.environ["FORCE_COLOR"] = "1"
 
-#Optional but helpful for full terminal feature detection.
+# Optional but helpful for full terminal feature detection.
 os.environ["TERM"] = "xterm-256color"
 
 app = typer.Typer(
@@ -56,36 +55,37 @@ app = typer.Typer(
     },
 )
 
+
 @app.callback(invoke_without_command=True)
 def main(
     ctx: typer.Context,
     version: bool = typer.Option(
-    False,
-    "--version",
-    "-V",
-    help="Show application version and exit.",
+        False,
+        "--version",
+        "-V",
+        help="Show application version and exit.",
     ),
     debug: bool = typer.Option(
-    False,
-    "--debug",
-    "-d",
-    help="Enable debug level logs for app.",
+        False,
+        "--debug",
+        "-d",
+        help="Enable debug level logs for app.",
     ),
     all_debug: bool = typer.Option(
-    False,
-    "--all-debug",
-    help="Enable debug logs for app AND dependencies.",
+        False,
+        "--all-debug",
+        help="Enable debug logs for app AND dependencies.",
     ),
     verbose: bool = typer.Option(
-    False,
-    "--verbose",
-    "-v",
-    help="Enable verbose info level logs.",
+        False,
+        "--verbose",
+        "-v",
+        help="Enable verbose info level logs.",
     ),
     log_file: Path | None = typer.Option(
-    None,
-    "--log-file",
-    help="Custom path to output log file.",
+        None,
+        "--log-file",
+        help="Custom path to output log file.",
     ),
 ):
     if version:
@@ -107,6 +107,7 @@ def main(
         typer.echo(ctx.get_help())
         raise typer.Exit()
 
+
 add_typer_helptree(
     app=app,
     console=console_stderr,
@@ -126,27 +127,27 @@ def placeholder(
 if __name__ == "__main__":
     app()
 '''
-)
-
-def render_cli_py(import_name: str) -> str:
-    """Render the standard application CLI module."""
-    return CLI_TEMPLATE.substitute(
-        import_name=import_name,
-    )
 
 
 def run_init_cli(
     root_dir: Path | str | None = None,
+    *,
+    overwrite: bool = False,
 ) -> WriteResult:
     """Scaffold cli.py inside src/<import_name>/."""
     pyproject = MaxsonPyProject(root_dir)
 
-    target_path = pyproject.src_dir / "cli.py"
-    text = render_cli_py(
-        import_name=pyproject.import_name,
+    context = get_template_context(pyproject)
+
+    text = render_template(
+        template_str=CLI_TEMPLATE,
+        context=context,
     )
 
     return write_str_to_file(
-        target_path,
+        path=pyproject.src_dir / "cli.py",
         text=text,
+        overwrite=overwrite,
     )
+
+
