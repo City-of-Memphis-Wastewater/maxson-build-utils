@@ -157,7 +157,7 @@ class GuiApp:
     def _show_about(self) -> None:
         messagebox.showinfo(
             "About",
-            f"{APP_NAME}\n\nVersion {__version__}",
+            f"{APP_NAME} Version {__version__}",
         )
 
     def _show_target_files_in_system_explorer(self) -> None:
