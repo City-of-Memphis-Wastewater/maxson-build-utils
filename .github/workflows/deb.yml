@@ -123,7 +123,7 @@ jobs:
 
           sed -e "s/__VERSION__/${VERSION}/g" \
               -e "s/__ARCH__/${ARCH}/g" \
-              packaging/deb/control.in > deb/pkg/DEBIAN/control
+              packaging/deb/control > deb/pkg/DEBIAN/control
 
           # echo "" >> deb/pkg/DEBIAN/control
 

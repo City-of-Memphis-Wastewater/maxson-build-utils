@@ -9,7 +9,7 @@ def build_debian_package(app_name: str, version: str, arch: str) -> Path:
     pkg_dir.mkdir(parents=True, exist_ok=True)
     
     # Render control file
-    control_in = Path("deb/control.in").read_text()
+    control_in = Path("deb/control").read_text()
     control_out = control_in.replace("__VERSION__", version).replace("__ARCH__", arch)
     (pkg_dir / "DEBIAN").mkdir(exist_ok=True)
     (pkg_dir / "DEBIAN/control").write_text(control_out)

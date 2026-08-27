@@ -7,7 +7,7 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ## [0.1.37] - 2026-08-27
 ### Changed:
-- Correct control file ref in scaffold/packaging/deb.py, from 'control' -> 'control.in'.
+- Correct control file ref in scaffold/packaging/deb.py, from 'control.in' -> 'control'.
 
 ---
 

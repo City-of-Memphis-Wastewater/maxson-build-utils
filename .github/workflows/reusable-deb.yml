@@ -50,7 +50,7 @@ jobs:
 
       - name: Infer App Metadata
         run: |
-          APP_NAME=$(grep '^Package:' packaging/deb/control.in | awk '{print $2}')
+          APP_NAME=$(grep '^Package:' packaging/deb/control | awk '{print $2}')
           IMPORT_NAME=$(uv run python -c "from maxson_build_utils.pyproject import MaxsonPyProject; print(MaxsonPyProject().import_name)")
           VERSION=$(uv run maxson-build-utils version 2>/dev/null || echo "0.1.0")
           ARCH="${{ matrix.arch }}"
@@ -105,7 +105,7 @@ jobs:
           set -euo pipefail
           sed -e "s/__VERSION__/${VERSION}/g" \
               -e "s/__ARCH__/${ARCH}/g" \
-              packaging/deb/control.in > build/deb/staging/DEBIAN/control
+              packaging/deb/control > build/deb/staging/DEBIAN/control
 
       - name: Build Debian package
         run: |
