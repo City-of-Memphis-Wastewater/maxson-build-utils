@@ -40,8 +40,7 @@ __version__ = get_version()
 def run_init_version_num(root_dir: Path | str | None = None) -> WriteResult:
     pyproject = MaxsonPyProject(root_dir)
 
-    raw_version_num_str='''
-0.1.0
+    raw_version_num_str='''0.1.0
 
 '''
     raw_version_num_str=raw_version_num_str.replace("__IMPORT_NAME__", pyproject.import_name)

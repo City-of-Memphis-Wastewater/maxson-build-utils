@@ -1,6 +1,6 @@
 # .github/workflows/publish.yml
 
-name: Check and Publish ${{ pretty_name }} to PyPI and Releases
+name: Check and Publish @@pretty_name@@ to PyPI and Releases
 
 on:
   release:
@@ -42,7 +42,7 @@ jobs:
       - name: Sanity check the built wheel
         run: |
           uv pip uninstall -y @@app_name@@ || true
-          uv pip install dist/@@app_name@@*.whl
+          uv pip install dist/@@import_name@@*.whl
           @@app_name@@ --help
 
       - name: Publish package distributions to PyPI

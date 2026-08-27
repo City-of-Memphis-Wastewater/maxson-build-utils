@@ -121,6 +121,12 @@ build-backend = "setuptools.build_meta"
 [tool.uv.sources]
 $name = { path = $source_path }
 
+#[tool.setuptools]
+#packages = ["$import_name"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
 [tool.setuptools.dynamic]
 version = { file = $version_file }
 
