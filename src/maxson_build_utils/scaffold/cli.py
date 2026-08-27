@@ -19,8 +19,9 @@ import logging
 import os
 import sys
 from pathlib import Path
-
+import pyhabitat
 import typer
+from typer.models import OptionInfo
 from rich.console import Console
 from typer_helptree import add_typer_helptree
 
@@ -115,6 +116,41 @@ add_typer_helptree(
     hidden=False,
 )
 
+@app.command(name="gui")
+def gui_command(
+    auto_close: int = typer.Option(0,
+   "--auto-close", "-c",
+   help = "Delay in milliseconds after which the GUI window will close (for automated testing). Use 0 to disable auto-closing.",
+   min=0)
+    )->None:
+    """
+    Launch tkinter-based GUI.
+    """
+    assured_auto_close_value = 0
+
+    # --- Helper, consistent gui failure message. ---
+    def _gui_failure_msg():
+        console_stderr.print("[bold red]GUI failed to launch[/bold red]")
+        console_stderr.print("Use 'pdflinkcheck analyze CLI' instead.")
+        console_stderr.print(f"pyhabitat.tkinter_is_available() = {pyhabitat.tkinter_is_available()}")
+        console_stderr.print(f"pyhabitat.on_termux() = {pyhabitat.on_termux()}")
+
+    if isinstance(auto_close, OptionInfo):
+        # Case 1: Called implicitly from main() (pdflinkcheck with no args)
+        # We received the metadata object, so use the function's default value (0).
+        # We don't need to do anything here since final_auto_close_value is already 0.
+        pass
+    else:
+        # Case 2: Called explicitly by Typer (pdflinkcheck gui -c 3000)
+        # Typer has successfully converted the command line argument, and auto_close is an int.
+        assured_auto_close_value = int(auto_close)
+
+    if not pyhabitat.tkinter_is_available():
+        _gui_failure_msg()
+        return
+
+    from .gui import start_gui
+    start_gui(time_auto_close = assured_auto_close_value)
 
 @app.command(name="placeholder")
 def placeholder(
