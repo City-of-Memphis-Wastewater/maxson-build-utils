@@ -11,7 +11,7 @@ ChatGPT or Gemini can provide good Python core logic.
 
 But how do you run that solution on other computers? For coworkers? For contractors? 
 
-maxson-build-utils provides you with a blank canvas. Drop in your special core, wire up the args in the functions to the CLI and the GUI, run the builds, and then you've got a one way ticket to the Windows store. IT will probably say yes.
+maxson-build-utils provides you with an opinionated canvas. Drop in your special core, wire up the args in the functions to the CLI and the GUI, run the builds, and then you've got a one way ticket to the Windows store. IT will probably say yes.
 
 Shadow IT? No, Spotlight IT
 
