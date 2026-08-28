@@ -256,14 +256,9 @@ def run_build_executable(
             logger.error("FATAL: Invalid package version provided.")
             sys.exit(1)
 
-        from maxson_build_utils import MaxsonPyProject
-        _pyproject = MaxsonPyProject()
-
         generate_rc_file(version)
         executable_descriptor = form_dynamic_name(pkg_name=src_folder_name, version=version, mode=mode)
-        #cli_main_file = get_cli_main_file(project_root=PROJECT_ROOT, src_folder_name=src_folder_name)
-        cli_main_file =_pyproject.src_dir / "__main__.py"
-
+        cli_main_file = PROJECT_ROOT / "src" / src_folder_name / "__main__.py"
         app_filepath, app_filename = run_pyinstaller(
             executable_descriptor=executable_descriptor,
             main_script_path=cli_main_file,
