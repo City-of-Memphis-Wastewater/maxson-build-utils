@@ -536,17 +536,17 @@ def gui_command(
     # --- Helper, consistent gui failure message. ---
     def _gui_failure_msg():
         console_stderr.print("[bold red]GUI failed to launch[/bold red]")
-        console_stderr.print("Use 'pdflinkcheck analyze CLI' instead.")
+        console_stderr.print("Use CLI instead.")
         console_stderr.print(f"pyhabitat.tkinter_is_available() = {pyhabitat.tkinter_is_available()}")
         console_stderr.print(f"pyhabitat.on_termux() = {pyhabitat.on_termux()}")
 
     if isinstance(auto_close, OptionInfo):
-        # Case 1: Called implicitly from main() (pdflinkcheck with no args)
+        # Case 1: Called implicitly from main() (with no args)
         # We received the metadata object, so use the function's default value (0).
         # We don't need to do anything here since final_auto_close_value is already 0.
         pass
     else:
-        # Case 2: Called explicitly by Typer (pdflinkcheck gui -c 3000)
+        # Case 2: Called explicitly by Typer (gui -c 3000)
         # Typer has successfully converted the command line argument, and auto_close is an int.
         assured_auto_close_value = int(auto_close)
 
