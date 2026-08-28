@@ -15,6 +15,12 @@ maxson-build-utils provides you with an opinionated canvas. Drop in your special
 
 Shadow IT? No, Spotlight IT
 
+## Installation
+
+```bash
+pipx install "maxson-build-utils[pyinstaller]"
+```
+
 ## Quick Start
 
 Scaffold and edit a new project
@@ -41,12 +47,6 @@ git tag v0.1.0
 git push origin v0.1.0
 # Runnners are designed to build and upload artifacts to the release.
 gh release create v0.1.0 --title "my-project v0.1.0"
-```
-
-## Installation
-
-```bash
-pipx install "maxson-build-utils[pyinstaller]"
 ```
 
 ## Helptree
