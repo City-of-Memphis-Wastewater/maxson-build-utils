@@ -13,7 +13,6 @@ import pyhabitat
 from ..helpers import form_dynamic_name
 from ..cli_utils import get_cli_commands
 from ..pyproject import MaxsonPyProject
-from ..context import get_pyproject
 
 def run_command(cmd: list[str], check: bool = True, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
     """Run command with logging and error reporting."""
