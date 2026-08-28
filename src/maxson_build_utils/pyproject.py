@@ -87,28 +87,36 @@ class PyProject:
             return None
         return self.src_dir / "VERSION"
 
+
     @property
     def version(self) -> str:
-        """Dynamically read version from src/<import_name>/VERSION.
+        """Return the PEP 621 project version."""
+        version = self.get("project", "version")
+
+        if version is None or not str(version).strip():
+            raise ValueError(
+                f"Project version is missing from {self.path}. "
+                "Define [project.version] in pyproject.toml."
+            )
+
+        return str(version).strip()
         
-        Falls back to [project.version] in pyproject.toml if VERSION file doesn't exist.
-        """
-        vf = self.version_file
-        if vf is not None and vf.is_file():
-            ver = vf.read_text(encoding="utf-8").strip()
-            if ver:
-                return ver
-
-        # Fallback to pyproject.toml [project.version]
-        toml_ver = self.get("project", "version")
-        if toml_ver:
-            return str(toml_ver).strip()
-
-        return "0.1.0"
-
 class MaxsonPyProject(PyProject):
     """PyProject with Maxson architecture conventions."""
 
+    # --- Override properties ---
+    @property
+    def version(self) -> str:
+        """Return the project version using Maxson conventions."""
+        vf = self.version_file
+
+        if vf is not None and vf.is_file():
+            version = vf.read_text(encoding="utf-8").strip()
+            if version:
+                return version
+
+        return super().version
+        
     # --- Resolved Naming Properties ---
 
     @property
