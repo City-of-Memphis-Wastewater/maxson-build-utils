@@ -25,7 +25,7 @@ cd my-project
 mbu init all
 # edit core.py with special logic
 # edit cli.py and gui.py to expose core features
-# edit pyproject.toml to add new deependecies
+# edit pyproject.toml to add new dependecies
 ```
 
 Build local artifacts
@@ -35,11 +35,12 @@ mbu build pyinstaller
 ```
 
 Leverage the batteries-included github runners by pushing to github.
-This will give you assets for the Windows Store, the Apple store, and Linux distribution.
+This will give you files that may be submitted to the Windows Store, the Apple store, and Linux distribution.
 ```
-git tag v*
-git push origin v*
-gh release *
+git tag v0.1.0
+git push origin v0.1.0
+# Runnners are designed to build and upload artifacts to the release.
+gh release create v0.1.0 --title "my-project v0.1.0"
 ```
 
 ## Installation
