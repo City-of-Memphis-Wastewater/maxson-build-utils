@@ -17,7 +17,8 @@ def get_pyproject() -> MaxsonPyProject:
     """Parses pyproject.toml lazily from project root or working directory."""
     proj = MaxsonPyProject(PROJECT_ROOT)
     if proj.path is None:
-        proj = MaxsonPyProject(Path.cwd())
+        #proj = MaxsonPyProject(Path.cwd())
+        return None
     return proj
 
 
@@ -28,9 +29,6 @@ def get_pretty_name(app_name:str|None=None) -> str:
     if app_name is not None:
         return to_title_case(app_name)
     return to_title_case(PACKAGE_DIR.name)
-
-def get_import_name() -> str:
-    return get_pyproject().import_name or PACKAGE_DIR.name
 
 def get_description() -> str:
     desc = get_pyproject().get("project", "description")
