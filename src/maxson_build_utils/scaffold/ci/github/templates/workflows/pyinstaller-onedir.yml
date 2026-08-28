@@ -16,11 +16,18 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          version: "latest"
+
       - name: Install Project & mbu
-        run: pip install .
+        run: |
+          pip install .
+          uv sync --group dev
 
       - name: Execute Onedir Compilation
-        run: mbu build pyinstaller --mode onedir
+        run: uv run mbu build pyinstaller --mode onedir
 
       - name: Upload Canonical Payload Artifact
         uses: actions/upload-artifact@v7
