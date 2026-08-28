@@ -15,6 +15,39 @@ maxson-build-utils provides you with a blank canvas. Drop in your special core, 
 
 Shadow IT? No, Spotlight IT
 
+## Quick Start
+
+Scaffold and edit a new project
+
+```bash
+mkdir my-project
+cd my-project
+mbu init all
+# edit core.py with special logic
+# edit cli.py and gui.py to expose core features
+# edit pyproject.toml to add new deependecies
+```
+
+Build local artifacts
+```bash
+mbu build shiv
+mbu build pyinstaller
+```
+
+Leverage the batteries-included github runners by pushing to github.
+This will give you assets for the Windows Store, the Apple store, and Linux distribution.
+```
+git tag v*
+git push origin v*
+gh release *
+```
+
+## Installation
+
+```bash
+pipx install "maxson-build-utils[pyinstaller]"
+```
+
 ## Helptree
 
 See the `maxson-build-utils` Typer CLI structure.
