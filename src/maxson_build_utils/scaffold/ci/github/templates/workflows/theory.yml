@@ -14,10 +14,10 @@ jobs:
     name: Core PyInstaller Build (onedir)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: '3.12'
 
@@ -30,7 +30,7 @@ jobs:
         run: mbu build pyinstaller --mode onedir
 
       - name: Upload onedir Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: canonical-onedir-payload
           path: dist/onedir/
@@ -44,13 +44,13 @@ jobs:
     needs: build-onedir
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
 
       - name: Download Canonical onedir Payload
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: canonical-onedir-payload
           path: dist/onedir/
@@ -62,7 +62,7 @@ jobs:
         run: mbu build appimage
 
       - name: Upload AppImage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: appimage-dist
           path: dist/appimage/
@@ -72,13 +72,13 @@ jobs:
     needs: build-onedir
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
 
       - name: Download Canonical onedir Payload
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: canonical-onedir-payload
           path: dist/onedir/
@@ -90,7 +90,7 @@ jobs:
         run: mbu build deb
 
       - name: Upload Deb
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: deb-dist
           path: dist/deb/
@@ -103,10 +103,10 @@ jobs:
       image: ghcr.io/flathub/sdk-container:46
       options: --privileged
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       
       - name: Download Canonical onedir Payload
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: canonical-onedir-payload
           path: dist/onedir/
