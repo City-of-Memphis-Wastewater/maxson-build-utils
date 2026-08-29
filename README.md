@@ -32,6 +32,9 @@ mbu init all
 # edit core.py with special logic
 # edit cli.py and gui.py to expose core features
 # edit pyproject.toml to add new dependecies
+
+# sync the local new venv
+uv sync --group dev --extra gui
 ```
 
 Build local artifacts
