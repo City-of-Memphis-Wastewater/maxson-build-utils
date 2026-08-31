@@ -74,6 +74,7 @@ builds = [
 gui = [
     "maxson-gui-utils>=0.1.11",
 ] 
+web = []
 
 [project.urls]
 Homepage = "https://github.com/city-of-memphis-wastewater/maxson-build-utils"
