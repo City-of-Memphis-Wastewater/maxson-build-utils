@@ -1,33 +1,7 @@
 name: Run Tests
 
-on:
-  release:
-    types: [published]
-  workflow_dispatch:
+on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: ubuntu-latest
-    steps:
-      # Step 1: Check out the actual application code
-      - name: Checkout Code
-        uses: actions/checkout@v7
-        with:
-          path: "maxson_build_utils"
-
-      # Step 3: Set up Python and environment
-      - name: Set up Python
-        uses: actions/setup-python@v7
-        with:
-          python-version: '3.12'
-
-      - name: Set up uv
-        uses: astral-sh/setup-uv@v7
-        with:
-          version: "latest"
-
-      - name: Run tests
-        run: |
-          cd "maxson_build_utils"
-          uv sync --group dev
-          uv run pytest -v
+    uses: City-of-Memphis-Wastewater/maxson-build-utils/.github/workflows/reusable-test.yml@dev
