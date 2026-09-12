@@ -298,7 +298,7 @@ def build_deb(
     version: str = typer.Option(None, "--version", help="Version string"),
     arch: str = typer.Option(None, "--arch", help="Target architecture")
 ):
-    """Assemble and build a Debian .deb package."""
+    """Package a PyInstaller ONEDIR bundle into a standalone Debian .deb file. This must be run after pyinstaller onedir."""
     build_debian_package(app_name=app_name, version=version, arch=arch)
 
 
@@ -308,7 +308,7 @@ def build_appimage_command(
     icon: Path = typer.Option(..., "--icon", help="Path to source icon file, PNG preferred"),
     pyinstaller_ondir_export_entrypoint_path: Path | None= typer.Option(None, "--exe-path", help="PyInstaller generated app filepath. Defaults to internal state.")        
 ):
-    """Package a PyInstaller ONEDIR bundle into a standalone Linux AppImage. This must be run after the build_executable.py script for the application."""
+    """Package a PyInstaller ONEDIR bundle into a standalone Linux AppImage. This must be run after pyinstaller onedir."""
     build_linux_appimage(
         app_name_pretty=app_pretty_name,
         icon_src=icon,
@@ -326,7 +326,7 @@ def build_macos_dmg_command(
             help="Override target app version string. Defaults to src/<app>/VERSION file.",
         ),
 ):
-    """Package a PyInstaller ONEDIR .app export into a MacOS MDG. This must be run after the build_executable.py script for the application."""
+    """Package a PyInstaller ONEDIR .app export into a MacOS MDG. This must be run after pyinstaller onedir."""
 
     build_macos_dmg(
         app = pyinstaller_ondir_export_entrypoint_path,
