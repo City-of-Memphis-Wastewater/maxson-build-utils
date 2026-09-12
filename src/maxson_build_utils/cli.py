@@ -577,14 +577,24 @@ def gui_command(
     start_gui(time_auto_close = assured_auto_close_value)
 
 @sign_app.command(name="msix")
-def sign_msic_command():
+def sign_msix_command():
     """Sign MSIX files for Windows distribution."""
     sign_msix()
 
 @sign_app.command(name="dmg")
-def sign_dmg_command():
-    """Sign DMG file for macOS, assuming create-dmg has already been run."""
-    sign_dmg()
+def sign_dmg_command(
+    p12_file: str=typer.Option(None,
+        '--p12-file',help = "Base 64 .p12 file"
+    ),
+    p12_password: str=typer.Option(None,
+        '--p12-password',help = "secret"
+    ),
+    path: str=typer.Option(None,
+        '--path',help = "paths/to/assets"
+    )
+):
+    """A wrapper around rcodesign. Sign DMG file for macOS, assuming create-dmg has already been run."""
+    sign_dmg(dmg_path=path, p12_base64=p12_file, p12_password=p12_password)
 
 if __name__ == "__main__":
     app()
