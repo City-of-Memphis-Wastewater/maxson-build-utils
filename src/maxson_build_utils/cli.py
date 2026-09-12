@@ -25,8 +25,15 @@ from .cli_dworshak import dworshak_config as run_dworshak_config
 from maxson_build_utils import MaxsonPyProject
 from maxson_build_utils.builders.pyinstaller import run_build_executable
 from maxson_build_utils.builders.shiv import run_build_pyz
-from maxson_build_utils.helpers import PyinsMode
+#from maxson_build_utils.post_pyinstaller_onedir import build_deb
+#from maxson_build_utils.post_pyinstaller_onedir import build_dmg
+#from maxson_build_utils.post_pyinstaller_onedir import build_msix
+#from maxson_build_utils.post_pyinstaller_onedir import build_flatpak
+#from maxson_build_utils.post_pyinstaller_onedir import build_appimage
+
 from maxson_build_utils.deb import build_debian_package
+
+from maxson_build_utils.helpers import PyinsMode
 from maxson_build_utils.vendor import run_vendor_wheels
 from maxson_build_utils.linux_app_image import build_linux_appimage
 from .pyproject import PyProject, format_value
@@ -571,11 +578,12 @@ def gui_command(
 
 @sign_app.command(name="msix")
 def sign_msic_command():
-    """Create all ci scaffolding."""
+    """Sign """
     sign_msix()
 
 @sign_app.command(name="dmg")
 def sign_dmg_command():
+    """Sign DMG file for macOS, assuming create-dmg has already been run."""
     sign_dmg()
 
 if __name__ == "__main__":
