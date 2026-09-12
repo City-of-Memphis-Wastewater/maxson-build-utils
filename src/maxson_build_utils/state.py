@@ -18,7 +18,7 @@ def get_executable_descriptor()->str:
     config_mngr = get_config_mngr()
     return config_mngr.get(service="temp", item="executable_descriptor")
 
-def get_pyinstaller_onedir_exe_filepath()->Path:
+def get_pyinstaller_onedir_executable_filepath()->Path:
     config_mngr = get_config_mngr()
     app_filepath = config_mngr.get(service="temp", item="app_filepath")
     return Path(app_filepath).expanduser().resolve()

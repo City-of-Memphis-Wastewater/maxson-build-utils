@@ -32,7 +32,7 @@ from maxson_build_utils.builders.shiv import run_build_pyz
 #from maxson_build_utils.post_pyinstaller_onedir import build_appimage
 
 from maxson_build_utils.deb import build_debian_package
-
+from maxson_build_utils.macos_dmg import build_macos_dmg
 from maxson_build_utils.helpers import PyinsMode
 from maxson_build_utils.vendor import run_vendor_wheels
 from maxson_build_utils.linux_app_image import build_linux_appimage
@@ -104,7 +104,7 @@ def main(
     debug: bool = typer.Option(False, "--debug", "-d", help="Enable debug level logs for app."),
     all_debug: bool = typer.Option(False, "--all-debug", help="Enable debug logs for app AND dependencies."),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose info level logs."),
-    log_file: Path | None = typer.Option(None, "--log-file", help="Custom path to output log file."),
+    log_file: Path | None = typer.Option(None, "--log-file", help="Custom path to output log file."), # path just goes unused, just converted to bool
 ):
     if version:
         typer.echo(__version__)
@@ -303,18 +303,43 @@ def build_deb(
 
 
 @build_app.command(name="appimage")
-def build_appimage(
+def build_appimage_command(
     app_pretty_name: str = typer.Option(..., "--pretty-name", help="Pretty desktop app display name"),
     icon: Path = typer.Option(..., "--icon", help="Path to source icon file, PNG preferred"),
-    pyinstaller_onedir_exe_path: Path | None= typer.Option(None, "--exe-path", help="PyInstaller generated app filepath. Defaults to internal state.")        
+    pyinstaller_onedir_executable_path: Path | None= typer.Option(None, "--exe-path", help="PyInstaller generated app filepath. Defaults to internal state.")        
 ):
     """Package a PyInstaller ONEDIR bundle into a standalone Linux AppImage. This must be run after the build_executable.py script for the application."""
     build_linux_appimage(
         app_name_pretty=app_pretty_name,
         icon_src=icon,
-        app_filepath = pyinstaller_onedir_exe_path
+        app_filepath = pyinstaller_onedir_executable_path
     )
 
+@build_app.command(name="dmg")
+def build_macos_dmg_command(
+    app_pretty_name: str = typer.Option(..., "--pretty-name", help="Pretty desktop app display name"),
+    pyinstaller_onedir_executable_path: Path | None= typer.Option(None, "--exe-path", help="PyInstaller generated app filepath. Defaults to internal state."),
+    version: str | None = typer.Option(
+            None,
+            "--version",
+            "-v",
+            help="Override target app version string. Defaults to src/<app>/VERSION file.",
+        ),
+):
+    """Package a PyInstaller ONEDIR .app export into a MacOS MDG. This must be run after the build_executable.py script for the application."""
+    build_macos_dmg(
+        app = pyinstaller_onedir_executable_path,
+        app_name_pretty=app_pretty_name,
+        version = version,
+    )
+
+    """signature
+    def build_macos_dmg(
+    app: Path | None = None,
+    app_pretty_name: str = APP_NAME_PRETTY,
+    version: str = __version__,
+    output_dir:
+    """
 @app.command()
 def pyproject(
     key: list[str] = typer.Option(
@@ -589,11 +614,14 @@ def sign_dmg_command(
     p12_password: str=typer.Option(None,
         '--p12-password',help = "secret"
     ),
-    path: str=typer.Option(None,
+    path: str|None=typer.Option(None,
         '--path',help = "paths/to/assets"
     )
 ):
     """A wrapper around rcodesign. Sign DMG file for macOS, assuming create-dmg has already been run."""
+    DEFAULT_MBU_DMG_DIST_PATH = Path.cwd() / "dist" / "dmg" / os.glob("*.dmg")
+    if path is None:
+        path = str(Path(DEFAULT_MBU_DMG_DIST_PATH).expanduser().resolve())
     sign_dmg(dmg_path=path, p12_base64=p12_file, p12_password=p12_password)
 
 if __name__ == "__main__":

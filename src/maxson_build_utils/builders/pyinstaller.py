@@ -18,6 +18,7 @@ import pyhabitat
 
 from ..helpers import form_dynamic_name, PyinsMode
 from ..state import export_build_env_vars
+from ..macos_dmg import MACOS_APP_DIST_DIR
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +26,7 @@ logger = logging.getLogger(__name__)
 DIST_DIR = Path("dist")
 DIST_DIR_ONEFILE = DIST_DIR / PyinsMode.ONEFILE.value
 DIST_DIR_ONEDIR = DIST_DIR / PyinsMode.ONEDIR.value
-STANDARD_MACOS_APP_DIST_DIR = DIST_DIR
+#STANDARD_MACOS_APP_DIST_DIR = DIST_DIR
 BUILD_DIR = Path("build/pyinstaller_work")
 RC_TEMPLATE = Path("build_assets") / "version.rc.template"
 RC_FILE = Path("build_assets") / "version.rc"
@@ -97,8 +98,10 @@ def determine_app_filepath_and_dist_path(
         app_filepath = DIST_DIR_ONEFILE / app_filename
     else:
         if pyhabitat.on_macos():
-            dist_path = STANDARD_MACOS_APP_DIST_DIR
-            app_filepath = STANDARD_MACOS_APP_DIST_DIR / app_filename
+            #dist_path = STANDARD_MACOS_APP_DIST_DIR
+            print(f"get MACOS_APP_DIST_DIR in this mix instead, for the --distpath flag")
+            dist_path = MACOS_APP_DIST_DIR 
+            app_filepath = dist_path / app_filename
         else:
             dist_path = DIST_DIR_ONEDIR
             app_filepath = DIST_DIR_ONEDIR / executable_descriptor / app_filename

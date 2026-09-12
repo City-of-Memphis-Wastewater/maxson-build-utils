@@ -8,11 +8,20 @@ import sys
 import tempfile
 from pathlib import Path
 import pyhabitat
+import logging
 
-from maxson_build_utils.helpers import PyinsMode
+logger=logging.getLogger(__name__)
 
-STANDARD_MACOS_APP_DIST_DIR = Path("dist")
+from .state import get_pyinstaller_onedir_executable_filepath 
+from .context import APP_NAME_PRETTY
+from .helpers import PyinsMode
+from ._version import __version__
+
+STANDARD_MACOS_APP_DIST_DIR = Path("dist") # observation, but not ideal, we need a --distpath flat on the pyinstaller commend instead if pyhabitat.on_macos()
+MACOS_APP_DIST_DIR = Path("dist") / "macOS_app"
+DMG_DIST_DIR = Path("dist") / "dmg"
 DIST_DIR_ONEDIR = Path("dist") / PyinsMode.ONEDIR.value
+
 
 
 def purge_raw_unix_structure_from_macos_build(executable_descriptor: str, mode: PyinsMode) -> None:
@@ -25,24 +34,27 @@ def purge_raw_unix_structure_from_macos_build(executable_descriptor: str, mode: 
 
 
 def move_macos_app(macos_app_filename: str, app_path: Path) -> Path:
-    """Relocates standard PyInstaller .app bundle into dist/onedir/."""
+    """Defunt, Relocates standard PyInstaller .app bundle into dist/onedir/."""
     src = STANDARD_MACOS_APP_DIST_DIR / macos_app_filename
     dst = DIST_DIR_ONEDIR / macos_app_filename
     dst.parent.mkdir(parents=True, exist_ok=True)
-
+    # we want this thing to end up in dist/dmg/
+    # it looks like app_path isnt used for anything, its just returned, what the heck
     if src.exists():
         if dst.exists():
             shutil.rmtree(dst)
         shutil.move(str(src), str(dst))
         return dst
+    logger.debug("move_macos_app():")
+    logger.debug(f"to {dst}")
+    logger.debug(f"from {src}")
     return app_path
 
-
 def build_macos_dmg(
-    app: Path,
-    app_pretty_name: str,
-    version: str,
-    output_dir: Path = Path("dist/upload"),
+    app: Path | None = None,
+    app_pretty_name: str = APP_NAME_PRETTY,
+    version: str = __version__,
+    output_dir: Path = DMG_DIST_DIR,
 ) -> Path:
     """Packages a macOS .app bundle into a .dmg using create-dmg."""
     print("build_macos_dmg()")
@@ -54,6 +66,8 @@ def build_macos_dmg(
     if shutil.which("create-dmg") is None:
         raise RuntimeError("create-dmg is not installed. Install with: brew install create-dmg")
 
+    if app is None:
+        app = get_pyinstaller_onedir_executable_filepath()
     output_dir.mkdir(parents=True, exist_ok=True)
     dmg_path = output_dir / f"{app.stem}.dmg"
 
@@ -97,7 +111,7 @@ def post_process_macos_build(
 ) -> tuple[Path, Path | None]:
     """Coordinates post-build cleanup, app relocation, and DMG generation for macOS."""
     if pyhabitat.on_macos() and mode == PyinsMode.ONEDIR:
-        app_path = move_macos_app(app_filename, app_path)
+        # defucnt, app_path = move_macos_app(app_filename, app_path)
         dmg_path = build_macos_dmg(
             app=app_path,
             app_pretty_name=app_pretty_name,
