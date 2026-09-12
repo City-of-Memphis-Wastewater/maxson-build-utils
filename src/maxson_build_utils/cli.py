@@ -31,8 +31,8 @@ from maxson_build_utils.builders.shiv import run_build_pyz
 #from maxson_build_utils.post_pyinstaller_onedir import build_flatpak
 #from maxson_build_utils.post_pyinstaller_onedir import build_appimage
 
+from maxson_build_utils.builders.macos_dmg import build_macos_dmg
 from maxson_build_utils.deb import build_debian_package
-from maxson_build_utils.macos_dmg import build_macos_dmg
 from maxson_build_utils.helpers import PyinsMode
 from maxson_build_utils.vendor import run_vendor_wheels
 from maxson_build_utils.linux_app_image import build_linux_appimage
@@ -327,7 +327,7 @@ def build_macos_dmg_command(
         ),
 ):
     """Package a PyInstaller ONEDIR .app export into a MacOS MDG. This must be run after the build_executable.py script for the application."""
-    
+
     build_macos_dmg(
         app = pyinstaller_onedir_executable_path,
         app_pretty_name=app_pretty_name,
