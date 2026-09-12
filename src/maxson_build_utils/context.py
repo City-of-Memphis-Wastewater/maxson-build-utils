@@ -4,6 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 from functools import lru_cache
 from .pyproject import MaxsonPyProject
+from .helpers import PyinsMode
 from .names import to_title_case, to_kebab_case, to_snake_case
 
 # Fixed physical paths anchored strictly to this file's installation location
@@ -11,6 +12,11 @@ PACKAGE_DIR = Path(__file__).resolve().parent          # .../src/maxson_build_ut
 SRC_DIR = PACKAGE_DIR.parent                             # .../src
 PROJECT_ROOT = SRC_DIR.parent                            # .../maxson-build-utils
 
+DIST_DIR = Path("dist")
+MACOS_APP_DIST_DIR = DIST_DIR / "macOS_app"
+DMG_DIST_DIR = DIST_DIR / "dmg"
+DIST_DIR_ONEFILE = DIST_DIR / PyinsMode.ONEFILE.value
+DIST_DIR_ONEDIR = DIST_DIR / PyinsMode.ONEDIR.value
 
 @lru_cache(maxsize=1)
 def get_pyproject() -> MaxsonPyProject:

@@ -12,16 +12,15 @@ import logging
 
 logger=logging.getLogger(__name__)
 
-from ..state import get_pyinstaller_ondir_export_entrypoint_path 
-from ..context import APP_NAME_PRETTY
+from ..state import get_pyinstaller_onedir_export_entrypoint_path 
+from ..context import (
+    APP_NAME_PRETTY,
+    MACOS_APP_DIST_DIR,
+    DMG_DIST_DIR,
+    DIST_DIR_ONEDIR
+)
 from ..helpers import PyinsMode
 from .._version import __version__
-
-STANDARD_MACOS_APP_DIST_DIR = Path("dist") # observation, but not ideal, we need a --distpath flat on the pyinstaller commend instead if pyhabitat.on_macos()
-MACOS_APP_DIST_DIR = Path("dist") / "macOS_app"
-DMG_DIST_DIR = Path("dist") / "dmg"
-DIST_DIR_ONEDIR = Path("dist") / PyinsMode.ONEDIR.value
-
 
 
 def purge_raw_unix_structure_from_macos_build(executable_descriptor: str, mode: PyinsMode) -> None:
@@ -44,7 +43,7 @@ def build_macos_dmg(
     print(f"{app=}")
 
     if app is None:
-        app = get_pyinstaller_ondir_export_entrypoint_path()
+        app = get_pyinstaller_onedir_export_entrypoint_path()
 
     if app.suffix != ".app":
         raise ValueError(f"Expected a .app bundle, got {app}")

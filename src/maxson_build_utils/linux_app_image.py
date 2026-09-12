@@ -15,7 +15,7 @@ import tempfile
 import pyhabitat
 
 from .helpers import PyinsMode, IconFileType, resolve_icon_filetype, resolve_icon_path
-from .state import get_pyinstaller_ondir_export_entrypoint_path
+from .state import get_pyinstaller_onedir_export_entrypoint_path
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +30,7 @@ def build_linux_appimage(
 
     # Fall back to environment state if no explicit path was passed
     if app_filepath is None or str(app_filepath).strip() in ("", "."):
-        app_filepath = get_pyinstaller_ondir_export_entrypoint_path()
+        app_filepath = get_pyinstaller_onedir_export_entrypoint_path()
     else:
         app_filepath = Path(app_filepath).expanduser().resolve()
     
