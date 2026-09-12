@@ -18,7 +18,7 @@ import pyhabitat
 
 from ..helpers import form_dynamic_name, PyinsMode
 from ..state import export_build_env_vars
-from ..macos_dmg import MACOS_APP_DIST_DIR
+from .macos_dmg import MACOS_APP_DIST_DIR
 
 logger = logging.getLogger(__name__)
 
