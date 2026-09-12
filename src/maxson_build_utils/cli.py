@@ -578,7 +578,7 @@ def gui_command(
 
 @sign_app.command(name="msix")
 def sign_msic_command():
-    """Sign """
+    """Sign MSIX files for Windows distribution."""
     sign_msix()
 
 @sign_app.command(name="dmg")
