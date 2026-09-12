@@ -60,14 +60,15 @@ def build_macos_dmg(
     print("build_macos_dmg()")
     print(f"{app=}")
 
+    if app is None:
+        app = get_pyinstaller_onedir_executable_filepath()
+
     if app.suffix != ".app":
         raise ValueError(f"Expected a .app bundle, got {app}")
 
     if shutil.which("create-dmg") is None:
         raise RuntimeError("create-dmg is not installed. Install with: brew install create-dmg")
 
-    if app is None:
-        app = get_pyinstaller_onedir_executable_filepath()
     output_dir.mkdir(parents=True, exist_ok=True)
     dmg_path = output_dir / f"{app.stem}.dmg"
 

@@ -317,7 +317,7 @@ def build_appimage_command(
 
 @build_app.command(name="dmg")
 def build_macos_dmg_command(
-    app_pretty_name: str = typer.Option(..., "--pretty-name", help="Pretty desktop app display name"),
+    app_pretty_name: str | None = typer.Option(None, "--pretty-name", help="Pretty desktop app display name"),
     pyinstaller_onedir_executable_path: Path | None= typer.Option(None, "--exe-path", help="PyInstaller generated app filepath. Defaults to internal state."),
     version: str | None = typer.Option(
             None,
@@ -327,9 +327,10 @@ def build_macos_dmg_command(
         ),
 ):
     """Package a PyInstaller ONEDIR .app export into a MacOS MDG. This must be run after the build_executable.py script for the application."""
+    
     build_macos_dmg(
         app = pyinstaller_onedir_executable_path,
-        app_name_pretty=app_pretty_name,
+        app_pretty_name=app_pretty_name,
         version = version,
     )
 

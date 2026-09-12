@@ -99,7 +99,6 @@ def determine_app_filepath_and_dist_path(
     else:
         if pyhabitat.on_macos():
             #dist_path = STANDARD_MACOS_APP_DIST_DIR
-            print(f"get MACOS_APP_DIST_DIR in this mix instead, for the --distpath flag")
             dist_path = MACOS_APP_DIST_DIR 
             app_filepath = dist_path / app_filename
         else:
