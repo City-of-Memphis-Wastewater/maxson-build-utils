@@ -131,6 +131,14 @@ build_app = typer.Typer(
 
 app.add_typer(build_app)
 
+sign_app = typer.Typer(
+    name="sign",
+    help="Sign MSIX and DMG (and AppImage?). This requires a pyinstaller onedir process, then the MSIX and DMG build process, and only when those assets are avaible to the current environment in the expected relative paths will the signing work. Alteratively, just put the signing in the YML GitHub Workflow Runner, say in './.github/workflows/reusable-dmg.yml'.",
+    no_args_is_help=True,
+)
+
+app.add_typer(sign_app)
+
 init_app = typer.Typer(
     name="init",
     help="Scaffold project files and directories.",
@@ -556,6 +564,14 @@ def gui_command(
 
     from .gui import start_gui
     start_gui(time_auto_close = assured_auto_close_value)
+
+@sign_app.command(name="msix")
+def init_ci_all():
+    """Create all ci scaffolding."""
+    sign_msix()
+
+@sign_app.command(name="dmg")
+    sign_dmg()
 
 if __name__ == "__main__":
     app()
