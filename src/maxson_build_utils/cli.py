@@ -306,19 +306,19 @@ def build_deb(
 def build_appimage_command(
     app_pretty_name: str = typer.Option(..., "--pretty-name", help="Pretty desktop app display name"),
     icon: Path = typer.Option(..., "--icon", help="Path to source icon file, PNG preferred"),
-    pyinstaller_onedir_executable_path: Path | None= typer.Option(None, "--exe-path", help="PyInstaller generated app filepath. Defaults to internal state.")        
+    pyinstaller_ondir_export_entrypoint_path: Path | None= typer.Option(None, "--exe-path", help="PyInstaller generated app filepath. Defaults to internal state.")        
 ):
     """Package a PyInstaller ONEDIR bundle into a standalone Linux AppImage. This must be run after the build_executable.py script for the application."""
     build_linux_appimage(
         app_name_pretty=app_pretty_name,
         icon_src=icon,
-        app_filepath = pyinstaller_onedir_executable_path
+        app_filepath = pyinstaller_ondir_export_entrypoint_path
     )
 
 @build_app.command(name="dmg")
 def build_macos_dmg_command(
     app_pretty_name: str | None = typer.Option(None, "--pretty-name", help="Pretty desktop app display name"),
-    pyinstaller_onedir_executable_path: Path | None= typer.Option(None, "--exe-path", help="PyInstaller generated app filepath. Defaults to internal state."),
+    pyinstaller_ondir_export_entrypoint_path: Path | None= typer.Option(None, "--exe-path", help="PyInstaller generated app filepath. Defaults to internal state."),
     version: str | None = typer.Option(
             None,
             "--version",
@@ -329,7 +329,7 @@ def build_macos_dmg_command(
     """Package a PyInstaller ONEDIR .app export into a MacOS MDG. This must be run after the build_executable.py script for the application."""
 
     build_macos_dmg(
-        app = pyinstaller_onedir_executable_path,
+        app = pyinstaller_ondir_export_entrypoint_path,
         app_pretty_name=app_pretty_name,
         version = version,
     )

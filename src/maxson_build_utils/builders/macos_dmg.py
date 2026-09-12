@@ -12,7 +12,7 @@ import logging
 
 logger=logging.getLogger(__name__)
 
-from ..state import get_pyinstaller_onedir_executable_filepath 
+from ..state import get_pyinstaller_ondir_export_entrypoint_path 
 from ..context import APP_NAME_PRETTY
 from ..helpers import PyinsMode
 from .._version import __version__
@@ -44,7 +44,7 @@ def build_macos_dmg(
     print(f"{app=}")
 
     if app is None:
-        app = get_pyinstaller_onedir_executable_filepath()
+        app = get_pyinstaller_ondir_export_entrypoint_path()
 
     if app.suffix != ".app":
         raise ValueError(f"Expected a .app bundle, got {app}")
