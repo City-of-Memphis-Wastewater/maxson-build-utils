@@ -65,6 +65,10 @@ from .scaffold.packaging import (
     run_init_msix,
     run_init_dmg,
 )
+from .signers import (
+    sign_dmg,
+    sign_msix
+)
 console_stderr = Console(stderr=True)
 console_stdout = Console()
 
@@ -566,11 +570,12 @@ def gui_command(
     start_gui(time_auto_close = assured_auto_close_value)
 
 @sign_app.command(name="msix")
-def init_ci_all():
+def sign_msic_command():
     """Create all ci scaffolding."""
     sign_msix()
 
 @sign_app.command(name="dmg")
+def sign_dmg_command():
     sign_dmg()
 
 if __name__ == "__main__":
