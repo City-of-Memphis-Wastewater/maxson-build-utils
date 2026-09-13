@@ -51,8 +51,10 @@ keywords = [
 ]
 
 [project.scripts]
-maxson-build-utils = "maxson_build_utils.__main__:app"
-mbu = "maxson_build_utils.__main__:app"
+#maxson-build-utils = "maxson_build_utils.__main__:app"
+#mbu = "maxson_build_utils.__main__:app"
+maxson-build-utils = "maxson_build_utils.cli:app"
+mbu = "maxson_build_utils.cli:app"
 
 # add with `uv sync --group dev`, plus other extras, like `--extra pdfium`
 [dependency-groups]
@@ -87,8 +89,8 @@ Changelog = "https://raw.githubusercontent.com/city-of-memphis-wastewater/maxson
 requires = ["setuptools>=64", "wheel"]
 build-backend = "setuptools.build_meta"
 
-[tool.uv.sources]
-maxson-build-utils = { path = "src/maxson_build_utils" }
+#[tool.uv.sources]
+#maxson-build-utils = { path = "src/maxson_build_utils" }
 #pyhabitat = { path = "../pyhabitat/dist/pyhabitat-1.2.3-py3-none-any.whl" }
 
 [tool.setuptools.dynamic]
