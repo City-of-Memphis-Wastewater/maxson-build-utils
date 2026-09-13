@@ -72,10 +72,12 @@ from .scaffold.packaging import (
     run_init_msix,
     run_init_dmg,
 )
+'''
 from .signers import (
     sign_dmg,
     sign_msix
 )
+'''
 console_stderr = Console(stderr=True)
 console_stdout = Console()
 
@@ -602,7 +604,7 @@ def gui_command(
 
     from .gui import start_gui
     start_gui(time_auto_close = assured_auto_close_value)
-
+'''
 @sign_app.command(name="msix")
 def sign_msix_command():
     """Sign MSIX files for Windows distribution."""
@@ -621,10 +623,24 @@ def sign_dmg_command(
     )
 ):
     """A wrapper around rcodesign. Sign DMG file for macOS, assuming create-dmg has already been run."""
-    DEFAULT_MBU_DMG_DIST_PATH = Path.cwd() / "dist" / "dmg" / os.glob("*.dmg")
+    
     if path is None:
-        path = str(Path(DEFAULT_MBU_DMG_DIST_PATH).expanduser().resolve())
-    sign_dmg(dmg_path=path, p12_base64=p12_file, p12_password=p12_password)
+        dmg_files = list((Path.cwd() / "dist" / "dmg").glob("*.dmg"))
 
+        if not dmg_files:
+            raise FileNotFoundError(
+                f"No DMG files found in {Path.cwd() / 'dist' / 'dmg'}"
+            )
+
+        if len(dmg_files) > 1:
+            raise RuntimeError(
+                "Multiple DMG files found; specify one with --path:\n"
+                + "\n".join(str(p) for p in dmg_files)
+            )
+
+        path = str(dmg_files[0].resolve())
+
+    sign_dmg(dmg_path=path, p12_base64=p12_file, p12_password=p12_password)
+'''
 if __name__ == "__main__":
     app()
