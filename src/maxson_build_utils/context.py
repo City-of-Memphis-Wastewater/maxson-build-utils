@@ -17,7 +17,7 @@ APP_NAME_PRETTY = "MaxsonBuildUtils"
 IMPORT_NAME = "maxson_build_utils"
 SRC_FOLDER_NAME = IMPORT_NAME
 SERVICE = APP_NAME
-
+DESCRIPTION_STR = "A convention-optional build and deployment framework, with an opinionated Maxson project scaffold available as a convenience."
 
 def get_app_name() -> str:
     return APP_NAME
