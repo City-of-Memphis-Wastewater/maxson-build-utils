@@ -18,15 +18,27 @@ DMG_DIST_DIR = DIST_DIR / "dmg"
 DIST_DIR_ONEFILE = DIST_DIR / PyinsMode.ONEFILE.value
 DIST_DIR_ONEDIR = DIST_DIR / PyinsMode.ONEDIR.value
 
+
 @lru_cache(maxsize=1)
-def get_pyproject() -> MaxsonPyProject:
-    """Parses pyproject.toml lazily from project root or working directory."""
+def get_pyproject() -> MaxsonPyProject | None:
+    """Parse pyproject.toml from the development project root, if available."""
     proj = MaxsonPyProject(PROJECT_ROOT)
+
     if proj.path is None:
-        #proj = MaxsonPyProject(Path.cwd())
         return None
+
     return proj
 
+
+def get_description() -> str:
+    proj = get_pyproject()
+
+    if proj is not None:
+        desc = proj.get("project", "description")
+        if desc:
+            return desc
+
+    return get_app_name()
 
 def get_app_name() -> str:
     return APP_NAME or PACKAGE_DIR.name.replace("_", "-")
@@ -36,12 +48,7 @@ def get_pretty_name(app_name:str|None=None) -> str:
         return to_title_case(app_name)
     return to_title_case(PACKAGE_DIR.name)
 
-def get_description() -> str:
-    desc = get_pyproject().get("project", "description")
-    if desc:
-        return desc
-    #return "Centralized build and packaging tools for the standard Maxson architecture." # no, don't hardcode
-    return get_app_name()
+
 
 def get_app_dir(app_name:str) -> Path:
     path = Path.home() / f".{app_name}"
