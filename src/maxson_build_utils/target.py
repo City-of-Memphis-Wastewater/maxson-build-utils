@@ -8,9 +8,17 @@ from .helpers import PyinsMode
 from .pyproject import MaxsonPyProject
 
 
-TARGET_PROJECT_ROOT = Path.cwd()
 
-DIST_DIR = TARGET_PROJECT_ROOT / "dist"
+def get_target_project_root() -> Path:
+    return Path.cwd()
+
+def get_dist_dir() -> Path:
+    return get_target_project_root() / "dist"
+
+# backwards compatibility, technically wrong semantics (hobgoblin of little minds, etc)
+TARGET_PROJECT_ROOT = get_target_project_root()
+DIST_DIR = get_dist_dir()
+
 
 MACOS_APP_DIST_DIR = DIST_DIR / "macOS_app"
 DMG_DIST_DIR = DIST_DIR / "dmg"
