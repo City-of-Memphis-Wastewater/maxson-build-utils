@@ -5,7 +5,7 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
-## [0.1.39] - 2026-08-28
+## [0.1.39] - 2026-09-12
 ### Changed:
 - Remove PyProject reliance from builders/pyinstaller
 - Find grep instances of "pdflinkcheck" in CLI, scaffold, and mkdocs, and make generic and change to mbu reference.
