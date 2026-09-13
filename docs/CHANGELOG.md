@@ -9,6 +9,8 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 ### Changed:
 - Remove PyProject reliance from builders/pyinstaller
 - Find grep instances of "pdflinkcheck" in CLI, scaffold, and mkdocs, and make generic and change to mbu reference.
+- Implement mbu build dmg
+- Improve MacOS .app filepathing in pyinstaller onedir. 
 
 ---
 
