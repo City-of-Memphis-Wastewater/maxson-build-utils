@@ -14,7 +14,7 @@ logger=logging.getLogger(__name__)
 
 
 from ..state import get_pyinstaller_onedir_export_entrypoint_path 
-from ..context import (
+from ..target import (
     DMG_DIST_DIR
 )
 from ..helpers import PyinsMode
