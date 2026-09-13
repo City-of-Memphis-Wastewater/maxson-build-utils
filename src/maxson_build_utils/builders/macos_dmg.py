@@ -15,10 +15,7 @@ logger=logging.getLogger(__name__)
 
 from ..state import get_pyinstaller_onedir_export_entrypoint_path 
 from ..context import (
-    APP_NAME_PRETTY,
-    MACOS_APP_DIST_DIR,
-    DMG_DIST_DIR,
-    DIST_DIR_ONEDIR
+    DMG_DIST_DIR
 )
 from ..helpers import PyinsMode
 from .._version import __version__
@@ -35,7 +32,7 @@ def purge_raw_unix_structure_from_macos_build(executable_descriptor: str, mode: 
 
 def build_macos_dmg(
     app: Path | None = None,
-    app_pretty_name: str = APP_NAME_PRETTY,
+    app_pretty_name: str | None = None,
     version: str = __version__,
     output_dir: Path = DMG_DIST_DIR,
 ) -> Path:
