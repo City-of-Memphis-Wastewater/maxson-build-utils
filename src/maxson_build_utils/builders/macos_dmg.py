@@ -12,16 +12,13 @@ import logging
 
 logger=logging.getLogger(__name__)
 
+
 from ..state import get_pyinstaller_onedir_export_entrypoint_path 
-from ..context import (
-    APP_NAME_PRETTY,
-    MACOS_APP_DIST_DIR,
+from ..target import (
     DMG_DIST_DIR,
-    DIST_DIR_ONEDIR
+    get_pyproject
 )
 from ..helpers import PyinsMode
-from .._version import __version__
-
 
 def purge_raw_unix_structure_from_macos_build(executable_descriptor: str, mode: PyinsMode) -> None:
     """Unused as far as i can tell. Removes duplicate CLI directories created by PyInstaller next to .app bundles."""
@@ -34,19 +31,23 @@ def purge_raw_unix_structure_from_macos_build(executable_descriptor: str, mode: 
 
 def build_macos_dmg(
     app: Path | None = None,
-    app_pretty_name: str = APP_NAME_PRETTY,
-    version: str = __version__,
+    app_pretty_name: str | None = None,
+    version: str | None = None,
     output_dir: Path = DMG_DIST_DIR,
 ) -> Path:
     """Packages a macOS .app bundle into a .dmg using create-dmg."""
     print("build_macos_dmg()")
-    print(f"{app=}")
-
+    
     if app is None:
         app = get_pyinstaller_onedir_export_entrypoint_path()
 
     if app.suffix != ".app":
         raise ValueError(f"Expected a .app bundle, got {app}")
+
+    if app_pretty_name is None or version is None:
+        project = get_pyproject()
+        app_pretty_name = app_pretty_name or project.pretty_name
+        version = version or project.version
 
     if shutil.which("create-dmg") is None:
         raise RuntimeError("create-dmg is not installed. Install with: brew install create-dmg")
@@ -83,3 +84,4 @@ def build_macos_dmg(
         subprocess.run(cmd, check=True)
 
     return dmg_path
+

@@ -18,11 +18,8 @@ logger = logging.getLogger(__name__)
 
 # --- Core Imports ---
 
-from .context import CONFIG_PATH, IMPORT_NAME
+from .context import CONFIG_PATH, APP_NAME, IMPORT_NAME
 from ._version import get_version, __version__
-from .context import (
-            APP_NAME,
-            )
 #from .paths import (
 #            get_target_copy_dir,
 #            LOGO_FILENAME_PNG,
