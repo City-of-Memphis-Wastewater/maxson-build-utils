@@ -12,6 +12,7 @@ import logging
 
 logger=logging.getLogger(__name__)
 
+
 from ..state import get_pyinstaller_onedir_export_entrypoint_path 
 from ..context import (
     APP_NAME_PRETTY,
@@ -57,6 +58,79 @@ def build_macos_dmg(
     with tempfile.TemporaryDirectory() as tmp:
         tmp_path = Path(tmp)
         staged = tmp_path / app.name
+        shutil.copytree(app, staged)
+
+        cmd = [
+            "create-dmg",
+            "--volname",
+            f"{app_pretty_name} {version}",
+            "--window-size",
+            "500",
+            "300",
+            "--icon-size",
+            "100",
+            "--icon",
+            staged.name,
+            "150",
+            "180",
+            "--app-drop-link",
+            "450",
+            "180",
+            str(dmg_path.resolve()),
+            str(tmp_path),
+        ]
+
+        print(f"Executing create-dmg command: {' '.join(cmd)}")
+        subprocess.run(cmd, check=True)
+
+    return dmg_path
+
+
+
+# ----
+
+
+
+from pathlib import Path
+import shutil
+import subprocess
+import tempfile
+
+from ..pyproject import MaxsonPyProject  # wherever your PyProject class lives
+
+
+def build_macos_dmg(
+    app: Path,
+    output_dir: Path,
+    project: MaxsonPyProject | None = None,
+    app_pretty_name: str | None = None,
+    version: str | None = None,
+) -> Path:
+    """Package a PyInstaller .app bundle into a macOS DMG."""
+
+    if app.suffix != ".app":
+        raise ValueError(f"Expected a .app bundle, got {app}")
+
+    if shutil.which("create-dmg") is None:
+        raise RuntimeError(
+            "create-dmg is not installed. Install with: brew install create-dmg"
+        )
+
+    app_pretty_name = app_pretty_name or project.get(
+        "project",
+        "name",
+    )
+
+    version = version or project.version
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    dmg_path = output_dir / f"{app.stem}.dmg"
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_path = Path(tmp)
+        staged = tmp_path / app.name
+
         shutil.copytree(app, staged)
 
         cmd = [
