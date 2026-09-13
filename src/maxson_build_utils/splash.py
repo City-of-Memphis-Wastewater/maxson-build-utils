@@ -17,7 +17,7 @@ class SplashFrame:
         #center_window_on_primary(self.top, width, height)
 
         # UI Components
-        tk.Label(self.top, text="PDF LINK CHECK", fg="white", bg="#2b2b2b", 
+        tk.Label(self.top, text="LOADING", fg="white", bg="#2b2b2b", 
                  font=("Arial", 12, "bold")).pack(pady=(15, 5))
 
         self.progress = ttk.Progressbar(self.top, mode='indeterminate', length=250)
