@@ -337,8 +337,8 @@ def build_macos_dmg_command(
 ):
     """Package a PyInstaller ONEDIR .app export into a MacOS DMG."""
 
-    app_pretty_name = app_pretty_name if app_pretty_name is not None else APP_NAME_PRETTY
-    version = version if version is not None else __version__
+    app_pretty_name = app_pretty_name if app_pretty_name is not None else None
+    version = version if version is not None else None
 
     build_macos_dmg(
         app=pyinstaller_onedir_export_entrypoint_path,

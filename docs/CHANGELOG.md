@@ -5,6 +5,17 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.40] - 2026-09-13
+### Changed:
+### Fixed:
+- build_macos_dmg() was pulling from maxson_build_utils context; this is a mistake, MBU is meant to build other packages.
+
+### Changed:
+- Separate out context.py and target.py, where context referes to MBU internally and target.py refers to the target pacakge that MBU is acting on.
+- Use dworshak-env with Path.cwd() / ".persist" to track build state values, referenced in state.get_pyinstaller_onedir_export_entrypoint_path() and state.get_executable_descriptor(); add ".persist" to .gitignore, which has fewer implications than adding ".env" to .gitignore
+
+---
+
 ## [0.1.39] - 2026-09-12
 ### Changed:
 - Remove PyProject reliance from builders/pyinstaller
