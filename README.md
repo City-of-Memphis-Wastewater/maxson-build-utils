@@ -34,7 +34,7 @@ mbu init all
 # edit pyproject.toml to add new dependecies
 
 # sync the local new venv
-uv sync --group dev --extra gui
+uv sync --group dev --extra gui --extra pyinstaller
 ```
 
 Build local artifacts
