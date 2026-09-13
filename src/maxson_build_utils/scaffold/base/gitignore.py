@@ -22,6 +22,9 @@ wheels/
 # Virtual environments
 .venv/
 .python-version
+
+# local persistence
+.persist
 """
 
 
