@@ -149,6 +149,7 @@ build_app = typer.Typer(
 
 app.add_typer(build_app)
 
+'''
 sign_app = typer.Typer(
     name="sign",
     help="Sign MSIX and DMG (and AppImage?). This requires a pyinstaller onedir process, then the MSIX and DMG build process, and only when those assets are avaible to the current environment in the expected relative paths will the signing work. Alteratively, just put the signing in the YML GitHub Workflow Runner, say in './.github/workflows/reusable-dmg.yml'.",
@@ -156,6 +157,7 @@ sign_app = typer.Typer(
 )
 
 app.add_typer(sign_app)
+'''
 
 init_app = typer.Typer(
     name="init",
