@@ -326,7 +326,7 @@ def build_macos_dmg_command(
             help="Override target app version string. Defaults to src/<app>/VERSION file.",
         ),
 ):
-    """Package a PyInstaller ONEDIR .app export into a MacOS MDG. This must be run after pyinstaller onedir."""
+    """Package a PyInstaller ONEDIR .app export into a MacOS DMG."""
 
     app_pretty_name = app_pretty_name if app_pretty_name is not None else APP_NAME_PRETTY
     version = version if version is not None else __version__
@@ -336,13 +336,7 @@ def build_macos_dmg_command(
         app_pretty_name=app_pretty_name,
         version=version,
     )
-    """signature
-    def build_macos_dmg(
-    app: Path | None = None,
-    app_pretty_name: str = APP_NAME_PRETTY,
-    version: str = __version__,
-    output_dir:
-    """
+
 @app.command()
 def pyproject(
     key: list[str] = typer.Option(

@@ -546,7 +546,7 @@ requires-dist = [
     { name = "typer", marker = "python_full_version >= '3.10'", specifier = ">=0.27.0" },
     { name = "typer-helptree", specifier = ">=0.2.12" },
 ]
-provides-extras = ["pyinstaller", "builds", "gui"]
+provides-extras = ["pyinstaller", "builds", "gui", "web"]
 
 [package.metadata.requires-dev]
 dev = [
