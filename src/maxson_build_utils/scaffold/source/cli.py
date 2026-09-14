@@ -21,6 +21,7 @@ import sys
 from pathlib import Path
 import pyhabitat
 import typer
+from enum import Enum, auto
 from typer.models import OptionInfo
 from rich.console import Console
 from typer_helptree import add_typer_helptree
@@ -43,12 +44,17 @@ os.environ["FORCE_COLOR"] = "1"
 # Optional but helpful for full terminal feature detection.
 os.environ["TERM"] = "xterm-256color"
 
+class AppMode(Enum):
+    GUI = auto()
+    CLI = auto()
+app_mode = AppMode.GUI if pyhabitat.tkinter_is_available() else AppMode.CLI
+
 app = typer.Typer(
     name=APP_NAME,
     help=f"{DESCRIPTION_STR} (v{__version__})",
     add_completion=False,
     invoke_without_command=True,
-    no_args_is_help=True,
+    no_args_is_help=(app_mode == AppMode.CLI),
     context_settings={
         "ignore_unknown_options": True,
         "allow_extra_args": True,
@@ -60,39 +66,17 @@ app = typer.Typer(
 @app.callback(invoke_without_command=True)
 def main(
     ctx: typer.Context,
-    version: bool = typer.Option(
-        False,
-        "--version",
-        "-V",
-        help="Show application version and exit.",
-    ),
-    debug: bool = typer.Option(
-        False,
-        "--debug",
-        "-d",
-        help="Enable debug level logs for app.",
-    ),
-    all_debug: bool = typer.Option(
-        False,
-        "--all-debug",
-        help="Enable debug logs for app AND dependencies.",
-    ),
-    verbose: bool = typer.Option(
-        False,
-        "--verbose",
-        "-v",
-        help="Enable verbose info level logs.",
-    ),
-    log_file: Path | None = typer.Option(
-        None,
-        "--log-file",
-        help="Custom path to output log file.",
-    ),
+    version: bool = typer.Option(False, "--version", "-V", help="Show application version and exit."),
+    debug: bool = typer.Option(False, "--debug", "-d", help="Enable debug level logs for app."),
+    all_debug: bool = typer.Option(False, "--all-debug", help="Enable debug logs for app AND dependencies."),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose info level logs."),
+    log_file: Path | None = typer.Option(None, "--log-file", help="Custom path to output log file."), # path just goes unused, just converted to bool
 ):
     if version:
         typer.echo(__version__)
         raise typer.Exit()
 
+    # Route logging configuration based on CLI options
     if all_debug:
         configure_logging_all_debug()
     else:
@@ -102,13 +86,18 @@ def main(
             log_to_file=log_file is not None,
         )
 
+    # Log invoked CLI command invocation string neatly
     logger.debug("Executing command: %s", " ".join(sys.argv))
 
-    if ctx.invoked_subcommand is None and not ctx.resilient_parsing:
-        typer.echo(ctx.get_help())
-        raise typer.Exit()
-
-
+    if app_mode == AppMode.GUI and ctx.invoked_subcommand is None:
+            from .gui import start_gui
+            start_gui()
+        else:
+            typer.echo(ctx.get_help())
+            raise typer.Exit()
+    
+    
+        
 add_typer_helptree(
     app=app,
     console=console_stderr,

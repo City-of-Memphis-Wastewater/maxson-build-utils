@@ -6,6 +6,7 @@ import pyhabitat
 import typer
 from typer.models import OptionInfo
 from pathlib import Path
+from enum import Enum, auto
 from typer_helptree import add_typer_helptree
 from rich.console import Console
 
@@ -87,13 +88,17 @@ os.environ["FORCE_COLOR"] = "1"
 # Optional but helpful for full terminal feature detection
 os.environ["TERM"] = "xterm-256color"
 
+class AppMode(Enum):
+    GUI = auto()
+    CLI = auto()
+app_mode = AppMode.GUI if pyhabitat.tkinter_is_available() else AppMode.CLI
 
 app = typer.Typer(
     name=APP_NAME,
     help=f"{DESCRIPTION_STR} (v{__version__})",
     add_completion=False,
     invoke_without_command = True,
-    no_args_is_help = False,
+    no_args_is_help = (app_mode == AppMode.CLI),
     context_settings={"ignore_unknown_options": True,
                       "allow_extra_args": True,
                       "help_option_names": ["-h", "--help"]},
@@ -126,16 +131,13 @@ def main(
     # Log invoked CLI command invocation string neatly
     logger.debug("Executing command: %s", " ".join(sys.argv))
 
-    # Fallback to showing help if invoker passed no commands
-    #if ctx.invoked_subcommand is None and not ctx.resilient_parsing:
-    #    typer.echo(ctx.get_help())
-    #    raise typer.Exit()
-
-    if ctx.invoked_subcommand is None:
+    if app_mode == AppMode.GUI and ctx.invoked_subcommand is None:
         from .gui import start_gui
-
         start_gui()
-    
+    else:
+        typer.echo(ctx.get_help())
+        raise typer.Exit()
+
 # ----
 
 add_typer_helptree(app = app, console = console_stderr, version = __version__, hidden = False)
