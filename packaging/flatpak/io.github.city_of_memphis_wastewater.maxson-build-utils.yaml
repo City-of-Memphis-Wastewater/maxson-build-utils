@@ -13,10 +13,10 @@ command: maxson-build-utils
 appstream-compose: false
 
 # Inherit pre-compiled GUI/Tk modules via extension
-add-extensions:
- org.freedesktop.Platform.Extension.tk:
-   directory: lib/tk
-   version: '24.08'
+#add-extensions:
+# org.freedesktop.Platform.Extension.tk:
+#   directory: lib/tk
+#   version: '24.08'
 
 
 build-options:
