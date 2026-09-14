@@ -32,10 +32,11 @@ from maxson_build_utils.builders.shiv import run_build_pyz
 #from maxson_build_utils.post_pyinstaller_onedir import build_appimage
 
 from maxson_build_utils.builders.macos_dmg import build_macos_dmg
-from maxson_build_utils.deb import build_debian_package
+from maxson_build_utils.builders.deb import build_debian_package
+from maxson_build_utils.linux_app_image import build_linux_appimage
+
 from maxson_build_utils.helpers import PyinsMode
 from maxson_build_utils.vendor import run_vendor_wheels
-from maxson_build_utils.linux_app_image import build_linux_appimage
 from .pyproject import PyProject, format_value
 from .scaffold.base import (
     run_init_pyproject,
