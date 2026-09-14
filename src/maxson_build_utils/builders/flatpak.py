@@ -5,7 +5,7 @@ import logging
 import shutil
 import subprocess
 from pathlib import Path
-
+import pyhabitat
 from pyhabitat import probe_app_mode_mgu
 
 from ..target import get_pyproject
@@ -44,6 +44,13 @@ def build_flatpak(
     output_dir: Path = FLATPAK_DIST_DIR,
 ) -> Path:
     """Builds a Flatpak single-file bundle using local flatpak-builder toolchain."""
+
+    if pyhabitat.on_termux(): #shutil.which("flatpak-builder") is None:
+        raise RuntimeError(
+            "Local Flatpak builds require flatpak-builder and flatpak. "
+            "These tools are not available in Termux. "
+            "Use the GitHub Flatpak workflow to build the .flatpak bundle."
+        )
     # 1. Enforce AppMode.GUI requirement
     validate_build_target(TargetBuild.FLATPAK)
 
