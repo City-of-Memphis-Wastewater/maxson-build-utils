@@ -1,4 +1,5 @@
 id: io.github.city_of_memphis_wastewater.maxson-build-utils
+branch: main
 runtime: org.freedesktop.Platform
 runtime-version: '24.08'
 sdk: org.freedesktop.Sdk

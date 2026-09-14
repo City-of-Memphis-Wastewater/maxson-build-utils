@@ -8,6 +8,7 @@ from ...names import to_kebab_case
 from ...pyproject import MaxsonPyProject
 
 MANIFEST_TEMPLATE = """id: {APP_ID}
+branch: main
 runtime: org.freedesktop.Platform
 runtime-version: '24.08'
 sdk: org.freedesktop.Sdk
