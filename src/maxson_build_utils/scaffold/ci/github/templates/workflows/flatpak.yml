@@ -34,9 +34,9 @@ jobs:
       - name: Vendor Python Dependencies
         run: |
           mkdir -p vendor-wheels
-          uv build
+          uv build --wheel --out-dir dist/whl
           uv run pip download \
-            dist/*.whl \
+            dist/whl/*.whl \
             -d vendor-wheels
 
       - name: Build Flatpak

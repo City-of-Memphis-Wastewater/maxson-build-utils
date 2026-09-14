@@ -73,10 +73,10 @@ jobs:
 
       - name: Create venv and install package
         run: |
-          uv build --wheel
+          uv build --wheel --out-dir dist/whl
           python3 -m venv build/deb/staging/opt/$APP_NAME/venv
           build/deb/staging/opt/$APP_NAME/venv/bin/pip install --upgrade pip
-          build/deb/staging/opt/$APP_NAME/venv/bin/pip install dist/*.whl
+          build/deb/staging/opt/$APP_NAME/venv/bin/pip install dist/whl/*.whl
 
       - name: Install launcher wrapper
         run: |

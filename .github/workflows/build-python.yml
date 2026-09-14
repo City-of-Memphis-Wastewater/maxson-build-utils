@@ -26,13 +26,16 @@ jobs:
         run: uv sync --group dev
 
       - name: Build Wheel & Sdist
-        run: uv run python -m build
-
+        #run: uv run python -m build
+        run: |
+          uv build --wheel --out-dir dist/whl/
+          uv build --sdist --out-dir dist/sdist/
+          
       - name: Stage Artifacts
         run: |
           mkdir -p dist/upload
-          cp dist/*.whl dist/upload/ 2>/dev/null || true
-          cp dist/*.tar.gz dist/upload/ 2>/dev/null || true
+          cp dist/whl/*.whl dist/upload/ 2>/dev/null || true
+          cp dist/sdist/*.tar.gz dist/upload/ 2>/dev/null || true
 
       - name: Publish to GitHub Release
         shell: bash

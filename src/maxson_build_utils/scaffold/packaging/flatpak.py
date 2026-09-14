@@ -24,7 +24,7 @@ modules:
     buildsystem: simple
     build-commands:
       # 1. Install wheel
-      - sh -c 'pip3 install --ignore-installed --no-index --find-links=vendor-wheels --prefix=/app dist/*.whl'
+      - sh -c 'pip3 install --ignore-installed --no-index --find-links=vendor-wheels --prefix=/app dist/whl/*.whl'
 
       # 2. Desktop Integration Files
       - install -Dm644 packaging/flatpak/$APP_ID.desktop /app/share/applications/$APP_ID.desktop
