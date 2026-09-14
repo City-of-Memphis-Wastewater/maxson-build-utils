@@ -87,13 +87,13 @@ def main(
     # Log invoked CLI command invocation string neatly
     logger.debug("Executing command: %s", " ".join(sys.argv))
 
-    if app_mode == AppMode.GUI and ctx.invoked_subcommand is None:
-            from .gui import start_gui
-            start_gui()
-        else:
-            typer.echo(ctx.get_help())
-            raise typer.Exit()
-    
+    if ctx.invoked_subcommand is None:
+            if app_mode == AppMode.GUI:
+                from .gui import start_gui
+                start_gui()
+            else:
+                typer.echo(ctx.get_help())
+                raise typer.Exit()
     
         
 add_typer_helptree(

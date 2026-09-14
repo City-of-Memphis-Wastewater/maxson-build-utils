@@ -26,17 +26,14 @@ from .cli_dworshak import dworshak_config as run_dworshak_config
 from maxson_build_utils import MaxsonPyProject
 from maxson_build_utils.builders.pyinstaller import run_build_executable
 from maxson_build_utils.builders.shiv import run_build_pyz
-#from maxson_build_utils.post_pyinstaller_onedir import build_deb
-#from maxson_build_utils.post_pyinstaller_onedir import build_dmg
-#from maxson_build_utils.post_pyinstaller_onedir import build_msix
-#from maxson_build_utils.post_pyinstaller_onedir import build_flatpak
-#from maxson_build_utils.post_pyinstaller_onedir import build_appimage
-
 from maxson_build_utils.builders.macos_dmg import build_macos_dmg
 from maxson_build_utils.builders.deb import build_debian_package
+from maxson_build_utils.builders.linux_app_image import build_linux_appimage
 from maxson_build_utils.builders.validate import validate_build_target, TargetBuild
+#from maxson_build_utils.builders import build_msix
+from maxson_build_utils.builders import build_flatpak
 
-from maxson_build_utils.linux_app_image import build_linux_appimage
+
 
 from maxson_build_utils.helpers import PyinsMode
 from maxson_build_utils.vendor import run_vendor_wheels
@@ -130,12 +127,13 @@ def main(
     # Log invoked CLI command invocation string neatly
     logger.debug("Executing command: %s", " ".join(sys.argv))
 
-    if app_mode == AppMode.GUI and ctx.invoked_subcommand is None:
-        from .gui import start_gui
-        start_gui()
-    else:
-        typer.echo(ctx.get_help())
-        raise typer.Exit()
+    if ctx.invoked_subcommand is None:
+        if app_mode == AppMode.GUI:
+            from .gui import start_gui
+            start_gui()
+        else:
+            typer.echo(ctx.get_help())
+            raise typer.Exit()
 
 # ----
 
@@ -353,7 +351,12 @@ def build_macos_dmg_command(
         version=version,
     )
 
-### add flatpak and msix builders 
+@build_app.command(name="flatpak")
+def build_flatpak_cmd():
+    """Build a standalone Flatpak single-file bundle (.flatpak)."""
+    build_flatpak()
+
+### add msix builder
 
 @app.command()
 def pyproject(
