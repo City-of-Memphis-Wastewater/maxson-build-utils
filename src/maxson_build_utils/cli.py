@@ -34,6 +34,8 @@ from maxson_build_utils.builders.shiv import run_build_pyz
 
 from maxson_build_utils.builders.macos_dmg import build_macos_dmg
 from maxson_build_utils.builders.deb import build_debian_package
+from maxson_build_utils.builders.validate import validate_build_target, TargetBuild
+
 from maxson_build_utils.linux_app_image import build_linux_appimage
 
 from maxson_build_utils.helpers import PyinsMode
@@ -308,6 +310,8 @@ def build_deb(
     arch: str = typer.Option(None, "--arch", help="Target architecture")
 ):
     """Package a PyInstaller ONEDIR bundle into a standalone Debian .deb file. This must be run after pyinstaller onedir."""
+    validate_build_target(TargetBuild.DEB)
+
     build_debian_package(app_name=app_name, version=version, arch=arch)
 
 
@@ -318,6 +322,8 @@ def build_appimage_command(
     pyinstaller_onedir_export_entrypoint_path: Path | None= typer.Option(None, "--exe-path", help="PyInstaller generated app filepath. Defaults to internal state.")        
 ):
     """Package a PyInstaller ONEDIR bundle into a standalone Linux AppImage. This must be run after pyinstaller onedir."""
+    validate_build_target(TargetBuild.APPIMAGE)
+
     build_linux_appimage(
         app_name_pretty=app_pretty_name,
         icon_src=icon,
@@ -336,6 +342,7 @@ def build_macos_dmg_command(
         ),
 ):
     """Package a PyInstaller ONEDIR .app export into a MacOS DMG."""
+    validate_build_target(TargetBuild.DMG)
 
     app_pretty_name = app_pretty_name if app_pretty_name is not None else None
     version = version if version is not None else None
@@ -345,6 +352,8 @@ def build_macos_dmg_command(
         app_pretty_name=app_pretty_name,
         version=version,
     )
+
+### add flatpak and msix builders 
 
 @app.command()
 def pyproject(
