@@ -9,6 +9,7 @@ from pathlib import Path
 from pyhabitat import probe_app_mode_mgu
 
 from ..target import get_pyproject
+from ..vendor import run_vendor_wheels  # or internal vendoring function
 from .validate import TargetBuild, validate_build_target
 
 logger = logging.getLogger(__name__)
@@ -45,6 +46,8 @@ def build_flatpak(
     """Builds a Flatpak single-file bundle using local flatpak-builder toolchain."""
     # 1. Enforce AppMode.GUI requirement
     validate_build_target(TargetBuild.FLATPAK)
+
+    run_vendor_wheels(dist_dir=Path("dist/whl"), vendor_dir=Path("build/vendor-wheels"))
 
     # 2. Check system build tools
     if shutil.which("flatpak-builder") is None:

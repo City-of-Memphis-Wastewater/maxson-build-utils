@@ -3,9 +3,13 @@ import subprocess
 from pathlib import Path
 import shutil
 
-def run_vendor_wheels(dist_dir: Path = Path("dist/whl"), vendor_dir: Path = Path("vendor-wheels")) -> None:
+def run_vendor_wheels(dist_dir: Path | str = Path("dist/whl"), vendor_dir: Path = Path("build/vendor-wheels")) -> None:
     """Builds project wheel and downloads all runtime dependencies offline for Flatpak."""
+    dist_dir = Path(dist_dir)
+    vendor_dir = Path(vendor_dir)
+
     vendor_dir.mkdir(parents=True, exist_ok=True)
+    dist_dir.mkdir(parents=True, exist_ok=True)
 
     # 1. Build the project wheel first
     subprocess.run(["uv", "build", "--wheel", "--out-dir", str(dist_dir)], check=True)

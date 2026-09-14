@@ -33,11 +33,11 @@ jobs:
 
       - name: Vendor Python Dependencies
         run: |
-          mkdir -p vendor-wheels
+          mkdir -p build/vendor-wheels
           uv build --wheel --out-dir dist/whl
           uv run pip download \
             dist/whl/*.whl \
-            -d vendor-wheels
+            -d build/vendor-wheels
 
       - name: Build Flatpak
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6

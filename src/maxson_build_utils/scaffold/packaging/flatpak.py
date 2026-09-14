@@ -25,7 +25,7 @@ modules:
     build-commands:
       # 1. Install wheel
       #- sh -c 'pip3 install --ignore-installed --no-index --find-links=vendor-wheels --prefix=/app dist/whl/*.whl'
-      - sh -c 'pip3 install --ignore-installed --no-index --find-links=vendor-wheels --prefix=/app vendor-wheels/*.whl'
+      - sh -c 'pip3 install --ignore-installed --no-index --find-links=build/vendor-wheels --prefix=/app build/vendor-wheels/*.whl'
 
       # 2. Desktop Integration Files
       - install -Dm644 packaging/flatpak/$APP_ID.desktop /app/share/applications/$APP_ID.desktop
@@ -36,10 +36,10 @@ modules:
       - install -Dm644 LICENSE /app/share/licenses/$APP_NAME/LICENSE
     sources:
       - type: dir
-        path: .
+        path: ../..
       - type: dir
-        path: vendor-wheels
-        dest: vendor-wheels
+        path: ../../build/vendor-wheels
+        dest: build/vendor-wheels
 """
 
 DESKTOP_TEMPLATE = """[Desktop Entry]
