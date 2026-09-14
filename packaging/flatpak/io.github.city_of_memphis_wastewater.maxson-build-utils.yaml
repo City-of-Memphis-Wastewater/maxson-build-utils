@@ -5,6 +5,9 @@ runtime-version: '24.08'
 sdk: org.freedesktop.Sdk
 command: maxson-build-utils
 appstream-compose: false
+#runtime: org.gnome.Platform
+#runtime-version: '46' # or '47' / '50'
+#sdk: org.gnome.Sdk
 
 
 # Inherit pre-compiled GUI/Tk modules via extension
@@ -27,6 +30,8 @@ modules:
     config-opts:
       - --enable-threads
       - --enable-64bit
+    post-install:
+      - chmod -R u+w /app/lib
     sources:
       - type: archive
         url: https://downloads.sourceforge.net/tcl/tcl8.6.13-src.tar.gz
@@ -38,19 +43,28 @@ modules:
     config-opts:
       - --enable-threads
       - --enable-64bit
+    post-install:
+      - chmod -R u+w /app/lib
     sources:
       - type: archive
         url: https://downloads.sourceforge.net/tcl/tk8.6.13-src.tar.gz
         sha256: 2e65fa069a23365440a3c56c556b8673b5e32a283800d8d9b257e3f584ce0675
   - name: python3-tkinter
-    buildsystem: simple
+    buildsystem: autotools
+    config-opts:
+      - --with-tcltk-includes=-I/app/include
+      - --with-tcltk-libs=-L/app/lib -ltcl8.6 -ltk8.6
     build-commands:
-      # Rebuild Python's _tkinter C extension targeting /app's Tcl/Tk headers
-      - python3 setup.py build_ext --inplace
+      # Build only the _tkinter C extension library
+      - make sharedmods
+      # Copy the compiled shared object into the app's Python runtime site-packages
+      - mkdir -p /app/lib/python3.12/lib-dynload
+      - cp build/lib.linux-*/_tkinter*.so /app/lib/python3.12/lib-dynload/
     sources:
       - type: archive
         url: https://www.python.org/ftp/python/3.12.5/Python-3.12.5.tar.xz
         sha256: fa8a2e12c5e620b09f53e65bcd87550d2e5a1e2e04bf8ba991dcc55113876397
+
 
   - name: maxson-build-utils
     buildsystem: simple
