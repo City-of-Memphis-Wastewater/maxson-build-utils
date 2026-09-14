@@ -12,7 +12,6 @@ class TargetBuild(str, Enum):
 DESKTOP_ONLY_TARGETS = {
     TargetBuild.DMG,
     TargetBuild.MSIX,
-    TargetBuild.FLATPAK,
 }
 
 def validate_build_target(target_format: TargetBuild) -> None:
