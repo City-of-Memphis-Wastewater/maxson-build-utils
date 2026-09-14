@@ -1,4 +1,0 @@
-[Application]
-name=io.github.city_of_memphis_wastewater.maxson-build-utils
-runtime=org.freedesktop.Platform/x86_64/24.08
-sdk=org.freedesktop.Sdk/x86_64/24.08

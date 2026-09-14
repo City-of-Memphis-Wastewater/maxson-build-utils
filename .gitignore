@@ -12,3 +12,6 @@ wheels/
 
 # local persistence
 .persist
+
+# builders
+/.flatpak-builder/
