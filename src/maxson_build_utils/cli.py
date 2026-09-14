@@ -3,10 +3,10 @@
 import os
 import sys
 import pyhabitat
+from pyhabitat import probe_app_mode_mgu, AppMode
 import typer
 from typer.models import OptionInfo
 from pathlib import Path
-from enum import Enum, auto
 from typer_helptree import add_typer_helptree
 from rich.console import Console
 
@@ -88,15 +88,7 @@ os.environ["FORCE_COLOR"] = "1"
 # Optional but helpful for full terminal feature detection
 os.environ["TERM"] = "xterm-256color"
 
-class AppMode(Enum):
-    GUI = auto()
-    CLI = auto()
-try:
-    import maxson_gui_utils
-except:
-    maxson_gui_utils=None
-#app_mode = AppMode.GUI if (pyhabitat.tkinter_is_available() and maxson_gui_utils is not None) else AppMode.CLI
-app_mode = AppMode.GUI if (pyhabitat.tkinter_is_available()) else AppMode.CLI
+app_mode = probe_app_mode_mgu()
 
 app = typer.Typer(
     name=APP_NAME,

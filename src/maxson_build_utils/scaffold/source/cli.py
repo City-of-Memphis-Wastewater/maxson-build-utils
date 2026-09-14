@@ -20,6 +20,7 @@ import os
 import sys
 from pathlib import Path
 import pyhabitat
+from pyhabitat import probe_app_mode_mgu, AppMode
 import typer
 from enum import Enum, auto
 from typer.models import OptionInfo
@@ -44,10 +45,7 @@ os.environ["FORCE_COLOR"] = "1"
 # Optional but helpful for full terminal feature detection.
 os.environ["TERM"] = "xterm-256color"
 
-class AppMode(Enum):
-    GUI = auto()
-    CLI = auto()
-app_mode = AppMode.GUI if pyhabitat.tkinter_is_available() else AppMode.CLI
+app_mode = probe_app_mode_mgu()
 
 app = typer.Typer(
     name=APP_NAME,
