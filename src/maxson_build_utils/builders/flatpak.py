@@ -39,6 +39,14 @@ def find_flatpak_manifest() -> Path:
     return manifests[0]
 
 
+def check_cmd(cmd_str:str)->None:
+    if shutil.which(cmd_str) is None:
+        raise RuntimeError(
+            f"Local Flatpak builds require {cmd_str}. "
+            "Please install {cmd_str} locally or,"
+            "use the GitHub Flatpak workflow to build the .flatpak bundle."
+        )
+
 def build_flatpak(
     manifest_path: Path | None = None,
     output_dir: Path = FLATPAK_DIST_DIR,
@@ -51,6 +59,10 @@ def build_flatpak(
             "These tools are not available in Termux. "
             "Use the GitHub Flatpak workflow to build the .flatpak bundle."
         )
+
+    check_cmd("flatpak-builder")
+    check_cmd("flatpak")
+
     # 1. Enforce AppMode.GUI requirement
     validate_build_target(TargetBuild.FLATPAK)
 
