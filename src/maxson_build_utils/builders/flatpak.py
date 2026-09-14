@@ -15,6 +15,12 @@ logger = logging.getLogger(__name__)
 
 FLATPAK_DIST_DIR = Path("dist/flatpak")
 
+"""
+Look here is the honest to god truth: 
+The ideal flatpak process involves the github runner in this repo, reusable-flatpak.yml.
+Do you actually want local flatpak builds? The tooling installation is heavy.
+The recommended Github runner YML uses the ghcr.io/flathub-infra/flatpak-github-actions:freedesktop-24.08 image, not the flatpat-builder CLI tool used in this file.
+"""
 
 def find_flatpak_manifest() -> Path:
     """Locate the flatpak manifest file under packaging/flatpak/."""
@@ -38,8 +44,7 @@ def build_flatpak(
 ) -> Path:
     """Builds a Flatpak single-file bundle using local flatpak-builder toolchain."""
     # 1. Enforce AppMode.GUI requirement
-    app_mode = probe_app_mode_mgu()
-    validate_build_target(TargetBuild.FLATPAK, app_mode)
+    validate_build_target(TargetBuild.FLATPAK)
 
     # 2. Check system build tools
     if shutil.which("flatpak-builder") is None:
@@ -54,7 +59,11 @@ def build_flatpak(
     if not manifest_path.exists():
         raise FileNotFoundError(f"Flatpak manifest not found at {manifest_path}")
 
-    # 3. Infer metadata matching reusable-flatpak.yml logic
+    # 3. Build fresh wheel artifact in dist/ prior to running flatpak-builder
+    logger.info("Building wheel artifact for Flatpak packaging...")
+    subprocess.run(["uv", "build", "--wheel"], check=True)
+
+    # 4. Infer metadata matching reusable-flatpak.yml logic
     app_id = manifest_path.stem
     app_name = app_id.rsplit(".", 1)[-1]
     
