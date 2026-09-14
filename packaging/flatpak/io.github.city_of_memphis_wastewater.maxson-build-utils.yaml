@@ -22,6 +22,38 @@ build-options:
     IMPORT_NAME: maxson_build_utils
 
 modules:
+  - name: tcl
+    buildsystem: autotools
+    subdir: unix
+    config-opts:
+      - --enable-threads
+      - --enable-64bit
+    sources:
+      - type: archive
+        url: https://downloads.sourceforge.net/tcl/tcl8.6.13-src.tar.gz
+        sha256: 43a10a66618dbb7894a5708587c0a688a27d1ed9d0200c8b79aea6f6f2d11620
+
+  - name: tk
+    buildsystem: autotools
+    subdir: unix
+    config-opts:
+      - --enable-threads
+      - --enable-64bit
+    sources:
+      - type: archive
+        url: https://downloads.sourceforge.net/tcl/tk8.6.13-src.tar.gz
+        sha256: 2e2d5d0ed032d164530d6e21050943d9f5d73ed4582aa741d348bf12169b13ff
+
+  - name: python3-tkinter
+    buildsystem: simple
+    build-commands:
+      # Rebuild Python's _tkinter C extension targeting /app's Tcl/Tk headers
+      - python3 setup.py build_ext --inplace
+    sources:
+      - type: archive
+        url: https://www.python.org/ftp/python/3.12.5/Python-3.12.5.tar.xz
+        sha256: 8201c278c2e684070a257c2a71536b13cf14a8647c0a0058b2d415f3ec327598
+
   - name: maxson-build-utils
     buildsystem: simple
     build-commands:
