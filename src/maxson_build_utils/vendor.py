@@ -1,8 +1,9 @@
 # src/maxson_build_utils/vendor.py
 import subprocess
 from pathlib import Path
+import shutil
 
-def run_vendor_wheels(dist_dir: Path = Path("dist"), vendor_dir: Path = Path("vendor-wheels")) -> None:
+def run_vendor_wheels(dist_dir: Path = Path("dist/whl"), vendor_dir: Path = Path("vendor-wheels")) -> None:
     """Builds project wheel and downloads all runtime dependencies offline for Flatpak."""
     vendor_dir.mkdir(parents=True, exist_ok=True)
 
@@ -31,10 +32,14 @@ def run_vendor_wheels(dist_dir: Path = Path("dist"), vendor_dir: Path = Path("ve
     wheels = list(dist_dir.glob("*.whl"))
     if not wheels:
         raise FileNotFoundError(f"No built wheels found in {dist_dir}")
+
+    latest_wheel = max(wheels, key=lambda p: p.stat().st_mtime)
+
+    shutil.copy(latest_wheel, vendor_dir / latest_wheel.name)
         
-    subprocess.run([
+    """subprocess.run([
         "uv", "run", "pip", "download",
         str(wheels[0]),
         "--no-deps",
         "-d", str(vendor_dir)
-    ], check=True)
+    ], check=True)"""

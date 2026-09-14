@@ -61,7 +61,7 @@ def build_flatpak(
 
     # 3. Build fresh wheel artifact in dist/ prior to running flatpak-builder
     logger.info("Building wheel artifact for Flatpak packaging...")
-    subprocess.run(["uv", "build", "--wheel"], check=True)
+    subprocess.run(["uv", "build", "--wheel","--out-dir","dist/whl/"], check=True)
 
     # 4. Infer metadata matching reusable-flatpak.yml logic
     app_id = manifest_path.stem
