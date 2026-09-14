@@ -5,14 +5,22 @@ from __future__ import annotations
 import pyhabitat
 import tkinter as tk
 from tkinter import ttk, messagebox, PhotoImage
-from maxson_gui_utils.tk_utils import center_window_on_primary
-from maxson_gui_utils.external_web_launch import launch_configured_website
 from pathlib import Path
 from typing import Optional
 from importlib.resources import files
 import pyhabitat
 import ctypes
 import sys
+
+try:
+    from maxson_gui_utils.tk_utils import center_window_on_primary
+except:
+    center_window_on_primary = None
+try:
+    from maxson_gui_utils.external_web_launch import launch_configured_website
+except:
+    launch_configured_website = None
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -27,7 +35,6 @@ from ._version import get_version, __version__
 #            get_icon_path,
 #            REPO_URL
 #            )
-#from .external_web_launch import launch_configured_website
 
 logger=logging.getLogger(__name__)
 
@@ -139,7 +146,14 @@ class GuiApp:
 
     # --- UI Component Building ---
     def _launch_configured_website(self):
-        launch_configured_website(path=CONFIG_PATH)
+        if launch_configured_website is not None:
+            launch_configured_website(path=CONFIG_PATH)
+        else:
+            messagebox.showinfo(
+                "Dependency",
+                "maxson-gui-utils needs to be included in the venv to use this feature."
+            )
+
         
 
     def _about_button(self):
@@ -190,7 +204,6 @@ class GuiApp:
             messagebox.showerror("Error", f"Could not open system explorer: {e}")
 
 def start_gui(time_auto_close: int = 0):
-
     apply_windows_taskbar_icon()
 
     # 1. Initialize Root and Splash instantly
@@ -231,7 +244,8 @@ def start_gui(time_auto_close: int = 0):
         # Re-center the app window before showing it
         # Center and then reveal
         # 2. CONFIG: Set title and geometry while hidden
-        center_window_on_primary(root, APP_W, APP_H)
+        if center_window_on_primary is not None:
+            center_window_on_primary(root, APP_W, APP_H)
 
 
         root.config(cursor="arrow")

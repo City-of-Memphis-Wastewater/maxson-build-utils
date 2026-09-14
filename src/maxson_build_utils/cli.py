@@ -91,7 +91,12 @@ os.environ["TERM"] = "xterm-256color"
 class AppMode(Enum):
     GUI = auto()
     CLI = auto()
-app_mode = AppMode.GUI if pyhabitat.tkinter_is_available() else AppMode.CLI
+try:
+    import maxson_gui_utils
+except:
+    maxson_gui_utils=None
+#app_mode = AppMode.GUI if (pyhabitat.tkinter_is_available() and maxson_gui_utils is not None) else AppMode.CLI
+app_mode = AppMode.GUI if (pyhabitat.tkinter_is_available()) else AppMode.CLI
 
 app = typer.Typer(
     name=APP_NAME,
