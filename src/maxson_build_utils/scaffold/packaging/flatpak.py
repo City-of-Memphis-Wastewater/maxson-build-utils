@@ -14,6 +14,12 @@ runtime-version: '24.08'
 sdk: org.freedesktop.Sdk
 command: {APP_NAME}
 
+# Inherit pre-compiled GUI/Tk modules via extension
+add-extensions:
+  org.freedesktop.Platform.Extension.tk:
+    directory: lib/tk
+    version: '24.08'
+
 build-options:
   env:
     APP_ID: {APP_ID}

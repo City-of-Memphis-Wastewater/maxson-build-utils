@@ -1,9 +1,17 @@
 id: io.github.city_of_memphis_wastewater.maxson-build-utils
-branch: main
+branch: main  
 runtime: org.freedesktop.Platform
 runtime-version: '24.08'
 sdk: org.freedesktop.Sdk
 command: maxson-build-utils
+
+
+# Inherit pre-compiled GUI/Tk modules via extension
+add-extensions:
+  org.freedesktop.Platform.Extension.tk:
+    directory: lib/tk
+    version: '24.08'
+
 
 build-options:
   env:
