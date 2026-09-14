@@ -8,28 +8,25 @@ from tkinter import ttk, messagebox, PhotoImage
 from pathlib import Path
 from typing import Optional
 from importlib.resources import files
-import pyhabitat
 import ctypes
 import sys
 
 try:
     from maxson_gui_utils.tk_utils import center_window_on_primary
-except:
+except ImportError:
     center_window_on_primary = None
 try:
     from maxson_gui_utils.external_web_launch import launch_configured_website
-except:
+except ImportError:
     launch_configured_website = None
 
 import logging
-logger = logging.getLogger(__name__)
 
 # --- Core Imports ---
 
 from .context import CONFIG_PATH, APP_NAME, IMPORT_NAME
 from ._version import get_version, __version__
 #from .paths import (
-#            get_target_copy_dir,
 #            LOGO_FILENAME_PNG,
 #            LOGO_FILENAME_ICO,
 #            get_icon_path,
@@ -40,18 +37,6 @@ logger=logging.getLogger(__name__)
 
 APP_W = 100
 APP_H = 50
-
-
-def apply_windows_taskbar_icon():
-    """Forces Windows to explicitly cluster this process under its unique ID signature."""
-    if pyhabitat.on_windows():
-        try:
-            # Format standard: 'CompanyName.ProductName.SubProduct.Version'
-            myappid = f"CityOfMemphisWastewater.CellShift.Xlsx.{__version__}"
-            ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
-            print(f"Successfully bound AppUserModelID: {myappid}")
-        except Exception as e:
-            print(f"Failed to bind Windows AppUserModelID signature: {e}", file=sys.stderr)
 
 # RedirectText
 class GuiApp:
@@ -203,6 +188,28 @@ class GuiApp:
             # The GUI catches the error to show a user-friendly popup
             messagebox.showerror("Error", f"Could not open system explorer: {e}")
 
+def apply_windows_taskbar_icon() -> None:
+    """Set a stable Windows AppUserModelID."""
+
+    if not pyhabitat.on_windows():
+        return
+
+    try:
+        app_id = (
+            f"CityOfMemphisWastewater."
+            f"{APP_NAME}.Application"
+        )
+
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(
+            app_id
+        )
+    except Exception:
+        logger.debug(
+            "Unable to set Windows taskbar identity",
+            exc_info=True,
+        )
+
+
 def start_gui(time_auto_close: int = 0):
     apply_windows_taskbar_icon()
 
@@ -247,12 +254,9 @@ def start_gui(time_auto_close: int = 0):
         if center_window_on_primary is not None:
             center_window_on_primary(root, APP_W, APP_H)
 
-
         root.config(cursor="arrow")
 
-
         root.deiconify()
-
 
         # Focus is safer than 'topmost' for the mouse cursor
         root.focus_force()
@@ -279,6 +283,7 @@ def start_gui(time_auto_close: int = 0):
 
         root.mainloop()
     logger.debug(f"{APP_NAME}: gui closed.")
+
 
 if __name__ == "__main__":
     start_gui()

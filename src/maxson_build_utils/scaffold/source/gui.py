@@ -20,10 +20,15 @@ import sys
 import tkinter as tk
 from importlib.resources import files
 from tkinter import messagebox, ttk
-from maxson_gui_utils.tk_utils import center_window_on_primary
-from maxson_gui_utils.external_web_launch import launch_configured_website
-
 import pyhabitat
+try:
+    from maxson_gui_utils.tk_utils import center_window_on_primary
+except ImportError:
+    center_window_on_primary = None
+try:
+    from maxson_gui_utils.external_web_launch import launch_configured_website
+except ImportError:
+    launch_configured_website = None
 
 from ._version import __version__
 from .context import APP_NAME, IMPORT_NAME, CONFIG_PATH
@@ -173,7 +178,13 @@ class GuiApp:
             messagebox.showerror("Error", f"Could not open system explorer: {e}")
 
     def _launch_configured_website(self):
-        launch_configured_website(path = CONFIG_PATH)
+        if launch_configured_website is not None:
+            launch_configured_website(path=CONFIG_PATH)
+        else:
+            messagebox.showinfo(
+                "Dependency",
+                "maxson-gui-utils needs to be included in the venv to use this feature."
+            )
 
 
 def apply_windows_taskbar_icon() -> None:
@@ -198,27 +209,79 @@ def apply_windows_taskbar_icon() -> None:
         )
 
 
-def start_gui(time_auto_close=None) -> None:
-    """Start the graphical application."""
-
+def start_gui(time_auto_close: int = 0)->None:
     apply_windows_taskbar_icon()
 
+    # 1. Initialize Root and Splash instantly
     root = tk.Tk()
-    root.withdraw()
+    root.withdraw() # Hide the ugly default window for a split second
 
-    logger.debug("Starting %s", APP_NAME)
+    from .splash import SplashFrame
+    splash = SplashFrame(root)
+    root.update() # Force drawing the splash screen
 
+    # App Initialization
+    logger.debug(f"Run {APP_NAME}")
     try:
-        app = GuiApp(root)
-    except Exception:
-        logger.exception("GUI startup failed")
+        app = GuiApp(root=root)
+    except Exception as e:
+        print(f"Critical Startup Error: {e}",file=sys.stderr)
+        logging.debug(f"Startup Error: {e}")
         root.destroy()
         return
 
-    root.deiconify()
-    root.mainloop()
+    # === Artificial Loading Delay ===4
+    DEV_DELAY = False
+    if DEV_DELAY:
+        import time
+        for _ in range(40):
+            if not root.winfo_exists(): return
+            time.sleep(0.05)
+            root.update()
+    # ====================================
 
-    logger.debug("%s: GUI closed", APP_NAME)
+    # Handover
+    if root.winfo_exists():
+        splash.teardown() # The Splash cleans itself up
+
+        # Restore window borders/decorations
+        root.overrideredirect(False)
+
+        # Re-center the app window before showing it
+        # Center and then reveal
+        # 2. CONFIG: Set title and geometry while hidden
+        if center_window_on_primary is not None:
+            center_window_on_primary(root, APP_W, APP_H)
+
+        root.config(cursor="arrow")
+
+        root.deiconify()
+
+        # Focus is safer than 'topmost' for the mouse cursor
+        root.focus_force()
+
+        # Only use lift(), avoid wm_attributes("-topmost", True) if possible on WSL
+        if not pyhabitat.on_wsl():
+            root.lift()
+            root.wm_attributes("-topmost", True)
+            root.after(200, lambda: root.wm_attributes("-topmost", False))
+        else:
+            # On WSL, just lift and hope for the best without locking the Z-order
+            root.lift()
+
+        if pyhabitat.on_windows():
+            try:
+                hwnd = root.winfo_id()
+                ctypes.windll.user32.SetForegroundWindow(hwnd)
+            except:
+                pass
+
+        if time_auto_close > 0:
+            root.after(time_auto_close, root.destroy)
+
+
+        root.mainloop()
+    logger.debug(f"{APP_NAME}: gui closed.")
 
 
 if __name__ == "__main__":
