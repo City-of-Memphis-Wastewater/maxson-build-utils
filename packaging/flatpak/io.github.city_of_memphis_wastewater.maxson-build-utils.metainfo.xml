@@ -14,7 +14,9 @@
     </p>
   </description>
   <launchable type="desktop-id">io.github.city_of_memphis_wastewater.maxson-build-utils.desktop</launchable>
-  <icon type="stock">io.github.city_of_memphis_wastewater.maxson-build-utils</icon>
+  <!--icon type="stock">io.github.city_of_memphis_wastewater.maxson-build-utils</icon-->
+  <url type="homepage">https://github.com/city-of-memphis-wastewater/maxson-build-utils</url>
+  <content_rating type="oars-1.1"/>
   <categories>
     <category>Utility</category>
     <category>Development</category>

@@ -4,6 +4,8 @@ runtime: org.freedesktop.Platform
 runtime-version: '24.08'
 sdk: org.freedesktop.Sdk
 command: maxson-build-utils
+no-appstream-check: true
+appstream-compose: false
 
 
 # Inherit pre-compiled GUI/Tk modules via extension

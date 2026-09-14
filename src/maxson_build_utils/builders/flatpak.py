@@ -94,6 +94,8 @@ def build_flatpak(
         check=True,
     )
 
+    branch_name = "main"  # or read from manifest/config
+
     # Export to .flatpak bundle
     subprocess.run(
         [
@@ -102,6 +104,7 @@ def build_flatpak(
             str(repo_dir),
             str(bundle_path),
             app_id,
+            branch_name,
         ],
         check=True,
     )
