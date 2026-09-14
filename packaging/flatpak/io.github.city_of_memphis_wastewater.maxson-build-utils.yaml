@@ -30,7 +30,7 @@ modules:
     sources:
       - type: archive
         url: https://downloads.sourceforge.net/tcl/tcl8.6.13-src.tar.gz
-        sha256: 43a10a66618dbb7894a5708587c0a688a27d1ed9d0200c8b79aea6f6f2d11620
+        sha256: 43a1fae7412f61ff11de2cfd05d28cfc3a73762f354a417c62370a54e2caf066
 
   - name: tk
     buildsystem: autotools
@@ -41,8 +41,7 @@ modules:
     sources:
       - type: archive
         url: https://downloads.sourceforge.net/tcl/tk8.6.13-src.tar.gz
-        sha256: 2e2d5d0ed032d164530d6e21050943d9f5d73ed4582aa741d348bf12169b13ff
-
+        sha256: 2e65fa069a23365440a3c56c556b8673b5e32a283800d8d9b257e3f584ce0675
   - name: python3-tkinter
     buildsystem: simple
     build-commands:
@@ -51,7 +50,7 @@ modules:
     sources:
       - type: archive
         url: https://www.python.org/ftp/python/3.12.5/Python-3.12.5.tar.xz
-        sha256: 8201c278c2e684070a257c2a71536b13cf14a8647c0a0058b2d415f3ec327598
+        sha256: fa8a2e12c5e620b09f53e65bcd87550d2e5a1e2e04bf8ba991dcc55113876397
 
   - name: maxson-build-utils
     buildsystem: simple
