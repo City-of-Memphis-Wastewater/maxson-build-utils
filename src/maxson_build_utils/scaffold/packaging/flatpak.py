@@ -57,6 +57,11 @@ METAINFO_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
   <project_license>MIT</project_license>
   <name>{APP_NAME}</name>
   <summary>Application generated with maxson-build-utils</summary>
+  <description>
+    <p>
+      {DESCRIPTION_STR}
+    </p>
+  </description>
   <launchable type="desktop-id">{APP_ID}.desktop</launchable>
 </component>
 """
@@ -79,10 +84,13 @@ def resolve_flatpak_metadata(path: Path | str | None = None) -> dict[str, str]:
         org_clean = org.replace("-", "_").replace(" ", "_").lower()
         app_id = f"{domain}.{org_clean}.{app_name_kebab}"
 
+    description_str = pyproject.description
+
     return {
         "APP_ID": app_id,
         "APP_NAME": app_name_kebab,
         "IMPORT_NAME": import_name,
+        "DESCRIPTION_str": description_str,
     }
 
 

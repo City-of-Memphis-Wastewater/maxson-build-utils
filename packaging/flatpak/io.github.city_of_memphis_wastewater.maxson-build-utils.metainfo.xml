@@ -5,5 +5,10 @@
   <project_license>MIT</project_license>
   <name>maxson-build-utils</name>
   <summary>Application generated with maxson-build-utils</summary>
+  <description>
+    <p>
+      A convention-optional build and deployment framework, with an opinionated Maxson project scaffold available as a convenience.
+    </p>
+  </description>
   <launchable type="desktop-id">io.github.city_of_memphis_wastewater.maxson-build-utils.desktop</launchable>
 </component>
