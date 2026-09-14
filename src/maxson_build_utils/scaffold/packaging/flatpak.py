@@ -44,9 +44,7 @@ modules:
     sources:
       - type: dir
         path: ../..
-      - type: dir
-        path: ../../build/vendor-wheels
-        dest: build/vendor-wheels
+ 
 """
 
 DESKTOP_TEMPLATE = """[Desktop Entry]
@@ -70,6 +68,11 @@ METAINFO_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
     </p>
   </description>
   <launchable type="desktop-id">{APP_ID}.desktop</launchable>
+  <icon type="stock">io.github.city_of_memphis_wastewater.maxson-build-utils</icon>
+  <categories>
+    <category>Utility</category>
+    <category>Development</category>
+  </categories>
 </component>
 """
 

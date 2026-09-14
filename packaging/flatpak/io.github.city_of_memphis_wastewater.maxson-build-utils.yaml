@@ -37,6 +37,3 @@ modules:
     sources:
       - type: dir
         path: ../..
-      - type: dir
-        path: ../../build/vendor-wheels
-        dest: build/vendor-wheels

@@ -5,10 +5,18 @@
   <project_license>MIT</project_license>
   <name>maxson-build-utils</name>
   <summary>Application generated with maxson-build-utils</summary>
+  <developer>
+    <name>City of Memphis Wastewater</name>
+  </developer>
   <description>
     <p>
       A convention-optional build and deployment framework, with an opinionated Maxson project scaffold available as a convenience.
     </p>
   </description>
   <launchable type="desktop-id">io.github.city_of_memphis_wastewater.maxson-build-utils.desktop</launchable>
+  <icon type="stock">io.github.city_of_memphis_wastewater.maxson-build-utils</icon>
+  <categories>
+    <category>Utility</category>
+    <category>Development</category>
+  </categories>
 </component>
