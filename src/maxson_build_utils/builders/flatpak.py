@@ -43,7 +43,7 @@ def check_cmd(cmd_str:str)->None:
     if shutil.which(cmd_str) is None:
         raise RuntimeError(
             f"Local Flatpak builds require {cmd_str}. "
-            "Please install {cmd_str} locally or,"
+            f"Please install {cmd_str} locally or,"
             "use the GitHub Flatpak workflow to build the .flatpak bundle."
         )
 
