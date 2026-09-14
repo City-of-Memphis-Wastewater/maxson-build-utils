@@ -5,6 +5,8 @@ runtime-version: '24.08'
 sdk: org.freedesktop.Sdk
 command: maxson-build-utils
 appstream-compose: false
+
+# To avoid all this tcl, tk, and python3-tkinter manual inclusion with the lib/tk extension, simply specify org.gnome.Platform 
 #runtime: org.gnome.Platform
 #runtime-version: '46' # or '47' / '50'
 #sdk: org.gnome.Sdk
