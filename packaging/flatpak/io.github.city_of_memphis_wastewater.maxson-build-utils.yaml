@@ -96,3 +96,4 @@ finish-args:
   - --socket=fallback-x11
   - --socket=wayland
   - --share=ipc
+  - --env=DISPLAY=:0
