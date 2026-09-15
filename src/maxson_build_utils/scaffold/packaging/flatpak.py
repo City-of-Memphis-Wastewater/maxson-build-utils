@@ -100,7 +100,7 @@ def resolve_flatpak_metadata(path: Path | str | None = None) -> dict[str, str]:
         "APP_ID": app_id,
         "APP_NAME": app_name_kebab,
         "IMPORT_NAME": import_name,
-        "DESCRIPTION_str": description_str,
+        "DESCRIPTION_STR": description_str,
     }
 
 
