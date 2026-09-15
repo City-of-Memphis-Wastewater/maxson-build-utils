@@ -130,8 +130,8 @@ class GuiApp:
 
         tools_menu.add_command(label="Show Filled Files ", command=lambda: self._show_target_files_in_system_explorer())
         tools_menu.add_command(label="Launch Configured Website ", command=lambda: self._launch_configured_website())
+        tools_menu.add_command(label="BlindWindow ", command=lambda: self._launch_blindwindow())
 
-        
         options.add_separator()
 
         options.add_command(
@@ -184,6 +184,9 @@ class GuiApp:
                 "maxson-gui-utils needs to be included in the venv to use this feature."
             )
 
+    def _launch_blindwindow(self):
+        from blindwindow.core import launch_blindwindow
+        launch_blindwindow()
 
 def apply_windows_taskbar_icon() -> None:
     """Set a stable Windows AppUserModelID."""
