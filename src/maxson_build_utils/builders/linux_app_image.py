@@ -19,12 +19,29 @@ from ..state import get_pyinstaller_onedir_export_entrypoint_path
 
 logger = logging.getLogger(__name__)
 
+def check_cmd(cmd_str: str) -> None:
+    if shutil.which(cmd_str) is None:
+        raise RuntimeError(
+            f"Local build requires '{cmd_str}'. "
+            "Install it locally or use the GitHub appimage workflow "
+            "to build the .appimage file."
+        )
+        
 def build_linux_appimage(
     app_name_pretty: str, # for metadata
     icon_src: Path | None=None,
     app_filepath: Path | str | None = None, # pyinstaller produced executable filename
 ) -> Path:
     """Packages a PyInstaller ONEDIR bundle into a standalone Linux AppImage. This assume it has already been build and that strings were written to the dworshak config file as state."""
+
+    if pyhabitat.on_termux():
+        raise RuntimeError(
+            "Local AppImage builds are not supported on Termux. "
+            "Use the available GitHub workflow instead to trigger the build on a server."
+        )
+
+    check_cmd(cmd_str="appimagetool")
+
     if icon_src is None:
         icon_src = resolve_icon_path(icon_src)
 
@@ -46,11 +63,7 @@ def build_linux_appimage(
     logger.info("Executing build_linux_appimage()")
     logger.info("Source AppDir components from: %s", app_dir_path)
 
-    if shutil.which("appimagetool") is None:
-        raise RuntimeError(
-            "appimagetool is not installed. Please download it or install via your package manager."
-        )
-
+    
     appimage_dir = Path("dist/appimage")
     appimage_dir.mkdir(parents=True, exist_ok=True)
     appimage_output_path = appimage_dir / f"{executable_descriptor}.AppImage"
