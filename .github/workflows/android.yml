@@ -1,0 +1,5 @@
+jobs:
+  android:
+    uses: city-of-memphis-wastewater/maxson-build-utils/.github/workflows/reusable-android-kivy.yml@v0.1.42
+    with:
+      app_name: "My Application"
