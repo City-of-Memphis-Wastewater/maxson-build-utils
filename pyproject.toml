@@ -75,7 +75,7 @@ builds = [
     "pyinstaller>=6.17",
 ]
 gui = [
-    "maxson-gui-utils>=0.1.11",
+    "maxson-gui-utils>=0.1.18",
 ] 
 web = []
 

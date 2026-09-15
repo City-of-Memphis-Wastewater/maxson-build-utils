@@ -549,7 +549,7 @@ dev = [
 requires-dist = [
     { name = "dworshak-config", specifier = ">=0.2.8" },
     { name = "dworshak-env", specifier = ">=0.1.8" },
-    { name = "maxson-gui-utils", marker = "extra == 'gui'", specifier = ">=0.1.11" },
+    { name = "maxson-gui-utils", marker = "extra == 'gui'", specifier = ">=0.1.18" },
     { name = "pyhabitat", specifier = ">=1.3.12" },
     { name = "pyinstaller", marker = "extra == 'builds'", specifier = ">=6.17" },
     { name = "pyinstaller", marker = "extra == 'pyinstaller'", specifier = ">=6.17.0" },
@@ -571,7 +571,7 @@ dev = [
 
 [[package]]
 name = "maxson-gui-utils"
-version = "0.1.11"
+version = "0.1.18"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "dworshak-config" },
@@ -580,9 +580,9 @@ dependencies = [
     { name = "typer", version = "0.27.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
     { name = "typer-helptree" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c0/66/0d6a0add34e9d06a66b57f600dece65a570cfca1ec2c574d2a95b31ad230/maxson_gui_utils-0.1.11.tar.gz", hash = "sha256:abaaeb0209f7e8f18a3f8c126825dab7ea7c7922953d0b658fd35a0ebc3aab2e", size = 451281, upload-time = "2026-08-29T23:26:03.732Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f5/8c/14ee19b2c9436bb6d192f1671e2a07ea7e0f4243019007441ee64ac9b313/maxson_gui_utils-0.1.18.tar.gz", hash = "sha256:e6b5f570fb765d78dd0eb4ae86483bc59580366d894a20d2a2035e7b27f20d82", size = 472369, upload-time = "2026-09-15T17:00:41.256Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3a/08/ce3545f2e2cdf429f8f05e7360796877ed8c5f77c51b9819f60b9b8f617a/maxson_gui_utils-0.1.11-py3-none-any.whl", hash = "sha256:810b5a239b9aa3a03fe2c90070c13c0290460b50b83242140edd99fe86c89a97", size = 500518, upload-time = "2026-08-29T23:26:01.891Z" },
+    { url = "https://files.pythonhosted.org/packages/fd/cd/5a591c697f99d05b0aa6f1bbdf0b71ec422550c9105e9c2c47f4b5ec88ac/maxson_gui_utils-0.1.18-py3-none-any.whl", hash = "sha256:b7504f0f380d3711d1b36c818cd158517c4d9c457f7b838ed448935dcd412c19", size = 524954, upload-time = "2026-09-15T17:00:39.315Z" },
 ]
 
 [[package]]
