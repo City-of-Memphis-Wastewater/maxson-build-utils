@@ -26,7 +26,7 @@ wheels = [
 
 [[package]]
 name = "blindwindow"
-version = "0.1.3"
+version = "0.1.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "dworshak-config" },
@@ -36,9 +36,9 @@ dependencies = [
     { name = "typer", version = "0.27.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
     { name = "typer-helptree" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/6f/0d/69c0afe3a02bd13ae0884ae8c347ea895e93f772372c787da5356f5a14c0/blindwindow-0.1.3.tar.gz", hash = "sha256:322781121098715b60bd3bee6ef7db46c4c2dd2da1eab7faff33afea48e339cf", size = 16724, upload-time = "2026-09-15T19:21:48.34Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/29/cd/92e619ecbb133e30d92393824ee1dc93b68342d6a8374f5870e9f6df976f/blindwindow-0.1.4.tar.gz", hash = "sha256:b328be4f92a6d16e93a497512836aa78bf24d87ef672fd67e8d12ced00e78565", size = 16900, upload-time = "2026-09-15T21:36:56.436Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7b/90/724984183ea2ee1e408cfdc813dc5015ecd6a9908a9410dc045c62467d5e/blindwindow-0.1.3-py3-none-any.whl", hash = "sha256:4f50f35e549e99ca569916e2d799f0500b9a3e48bf87f961397a372a775f22b2", size = 21246, upload-time = "2026-09-15T19:21:46.944Z" },
+    { url = "https://files.pythonhosted.org/packages/8d/60/f6f0b713d873df70129dbf23197a91ffc1a23072414f7ac2c7316bbbe52f/blindwindow-0.1.4-py3-none-any.whl", hash = "sha256:3a51863ed04619a5456ddd61e63d630503be721fbe3b175c3665635524693f47", size = 21428, upload-time = "2026-09-15T21:36:55.27Z" },
 ]
 
 [[package]]
@@ -565,7 +565,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "blindwindow", specifier = ">=0.1.3" },
+    { name = "blindwindow", specifier = ">=0.1.4" },
     { name = "dworshak-config", specifier = ">=0.2.8" },
     { name = "dworshak-env", specifier = ">=0.1.8" },
     { name = "maxson-gui-utils", marker = "extra == 'gui'", specifier = ">=0.1.18" },
