@@ -76,6 +76,7 @@ builds = [
 ]
 gui = [
     "maxson-gui-utils>=0.1.18",
+    "blindwindow>=0.1.1"
 ] 
 web = []
 
