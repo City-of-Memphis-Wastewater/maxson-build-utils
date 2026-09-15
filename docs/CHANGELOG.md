@@ -7,7 +7,7 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ## [0.1.41] - 2026-09-13
 ### Fixed:
-- msix, flatpak, ans appimage local runs stabilized.
+- msix, flatpak, and appimage local runs stabilized.
 
 ### Internal:
 - deb is still failing to pull in args.
