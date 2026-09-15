@@ -24,7 +24,12 @@ from pyhabitat import probe_app_mode_mgu, AppMode
 import typer
 from enum import Enum, auto
 from typer.models import OptionInfo
-from rich.console import Console
+#from rich.console import Console
+from blindwindow.core import (
+    Console,
+    get_spool_path,
+    install_stream_wrappers,
+)
 from typer_helptree import add_typer_helptree
 
 from ._version import __version__

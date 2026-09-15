@@ -27,6 +27,7 @@ DEFAULT_DEPENDENCIES = [
     "pyhabitat>=1.3.9",
     "typer>=0.27.0",
     "typer-helptree>=0.2.12",
+    "blindwindow>=0.1.2",
 ]
 
 DEFAULT_DEV_DEPENDENCIES = [

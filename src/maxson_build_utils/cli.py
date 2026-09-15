@@ -8,8 +8,12 @@ import typer
 from typer.models import OptionInfo
 from pathlib import Path
 from typer_helptree import add_typer_helptree
-from rich.console import Console
-
+#from rich.console import Console
+from blindwindow.core import (
+    Console,
+    get_spool_path,
+    install_stream_wrappers,
+)
 from maxson_build_utils.logging_setup import (
     configure_logging_all_debug,
     configure_logging_for_application,
