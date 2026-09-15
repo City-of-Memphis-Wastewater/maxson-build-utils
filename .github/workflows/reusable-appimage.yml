@@ -38,12 +38,12 @@ jobs:
 
       - name: Install Project & Build Tools
         run: |
-          uv sync --group dev
+          uv sync --group dev --extra gui
 
       # Step 1: Run standard PyInstaller script to output a onedir build
       - name: PyInstaller OneDir Build
         run: |
-          uv run python packaging/pyinstaller/build_executable.py
+          uv run mbu build pyinstaller --mode onedir
 
       # Step 2: Initialize AppImage packaging structure
       - name: MBU Init AppImage Packaging

@@ -4,6 +4,12 @@ Centralized org tooling for PyInstaller, DMG, AppImage, DEB, PYZ, etc.
 
 A convention-optional build and deployment framework, with an opinionated Maxson project scaffold available as a convenience.
 
+The central secret sauce is argument and variable value routing from disk. Icons, references, descriptions, names, paths, it can all be inferred or drawn. We leverage the .persist file where necessary to achieve this but ideally we draw values from the pyproject.toml file and form other expected standard paths.
+
+In this way, wrapped CLI tools like create-dmg or pyonstaller can instead draw in determinstic argument values instead of requiring explicit flags.
+
+Package scaffolding precedes building in most cases, so that manifest files are available.
+
 ## Spotlight IT
 
 ChatGPT or Gemini can provide good Python core logic.
