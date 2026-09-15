@@ -1,7 +1,4 @@
-[project]windowed = false
-collect_data_pkgs = ["maxson_build_utils", "maxson_gui_utils"]
-collect_metadata_pkgs = ["typer", "click", "rich"]
-collect_submodules_pkgs = ["typer", "click", "rich", "maxson_gui_utils"]
+[project]
 name = "maxson-build-utils"
 dynamic = ["version"]
 description = "A convention-optional build and deployment framework, with an opinionated Maxson project scaffold available as a convenience."
