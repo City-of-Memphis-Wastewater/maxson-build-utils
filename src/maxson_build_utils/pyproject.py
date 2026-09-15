@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 from .names import to_snake_case, to_kebab_case, to_title_case
 from .entry import get_cli_entry_point
 from .config import get_persistence_mngr
+from .state import set_description_to_disk
 
 try:
     import tomllib  # Python 3.11+
