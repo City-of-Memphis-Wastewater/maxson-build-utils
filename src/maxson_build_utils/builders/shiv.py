@@ -9,6 +9,8 @@ import sys
 import tempfile
 from pathlib import Path
 import pyhabitat
+from maxson_gui_utils.resources import resource_path
+
 
 from ..helpers import form_dynamic_name
 from ..cli_utils import get_cli_commands
@@ -119,6 +121,12 @@ def run_build_pyz(
         shutil.rmtree(build_temp, ignore_errors=True)
     build_temp.mkdir(parents=True, exist_ok=True)
     os.environ["SHIV_ROOT"] = str(build_temp)
+
+    # 0. Ensure tkinter theme and icons are carried, using mgu.resource_path()
+    def ensure_tkinter_theme():
+        p=resource_path()
+        logger.debug(f"Please ensure that {p} is included properly")
+    ensure_tkinter_theme
 
     # 1. Sync dependencies
     ensure_dependencies_and_shiv()
