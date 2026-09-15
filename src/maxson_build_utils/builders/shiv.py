@@ -54,8 +54,9 @@ def ensure_dependencies_and_shiv() -> None:
         print("\nSkipping dependency check/install inside CI environment.")
         return
 
-    print("Syncing dev group dependencies via uv...")
-    run_command(["uv", "sync", "--group", "dev"])
+    #print("Syncing dev group dependencies via uv...")
+    
+    #run_command(["uv", "sync", "--group", "dev","--group","gui"])
 
     try:
         run_command(["uv", "run", "shiv", "--version"], check=True)
