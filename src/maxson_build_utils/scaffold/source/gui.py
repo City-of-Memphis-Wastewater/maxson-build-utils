@@ -18,7 +18,7 @@ import ctypes
 import logging
 import sys
 import tkinter as tk
-from importlib.resources import files
+from maxson_gui_utils.resources import resource_path
 from tkinter import messagebox, ttk
 import pyhabitat
 try:
@@ -52,10 +52,8 @@ class GuiApp:
 
     def _initialize_theme(self) -> None:
         """Initialize the application theme."""
+        theme_dir = resource_path("themes", "forest")
 
-        theme_dir = files(
-            f"{IMPORT_NAME}.data.themes.forest"
-        )
 
         self.root.tk.call(
             "source",

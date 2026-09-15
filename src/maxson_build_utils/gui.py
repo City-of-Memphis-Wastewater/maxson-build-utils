@@ -7,7 +7,6 @@ import tkinter as tk
 from tkinter import ttk, messagebox, PhotoImage
 from pathlib import Path
 from typing import Optional
-from importlib.resources import files
 import ctypes
 import sys
 from maxson_gui_utils.resources import resource_path
@@ -85,7 +84,6 @@ class GuiApp:
 
     # --- Theme & Visual Initialization ---
     def _initialize_forest_theme(self):
-        #theme_dir = files(f"{IMPORT_NAME}.data.themes.forest")
         theme_dir = resource_path("themes", "forest")
         self.root.tk.call("source", str(theme_dir / "forest-light.tcl"))
         self.root.tk.call("source", str(theme_dir / "forest-dark.tcl"))
