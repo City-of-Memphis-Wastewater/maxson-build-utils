@@ -39,24 +39,22 @@ def find_flatpak_manifest() -> Path:
     return manifests[0]
 
 
-def check_cmd(cmd_str:str)->None:
+def check_cmd(cmd_str: str) -> None:
     if shutil.which(cmd_str) is None:
         raise RuntimeError(
-            f"Local Flatpak builds require {cmd_str}. "
-            f"Please install {cmd_str} locally or,"
-            "use the GitHub Flatpak workflow to build the .flatpak bundle."
+            f"Local Flatpak builds require '{cmd_str}'. "
+            "Install it locally or use the GitHub Flatpak workflow "
+            "to build the .flatpak bundle."
         )
-
 def build_flatpak(
     manifest_path: Path | None = None,
     output_dir: Path = FLATPAK_DIST_DIR,
 ) -> Path:
     """Builds a Flatpak single-file bundle using local flatpak-builder toolchain."""
 
-    if pyhabitat.on_termux(): #shutil.which("flatpak-builder") is None:
+    if pyhabitat.on_termux():
         raise RuntimeError(
-            "Local Flatpak builds require flatpak-builder and flatpak. "
-            "These tools are not available in Termux. "
+            "Local Flatpak builds are not supported on Termux. "
             "Use the GitHub Flatpak workflow to build the .flatpak bundle."
         )
 
