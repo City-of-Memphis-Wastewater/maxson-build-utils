@@ -531,6 +531,7 @@ wheels = [
 name = "maxson-build-utils"
 source = { editable = "." }
 dependencies = [
+    { name = "blindwindow" },
     { name = "dworshak-config" },
     { name = "dworshak-env" },
     { name = "pyhabitat" },
@@ -565,6 +566,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "blindwindow", specifier = ">=0.1.2" },
     { name = "blindwindow", marker = "extra == 'gui'", specifier = ">=0.1.2" },
     { name = "dworshak-config", specifier = ">=0.2.8" },
     { name = "dworshak-env", specifier = ">=0.1.8" },
