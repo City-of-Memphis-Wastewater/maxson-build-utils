@@ -316,7 +316,7 @@ def build_deb(
 @build_app.command(name="appimage")
 def build_appimage_command(
     app_pretty_name: str | None= typer.Option(None, "--pretty-name", help="Pretty desktop app display name"),
-    icon: Path = typer.Option(..., "--icon", help="Path to source icon file, PNG preferred"),
+    icon: Path = typer.Option(None, "--icon", help="Path to source icon file, PNG preferred"),
     pyinstaller_onedir_export_entrypoint_path: Path | None= typer.Option(None, "--exe-path", help="PyInstaller generated app filepath. Defaults to internal state.")        
 ):
     """Package a PyInstaller ONEDIR bundle into a standalone Linux AppImage. This must be run after pyinstaller onedir."""
