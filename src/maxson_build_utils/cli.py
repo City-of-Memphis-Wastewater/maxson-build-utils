@@ -30,7 +30,7 @@ from maxson_build_utils.builders.macos_dmg import build_macos_dmg
 from maxson_build_utils.builders.deb import build_debian_package
 from maxson_build_utils.builders.linux_app_image import build_linux_appimage
 from maxson_build_utils.builders.validate import validate_build_target, TargetBuild
-#from maxson_build_utils.builders import build_msix
+from maxson_build_utils.builders import build_msix
 from maxson_build_utils.builders import build_flatpak
 
 
@@ -356,7 +356,10 @@ def build_flatpak_cmd():
     """Build a standalone Flatpak single-file bundle (.flatpak)."""
     build_flatpak()
 
-### add msix builder
+@build_app.command("msix")
+def build_msix_command():
+    """Package a PyInstaller ONEDIR bundle into a Windows MSIX."""
+    build_msix()
 
 @app.command()
 def pyproject(
