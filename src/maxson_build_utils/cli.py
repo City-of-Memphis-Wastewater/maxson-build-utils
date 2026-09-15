@@ -83,13 +83,22 @@ from .signers import (
     sign_msix
 )
 '''
-console_stderr = Console(stderr=True)
-console_stdout = Console()
+#console_stderr = Console(stderr=True)
+#console_stdout = Console()
+console_stderr = Console(stderr=True, tee_sys=True) # tee_sys arg is particular to blindwindow and will fail for rich.console.Console()
+console_stdout = Console(stderr=False, tee_sys=True) # tee_sys arg is particular to blindwindow
 
 # Force Rich to always enable colors, even when running from a .pyz bundle
 os.environ["FORCE_COLOR"] = "1"
 # Optional but helpful for full terminal feature detection
 os.environ["TERM"] = "xterm-256color"
+
+try:
+    # Capture process-level prints & Typer help screens
+    install_stream_wrappers() # defaults to same path as get_spool_path()
+    logger.debug("[CLI] Installed stream wrappers targeting default spool: %s", get_spool_path())
+except:
+    print("blindwindow failed to install stream wrappers.")
 
 app_mode = probe_app_mode_mgu()
 
