@@ -1,3 +1,23 @@
+#!/usr/bin/env python3
+# src/maxson_build_utils/builders/msix.py
+
+"""Build utilities for packaging PyInstaller outputs to the Microsoft Store."""
+
+from __future__ import annotations
+
+import logging
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import tempfile
+import pyhabitat
+
+from ..helpers import PyinsMode, IconFileType, resolve_icon_filetype, resolve_icon_path
+from ..state import get_pyinstaller_onedir_export_entrypoint_path
+
+logger = logging.getLogger(__name__)
 def find_makeappx() -> Path:
     candidates = [
         Path(r"C:\Program Files (x86)\Windows Kits\10\bin").glob(

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # src/maxson_build_utils/builders/linux_app_image.py
 
-"""Build utilities for packaging PyInstaller outputs across target platforms."""
+"""Build utilities for packaging PyInstaller outputs to linux platforms."""
 
 from __future__ import annotations
 
