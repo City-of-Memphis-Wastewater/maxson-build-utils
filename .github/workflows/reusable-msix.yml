@@ -1,0 +1,255 @@
+name: Reusable MSIX Packager
+
+on:
+  workflow_call:
+    inputs:
+      onedir_artifact:
+        description: 'Name of the upstream PyInstaller OneDir artifact'
+        required: true
+        type: string
+        default: 'canonical-onedir-payload-windows-x64'
+
+      onedir_path:
+        description: 'Directory containing the extracted PyInstaller OneDir payload'
+        required: false
+        type: string
+        default: 'dist/onedir'
+      onedir_run_id:
+        description: 'Workflow run ID containing the OneDir artifact. Empty means current run.'
+        required: false
+        type: string
+        default: ''
+        
+      manifest_path:
+        description: 'Path to the MSIX AppxManifest.xml'
+        required: false
+        type: string
+        default: 'packaging/msix/AppxManifest.xml'
+
+      output_name:
+        description: 'Name of the resulting MSIX file'
+        required: false
+        type: string
+        default: ''
+
+      install_mbu:
+        description: 'Install maxson-build-utils from the checked-out repository'
+        required: false
+        type: boolean
+        default: true
+
+    outputs:
+      msix_path:
+        description: 'Path to the generated MSIX package'
+        value: ${{ jobs.package-msix.outputs.msix_path }}
+
+jobs:
+  package-msix:
+    name: Package MSIX
+    runs-on: windows-latest
+
+    permissions:
+      contents: write
+      actions: read
+
+    outputs:
+      msix_path: ${{ steps.package.outputs.msix_path }}
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v7
+
+      - name: Download PyInstaller OneDir artifact
+        shell: pwsh
+        env:
+          ONEDIR_RUN_ID: ${{ inputs.onedir_run_id }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:ONEDIR_RUN_ID)) {
+            Write-Host "Using artifact from current workflow run."
+          }
+          else {
+            Write-Host "Using artifact from workflow run $env:ONEDIR_RUN_ID."
+          }
+
+      - name: Show downloaded OneDir payload
+        shell: pwsh
+        run: |
+          $path = "${{ inputs.onedir_path }}"
+
+          if (-not (Test-Path $path)) {
+            throw "PyInstaller OneDir payload was not found at '$path'."
+          }
+
+          Write-Host "PyInstaller OneDir payload:"
+          Get-ChildItem -Path $path -Recurse |
+            Select-Object FullName, Length |
+            Format-Table -AutoSize
+
+      - name: Validate MSIX manifest
+        shell: pwsh
+        run: |
+          $manifest = "${{ inputs.manifest_path }}"
+
+          if (-not (Test-Path $manifest)) {
+            throw "MSIX manifest was not found: $manifest"
+          }
+
+          [xml]$xml = Get-Content $manifest
+
+          $identity = $xml.Package.Identity
+          $application = $xml.Package.Applications.Application
+
+          if ($null -eq $identity) {
+            throw "MSIX manifest does not contain Package.Identity."
+          }
+
+          if ($null -eq $application) {
+            throw "MSIX manifest does not contain an Application."
+          }
+
+          Write-Host "MSIX identity: $($identity.Name)"
+          Write-Host "MSIX version:  $($identity.Version)"
+          Write-Host "MSIX arch:     $($identity.ProcessorArchitecture)"
+          Write-Host "Executable:    $($application.Executable)"
+
+      - name: Locate MakeAppx.exe
+        id: makeappx
+        shell: pwsh
+        run: |
+          $candidates = @(
+            "$env:ProgramFiles(x86)\Windows Kits\10\bin\*\x64\MakeAppx.exe",
+            "$env:ProgramFiles\Windows Kits\10\bin\*\x64\MakeAppx.exe"
+          )
+
+          $makeAppx = Get-Item $candidates -ErrorAction SilentlyContinue |
+            Sort-Object FullName -Descending |
+            Select-Object -First 1
+
+          if ($null -eq $makeAppx) {
+            throw "MakeAppx.exe was not found. The Windows SDK is required."
+          }
+
+          Write-Host "Using MakeAppx:"
+          Write-Host $makeAppx.FullName
+
+          "MAKEAPPX=$($makeAppx.FullName)" >> $env:GITHUB_ENV
+
+      - name: Validate OneDir executable
+        shell: pwsh
+        run: |
+          [xml]$xml = Get-Content "${{ inputs.manifest_path }}"
+
+          $application = $xml.Package.Applications.Application
+          $exe = $application.Executable
+
+          $exePath = Join-Path "${{ inputs.onedir_path }}" $exe
+
+          if (-not (Test-Path $exePath)) {
+            throw @"
+          MSIX manifest expects executable:
+
+              $exe
+
+          but it was not found in the PyInstaller OneDir payload:
+
+              $exePath
+          "@
+          }
+
+          Write-Host "Found application executable:"
+          Write-Host $exePath
+
+      - name: Stage MSIX package
+        shell: pwsh
+        run: |
+          $stage = Join-Path $env:GITHUB_WORKSPACE "build\msix"
+
+          if (Test-Path $stage) {
+            Remove-Item $stage -Recurse -Force
+          }
+
+          New-Item -ItemType Directory -Path $stage -Force | Out-Null
+
+          # Copy the complete PyInstaller OneDir payload.
+          Copy-Item `
+            -Path "${{ inputs.onedir_path }}\*" `
+            -Destination $stage `
+            -Recurse `
+            -Force
+
+          # Replace/add the MSIX manifest.
+          Copy-Item `
+            -Path "${{ inputs.manifest_path }}" `
+            -Destination (Join-Path $stage "AppxManifest.xml") `
+            -Force
+
+          # Copy scaffolded MSIX assets.
+          $assets = Join-Path (Split-Path "${{ inputs.manifest_path }}") "Assets"
+
+          if (Test-Path $assets) {
+            Copy-Item `
+              -Path "$assets\*" `
+              -Destination (Join-Path $stage "Assets") `
+              -Recurse `
+              -Force
+          }
+
+          Write-Host "MSIX staging directory:"
+          Get-ChildItem -Path $stage -Recurse |
+            Select-Object FullName, Length |
+            Format-Table -AutoSize
+
+      - name: Build MSIX
+        id: package
+        shell: pwsh
+        run: |
+          $outputDir = Join-Path $env:GITHUB_WORKSPACE "dist\msix"
+
+          New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
+
+          if ([string]::IsNullOrWhiteSpace("${{ inputs.output_name }}")) {
+            $outputName = "${{ github.event.repository.name }}.msix"
+          }
+          else {
+            $outputName = "${{ inputs.output_name }}"
+          }
+
+          $output = Join-Path $outputDir $outputName
+
+          & "$env:MAKEAPPX" pack `
+            /v `
+            /h SHA256 `
+            /d (Join-Path $env:GITHUB_WORKSPACE "build\msix") `
+            /p $output
+
+          if ($LASTEXITCODE -ne 0) {
+            throw "MakeAppx.exe failed with exit code $LASTEXITCODE."
+          }
+
+          if (-not (Test-Path $output)) {
+            throw "MakeAppx completed but did not produce '$output'."
+          }
+
+          Write-Host "Created MSIX:"
+          Write-Host $output
+
+          "msix_path=$output" >> $env:GITHUB_OUTPUT
+
+      - name: Publish to GitHub Release
+        if: github.event_name == 'release'
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload `
+            "${{ github.event.release.tag_name }}" `
+            "dist\msix\*" `
+            --clobber
+
+      - name: Upload MSIX artifact
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: msix-dist
+          path: dist/msix/*
+          if-no-files-found: error
