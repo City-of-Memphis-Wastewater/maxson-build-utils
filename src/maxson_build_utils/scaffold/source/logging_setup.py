@@ -23,6 +23,7 @@ import sys
 import traceback
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
+#from blindwindow.core.console import Console
 
 from .context import APP_NAME, LOG_FILE_PATH
 

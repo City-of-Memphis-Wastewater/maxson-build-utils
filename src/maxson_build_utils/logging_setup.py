@@ -5,6 +5,7 @@ import logging
 import sys
 import traceback
 from pathlib import Path
+#from blindwindow.core.console import Console
 
 from .context import IMPORT_NAME, LOG_FILE_PATH
 
