@@ -10,6 +10,8 @@ In this way, wrapped CLI tools like create-dmg or pyonstaller can instead draw i
 
 Package scaffolding precedes building in most cases, so that manifest files are available.
 
+If you frequently build and distribute Python applications and find yourself repeating the same configuration steps, this tool can significantly accelerate your development and simplify the long-term maintenance of your projects.
+
 ## Spotlight IT
 
 ChatGPT or Gemini can provide good Python core logic.
