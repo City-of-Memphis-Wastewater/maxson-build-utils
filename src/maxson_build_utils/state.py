@@ -32,3 +32,12 @@ def get_pyinstaller_onedir_export_entrypoint_path()->Path:
     env_mngr = get_persistence_mngr()
     app_filepath =  env_mngr.get(key="temp-app-filepath")   
     return Path(app_filepath).expanduser().resolve()
+
+def set_description_to_disk(description_str):
+    env_mngr = get_persistence_mngr()
+    env_mngr.set(key="description-str",value=description_str,overwrite=True)
+    
+
+def get_description_from_disk():
+    env_mngr = get_persistence_mngr()
+    return env_mngr.get(key="description-str")
