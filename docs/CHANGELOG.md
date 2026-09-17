@@ -5,12 +5,23 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.42] - 2026-09-16
+### Reviewed:
+- blindwindow imports and implementation in Tk gui.py
+
+### Internal:
+- maxson-build-utils should use a non-Tk gui if we can help it, to avoid maxson-gui-utils. 
+- Can streamlit apps make it onto the Windows Store? Woah, yes, with Tauri. Wow, let's ride. 
+
+---
+
 ## [0.1.41] - 2026-09-13
 ### Fixed:
 - msix, flatpak, and appimage local runs stabilized.
 
 ### Internal:
 - deb is still failing to pull in args.
+- 
 
 ---
 
