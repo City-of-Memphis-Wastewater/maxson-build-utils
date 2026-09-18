@@ -569,7 +569,7 @@ requires-dist = [
     { name = "dworshak-config", specifier = ">=0.2.8" },
     { name = "dworshak-env", specifier = ">=0.1.8" },
     { name = "maxson-gui-utils", marker = "extra == 'gui'", specifier = ">=0.1.18" },
-    { name = "pyhabitat", specifier = ">=1.3.12" },
+    { name = "pyhabitat", specifier = ">=1.3.13" },
     { name = "pyinstaller", marker = "extra == 'builds'", specifier = ">=6.17" },
     { name = "pyinstaller", marker = "extra == 'pyinstaller'", specifier = ">=6.17.0" },
     { name = "typer", marker = "python_full_version < '3.10'", specifier = ">=0.22.0,<0.24.0" },
@@ -675,11 +675,11 @@ wheels = [
 
 [[package]]
 name = "pyhabitat"
-version = "1.3.12"
+version = "1.3.13"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/69/fd/3dc47ff603d4a6053a0b0b6f9af6463fe3f4bf016467815025fcf268f991/pyhabitat-1.3.12.tar.gz", hash = "sha256:31af7acfe72e5918eb3ad83534794e909a55dca24f02fd1c52f937fd7179680f", size = 40096, upload-time = "2026-09-14T18:38:28.457Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b5/3b/7082deed5c4e1112a9b78b3de508a9b6aec5aa1485b8abb9eeecab4ab256/pyhabitat-1.3.13.tar.gz", hash = "sha256:bd4e34fc1a1ccbac6910501f2f4dcf9543d66ea709b3603be804972f624dc6f0", size = 40141, upload-time = "2026-09-18T02:25:21.956Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/4e/f1/98b0713ae93b160e958ecdd09bbcca607200ac1e563dd4eb6a7b937f5851/pyhabitat-1.3.12-py3-none-any.whl", hash = "sha256:5be55e45f718ddb9c10f07494f8d60691776975f2bdfa38602cda97b5f888c71", size = 42355, upload-time = "2026-09-14T18:38:27.129Z" },
+    { url = "https://files.pythonhosted.org/packages/1d/34/328f53a8e3d137ce2177efaf29fecb8bb1511d404791e12075d46c34c465/pyhabitat-1.3.13-py3-none-any.whl", hash = "sha256:ab360d2175626c98e77b76732ba539209a137e45258dc5f2889d02ce3f73ebc2", size = 42368, upload-time = "2026-09-18T02:25:20.605Z" },
 ]
 
 [[package]]
