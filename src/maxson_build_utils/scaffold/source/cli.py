@@ -66,7 +66,7 @@ app = typer.Typer(
     help=f"{DESCRIPTION_STR} (v{__version__})",
     add_completion=False,
     invoke_without_command=True,
-    no_args_is_help=(app_mode == AppMode.CLI),
+    no_args_is_help=(app_mode == AppMode.TYPER_CLI),
     context_settings={
         "ignore_unknown_options": True,
         "allow_extra_args": True,
@@ -102,14 +102,14 @@ def main(
     logger.debug("Executing command: %s", " ".join(sys.argv))
 
     if ctx.invoked_subcommand is None:
-            if app_mode == AppMode.GUI:
-                from .gui import start_gui
-                start_gui()
-            else:
-                typer.echo(ctx.get_help())
-                raise typer.Exit()
+        if app_mode == AppMode.TK_GUI:
+            from .tk_gui import start_gui
+            start_gui()
+        else:
+            typer.echo(ctx.get_help())
+            raise typer.Exit()
+
     
-        
 add_typer_helptree(
     app=app,
     console=console_stderr,

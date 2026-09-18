@@ -1,6 +1,6 @@
 
 #!/usr/bin/env python3
-# src/maxson_build_utils/gui.py
+# src/maxson_build_utils/tk_gui.py
 from __future__ import annotations
 import pyhabitat
 import tkinter as tk

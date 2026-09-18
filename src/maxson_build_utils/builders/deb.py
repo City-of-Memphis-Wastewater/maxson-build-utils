@@ -2,9 +2,10 @@ import os
 import shutil
 import subprocess
 from pathlib import Path
-from ..target import (
+from ..core.know_target import (
     #DEB_DIST_DIR,
     #DEB_PACKAGING_DIR,
+    
     get_pyproject
 )
 def build_debian_package(app_name: str, version: str, arch: str) -> Path:

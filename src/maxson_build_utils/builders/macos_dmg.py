@@ -14,7 +14,7 @@ logger=logging.getLogger(__name__)
 
 
 from ..state import get_pyinstaller_onedir_export_entrypoint_path 
-from ..target import (
+from ..core.know_target import (
     DMG_DIST_DIR,
     get_pyproject
 )

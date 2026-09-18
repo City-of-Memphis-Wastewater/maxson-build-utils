@@ -1,4 +1,4 @@
-# src/maxson_build_utils/scaffold/source/gui.py
+# src/maxson_build_utils/scaffold/source/tk_gui.py
 from __future__ import annotations
 from pathlib import Path
 import logging
@@ -10,7 +10,7 @@ from ...rendering import get_template_context, render_template
 
 GUI_TEMPLATE= '''
 #!/usr/bin/env python3
-# src/@@import_name@@/gui.py
+# src/@@import_name@@/tk_gui.py
 
 from __future__ import annotations
 

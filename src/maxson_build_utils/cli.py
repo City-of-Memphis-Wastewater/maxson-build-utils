@@ -141,8 +141,8 @@ def main(
     logger.debug("Executing command: %s", " ".join(sys.argv))
 
     if ctx.invoked_subcommand is None:
-        if app_mode == AppMode.GUI:
-            from .gui import start_gui
+        if app_mode == AppMode.TK_GUI:
+            from .tk_gui import start_gui
             start_gui()
         else:
             typer.echo(ctx.get_help())

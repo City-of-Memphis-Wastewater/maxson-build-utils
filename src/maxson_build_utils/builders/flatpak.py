@@ -8,7 +8,7 @@ from pathlib import Path
 import pyhabitat
 from pyhabitat import probe_app_mode_mgu
 
-from ..target import get_pyproject
+from ..core.know_target import get_pyproject
 from ..vendor import run_vendor_wheels  # or internal vendoring function
 from .validate import TargetBuild, validate_build_target
 
