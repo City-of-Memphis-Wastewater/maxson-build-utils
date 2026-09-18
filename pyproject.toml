@@ -73,9 +73,9 @@ dev = [
 pyinstaller = [
     "pyinstaller>=6.17.0",
 ]
-builds = [
-    "pyinstaller>=6.17",
-]
+#builds = [
+#    "pyinstaller>=6.17",
+#]
 gui = [
     "maxson-gui-utils>=0.1.18",
 ] 

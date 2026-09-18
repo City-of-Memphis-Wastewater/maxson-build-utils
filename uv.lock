@@ -541,9 +541,6 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
-builds = [
-    { name = "pyinstaller" },
-]
 gui = [
     { name = "maxson-gui-utils" },
 ]
@@ -570,13 +567,12 @@ requires-dist = [
     { name = "dworshak-env", specifier = ">=0.1.8" },
     { name = "maxson-gui-utils", marker = "extra == 'gui'", specifier = ">=0.1.18" },
     { name = "pyhabitat", specifier = ">=1.3.13" },
-    { name = "pyinstaller", marker = "extra == 'builds'", specifier = ">=6.17" },
     { name = "pyinstaller", marker = "extra == 'pyinstaller'", specifier = ">=6.17.0" },
     { name = "typer", marker = "python_full_version < '3.10'", specifier = ">=0.22.0,<0.24.0" },
     { name = "typer", marker = "python_full_version >= '3.10'", specifier = ">=0.27.0" },
     { name = "typer-helptree", specifier = ">=0.2.12" },
 ]
-provides-extras = ["pyinstaller", "builds", "gui", "web"]
+provides-extras = ["pyinstaller", "gui", "web"]
 
 [package.metadata.requires-dev]
 dev = [
