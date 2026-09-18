@@ -1,7 +1,8 @@
 [project]
 name = "maxson-build-utils"
 dynamic = ["version"]
-description = "A convention-optional build and deployment framework, with an opinionated Maxson project scaffold available as a convenience."
+#description = "A convention-optional build and deployment framework, with an opinionated Maxson project scaffold available as a convenience."
+description = "maxson-build-utils (mbu) enables the rollout of Python app's built in the style of Clayton Bennett in 2026. Granular scaffold standup, generalized build tools for rollout to shiv, msix, and more, with a PyProject class in the middle. This app consumes the City-of-Memphis-Wastewater stack, including pyhabitat, typer-helptree, dworshak-env, and blindwindow."
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
