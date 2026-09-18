@@ -107,7 +107,7 @@ app = typer.Typer(
     help=f"{DESCRIPTION_STR} (v{__version__})",
     add_completion=False,
     invoke_without_command = True,
-    no_args_is_help = (app_mode == AppMode.CLI),
+    no_args_is_help = (app_mode == AppMode.TYPER_CLI),
     context_settings={"ignore_unknown_options": True,
                       "allow_extra_args": True,
                       "help_option_names": ["-h", "--help"]},
