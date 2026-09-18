@@ -56,7 +56,7 @@ This will give you files that may be submitted to the Windows Store, the Apple s
 ```
 git tag v0.1.0
 git push origin v0.1.0
-# Runnners are designed to build and upload artifacts to the release.
+# Runners are designed to build and upload artifacts to the release.
 gh release create v0.1.0 --title "my-project v0.1.0"
 ```
 
