@@ -13,6 +13,10 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 - maxson-build-utils should use a non-Tk gui if we can help it, to avoid maxson-gui-utils. 
 - Can streamlit apps make it onto the Windows Store? Woah, yes, with Tauri. Wow, let's ride. 
 
+# Changed:
+- target.py moved to core/known_target.py
+- gui.py changed to tk_gui.py
+
 ---
 
 ## [0.1.41] - 2026-09-13

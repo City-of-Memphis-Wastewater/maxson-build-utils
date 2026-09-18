@@ -56,7 +56,7 @@ def __getattr__(name: str):
                 import pyhabitat
 
                 if pyhabitat.tkinter_is_available():
-                    from .gui import start_gui
+                    from .tk_gui import start_gui
 
                     return start_gui
             except ImportError:

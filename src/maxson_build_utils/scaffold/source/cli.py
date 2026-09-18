@@ -150,7 +150,7 @@ def gui_command(
         _gui_failure_msg()
         return
 
-    from .gui import start_gui
+    from .tk_gui import start_gui
     start_gui(time_auto_close = assured_auto_close_value)
 
 @app.command(name="placeholder")
