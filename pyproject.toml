@@ -91,9 +91,16 @@ Changelog = "https://raw.githubusercontent.com/city-of-memphis-wastewater/maxson
 requires = ["setuptools>=64", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[tool.uv]
+default-groups = []
+default-extras = []
+
 #[tool.uv.sources]
 #maxson-build-utils = { path = "src/maxson_build_utils" }
+#maxson-build-utils = { path = "." }
+#maxson-build-utils = { path = "../maxson-build-utils" }
 #pyhabitat = { path = "../pyhabitat/dist/pyhabitat-1.2.3-py3-none-any.whl" }
+
 
 [tool.setuptools.dynamic]
 version = {file = "src/maxson_build_utils/VERSION"}
