@@ -16,6 +16,9 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 # Changed:
 - target.py moved to core/known_target.py
 - gui.py changed to tk_gui.py
+- AppMode.CLI -> AppMode.TYPER_CLI
+- AppMode.GUI -> AppMode.TK_GUI
+
 
 ---
 
