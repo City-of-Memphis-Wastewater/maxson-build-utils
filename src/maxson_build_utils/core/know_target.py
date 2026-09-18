@@ -4,10 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from .helpers import PyinsMode
-from .pyproject import MaxsonPyProject
-
-
+from ..helpers import PyinsMode
+from ..pyproject import MaxsonPyProject
 
 def get_target_project_root() -> Path:
     return Path.cwd()
