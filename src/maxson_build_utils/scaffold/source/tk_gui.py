@@ -31,7 +31,7 @@ except ImportError:
     launch_configured_website = None
 
 from ._version import __version__
-from .context import APP_NAME, IMPORT_NAME, CONFIG_PATH
+from .context import APP_NAME, IMPORT_NAME, CONFIG_PATH, APP_DIR
 
 logger = logging.getLogger(__name__)
 
@@ -128,9 +128,10 @@ class GuiApp:
         tools_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="Tools", menu=tools_menu)
 
-        tools_menu.add_command(label="Show Filled Files ", command=lambda: self._show_target_files_in_system_explorer())
+        tools_menu.add_command(label="Show Application Directory ", command=lambda: self._show_app_dir_in_system_explorer())
         tools_menu.add_command(label="Launch Configured Website ", command=lambda: self._launch_configured_website())
-        tools_menu.add_command(label="BlindWindow ", command=lambda: self._launch_blindwindow())
+        tools_menu.add_command(label="Launch BlindWindow ", command=lambda: self._launch_blindwindow())
+        tools_menu.add_command(label="Serve Webapp", command=lambda: self._serve_webapp())
 
         options.add_separator()
 
@@ -182,10 +183,18 @@ class GuiApp:
             f"{APP_NAME} Version {__version__}",
         )
 
-    def _run_main(self) -> None:
-        pass
-
-    def _show_target_files_in_system_explorer(self) -> None:
+    def _run_main(self):
+        """
+        The core functionality of the app.
+        """
+        # ADD REAL FUNCTIONALITY
+        path_str = self._assess_entry_path_str()
+        messagebox.showinfo(
+            "Main",
+            f"Placeholder process on path: {path_str}",
+        )
+        
+    def _show_app_dir_in_system_explorer(self) -> None:
         """
         Opens the system file explorer to the directory containing
         the exported files, with GUI error handling.
@@ -209,6 +218,12 @@ class GuiApp:
     def _launch_blindwindow(self):
         from blindwindow.core import launch_blindwindow
         launch_blindwindow()
+
+    def _serve_webapp(self):
+        messagebox.showinfo(
+            "Placeholder",
+            "Link up your webapp entry point function here."
+        )
 
 def apply_windows_taskbar_icon() -> None:
     """Set a stable Windows AppUserModelID."""

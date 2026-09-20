@@ -27,7 +27,7 @@ import logging
 
 # --- Core Imports ---
 
-from .context import CONFIG_PATH, APP_NAME, IMPORT_NAME
+from .context import CONFIG_PATH, APP_NAME, IMPORT_NAME, APP_DIR
 from ._version import get_version, __version__
 #from .paths import (
 #            LOGO_FILENAME_PNG,
@@ -123,9 +123,10 @@ class GuiApp:
         tools_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="Options", menu=tools_menu)
 
-        tools_menu.add_command(label="Show Filled Files ", command=lambda: self._show_target_files_in_system_explorer())
+        tools_menu.add_command(label="Show Application Directory ", command=lambda: self._show_app_dir_in_system_explorer())
         tools_menu.add_command(label="Launch Configured Website ", command=lambda: self._launch_configured_website())
-        tools_menu.add_command(label="BlindWindow ", command=lambda: self._launch_blindwindow())
+        tools_menu.add_command(label="Launch BlindWindow ", command=lambda: self._launch_blindwindow())
+        tools_menu.add_command(label="Serve Webapp", command=lambda: self._serve_webapp())
         
         #tools_menu.add_separator()
         #tools_menu.add_command(label="Readme", command=self._show_readme)
@@ -147,6 +148,12 @@ class GuiApp:
     def _launch_blindwindow(self):
         from blindwindow.core import launch_blindwindow
         launch_blindwindow()
+
+    def _serve_webapp(self):
+        messagebox.showinfo(
+            "Placeholder",
+            "Link up your webapp entry point function here."
+        )
 
     def _about_button(self):
         messagebox.showinfo(
@@ -207,13 +214,13 @@ class GuiApp:
         )
         # ADD REAL FUNCTIONALITY
         
-    def _show_target_files_in_system_explorer(self) -> None:
+    def _show_app_dir_in_system_explorer(self) -> None:
         """
         Opens the system file explorer to the directory containing
         the exported files, with GUI error handling.
         """
         try:
-            target_dir = Path.home() # et_target_copy_dir()
+            target_dir = APP_DIR # Path.home() # et_target_copy_dir()
             pyhabitat.show_system_explorer(path = target_dir)
         except Exception as e:
             # The GUI catches the error to show a user-friendly popup
