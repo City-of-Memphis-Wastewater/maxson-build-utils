@@ -5,6 +5,13 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.43] - 2026-09-20
+### Changed:
+- Consume maxson-gui-utils v0.1.24.
+- Add row to tk_gui.py, consuming, tk_components.widgets.create_path_entry().
+
+---
+
 ## [0.1.42] - 2026-09-16
 ### Reviewed:
 - blindwindow imports and implementation in Tk gui.py
