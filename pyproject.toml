@@ -77,7 +77,7 @@ pyinstaller = [
 #    "pyinstaller>=6.17",
 #]
 gui = [
-    "maxson-gui-utils>=0.1.23",
+    "maxson-gui-utils>=0.1.24",
 ] 
 web = []
 
@@ -100,6 +100,7 @@ default-groups = ["dev"]
 #maxson-build-utils = { path = "." }
 #maxson-build-utils = { path = "../maxson-build-utils" }
 #pyhabitat = { path = "../pyhabitat/dist/pyhabitat-1.2.3-py3-none-any.whl" }
+#maxson-gui-utils = { path = "../maxson-gui-utils/dist/maxson_gui_utils-0.1.23-py3-none-any.whl" }
 
 
 [tool.setuptools.dynamic]

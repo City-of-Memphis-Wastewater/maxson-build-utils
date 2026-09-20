@@ -12,6 +12,7 @@ import sys
 import maxson_gui_utils as mgu
 from maxson_gui_utils.resources import resource_path
 from maxson_gui_utils.tk_components.widgets import create_path_entry
+from maxson_gui_utils.tk_utils import check_frame_geometry
 
 try:
     from maxson_gui_utils.tk_utils import center_window_on_primary
@@ -38,7 +39,7 @@ from ._version import get_version, __version__
 logger=logging.getLogger(__name__)
 
 APP_W = 100
-APP_H = 50
+APP_H = 100
 
 # RedirectText
 class GuiApp:
@@ -157,35 +158,38 @@ class GuiApp:
 
         # --- Control Frame (Top) ---
         control_frame = ttk.Frame(self.root, padding=(4, 2, 4, 2))
-        control_frame.pack(fill='x', pady=(2, 2))
+        #control_frame.pack(fill='x', pady=(2, 2))
+        control_frame.pack(
+            fill="both",
+            expand=False,
+            pady=(2, 2),
+        )
+
+        # Grid configuration
+        control_frame.grid_columnconfigure(0, weight=1)
+        control_frame.grid_columnconfigure(1, weight=1)
+        control_frame.grid_columnconfigure(2, weight=1)
+
+        control_frame.grid_rowconfigure(0, weight=0)
+        control_frame.grid_rowconfigure(1, weight=0)
         
-        # dyanmic row calc
-        #control_frame.update_idletasks()
-        #_, next_row = control_frame.grid_size()
+        btn_open_browser_to_files = ttk.Button(control_frame, text="Button 1", command=lambda: self._stuff_1(), width=8)
+        btn_open_browser_to_files.grid(row=0, column=0, columnspan=1, pady=6, sticky='ew', padx=(0, 3))
 
-        self.btn_open_browser_to_files = ttk.Button(control_frame, text="Button 1", command=lambda: self._stuff_1(), width=8)
-        self.btn_open_browser_to_files.grid(row=1, column=0, columnspan=1, pady=6, sticky='ew', padx=(0, 3))
-
-        # === Row 3: Action Buttons ===
+        # === Action Buttons ===
         run_analysis_btn = ttk.Button(control_frame, text="▶ Run Main", command=self._run_main, style='Accent.TButton', width=16) #
-        run_analysis_btn.grid(row=1, column=1, columnspan=2, pady=6, sticky='ew', padx=(0, 3))
-
-        '''
+        run_analysis_btn.grid(row=0, column=1, columnspan=2, pady=6, sticky='ew', padx=(0, 3))
+        
         path_entry_widget = create_path_entry(
             root=self.root, 
             control_frame=control_frame, 
             path_var=self.entry_path, 
             path_name_str="Input Path"
         )
+        path_entry_widget.grid(row=1, column=0, columnspan=3, padx=0, pady=(2, 4), sticky='ew')
 
-        path_entry_widget.grid(row=3, column=0, columnspan=3, padx=0, pady=(2, 4), sticky='ew')
-
-        '''
-        # Grid configuration
-        control_frame.grid_columnconfigure(0, weight=1)
-        control_frame.grid_columnconfigure(1, weight=1)
-        control_frame.grid_columnconfigure(2, weight=1)
-
+        actual_height, grid_bottom = check_frame_geometry(control_frame,"control_frame")
+        
     def _stuff_1(self):
         # tk var getters
         pass
