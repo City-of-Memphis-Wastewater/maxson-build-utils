@@ -158,16 +158,10 @@ class GuiApp:
         # --- Control Frame (Top) ---
         control_frame = ttk.Frame(self.root, padding=(4, 2, 4, 2))
         control_frame.pack(fill='x', pady=(2, 2))
-
-        #mgu.tk_componenets.widgets.create_path_entry(control_frame=control_frame)
-        # create_path_entry(self=self,control_frame=control_frame)
-            # Clean, strictly typed interface:
-        create_path_entry(
-            root=self.root, 
-            control_frame=control_frame, 
-            path_var=self.entry_path, 
-            path_name_str="Input Path"
-        )
+        
+        # dyanmic row calc
+        #control_frame.update_idletasks()
+        #_, next_row = control_frame.grid_size()
 
         self.btn_open_browser_to_files = ttk.Button(control_frame, text="Button 1", command=lambda: self._stuff_1(), width=8)
         self.btn_open_browser_to_files.grid(row=1, column=0, columnspan=1, pady=6, sticky='ew', padx=(0, 3))
@@ -176,6 +170,17 @@ class GuiApp:
         run_analysis_btn = ttk.Button(control_frame, text="▶ Run Main", command=self._run_main, style='Accent.TButton', width=16) #
         run_analysis_btn.grid(row=1, column=1, columnspan=2, pady=6, sticky='ew', padx=(0, 3))
 
+        '''
+        path_entry_widget = create_path_entry(
+            root=self.root, 
+            control_frame=control_frame, 
+            path_var=self.entry_path, 
+            path_name_str="Input Path"
+        )
+
+        path_entry_widget.grid(row=3, column=0, columnspan=3, padx=0, pady=(2, 4), sticky='ew')
+
+        '''
         # Grid configuration
         control_frame.grid_columnconfigure(0, weight=1)
         control_frame.grid_columnconfigure(1, weight=1)
