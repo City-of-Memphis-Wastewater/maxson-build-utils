@@ -173,7 +173,7 @@ class GuiApp:
         control_frame.grid_rowconfigure(0, weight=0)
         control_frame.grid_rowconfigure(1, weight=0)
         
-        btn_open_browser_to_files = ttk.Button(control_frame, text="Button 1", command=lambda: self._stuff_1(), width=8)
+        btn_open_browser_to_files = ttk.Button(control_frame, text="About", command=lambda: self._show_about(), width=8)
         btn_open_browser_to_files.grid(row=0, column=0, columnspan=1, pady=6, sticky='ew', padx=(0, 3))
 
         # === Action Buttons ===
@@ -189,18 +189,24 @@ class GuiApp:
         path_entry_widget.grid(row=1, column=0, columnspan=3, padx=0, pady=(2, 4), sticky='ew')
 
         actual_height, grid_bottom = check_frame_geometry(control_frame,"control_frame")
-        
-    def _stuff_1(self):
-        # tk var getters
-        pass
+
+    def _show_about(self) -> None:
+        messagebox.showinfo(
+            "About",
+            f"{APP_NAME} Version {__version__}",
+        )
 
     def _run_main(self):
         """
         The core functionality of the app.
         """
-        #tk gar getters
-        pass
-
+        path_str = self._assess_entry_path_str()
+        messagebox.showinfo(
+            "Main",
+            f"Placeholder process on path: {path_str}",
+        )
+        # ADD REAL FUNCTIONALITY
+        
     def _show_target_files_in_system_explorer(self) -> None:
         """
         Opens the system file explorer to the directory containing
@@ -213,6 +219,25 @@ class GuiApp:
             # The GUI catches the error to show a user-friendly popup
             messagebox.showerror("Error", f"Could not open system explorer: {e}")
 
+    def _assess_entry_path_str(self):
+        entry_path_str = self.entry_path.get().strip()
+        if not entry_path_str:
+            if not entry_path_str:
+                self._display_error("Path not found in current directory.")
+                return None
+
+        p = Path(entry_path_str).expanduser().resolve()
+        if not p.exists():
+            self._display_error(f"File not found at: {p}")
+            return None
+
+        return str(p)
+
+    def _display_error(self, message):
+        messagebox.showinfo(
+            message,
+        )
+        
 def apply_windows_taskbar_icon() -> None:
     """Set a stable Windows AppUserModelID."""
 

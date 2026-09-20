@@ -139,29 +139,51 @@ class GuiApp:
             command=self.root.destroy,
         )
 
-    def _create_widgets(self) -> None:
-        """Create application widgets."""
+    def _create_widgets(self):
+        """CREATE GENERIC STARTING WIDGET"""
 
-        frame = ttk.Frame(
-            self.root,
-            padding=12,
-        )
-        frame.pack(
+        # --- Control Frame (Top) ---
+        control_frame = ttk.Frame(self.root, padding=(4, 2, 4, 2))
+        #control_frame.pack(fill='x', pady=(2, 2))
+        control_frame.pack(
             fill="both",
-            expand=True,
+            expand=False,
+            pady=(2, 2),
         )
 
-        label = ttk.Label(
-            frame,
-            text=f"{APP_NAME} v{__version__}",
+        # Grid configuration
+        control_frame.grid_columnconfigure(0, weight=1)
+        control_frame.grid_columnconfigure(1, weight=1)
+        control_frame.grid_columnconfigure(2, weight=1)
+
+        control_frame.grid_rowconfigure(0, weight=0)
+        control_frame.grid_rowconfigure(1, weight=0)
+        
+        btn_open_browser_to_files = ttk.Button(control_frame, text="About", command=lambda: self._show_about(), width=8)
+        btn_open_browser_to_files.grid(row=0, column=0, columnspan=1, pady=6, sticky='ew', padx=(0, 3))
+
+        # === Action Buttons ===
+        run_analysis_btn = ttk.Button(control_frame, text="▶ Run Main", command=self._run_main, style='Accent.TButton', width=16) #
+        run_analysis_btn.grid(row=0, column=1, columnspan=2, pady=6, sticky='ew', padx=(0, 3))
+        
+        path_entry_widget = create_path_entry(
+            root=self.root, 
+            control_frame=control_frame, 
+            path_var=self.entry_path, 
+            path_name_str="Input Path"
         )
-        label.pack()
+        path_entry_widget.grid(row=1, column=0, columnspan=3, padx=0, pady=(2, 4), sticky='ew')
+
+        actual_height, grid_bottom = check_frame_geometry(control_frame,"control_frame")
 
     def _show_about(self) -> None:
         messagebox.showinfo(
             "About",
             f"{APP_NAME} Version {__version__}",
         )
+
+    def _run_main(self) -> None:
+        pass
 
     def _show_target_files_in_system_explorer(self) -> None:
         """
