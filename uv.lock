@@ -565,7 +565,7 @@ requires-dist = [
     { name = "blindwindow", specifier = ">=0.1.5" },
     { name = "dworshak-config", specifier = ">=0.2.8" },
     { name = "dworshak-env", specifier = ">=0.1.8" },
-    { name = "maxson-gui-utils", marker = "extra == 'gui'", specifier = ">=0.1.19" },
+    { name = "maxson-gui-utils", marker = "extra == 'gui'", specifier = ">=0.1.22" },
     { name = "pyhabitat", specifier = ">=1.3.13" },
     { name = "pyinstaller", marker = "extra == 'pyinstaller'", specifier = ">=6.17.0" },
     { name = "typer", marker = "python_full_version < '3.10'", specifier = ">=0.22.0,<0.24.0" },
@@ -586,7 +586,7 @@ dev = [
 
 [[package]]
 name = "maxson-gui-utils"
-version = "0.1.19"
+version = "0.1.22"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "dworshak-config" },
@@ -595,9 +595,8 @@ dependencies = [
     { name = "typer", version = "0.27.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
     { name = "typer-helptree" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e3/35/4bc2ef340d552082275081a62fb8b444a6ceba6245a0141d486b3da4090f/maxson_gui_utils-0.1.19.tar.gz", hash = "sha256:385d7c1748039bdf0967968dcd1c38b6750d7fe42584748d213af367fc917cca", size = 473132, upload-time = "2026-09-20T12:22:16.54Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e4/9e/72a9e59bb11cb7cc13314a64a8ac39b53b7c85b2e55dae0a02d12df16919/maxson_gui_utils-0.1.19-py3-none-any.whl", hash = "sha256:5c1bdc55cf6bd7c9cf32bc60803ac858b0ea4b1fdcd22e8a86f69ec823220487", size = 526040, upload-time = "2026-09-20T12:22:14.739Z" },
+    { url = "https://files.pythonhosted.org/packages/f8/ac/a6c63e5ce30400db7a06b23316bf2f012d7597470e54eb15578376c2cda5/maxson_gui_utils-0.1.22-py3-none-any.whl", hash = "sha256:2a5787a147be817e6b0a796cc0900843ebb47418227b3e33fd227f01a7ff8ef6", size = 526852, upload-time = "2026-09-20T13:02:47.203Z" },
 ]
 
 [[package]]

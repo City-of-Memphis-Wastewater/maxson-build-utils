@@ -82,7 +82,8 @@ class GuiApp:
 
     def _initialize_vars(self):
         """Build necessary tk variables."""
-        pass
+        self.entry_path = tk.StringVar(value="")
+        
 
     # --- Theme & Visual Initialization ---
     def _initialize_forest_theme(self):
@@ -159,7 +160,14 @@ class GuiApp:
         control_frame.pack(fill='x', pady=(2, 2))
 
         #mgu.tk_componenets.widgets.create_path_entry(control_frame=control_frame)
-        create_path_entry(control_frame=control_frame)
+        # create_path_entry(self=self,control_frame=control_frame)
+            # Clean, strictly typed interface:
+        create_path_entry(
+            root=self.root, 
+            control_frame=control_frame, 
+            path_var=self.entry_path, 
+            path_name_str="Input Path"
+        )
 
         self.btn_open_browser_to_files = ttk.Button(control_frame, text="Button 1", command=lambda: self._stuff_1(), width=8)
         self.btn_open_browser_to_files.grid(row=1, column=0, columnspan=1, pady=6, sticky='ew', padx=(0, 3))
