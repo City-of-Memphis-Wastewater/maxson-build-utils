@@ -9,7 +9,9 @@ from pathlib import Path
 from typing import Optional
 import ctypes
 import sys
+import maxson_gui_utils as mgu
 from maxson_gui_utils.resources import resource_path
+from maxson_gui_utils.tk_components.widgets import create_path_entry
 
 try:
     from maxson_gui_utils.tk_utils import center_window_on_primary
@@ -155,6 +157,9 @@ class GuiApp:
         # --- Control Frame (Top) ---
         control_frame = ttk.Frame(self.root, padding=(4, 2, 4, 2))
         control_frame.pack(fill='x', pady=(2, 2))
+
+        #mgu.tk_componenets.widgets.create_path_entry(control_frame=control_frame)
+        create_path_entry(control_frame=control_frame)
 
         self.btn_open_browser_to_files = ttk.Button(control_frame, text="Button 1", command=lambda: self._stuff_1(), width=8)
         self.btn_open_browser_to_files.grid(row=1, column=0, columnspan=1, pady=6, sticky='ew', padx=(0, 3))
