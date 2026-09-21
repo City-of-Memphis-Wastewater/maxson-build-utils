@@ -637,6 +637,16 @@ def gui_command(
 
     from .tk_gui import start_gui
     start_gui(time_auto_close = assured_auto_close_value)
+
+@app.command(name="serve")
+def serve_webapp_command(
+   #auto_close: int = typer.Option(0,
+   #"--auto-close", "-c",
+   #help = "Delay in milliseconds after which the GUI window will close (for automated testing). Use 0 to disable auto-closing.",
+   #min=0)
+    )->None:
+    console_stdout.print("None")
+
 '''
 @sign_app.command(name="msix")
 def sign_msix_command():
