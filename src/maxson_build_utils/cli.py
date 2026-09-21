@@ -644,8 +644,9 @@ def serve_webapp_command(
    #"--auto-close", "-c",
    #help = "Delay in milliseconds after which the GUI window will close (for automated testing). Use 0 to disable auto-closing.",
    #min=0)
-    )->None:
-    console_stdout.print("None")
+   )->None:
+   """Serve webapp on this system."""
+   console_stdout.print("None")
 
 '''
 @sign_app.command(name="msix")
