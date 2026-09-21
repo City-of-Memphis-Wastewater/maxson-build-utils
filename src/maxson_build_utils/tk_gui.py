@@ -274,7 +274,7 @@ def start_gui(time_auto_close: int = 0):
     root = tk.Tk()
     root.withdraw() # Hide the ugly default window for a split second
 
-    from .splash import SplashFrame
+    from maxson_gui_utils.splash import SplashFrame
     splash = SplashFrame(root)
     root.update() # Force drawing the splash screen
 
