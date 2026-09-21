@@ -441,7 +441,7 @@ def init_gitignore():
 # --- source code scaffolding ---
 @init_src_app.command("gui")
 def init_gui():
-    """Create src/<app>/gui.py."""
+    """Create src/<app>/tk_gui.py."""
     run_init_gui().print_path(console_stdout)
 
 @init_src_app.command("cli")

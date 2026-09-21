@@ -15,10 +15,13 @@ GUI_TEMPLATE= '''
 from __future__ import annotations
 
 import ctypes
+from pathlib import Path
 import logging
 import sys
 import tkinter as tk
 from maxson_gui_utils.resources import resource_path
+from maxson_gui_utils.tk_components.widgets import create_path_entry
+from maxson_gui_utils.tk_utils import check_frame_geometry
 from tkinter import messagebox, ttk
 import pyhabitat
 try:
@@ -45,10 +48,15 @@ class GuiApp:
     def __init__(self, root: tk.Tk):
         self.root = root
 
+        self._initialize_vars()
         #self._initialize_theme()
         self._configure_window()
         self._create_menubar()
         self._create_widgets()
+
+    def _initialize_vars(self):
+        """Build necessary tk variables."""
+        self.entry_path = tk.StringVar(value="")
 
     def _initialize_theme(self) -> None:
         """Initialize the application theme."""
@@ -73,6 +81,7 @@ class GuiApp:
         style.configure("TRadiobutton", padding=2)
 
         style.theme_use("forest-dark")
+
 
     def _configure_window(self) -> None:
         self.root.title(f"{APP_NAME} v{__version__}")
@@ -225,6 +234,25 @@ class GuiApp:
             "Link up your webapp entry point function here."
         )
 
+    def _assess_entry_path_str(self):
+        entry_path_str = self.entry_path.get().strip()
+        if not entry_path_str:
+            if not entry_path_str:
+                self._display_error("Path not found in current directory.")
+                return None
+
+        p = Path(entry_path_str).expanduser().resolve()
+        if not p.exists():
+            self._display_error(f"File not found at: {p}")
+            return None
+
+        return str(p)
+
+    def _display_error(self, message):
+        messagebox.showinfo(
+            message,
+        )
+
 def apply_windows_taskbar_icon() -> None:
     """Set a stable Windows AppUserModelID."""
 
@@ -254,7 +282,7 @@ def start_gui(time_auto_close: int = 0)->None:
     root = tk.Tk()
     root.withdraw() # Hide the ugly default window for a split second
 
-    from .splash import SplashFrame
+    from maxson_gui_utils.splash import SplashFrame
     splash = SplashFrame(root)
     root.update() # Force drawing the splash screen
 
@@ -289,7 +317,7 @@ def start_gui(time_auto_close: int = 0)->None:
         # Center and then reveal
         # 2. CONFIG: Set title and geometry while hidden
         if center_window_on_primary is not None:
-            center_window_on_primary(root, APP_W, APP_H)
+            center_window_on_primary(root, APP_WIDTH, APP_HEIGHT)
 
         root.config(cursor="arrow")
 
@@ -339,7 +367,7 @@ def run_init_gui(
     )
 
     return write_str_to_file(
-        path=pyproject.src_dir / "gui.py",
+        path=pyproject.src_dir / "tk_gui.py",
         text=text,
         overwrite=overwrite,
     )
