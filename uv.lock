@@ -565,7 +565,7 @@ requires-dist = [
     { name = "blindwindow", specifier = ">=0.1.5" },
     { name = "dworshak-config", specifier = ">=0.2.8" },
     { name = "dworshak-env", specifier = ">=0.1.8" },
-    { name = "maxson-gui-utils", marker = "extra == 'gui'", specifier = ">=0.1.24" },
+    { name = "maxson-gui-utils", marker = "extra == 'gui'", specifier = ">=0.1.25" },
     { name = "pyhabitat", specifier = ">=1.3.13" },
     { name = "pyinstaller", marker = "extra == 'pyinstaller'", specifier = ">=6.17.0" },
     { name = "typer", marker = "python_full_version < '3.10'", specifier = ">=0.22.0,<0.24.0" },
@@ -586,7 +586,7 @@ dev = [
 
 [[package]]
 name = "maxson-gui-utils"
-version = "0.1.24"
+version = "0.1.25"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "dworshak-config" },
@@ -595,9 +595,9 @@ dependencies = [
     { name = "typer", version = "0.27.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
     { name = "typer-helptree" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/1e/8b/f4d25599f995ad797b248216ee43943f6640a0c9cc9723de97fda522fb29/maxson_gui_utils-0.1.24.tar.gz", hash = "sha256:43af989fb9c1050e3ad9e38d96b192f5d5e62afbcf995403d62c3e439b338c62", size = 466737, upload-time = "2026-09-20T21:52:44.701Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/04/0c/d8a3595eb66fcc409a6a2571c735dd7310317d7719b4c33a4ee2908daf78/maxson_gui_utils-0.1.25.tar.gz", hash = "sha256:9279bef6938426799dd0c581eb0e03d07f9dbd0887cbf117528840b835e31972", size = 466728, upload-time = "2026-09-21T00:22:11.58Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c3/bf/0999e279eafc4b8673d6ee3f153d933ab01d8bedeab1d7c44b6329f28c82/maxson_gui_utils-0.1.24-py3-none-any.whl", hash = "sha256:aee5dff303c6a564f8f5caf5009c7f9037ffe76600a7edc0bdb463ae58da38db", size = 515881, upload-time = "2026-09-20T21:52:43.232Z" },
+    { url = "https://files.pythonhosted.org/packages/02/e9/73a75f500378e034a8d4ffdcb855a34ab754687b70181e1380a3f6f6bca1/maxson_gui_utils-0.1.25-py3-none-any.whl", hash = "sha256:ed6cd625879880840c777d8b2794b014c2d96cda37b5dfce7a3c4d0da906fc09", size = 515850, upload-time = "2026-09-21T00:22:09.588Z" },
 ]
 
 [[package]]
