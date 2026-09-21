@@ -9,6 +9,10 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 ### Changed:
 - Consume maxson-gui-utils v0.1.24.
 - Add row to tk_gui.py, consuming, tk_components.widgets.create_path_entry().
+- Scaffolded tk_utils tested and conformed.
+
+### Added:
+- Placeholder for Serve Webapp.
 
 ---
 
