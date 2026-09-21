@@ -79,8 +79,16 @@ pyinstaller = [
 gui = [
     "maxson-gui-utils>=0.1.25",
 ] 
-web = []
-
+web = [
+    "uvicorn>=0.34.3; python_version >= '3.9'",
+    "msgspec>=0.19.0; python_version >= '3.9'",
+    "starlette>=0.50.0; python_version >= '3.10'",
+    "starlette>=0.47.3; python_version == '3.9.*'",
+    "python-multipart>=0.0.20",
+]
+kivy = [
+    "kivy>=2.3.1"
+]
 [project.urls]
 Homepage = "https://github.com/city-of-memphis-wastewater/maxson-build-utils"
 Repository = "https://github.com/city-of-memphis-wastewater/maxson-build-utils"
