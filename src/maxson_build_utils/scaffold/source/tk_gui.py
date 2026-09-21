@@ -49,7 +49,7 @@ class GuiApp:
         self.root = root
 
         self._initialize_vars()
-        #self._initialize_theme()
+        self._initialize_theme()
         self._configure_window()
         self._create_menubar()
         self._create_widgets()
