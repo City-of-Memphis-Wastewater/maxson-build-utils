@@ -6,7 +6,17 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
-## [0.1.44] - 2026-09-23
+## [0.1.45] - 2026-09-23
+### Changed:
+- buildozer spec scaffolding adjusted
+
+### Added:
+- site package vendoring
+- mbu build buildozer
+
+---
+
+## [0.1.44] - 2026-09-22
 ### Changed:
 - Scaffold package spec for buildozer, and add build buildozer command. 
 - We still need to handle scaffolding the main.py file entry point in root.
