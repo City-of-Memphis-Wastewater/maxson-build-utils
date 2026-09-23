@@ -34,8 +34,7 @@ source.dir = ../../
 source.include_exts = py,png,jpg,kv,atlas,whl,wsdl,json
 
 # (list) Source files to include using pattern matching
-source.include_patterns = src/*,./build/vendor_for_buildozer/*
-#source.include_patterns = ./src/*,./build/vendor-wheels/
+source.include_patterns = src/*,./vendor/packages/*
 
 # (list) Source directories to exclude
 source.exclude_dirs = tests,bin,.git,.venv,.pytest_cache,docs,logs,packaging
