@@ -57,6 +57,4 @@ fullscreen = 0
 log_level = 2
 
 
-[buildozer]
-
 # (str) Warning: Buildozer configuration can be extended here as needed.
