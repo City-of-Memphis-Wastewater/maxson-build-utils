@@ -138,6 +138,26 @@ android.allow_backup = True
 #p4a.branch = master
 p4a.branch = v2024.01.21
 
+#
+# iOS specific
+#
+
+# (str) Path to a custom kivy-ios folder
+#ios.kivy_ios_dir = ../kivy-ios
+# Alternately, specify the URL and branch of a git checkout:
+ios.kivy_ios_url = https://github.com/kivy/kivy-ios
+ios.kivy_ios_branch = master
+
+# Another platform dependency: ios-deploy
+# Uncomment to use a custom checkout
+#ios.ios_deploy_dir = ../ios_deploy
+# Or specify URL and branch
+ios.ios_deploy_url = https://github.com/phonegap/ios-deploy
+ios.ios_deploy_branch = 1.12.2
+
+# (bool) Whether or not to sign the code
+ios.codesign.allowed = false
+
 [buildozer]
 
 # (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
