@@ -539,7 +539,7 @@ def init_logging_setup():
 @init_src_app.command("kivy")
 def init_kivy_gui():
     """Create files in src/<app>/kivy/ dir, including app.py."""
-    run_init_kivy().print_path(console_stdout)
+    print_write_results(run_init_kivy(),console_stdout)
 
 # --- packaging scaffolding ---
 
