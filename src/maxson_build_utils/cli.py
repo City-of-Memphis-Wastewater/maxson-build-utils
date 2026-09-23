@@ -46,7 +46,7 @@ from maxson_build_utils.builders import (
 
 
 from maxson_build_utils.helpers import PyinsMode
-from maxson_build_utils.vendor import run_vendor_wheels, run_vendor_site_packages, VENDOR_SITE_PACKAGES_DIR, VENDOR_WHEELS_DIR, DIST_WHEELS_DIR
+from maxson_build_utils.vendor import run_vendor_wheels, run_vendor_site_packages, VENDOR_SITE_PACKAGES_DIR, VENDOR_WHEELS_DIR, DIST_WHEELS_DIR, DEFAULT_EXTRA_ARGS
 from .pyproject import PyProject, format_value
 from .scaffold.base import (
     run_init_pyproject,
@@ -234,18 +234,34 @@ init_app.add_typer(init_ci_app)
 @vendor_app.command(name="wheels")
 def vendor_wheels_cmd(
     dist_dir: Path = DIST_WHEELS_DIR,
-    vendor_dir: Path = VENDOR_WHEELS_DIR
+    vendor_dir: Path = VENDOR_WHEELS_DIR,
+    reinstall: bool = typer.Option(
+        False, "--reinstall", help="Force re-downloading all packages."
+    ),
 ):
     """Build project wheel and vendor offline dependencies, like when preparing for Flatpak."""
-    run_vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir)
+    run_vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir, reinstall=reinstall)
+
 
 @vendor_app.command(name="site-packages")
 def vendor_site_packages_cmd(
     vendor_dir: Path = VENDOR_SITE_PACKAGES_DIR,
-    extra_args: list[str] | None = typer.Option(None, "--extra-args", "-e", help="Extra arguments passed directly to 'uv pip install'."),
+    extra_args: list[str] = typer.Option(
+        DEFAULT_EXTRA_ARGS,
+        "--extra-args",
+        "-e",
+        help="Extra arguments passed directly to 'uv pip install'.",
+    ),
+    reinstall: bool = typer.Option(
+        False, "--reinstall", help="Force re-installation of all packages."
+    ),
 ):
     """Build project packages and .dist-info offline, like when preparing for buildozer."""
-    run_vendor_site_packages(vendor_dir=vendor_dir, extra_args=extra_args)
+    run_vendor_site_packages(
+        vendor_dir=vendor_dir, extra_args=extra_args, reinstall=reinstall
+    )
+
+# ---
 
 @app.command(
     name="dworshak-config",

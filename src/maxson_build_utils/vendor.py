@@ -9,7 +9,7 @@ from typing import Generator
 VENDOR_WHEELS_DIR = Path("vendor/wheels")
 VENDOR_SITE_PACKAGES_DIR = Path("vendor/site-packages")
 DIST_WHEELS_DIR = Path("dist/whl")
-
+DEFAULT_EXTRA_ARGS = ["--no-binary", ":all:"]
 
 @contextmanager
 def export_runtime_requirements() -> Generator[Path, None, None]:
@@ -43,6 +43,7 @@ def export_runtime_requirements() -> Generator[Path, None, None]:
 def run_vendor_wheels(
     dist_dir: Path | str = DIST_WHEELS_DIR,
     vendor_dir: Path = VENDOR_WHEELS_DIR,
+    reinstall: bool = False,
 ) -> None:
     """Builds project wheel and downloads all runtime dependencies offline, in this case for Flatpak."""
     dist_dir = Path(dist_dir)
@@ -56,19 +57,20 @@ def run_vendor_wheels(
 
     # 2. Export third-party dependencies & download wheels
     with export_runtime_requirements() as req_file:
-        subprocess.run(
-            [
-                "uv",
-                "run",
-                "pip",
-                "download",
-                "-r",
-                str(req_file),
-                "-d",
-                str(vendor_dir),
-            ],
-            check=True,
-        )
+        cmd = [
+            "uv",
+            "run",
+            "pip",
+            "download",
+            "-r",
+            str(req_file),
+            "-d",
+            str(vendor_dir),
+        ]
+        if reinstall:
+            cmd.append("--reinstall")
+
+        subprocess.run(cmd, check=True)
 
     # 3. Stage the built primary wheel into vendor_dir
     wheels = list(dist_dir.glob("*.whl"))
@@ -81,19 +83,12 @@ def run_vendor_wheels(
 
 def run_vendor_site_packages(
     vendor_dir: Path = VENDOR_SITE_PACKAGES_DIR,
-    extra_args: list[str] | None = None,
-    clean: bool = False,
+    extra_args: list[str] | None = DEFAULT_EXTRA_ARGS,
+    reinstall: bool = False,
 ) -> None:
     """Exports third-party runtime dependencies as unpacked site-packages into a target directory, in this case for Buildozer."""
     vendor_dir = Path(vendor_dir)
-
-    if clean and vendor_dir.exists():
-        shutil.rmtree(vendor_dir)
-
     vendor_dir.mkdir(parents=True, exist_ok=True)
-
-    if extra_args is None:
-        extra_args = ["--no-binary", ":all:"]
 
     with export_runtime_requirements() as req_file:
         cmd = [
@@ -105,6 +100,8 @@ def run_vendor_site_packages(
             "--target",
             str(vendor_dir),
         ]
+        if reinstall:
+            cmd.append("--reinstall")
         if extra_args:
             cmd.extend(extra_args)
 
