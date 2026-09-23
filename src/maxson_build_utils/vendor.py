@@ -6,11 +6,29 @@ import subprocess
 import tempfile
 from typing import Generator
 
-from .context import PROJECT_ROOT
+from .core.know_target import get_target_project_root
 
-VENDOR_SITE_PACKAGES_DIR = PROJECT_ROOT / "vendor" / "site-packages"
-VENDOR_WHEELS_DIR = PROJECT_ROOT / "vendor" /" wheels"
-DIST_WHEELS_DIR = PROJECT_ROOT / "dist" / "whl"
+def get_vendor_site_packages_dir(root_dir: Path | str | None = None) -> Path:
+    """Returns the target project's vendor/site-packages directory."""
+    target = Path(root_dir) if root_dir else get_target_project_root()
+    return target / "vendor" / "site-packages"
+
+
+def get_vendor_wheels_dir(root_dir: Path | str | None = None) -> Path:
+    """Returns the target project's vendor/wheels directory."""
+    target = Path(root_dir) if root_dir else get_target_project_root()
+    return target / "vendor" / "wheels"
+
+
+def get_dist_wheels_dir(root_dir: Path | str | None = None) -> Path:
+    """Returns the target project's dist/whl directory."""
+    target = Path(root_dir) if root_dir else get_target_project_root()
+    return target / "dist" / "whl"
+
+# Dynamic fallback accessors for backward compatibility
+VENDOR_SITE_PACKAGES_DIR = get_vendor_site_packages_dir()
+VENDOR_WHEELS_DIR = get_vendor_wheels_dir()
+DIST_WHEELS_DIR = get_dist_wheels_dir()
 
 DEFAULT_EXTRA_ARGS = ["--no-binary", ":all:"]
 
