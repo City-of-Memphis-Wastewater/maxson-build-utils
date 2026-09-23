@@ -3,7 +3,7 @@ import subprocess
 from pathlib import Path
 import shutil
 
-def run_vendor_wheels(dist_dir: Path | str = Path("dist/whl"), vendor_dir: Path = Path("build/vendor-wheels")) -> None:
+def run_vendor_wheels(dist_dir: Path | str = Path("dist/whl"), vendor_dir: Path = Path("vendor/wheels")) -> None:
     """Builds project wheel and downloads all runtime dependencies offline for Flatpak."""
     dist_dir = Path(dist_dir)
     vendor_dir = Path(vendor_dir)
