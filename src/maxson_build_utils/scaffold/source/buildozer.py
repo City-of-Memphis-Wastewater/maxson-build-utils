@@ -8,8 +8,18 @@ from pathlib import Path
 from ...helpers import WriteResult, write_str_to_file
 from ...context import PROJECT_ROOT, IMPORT_NAME, PACKAGE_DIR
 
+ROOT_MAIN_PY_TEMPLATE = """\
+# main.py
+\"\"\"Root shim to satisfy Buildozer/p4a entry point requirements.\"\"\"
+from __future__ import annotations
 
-BUILDOZER_ENTRY_TEMPLATE_KIVY = """\
+from {IMPORT_NAME}.__buildozer_entry__ import main
+
+if __name__ == "__main__":
+    main()
+"""
+
+BUILDOZER_ENTRY_KIVY_TEMPLATE = """\
 # src/{IMPORT_NAME}/__buildozer_entry__.py
 \"\"\"Buildozer / Android runtime orchestration entry point.\"\"\"
 from __future__ import annotations
@@ -60,14 +70,21 @@ def run_init_kivy(
 ) -> list[WriteResult]:
     """Scaffold Kivy module and __buildozer_entry__.py."""
 
-    pkg_dir = PACKAGE_DIR
     results: list[WriteResult] = []
 
     # Write src/<import_name>/__buildozer_entry__.py
     results.append(
         write_str_to_file(
-            path=pkg_dir / "__buildozer_entry__.py",
-            text=BUILDOZER_ENTRY_TEMPLATE_KIVY.format(IMPORT_NAME=import_name),
+            path=PACKAGE_DIR / "__buildozer_entry__.py",
+            text=BUILDOZER_ENTRY_KIVY_TEMPLATE.format(IMPORT_NAME=import_name),
+        )
+    )
+
+    # Write main.py
+    results.append(
+        write_str_to_file(
+            path=PROJECT_ROOT / "main.py",
+            text=ROOT_MAIN_PY_TEMPLATE.format(IMPORT_NAME=import_name),
         )
     )
 
