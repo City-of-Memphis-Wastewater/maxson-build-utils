@@ -46,7 +46,7 @@ from maxson_build_utils.builders import (
 
 
 from maxson_build_utils.helpers import PyinsMode
-from maxson_build_utils.vendor import run_vendor_wheels
+from maxson_build_utils.vendor import run_vendor_wheels, run_vendor_packages
 from .pyproject import PyProject, format_value
 from .scaffold.base import (
     run_init_pyproject,
@@ -163,6 +163,14 @@ add_typer_helptree(app = app, console = console_stderr, version = __version__, h
 
 # --- sub apps ---
 
+vendor_app = typer.Typer(
+    name="vendor",
+    help="Vendor dependencies for local builds. Thin wrapper around 'uv pip' with opinionated target directories.",
+    no_args_is_help=True,
+)
+
+app.add_typer(vendor_app)
+
 build_app = typer.Typer(
     name="build",
     help="Run various builds. These rely on pre-existing manifest and spec files to be scaffolded.",
@@ -223,13 +231,20 @@ init_app.add_typer(init_ci_app)
 
 # ---
 
-@app.command(name="vendor-wheels")
+@vendor_app.command(name="wheels")
 def vendor_wheels(
     dist_dir: Path = Path("dist/whl"),
-    vendor_dir: Path = Path("build/vendor-wheels")
+    vendor_dir: Path = Path("./vendor/wheels/")
 ):
     """Build project wheel and vendor offline dependencies, like when preparing for Flatpak."""
     run_vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir)
+
+@vendor_app.command(name="packages")
+def vendor_packages(
+    vendor_dir: Path = Path("./vendor/packagess/")
+):
+    """Build project packages and .dist-info offline, like when preparing for buildozer."""
+    run_vendor_packages(vendor_dir=vendor_dir)
 
 @app.command(
     name="dworshak-config",

@@ -3,7 +3,10 @@ import subprocess
 from pathlib import Path
 import shutil
 
-def run_vendor_wheels(dist_dir: Path | str = Path("dist/whl"), vendor_dir: Path = Path("vendor/wheels")) -> None:
+VENDOR_WHEELS_DIR = Path("vendor/wheels")
+VENDOR_PACKAGES_DIR = Path("./vendor/packagess/")
+
+def run_vendor_wheels(dist_dir: Path | str = Path("dist/whl"), vendor_dir: Path = VENDOR_WHEELS_DIR) -> None:
     """Builds project wheel and downloads all runtime dependencies offline for Flatpak."""
     dist_dir = Path(dist_dir)
     vendor_dir = Path(vendor_dir)
@@ -32,7 +35,7 @@ def run_vendor_wheels(dist_dir: Path | str = Path("dist/whl"), vendor_dir: Path 
         "-d", str(vendor_dir)
     ], check=True)
 
-    # 4. Stage the built primary wheel into vendor-wheels without checking PyPI dependencies
+    # 4. Stage the built primary wheel into ./vendor/wheels without checking PyPI dependencies
     wheels = list(dist_dir.glob("*.whl"))
     if not wheels:
         raise FileNotFoundError(f"No built wheels found in {dist_dir}")
@@ -48,5 +51,5 @@ def run_vendor_wheels(dist_dir: Path | str = Path("dist/whl"), vendor_dir: Path 
         "-d", str(vendor_dir)
     ], check=True)"""
 
-def run_vendor_packages():
+def run_vendor_packages(vendor_dir: Path = VENDOR_PACKAGES_DIR):
     pass
