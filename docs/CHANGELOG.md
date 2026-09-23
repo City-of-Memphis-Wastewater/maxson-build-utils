@@ -6,10 +6,11 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
-## Active notes
-```
-we don't need the .sh what we need is to make that into a python mbu core builder script, put it with the other builders in the codebase, and wire it up the same way as a cli build command, mbu build buildozer, with app and aab typer options dictated under the hood by an enum str class. that is what becomes of the .sh file. As for the scaffold, we need to wire that up as an mbu init packaging buildozer command.
-```
+## [0.1.44] - 2026-09-23
+### Changed:
+- Scaffold package spec for buildozer, and add build buildozer command. 
+- We still need to handle scaffolding the main.py file entry point in root.
+- Also we can make vendoring consistent with the paths used for flatpak, I think, if they both use WHLs.
 
 ---
 
