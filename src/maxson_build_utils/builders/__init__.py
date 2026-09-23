@@ -6,6 +6,7 @@ from .msix import build_msix
 from .pyinstaller import run_build_executable
 from .shiv import run_build_pyz
 from .validate import TargetBuild, validate_build_target
+from .buildozer import BuildozerMode, build_buildozer
 
 __all__ = [
     "build_debian_package",
@@ -17,4 +18,6 @@ __all__ = [
     "run_build_pyz",
     "validate_build_target",
     "TargetBuild",
+    "BuildozerMode", 
+    "build_buildozer",
 ]

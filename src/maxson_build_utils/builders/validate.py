@@ -8,6 +8,7 @@ class TargetBuild(str, Enum):
     FLATPAK = "flatpak"
     APPIMAGE = "appimage"
     DEB = "deb"
+    BUILDOZER="buildozer"
 
 DESKTOP_ONLY_TARGETS = {
     TargetBuild.DMG,
