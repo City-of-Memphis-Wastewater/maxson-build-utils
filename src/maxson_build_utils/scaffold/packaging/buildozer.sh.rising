@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Define target directory
-VENDOR_DIR="./vendor_for_buildozer"
+VENDOR_DIR="./build/vendor-packages"
 
 echo "🧹 Cleaning up old vendor artifacts..."
 rm -rf "$VENDOR_DIR"
