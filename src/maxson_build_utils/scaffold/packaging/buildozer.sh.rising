@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Define target directory
-VENDOR_DIR="./build/vendor-packages"
+VENDOR_DIR="./vendor/packages/"
 
 echo "🧹 Cleaning up old vendor artifacts..."
 rm -rf "$VENDOR_DIR"
