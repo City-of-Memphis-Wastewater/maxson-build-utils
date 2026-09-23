@@ -242,10 +242,10 @@ def vendor_wheels_cmd(
 @vendor_app.command(name="site-packages")
 def vendor_site_packages_cmd(
     vendor_dir: Path = VENDOR_SITE_PACKAGES_DIR,
-    extra_args: str | None = None
+    extra_args: list[str] | None = typer.Option(None, "--extra-args", "-e", help="Extra arguments passed directly to 'uv pip install'."),
 ):
     """Build project packages and .dist-info offline, like when preparing for buildozer."""
-    run_vendor_site_packages(vendor_dir=vendor_dir)
+    run_vendor_site_packages(vendor_dir=vendor_dir, extra_args=extra_args)
 
 @app.command(
     name="dworshak-config",
