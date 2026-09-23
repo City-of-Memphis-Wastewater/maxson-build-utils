@@ -3,8 +3,8 @@ import subprocess
 from pathlib import Path
 import shutil
 
-VENDOR_WHEELS_DIR = Path("vendor/wheels")
-VENDOR_PACKAGES_DIR = Path("./vendor/packagess/")
+VENDOR_WHEELS_DIR = Path("./vendor/wheels")
+VENDOR_SITE_PACKAGES_DIR = Path("./vendor/site-packages/")
 
 def run_vendor_wheels(dist_dir: Path | str = Path("dist/whl"), vendor_dir: Path = VENDOR_WHEELS_DIR) -> None:
     """Builds project wheel and downloads all runtime dependencies offline for Flatpak."""
@@ -51,6 +51,49 @@ def run_vendor_wheels(dist_dir: Path | str = Path("dist/whl"), vendor_dir: Path 
         "-d", str(vendor_dir)
     ], check=True)"""
 
-def run_vendor_packages(vendor_dir: Path = VENDOR_PACKAGES_DIR):
+def run_vendor_site_packages(vendor_dir: Path = VENDOR_SITE_PACKAGES_DIR):
     pass
     # uv pip install REQS --target "$VENDOR_DIR" --no-binary :all:
+
+def run_vendor_packages(
+    vendor_dir: Path = VENDOR_PACKAGES_DIR,
+    extra_args: list[str] | None = None
+) -> None:
+    """Exports third-party runtime dependencies as unpacked site-packages into a target directory (for opinionated Buildozer/Android approach)."""
+    vendor_dir = Path(vendor_dir)
+
+    # Clean prior contents to avoid leftover/stale package versions
+    if vendor_dir.exists():
+        shutil.rmtree(vendor_dir)
+    vendor_dir.mkdir(parents=True, exist_ok=True)
+
+    req_file = Path("requirements-vendor.tmp.txt")
+    
+    try:
+        # 1. Export production runtime requirements from pyproject.toml
+        subprocess.run([
+            "uv", "export",
+            "--format", "requirements-txt",
+            "--no-editable",
+            "--no-dev",
+            "--no-emit-project",
+            "-o", str(req_file)
+        ], check=True)
+
+        # 2. Install dependencies directly into target directory
+        cmd = [
+            "uv", "pip", "install",
+            "-r", str(req_file),
+            "--target", str(vendor_dir)
+        ]
+        
+        if extra_args:
+            cmd.extend(extra_args)
+
+        subprocess.run(cmd, check=True)
+
+    finally:
+        # Clean up temporary exported requirements file
+        if req_file.exists():
+            req_file.unlink()
+
