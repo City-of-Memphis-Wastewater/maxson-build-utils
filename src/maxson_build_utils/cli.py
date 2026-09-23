@@ -235,12 +235,9 @@ init_app.add_typer(init_ci_app)
 def vendor_wheels_cmd(
     dist_dir: Path = DIST_WHEELS_DIR,
     vendor_dir: Path = VENDOR_WHEELS_DIR,
-    reinstall: bool = typer.Option(
-        False, "--reinstall", help="Force re-downloading all packages."
-    ),
 ):
     """Build project wheel and vendor offline dependencies, like when preparing for Flatpak."""
-    run_vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir, reinstall=reinstall)
+    run_vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir)
 
 
 @vendor_app.command(name="site-packages")

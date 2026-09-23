@@ -43,7 +43,6 @@ def export_runtime_requirements() -> Generator[Path, None, None]:
 def run_vendor_wheels(
     dist_dir: Path | str = DIST_WHEELS_DIR,
     vendor_dir: Path = VENDOR_WHEELS_DIR,
-    reinstall: bool = False,
 ) -> None:
     """Builds project wheel and downloads all runtime dependencies offline, in this case for Flatpak."""
     dist_dir = Path(dist_dir)
@@ -67,8 +66,6 @@ def run_vendor_wheels(
             "-d",
             str(vendor_dir),
         ]
-        if reinstall:
-            cmd.append("--reinstall")
 
         subprocess.run(cmd, check=True)
 
