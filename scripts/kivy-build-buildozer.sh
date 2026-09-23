@@ -16,7 +16,7 @@ set -euo pipefail
 #  suds-py3 \
 #  tzdata \
 #  urllib3 \
-#  --target ./build/vendor-packages/
+#  --target ./vendor/packages/
 
 
 # Run from packaging/kivy directory
