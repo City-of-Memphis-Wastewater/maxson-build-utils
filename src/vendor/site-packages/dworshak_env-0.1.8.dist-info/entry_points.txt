@@ -1,2 +1,0 @@
-[console_scripts]
-dworshak-env = dworshak_env.__main__:run
