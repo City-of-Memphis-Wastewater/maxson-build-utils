@@ -429,14 +429,14 @@ def build_buildozer_command(
         help="Perform pre-flight check to ensure vendor/site-packages is populated.",
     ),
     vendor_dir: Path | None = typer.Option(
-        None,
+        VENDOR_SITE_PACKAGES_DIR,
         "--vendor-dir",
         "-v",
         help="Custom path to vendored site-packages directory.",
-        exists=True,
         file_okay=False,
         dir_okay=True,
         resolve_path=True,
+        show_default=True,
     ),
 ):
     """Build an Android application with Buildozer."""
