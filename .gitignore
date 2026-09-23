@@ -16,6 +16,7 @@ wheels/
 # builders
 /.flatpak-builder/
 /vendor-wheels/
+/vendor_for_bulldozer/
 
 /packaging/buildozer/.buildozer/
 .buildozer_work/
