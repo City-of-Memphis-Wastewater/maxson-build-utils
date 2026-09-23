@@ -64,7 +64,7 @@ def build_flatpak(
     # 1. Enforce AppMode.GUI requirement
     validate_build_target(TargetBuild.FLATPAK)
 
-    run_vendor_wheels(dist_dir=Path("dist/whl"), vendor_dir=Path("build/vendor-wheels"))
+    run_vendor_wheels(dist_dir=Path("dist/whl"), vendor_dir=Path("./vendor/wheels"))
 
     # 2. Check system build tools
     if shutil.which("flatpak-builder") is None:
