@@ -11,6 +11,7 @@ from .names import to_title_case
 PACKAGE_DIR = Path(__file__).resolve().parent
 SRC_DIR = PACKAGE_DIR.parent
 PROJECT_ROOT = SRC_DIR.parent
+PROJECT_ROOT_DIR = PROJECT_ROOT
 
 APP_NAME = "maxson-build-utils"
 APP_NAME_PRETTY = "MaxsonBuildUtils"
