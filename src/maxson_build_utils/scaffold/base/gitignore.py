@@ -18,6 +18,7 @@ build/
 dist/
 wheels/
 *.egg-info/
+vendor/
 
 # Virtual environments
 .venv/
@@ -25,6 +26,7 @@ wheels/
 
 # local persistence
 .persist
+
 """
 
 
