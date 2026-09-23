@@ -47,3 +47,6 @@ def run_vendor_wheels(dist_dir: Path | str = Path("dist/whl"), vendor_dir: Path 
         "--no-deps",
         "-d", str(vendor_dir)
     ], check=True)"""
+
+def run_vendor_packages():
+    pass
