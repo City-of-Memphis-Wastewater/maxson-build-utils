@@ -5,6 +5,7 @@ from enum import StrEnum
 from pathlib import Path
 import subprocess
 
+from ..vendor import VENDOR_SITE_PACKAGES_DIR
 
 class BuildozerMode(StrEnum):
     APK = "apk"
@@ -22,6 +23,8 @@ def build_buildozer(
     mode: BuildozerMode = BuildozerMode.APK,
     *,
     root_dir: Path | str | None = None,
+    check_vendor: bool = True,
+    vendor_dir: Path | None = None,
 ) -> Path:
     """Build an Android application using Buildozer."""
 
@@ -38,6 +41,11 @@ def build_buildozer(
     if not (spec_dir / "buildozer.spec").is_file():
         raise FileNotFoundError(spec_path)
 
+    # 1. Pre-flight vendor validation
+    if check_vendor:
+        target_vendor = vendor_dir or VENDOR_SITE_PACKAGES_DIR
+        validate_vendor_site_packages(target_vendor)
+
     command = (
         "uv",
         "run",
@@ -52,3 +60,12 @@ def build_buildozer(
     )
 
     return spec_dir
+
+def validate_vendor_site_packages(vendor_dir: Path) -> None:
+    """Verifies that the vendored site-packages directory exists and is not empty."""
+    if not vendor_dir.exists() or not any(vendor_dir.iterdir()):
+        raise RuntimeError(
+            f"Vendored packages directory is missing or empty at:\n  {vendor_dir}\n\n"
+            "Pre-flight check failed! Please populate vendored site-packages before building:\n"
+            "  uv run mbu vendor site-packages"
+        )
