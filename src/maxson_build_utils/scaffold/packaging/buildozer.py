@@ -34,7 +34,7 @@ source.dir = ../../
 source.include_exts = py,png,jpg,kv,atlas,whl,wsdl,json
 
 # (list) Source files to include using pattern matching
-source.include_patterns = src/*,vendor_for_buildozer/*
+source.include_patterns = src/*,./build/vendor_for_buildozer/*
 #source.include_patterns = ./src/*,./build/vendor-wheels/
 
 # (list) Source directories to exclude
@@ -61,9 +61,82 @@ requirements = hostpython3==3.11.9,python3==3.11.9,kivy,pyjnius
 # (str) Orientation
 orientation = portrait
 
+#
+# OSX Specific
+#
+
+#
+# author = © Copyright Info
+
+# Kivy version to use
+osx.kivy_version = 2.2.0
+
+#
+# Android specific
+#
+
 # (bool) Whether to fullscreen
 fullscreen = 0
 
+# (str) Adaptive icon of the application (used if Android API level is 26+ at runtime)
+#icon.adaptive_foreground.filename = %(source.dir)s/data/icon_fg.png
+#icon.adaptive_background.filename = %(source.dir)s/data/icon_bg.png
+
+# (list) Permissions
+# (See https://python-for-android.readthedocs.io/en/latest/buildoptions.html for all the supported syntaxes and propert>
+#android.permissions = android.permission.INTERNET, (name=android.permission.WRITE_EXTERNAL_STORAGE;maxSdkVersion=18)
+
+# (list) features (adds uses-feature -tags to manifest)
+#android.features = android.hardware.usb.host
+
+# (int) Target Android API, should be as high as possible.
+android.api = 34
+
+# (int) Minimum API your APK / AAB will support.
+android.minapi = 24
+
+# (int) Android SDK version to use
+#android.sdk = 20
+
+# (str) Android NDK version to use
+android.ndk = 25b
+
+# (int) Android NDK API to use. This is the minimum API your app will support, it should usually match android.minapi.
+#android.ndk_api = 21
+
+# (str) Android NDK directory (if empty, it will be automatically downloaded.)
+#android.ndk_path =
+
+# (str) Android SDK directory (if empty, it will be automatically downloaded.)
+#android.sdk_path =
+
+# (str) ANT directory (if empty, it will be automatically downloaded.)
+#android.ant_path =
+
+# (list) The Android archs to build for, choices: armeabi-v7a, arm64-v8a, x86, x86_64
+# In past, was `android.arch` as we weren't supporting builds for multiple archs at the same time.
+android.archs = arm64-v8a, armeabi-v7a
+
+# (int) overrides automatic versionCode computation (used in build.gradle)
+# this is not the same as app version and should only be edited if you know what you're doing
+# android.numeric_version = 1
+
+# (bool) enables Android auto backup feature (Android API >=23)
+android.allow_backup = True
+
+#
+# Python for android (p4a) specific
+#
+
+# (str) python-for-android URL to use for checkout
+#p4a.url =
+
+# (str) python-for-android fork to use in case if p4a.url is not specified, defaults to upstream (kivy)
+#p4a.fork = kivy
+
+# (str) python-for-android branch to use, defaults to master
+#p4a.branch = master
+p4a.branch = v2024.01.21
 
 [buildozer]
 
