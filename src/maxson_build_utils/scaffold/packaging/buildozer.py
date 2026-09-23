@@ -98,8 +98,8 @@ def resolve_buildozer_metadata(
             "maxson-build-utils",
             "buildozer",
             "package-domain",
-        )
-        or "com.memphis_wastewater"
+        )+f".{package_name}"
+        or "com.memphis_wastewater"+f".{package_name}"
     )
 
     version = (
