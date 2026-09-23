@@ -1,4 +1,3 @@
-```python
 # src/maxson_build_utils/scaffold/packaging/buildozer.py
 from __future__ import annotations
 
@@ -141,4 +140,4 @@ def run_init_buildozer(
     )
 
     return [result]
-```
+

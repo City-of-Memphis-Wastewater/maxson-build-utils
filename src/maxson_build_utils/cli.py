@@ -28,14 +28,20 @@ from ._version import __version__
 
 from .cli_dworshak import dworshak_config as run_dworshak_config
 from maxson_build_utils import MaxsonPyProject
-from maxson_build_utils.builders.pyinstaller import run_build_executable
-from maxson_build_utils.builders.shiv import run_build_pyz
-from maxson_build_utils.builders.macos_dmg import build_macos_dmg
-from maxson_build_utils.builders.deb import build_debian_package
-from maxson_build_utils.builders.linux_app_image import build_linux_appimage
-from maxson_build_utils.builders.validate import validate_build_target, TargetBuild
-from maxson_build_utils.builders import build_msix
-from maxson_build_utils.builders import build_flatpak
+
+from maxson_build_utils.builders import (
+    TargetBuild,
+    validate_build_target, 
+    run_build_executable,
+    run_build_pyz,
+    build_macos_dmg,
+    build_debian_package,
+    build_linux_appimage,
+    build_msix,
+    build_flatpak,
+    build_buildozer,
+    BuildozerMode,
+)
 
 
 
@@ -76,6 +82,7 @@ from .scaffold.packaging import (
     run_init_deb,
     run_init_msix,
     run_init_dmg,
+    run_init_buildozer,
 )
 '''
 from .signers import (
@@ -377,6 +384,29 @@ def build_msix_command():
     """Package a PyInstaller ONEDIR bundle into a Windows MSIX."""
     build_msix()
 
+@build_app.command(name="buildozer")
+def build_buildozer_command(
+    mode: BuildozerMode = typer.Option(
+        BuildozerMode.APK,
+        "--mode",
+        "-m",
+        help="Build type: 'apk' for debug APK or 'aab' for release Android App Bundle.",
+    ),
+):
+    """Build an Android application with Buildozer."""
+
+    typer.secho(
+        f"Building Android {mode.value} with Buildozer...",
+        fg=typer.colors.CYAN,
+    )
+
+    output_dir = build_buildozer(mode=mode)
+
+    typer.secho(
+        f"Build completed in: {output_dir}",
+        fg=typer.colors.GREEN,
+    )
+
 @app.command()
 def pyproject(
     key: list[str] = typer.Option(
@@ -520,6 +550,11 @@ def init_icons():
 def init_pack_flatpak():
     """Scaffold packaging/flatpak/ metadata and manifests."""
     print_write_results(run_init_flatpak(),console_stdout)
+
+@init_pack_app.command("buildozer")
+def init_pack_buildozer():
+    """Scaffold packaging/buildozer/ spec file."""
+    print_write_results(run_init_buildozer(),console_stdout)
 
 @init_pack_app.command("shiv")
 def init_pack_shiv():
