@@ -57,7 +57,7 @@ from .scaffold.base import (
     run_init_manifest,
 )
 from .scaffold.source import (
-    run_init_gui,
+    run_init_tk_gui,
     run_init_cli,
     run_init_context,
     run_init_config,
@@ -69,6 +69,7 @@ from .scaffold.source import (
     run_init_version_num,
     run_init_logging_setup,
     #run_init_webapp,
+    #run_init_kivy,
 )
 from .scaffold.ci import (
     # --- ci ---
@@ -469,10 +470,10 @@ def init_gitignore():
     run_init_gitignore().print_path(console_stdout)
 
 # --- source code scaffolding ---
-@init_src_app.command("gui")
-def init_gui():
+@init_src_app.command("tk_gui")
+def init_tk_gui():
     """Create src/<app>/tk_gui.py."""
-    run_init_gui().print_path(console_stdout)
+    run_init_tk_gui().print_path(console_stdout)
 
 @init_src_app.command("cli")
 def init_cli():

@@ -354,7 +354,7 @@ if __name__ == "__main__":
     start_gui()
 '''
 
-def run_init_gui(
+def run_init_tk_gui(
     root_dir: Path | str | None = None,
     *,
     overwrite: bool = False,

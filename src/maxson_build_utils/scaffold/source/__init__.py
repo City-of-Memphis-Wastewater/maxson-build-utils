@@ -6,7 +6,7 @@ from ._init import run_init_init
 from ._main import run_init_main
 from ._version import run_init_version, run_init_version_num
 from .cli import run_init_cli
-from .tk_gui import run_init_gui
+from .tk_gui import run_init_tk_gui
 from .context import run_init_context
 from .config import run_init_config
 from .core import run_init_core
@@ -20,7 +20,7 @@ __all__ = [
     "run_init_config",
     "run_init_core",
     "run_init_helpers",
-    "run_init_gui",
+    "run_init_tk_gui",
     "run_init_init",
     "run_init_main",
     "run_init_logging_setup",
