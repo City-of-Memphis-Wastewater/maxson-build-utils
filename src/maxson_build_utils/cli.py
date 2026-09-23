@@ -46,7 +46,7 @@ from maxson_build_utils.builders import (
 
 
 from maxson_build_utils.helpers import PyinsMode
-from maxson_build_utils.vendor import run_vendor_wheels, run_vendor_packages
+from maxson_build_utils.vendor import run_vendor_wheels, run_vendor_site_packages, VENDOR_SITE_PACKAGES_DIR, VENDOR_WHEELS_DIR
 from .pyproject import PyProject, format_value
 from .scaffold.base import (
     run_init_pyproject,
@@ -232,19 +232,20 @@ init_app.add_typer(init_ci_app)
 # ---
 
 @vendor_app.command(name="wheels")
-def vendor_wheels(
-    dist_dir: Path = Path("dist/whl"),
-    vendor_dir: Path = Path("./vendor/wheels/")
+def vendor_wheels_cmd(
+    dist_dir: Path = Path("dist/whl"), # DIST_WHEELS_DIR
+    vendor_dir: Path = VENDOR_WHEELS_DIR
 ):
     """Build project wheel and vendor offline dependencies, like when preparing for Flatpak."""
     run_vendor_wheels(dist_dir=dist_dir, vendor_dir=vendor_dir)
 
-@vendor_app.command(name="packages")
-def vendor_packages(
-    vendor_dir: Path = Path("./vendor/packagess/")
+@vendor_app.command(name="site-packages")
+def vendor_site_packages_cmd(
+    vendor_dir: Path = VENDOR_SITE_PACKAGES_DIR,
+    extra_args: str | None = None
 ):
     """Build project packages and .dist-info offline, like when preparing for buildozer."""
-    run_vendor_packages(vendor_dir=vendor_dir)
+    run_vendor_site_packages(vendor_dir=vendor_dir)
 
 @app.command(
     name="dworshak-config",

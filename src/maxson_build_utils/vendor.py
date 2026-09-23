@@ -51,12 +51,12 @@ def run_vendor_wheels(dist_dir: Path | str = Path("dist/whl"), vendor_dir: Path 
         "-d", str(vendor_dir)
     ], check=True)"""
 
-def run_vendor_site_packages(vendor_dir: Path = VENDOR_SITE_PACKAGES_DIR):
+def run_vendor_site_packages_defunct(vendor_dir: Path = VENDOR_SITE_PACKAGES_DIR):
     pass
     # uv pip install REQS --target "$VENDOR_DIR" --no-binary :all:
 
-def run_vendor_packages(
-    vendor_dir: Path = VENDOR_PACKAGES_DIR,
+def run_vendor_site_packages(
+    vendor_dir: Path = VENDOR_SITE_PACKAGES_DIR,
     extra_args: list[str] | None = None
 ) -> None:
     """Exports third-party runtime dependencies as unpacked site-packages into a target directory (for opinionated Buildozer/Android approach)."""
