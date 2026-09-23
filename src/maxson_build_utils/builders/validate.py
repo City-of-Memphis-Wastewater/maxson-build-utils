@@ -1,6 +1,6 @@
 # src/maxson_build_utils/builders/validate.py
 from enum import Enum
-from pyhabitat import AppMode, probe_app_mode_mgu
+from pyhabitat import AppMode, probe_app_mode_mgu 
 
 class TargetBuild(str, Enum):
     DMG = "dmg"
