@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 The format is (read: strives to be) based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+
+---
+
+## Active notes
+```
+we don't need the .sh what we need is to make that into a python mbu core builder script, put it with the other builders in the codebase, and wire it up the same way as a cli build command, mbu build buildozer, with app and aab typer options dictated under the hood by an enum str class. that is what becomes of the .sh file. As for the scaffold, we need to wire that up as an mbu init packaging buildozer command.
+```
+
 ---
 
 ## [0.1.43] - 2026-09-20
