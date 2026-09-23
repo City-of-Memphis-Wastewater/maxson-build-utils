@@ -70,6 +70,7 @@ from .scaffold.source import (
     run_init_logging_setup,
     #run_init_webapp,
     run_init_kivy,
+    run_init_buildozer_source_entry,
 )
 from .scaffold.ci import (
     # --- ci ---

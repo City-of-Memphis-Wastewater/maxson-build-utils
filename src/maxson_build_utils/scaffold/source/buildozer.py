@@ -76,7 +76,7 @@ def run_init_buildozer_source_entry(
     results.append(
         write_str_to_file(
             path=PACKAGE_DIR / "__buildozer_entry__.py",
-            text=BUILDOZER_ENTRY_KIVY_TEMPLATE.format(IMPORT_NAME=import_name),
+            text=BUILDOZER_ENTRY_KIVY_TEMPLATE.format(IMPORT_NAME=IMPORT_NAME),
         )
     )
 
@@ -84,7 +84,7 @@ def run_init_buildozer_source_entry(
     results.append(
         write_str_to_file(
             path=PROJECT_ROOT / "main.py",
-            text=ROOT_MAIN_PY_TEMPLATE.format(IMPORT_NAME=import_name),
+            text=ROOT_MAIN_PY_TEMPLATE.format(IMPORT_NAME=IMPORT_NAME),
         )
     )
 
