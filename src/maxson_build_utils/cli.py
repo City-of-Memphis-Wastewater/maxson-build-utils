@@ -233,7 +233,7 @@ init_app.add_typer(init_ci_app)
 
 @vendor_app.command(name="wheels")
 def vendor_wheels_cmd(
-    dist_dir: Path = DIST_WHEELS_DIR
+    dist_dir: Path = DIST_WHEELS_DIR,
     vendor_dir: Path = VENDOR_WHEELS_DIR
 ):
     """Build project wheel and vendor offline dependencies, like when preparing for Flatpak."""
