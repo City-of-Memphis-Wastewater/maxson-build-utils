@@ -53,3 +53,4 @@ def run_vendor_wheels(dist_dir: Path | str = Path("dist/whl"), vendor_dir: Path 
 
 def run_vendor_packages(vendor_dir: Path = VENDOR_PACKAGES_DIR):
     pass
+    # uv pip install REQS --target "$VENDOR_DIR" --no-binary :all:
