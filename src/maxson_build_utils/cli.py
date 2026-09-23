@@ -423,6 +423,21 @@ def build_buildozer_command(
         "-m",
         help="Build type: 'apk' for debug APK or 'aab' for release Android App Bundle.",
     ),
+    check_vendor: bool = typer.Option(
+        True,
+        "--check-vendor/--no-check-vendor",
+        help="Perform pre-flight check to ensure vendor/site-packages is populated.",
+    ),
+    vendor_dir: Path | None = typer.Option(
+        None,
+        "--vendor-dir",
+        "-v",
+        help="Custom path to vendored site-packages directory.",
+        exists=True,
+        file_okay=False,
+        dir_okay=True,
+        resolve_path=True,
+    ),
 ):
     """Build an Android application with Buildozer."""
 
@@ -431,8 +446,11 @@ def build_buildozer_command(
         fg=typer.colors.CYAN,
     )
 
-    output_dir = build_buildozer(mode=mode)
-
+    output_dir = build_buildozer(
+            mode=mode,
+            check_vendor=check_vendor,
+            vendor_dir=vendor_dir,
+        )
     typer.secho(
         f"Build completed in: {output_dir}",
         fg=typer.colors.GREEN,
