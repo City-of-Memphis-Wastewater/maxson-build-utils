@@ -237,7 +237,7 @@ def copy_source_dunder_main_to_root_main_for_buildozer_entry_point(
             shutil.copyfile(source_filepath, dst_filepath)
 
 
-def run_init_buildozer(
+def run_init_buildozer_spec(
     root_dir: Path | str | None = None,
     overwrite_main: bool | None = None,
 ) -> list[WriteResult]:

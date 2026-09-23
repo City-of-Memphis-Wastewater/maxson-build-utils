@@ -9,7 +9,7 @@ from .dmg import run_init_dmg
 from .flatpak import run_init_flatpak
 from .msix import run_init_msix
 from .shiv import run_init_shiv
-from .buildozer import run_init_buildozer
+from .buildozer import run_init_buildozer_spec
 
 __all__ = [
     # --- packaging ---
@@ -20,5 +20,5 @@ __all__ = [
     "run_init_flatpak",
     "run_init_msix",
     "run_init_shiv",
-    "run_init_buildozer",
+    "run_init_buildozer_spec",
 ]
