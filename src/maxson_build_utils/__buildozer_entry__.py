@@ -6,13 +6,14 @@ import os
 import sys
 from pathlib import Path
 
+from .vendor import VENDOR_SITE_PACKAGES_DIR
 
 def bootstrap_environment() -> None:
     """Configure paths and environment variables before Kivy initializes."""
     # Root main.py is 2 levels up from src/maxson_build_utils/
     base_dir = Path(__file__).resolve().parent.parent.parent
     src_dir = base_dir / "src"
-    vendor_dir = base_dir / "vendor/packages"
+    vendor_dir = VENDOR_SITE_PACKAGES_DIR
 
     os.environ.setdefault("KIVY_HOME", str(base_dir / ".kivy"))
     os.environ.setdefault("KIVY_NO_CONSOLELOG", "1")
