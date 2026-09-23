@@ -130,9 +130,9 @@ def run_init_buildozer(
     )
 
     buildozer_dir = target_dir / "packaging" / "buildozer"
-    buildozoer_dir.mkdir(parents=True, exist_ok=True)
+    buildozer_dir.mkdir(parents=True, exist_ok=True)
 
-    spec_path = buildozoer_dir / "buildozer.spec"
+    spec_path = buildozer_dir / "buildozer.spec"
 
     result = write_str_to_file(
         path=spec_path,
