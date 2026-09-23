@@ -87,7 +87,10 @@ web = [
     "python-multipart>=0.0.20",
 ]
 kivy = [
-    "kivy>=2.3.1"
+    "kivy>=2.3.1",
+]
+buildozer = [
+    "buildozer",
 ]
 [project.urls]
 Homepage = "https://github.com/city-of-memphis-wastewater/maxson-build-utils"
