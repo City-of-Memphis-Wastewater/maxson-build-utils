@@ -4,6 +4,10 @@ annotated-doc==0.0.5 \
     --hash=sha256:117bac03a25ede5df5440e855b32d556049ca169ead221505badf432fed4b101 \
     --hash=sha256:c7e58ce09192557605d8bbd92836d7e1d520ac9580096042c0bfd197efacf1bb
     # via typer
+blindwindow==0.1.5 \
+    --hash=sha256:8a9930689e8e2e64629c56132a223f2b7d82f151197f838666d71506dd974027 \
+    --hash=sha256:cd1783bf01cdc31c26f9a42bd5c745b56f9217d92bb30c0be385fdc684f8402d
+    # via maxson-build-utils
 click==8.1.8 ; python_full_version < '3.10' \
     --hash=sha256:63c132bbbed01578a06712a2d1f497bb62d9c1c0d329b7903a866228027263b2 \
     --hash=sha256:ed53c9d8990d83c2a27deae68e4ee337473f6330c040a31d4225c9574d16096a
@@ -23,7 +27,10 @@ colorama==0.4.6 ; sys_platform == 'win32' \
 dworshak-config==0.2.8 \
     --hash=sha256:7e956d9bf6087931dfefb4a53aaa5d5a1edcc3c9d8f0ba92b16293be1c4265d6 \
     --hash=sha256:dadce1a05124595066a82f5a1766394ff7c7d7a76ccee9dbb6e45a517d1f54a4
-    # via maxson-build-utils
+    # via
+    #   blindwindow
+    #   maxson-build-utils
+    #   maxson-gui-utils
 dworshak-env==0.1.8 \
     --hash=sha256:10842812dd926b9909fc2b7b568f8c035bc204291cb3b3013ba16820b88dd026 \
     --hash=sha256:617947c0436b9e1abc03eaca305656abd4e5563668a967aab1a5aa51e294c53d
@@ -44,6 +51,10 @@ markdown-it-py==4.2.0 ; python_full_version >= '3.10' \
     --hash=sha256:04a21681d6fbb623de53f6f364d352309d4094dd4194040a10fd51833e418d49 \
     --hash=sha256:9f7ebbcd14fe59494226453aed97c1070d83f8d24b6fc3a3bcf9a38092641c4a
     # via rich
+maxson-gui-utils==0.1.25 \
+    --hash=sha256:9279bef6938426799dd0c581eb0e03d07f9dbd0887cbf117528840b835e31972 \
+    --hash=sha256:ed6cd625879880840c777d8b2794b014c2d96cda37b5dfce7a3c4d0da906fc09
+    # via blindwindow
 mdurl==0.1.2 \
     --hash=sha256:84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8 \
     --hash=sha256:bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba
@@ -52,11 +63,13 @@ pygments==2.20.0 \
     --hash=sha256:6757cd03768053ff99f3039c1a36d6c0aa0b263438fcab17520b30a303a82b5f \
     --hash=sha256:81a9e26dd42fd28a23a2d169d86d7ac03b46e2f8b59ed4698fb4785f946d0176
     # via rich
-pyhabitat==1.3.12 \
-    --hash=sha256:31af7acfe72e5918eb3ad83534794e909a55dca24f02fd1c52f937fd7179680f \
-    --hash=sha256:5be55e45f718ddb9c10f07494f8d60691776975f2bdfa38602cda97b5f888c71
+pyhabitat==1.3.13 \
+    --hash=sha256:ab360d2175626c98e77b76732ba539209a137e45258dc5f2889d02ce3f73ebc2 \
+    --hash=sha256:bd4e34fc1a1ccbac6910501f2f4dcf9543d66ea709b3603be804972f624dc6f0
     # via
+    #   blindwindow
     #   maxson-build-utils
+    #   maxson-gui-utils
     #   typer-helptree
 rich==15.0.0 \
     --hash=sha256:33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb \
@@ -72,15 +85,22 @@ typer==0.23.2 ; python_full_version < '3.10' \
     --hash=sha256:a99706a08e54f1aef8bb6a8611503808188a4092808e86addff1828a208af0de \
     --hash=sha256:e9c8dc380f82450b3c851a9b9d5a0edf95d1d6456ae70c517d8b06a50c7a9978
     # via
+    #   blindwindow
     #   maxson-build-utils
+    #   maxson-gui-utils
     #   typer-helptree
 typer==0.27.1 ; python_full_version >= '3.10' \
     --hash=sha256:53150287edd11baeb4e4722c8e394fcdf8181c0ae89485cba8d25c778d5edd56 \
     --hash=sha256:a79bef8469a79c45498e7b814ecf8d603cc7644e9acbd9e19cac0334240b18df
     # via
+    #   blindwindow
     #   maxson-build-utils
+    #   maxson-gui-utils
     #   typer-helptree
 typer-helptree==0.2.12 \
     --hash=sha256:2677bd412f6c1a0481ccc1912a2e7968c57a1f8221801804bb4ac4de24b5c519 \
     --hash=sha256:b328673474234c4c60994a34e52091e1eb530efb533294cd916f0f4d88e5cd59
-    # via maxson-build-utils
+    # via
+    #   blindwindow
+    #   maxson-build-utils
+    #   maxson-gui-utils
