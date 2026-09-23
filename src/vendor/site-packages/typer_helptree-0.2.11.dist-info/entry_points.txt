@@ -1,0 +1,2 @@
+[console_scripts]
+typer-helptree = typer_helptree.cli:app
