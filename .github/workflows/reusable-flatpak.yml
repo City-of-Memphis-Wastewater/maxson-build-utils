@@ -62,7 +62,7 @@ jobs:
       - name: Export requirements & Vendor Wheels
         run: |
           uv export --format requirements-txt --no-editable --no-dev > requirements.txt
-          uv run maxson-build-utils vendor-wheels
+          uv run maxson-build-utils vendor wheels
 
       - name: Compute Build Metadata
         run: |

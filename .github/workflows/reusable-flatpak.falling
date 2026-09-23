@@ -53,7 +53,7 @@ jobs:
         run: |
           uv export --format requirements-txt --no-editable --no-dev > requirements.txt
           #uv run maxson-build-utils prepare-flatpak
-          uv run maxson-build-utils vendor-wheels
+          uv run maxson-build-utils vendor wheels
 
       - name: Compute Build Metadata
         run: |
