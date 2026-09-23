@@ -83,7 +83,7 @@ from .scaffold.packaging import (
     run_init_deb,
     run_init_msix,
     run_init_dmg,
-    run_init_buildozer,
+    run_init_buildozer_spec,
 )
 '''
 from .signers import (
@@ -541,6 +541,11 @@ def init_kivy_gui():
     """Create files in src/<app>/kivy/ dir, including app.py."""
     print_write_results(run_init_kivy(),console_stdout)
 
+@init_src_app.command("buildozer")
+def init_buildozer_entry():
+    """Create src/SOURCE_NAME/__buildozer_entry__.py. and main.py shim"""
+    print_write_results(run_init_buildozer_source_entry(),console_stdout)
+
 # --- packaging scaffolding ---
 
 @init_pack_app.command("icons")
@@ -556,7 +561,7 @@ def init_pack_flatpak():
 @init_pack_app.command("buildozer")
 def init_pack_buildozer():
     """Scaffold packaging/buildozer/ spec file."""
-    print_write_results(run_init_buildozer(),console_stdout)
+    print_write_results(run_init_buildozer_spec(),console_stdout)
 
 @init_pack_app.command("shiv")
 def init_pack_shiv():

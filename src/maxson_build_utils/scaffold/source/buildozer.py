@@ -1,6 +1,6 @@
+# src/maxson_build_utils/scaffold/source/buildozer.py
 # should place main.py shim in root and src/*/__buildozer_entry__.py pointing to either kivy app interface or somewhere else, like for webview. 
 
-# src/maxson_build_utils/scaffold/source/kivy.py
 from __future__ import annotations
 
 from pathlib import Path
@@ -65,7 +65,7 @@ def _to_pascal_case(name: str) -> str:
     return "".join(word.capitalize() for word in cleaned.split("_") if word)
 
 
-def run_init_kivy(
+def run_init_buildozer_source_entry(
     root_dir: Path | str | None = None,
 ) -> list[WriteResult]:
     """Scaffold Kivy module and __buildozer_entry__.py."""
