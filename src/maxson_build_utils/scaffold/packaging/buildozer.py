@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 from pathlib import Path
+import os
+import shutil
 
 from ...helpers import WriteResult, write_str_to_file
 from ...names import to_title_case
@@ -65,8 +67,17 @@ fullscreen = 0
 
 [buildozer]
 
-# (str) Logging level
+# (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
 log_level = 2
+
+# (int) Display warning if buildozer is run as root (0 = False, 1 = True)
+warn_on_root = 1
+
+# (str) Path to build artifact storage, absolute or relative to spec file
+# build_dir = ../../build/buildozer/
+build_dir = ~/.buildozer_work/{IMPORT_NAME}/build/
+# (str) Path to build output (i.e. .apk, .aab, .ipa) storage
+bin_dir = ../../dist/buildozer/
 
 
 
@@ -92,15 +103,14 @@ def resolve_buildozer_metadata(
         or import_name
     )
 
-    package_domain = (
-        pyproject.get(
-            "tool",
-            "maxson-build-utils",
-            "buildozer",
-            "package-domain",
-        )+f".{package_name}"
-        or "com.memphis_wastewater"+f".{package_name}"
-    )
+    base_domain = pyproject.get(
+        "tool",
+        "maxson-build-utils",
+        "buildozer",
+        "package-domain",
+    ) or "com.memphis_wastewater"
+
+    package_domain = f"{base_domain}.{package_name}"
 
     version = (
         pyproject.get(
@@ -118,18 +128,20 @@ def resolve_buildozer_metadata(
         "VERSION": version,
     }
 
-
-def copy_source_dunder_main_to_root_main_for_buildozer_entry_point(overwrite:bool=False):
-    #PACKAGE_DIR/__main__.py -> PROJECT_ROOT/main.py
+def copy_source_dunder_main_to_root_main_for_buildozer_entry_point(
+    overwrite: bool | None = False,
+) -> None:
+    """Copies the package __main__.py to project root main.py for Buildozer entrypoint."""
     if overwrite is None:
-        try:
-            overwite = os.environ["BUILDOZER_MAIN_COPY_OVERWRITE"]
-        except:
-            overwrite = False
+        env_val = os.getenv("BUILDOZER_MAIN_COPY_OVERWRITE", "false").lower()
+        overwrite = env_val in ("1", "true", "yes")
 
-    # copy operaion
-    source_filepath = PACKAGE_DIR/__main__.py
-    dst_filepath = PROJECT_ROOT/main.py
+    source_filepath = PACKAGE_DIR / "__main__.py"
+    dst_filepath = PROJECT_ROOT / "main.py"
+
+    if source_filepath.exists():
+        if not dst_filepath.exists() or overwrite:
+            shutil.copyfile(source_filepath, dst_filepath)
 
 
 def run_init_buildozer(
