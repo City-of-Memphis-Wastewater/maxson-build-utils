@@ -46,7 +46,7 @@ from maxson_build_utils.builders import (
 
 
 from maxson_build_utils.helpers import PyinsMode
-from maxson_build_utils.vendor import run_vendor_wheels, run_vendor_site_packages, VENDOR_SITE_PACKAGES_DIR, VENDOR_WHEELS_DIR
+from maxson_build_utils.vendor import run_vendor_wheels, run_vendor_site_packages, VENDOR_SITE_PACKAGES_DIR, VENDOR_WHEELS_DIR, DIST_WHEELS_DIR
 from .pyproject import PyProject, format_value
 from .scaffold.base import (
     run_init_pyproject,
@@ -233,7 +233,7 @@ init_app.add_typer(init_ci_app)
 
 @vendor_app.command(name="wheels")
 def vendor_wheels_cmd(
-    dist_dir: Path = Path("dist/whl"), # DIST_WHEELS_DIR
+    dist_dir: Path = DIST_WHEELS_DIR
     vendor_dir: Path = VENDOR_WHEELS_DIR
 ):
     """Build project wheel and vendor offline dependencies, like when preparing for Flatpak."""

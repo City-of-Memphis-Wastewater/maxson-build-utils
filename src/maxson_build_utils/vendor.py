@@ -4,9 +4,10 @@ from pathlib import Path
 import shutil
 
 VENDOR_WHEELS_DIR = Path("./vendor/wheels")
-VENDOR_SITE_PACKAGES_DIR = Path("./vendor/site-packages/")
+VENDOR_SITE_PACKAGES_DIR = Path("./vendor/site-packages")
+DIST_WHEELS_DIR = Path("dist/whl")
 
-def run_vendor_wheels(dist_dir: Path | str = Path("dist/whl"), vendor_dir: Path = VENDOR_WHEELS_DIR) -> None:
+def run_vendor_wheels(dist_dir: Path | str = DIST_WHEELS_DIR, vendor_dir: Path = VENDOR_WHEELS_DIR) -> None:
     """Builds project wheel and downloads all runtime dependencies offline for Flatpak."""
     dist_dir = Path(dist_dir)
     vendor_dir = Path(vendor_dir)
