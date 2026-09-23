@@ -6,7 +6,7 @@ import subprocess
 import tempfile
 from typing import Generator
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent 
+from .context import PROJECT_ROOT
 
 VENDOR_SITE_PACKAGES_DIR = PROJECT_ROOT / "vendor" / "site-packages"
 VENDOR_WHEELS_DIR = PROJECT_ROOT / "vendor" /" wheels"
