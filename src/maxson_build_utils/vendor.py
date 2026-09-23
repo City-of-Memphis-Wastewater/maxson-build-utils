@@ -6,9 +6,12 @@ import subprocess
 import tempfile
 from typing import Generator
 
-VENDOR_WHEELS_DIR = Path("vendor/wheels")
-VENDOR_SITE_PACKAGES_DIR = Path("vendor/site-packages")
-DIST_WHEELS_DIR = Path("dist/whl")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent 
+
+VENDOR_SITE_PACKAGES_DIR = PROJECT_ROOT / "vendor" / "site-packages"
+VENDOR_WHEELS_DIR = PROJECT_ROOT / "vendor" /" wheels"
+DIST_WHEELS_DIR = PROJECT_ROOT / "dist" / "whl"
+
 DEFAULT_EXTRA_ARGS = ["--no-binary", ":all:"]
 
 @contextmanager
