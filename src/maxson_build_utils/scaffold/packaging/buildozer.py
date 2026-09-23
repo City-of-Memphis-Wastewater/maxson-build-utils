@@ -6,7 +6,7 @@ from pathlib import Path
 from ...helpers import WriteResult, write_str_to_file
 from ...names import to_title_case
 from ...pyproject import MaxsonPyProject
-
+from ...context import PACKAGE_DIR, PROJECT_ROOT
 
 BUILDOZER_SPEC_TEMPLATE = """\
 # This .spec config file tells Buildozer an app's requirements for being built.
@@ -118,8 +118,22 @@ def resolve_buildozer_metadata(
     }
 
 
+def copy_source_dunder_main_to_root_main_for_buildozer_entry_point(overwrite:bool=False):
+    #PACKAGE_DIR/__main__.py -> PROJECT_ROOT/main.py
+    if overwrite is None:
+        try:
+            overwite = os.environ["BUILDOZER_MAIN_COPY_OVERWRITE"]
+        except:
+            overwrite = False
+
+    # copy operaion
+    source_filepath = PACKAGE_DIR/__main__.py
+    dst_filepath = PROJECT_ROOT/main.py
+
+
 def run_init_buildozer(
     root_dir: Path | str | None = None,
+    overwrite_main: bool | None = None,
 ) -> list[WriteResult]:
     """Scaffold packaging/buildozer/buildozer.spec."""
     target_dir = Path(root_dir) if root_dir else Path.cwd()
@@ -137,6 +151,9 @@ def run_init_buildozer(
         path=spec_path,
         text=BUILDOZER_SPEC_TEMPLATE.format(**meta),
     )
+    
+    # also copy src/*/__main__.py to main.py
+    copy_source_dunder_main_to_root_main_for_buildozer_entry_point(overwrite=overwrite_main)
 
     return [result]
 
