@@ -668,6 +668,7 @@ def init_pack_all(overwrite: bool = typer.Option(False, "--overwrite", help="All
     print_write_results(run_init_flatpak(overwrite=overwrite), console_stdout)
     print_write_results(run_init_appimage(overwrite=overwrite), console_stdout)
     print_write_results(run_init_buildozer_spec(overwrite=overwrite), console_stdout)
+    print_write_results(run_init_icons(overwrite=overwrite), console_stdout)
 
 @init_ci_app.command("all")
 def init_ci_all(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files across CI workflows.")):
