@@ -46,7 +46,7 @@ def run_init_context(
     )
 
     return write_str_to_file(
-        path = pyproject.src_dir / "context.py",
+        path = pyproject.package_dir / "context.py",
         text=text,
         overwrite=overwrite,
     )

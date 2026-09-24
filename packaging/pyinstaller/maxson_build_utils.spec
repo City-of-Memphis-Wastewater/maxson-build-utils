@@ -10,8 +10,15 @@ from PyInstaller.utils.hooks import (
     copy_metadata,
 )
 
-project_root = Path(__file__).resolve().parents[2]
-src_dir = project_root / "src"
+# Prefer mbu target resolution if available; fall back to standalone SPECPATH arithmetic
+try:
+    from maxson_build_utils.core.know_target import get_target_project_root, get_src_dir
+    project_root = get_target_project_root()
+    src_dir = get_src_dir()
+except ImportError:
+    # SPECPATH is provided globally by PyInstaller during spec execution
+    project_root = Path(SPECPATH).resolve().parents[1]
+    src_dir = project_root / "src"
 
 pathex = [str(src_dir)]
 

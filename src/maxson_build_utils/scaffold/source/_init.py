@@ -165,7 +165,7 @@ def run_init_init(
 ) -> WriteResult:
     """Scaffold __init__.py inside src/<import_name>/."""
     pyproject = MaxsonPyProject(root_dir)
-    target_path = pyproject.src_dir / "__init__.py"
+    target_path = pyproject.package_dir / "__init__.py"
 
     text = render_init_py(
         import_name=pyproject.import_name,

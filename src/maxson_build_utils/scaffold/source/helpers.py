@@ -31,7 +31,7 @@ def run_init_helpers(
 ) -> WriteResult:
     """Scaffold helpers.py inside src/<import_name>/."""
     pyproject = MaxsonPyProject(root_dir)
-    target_path = pyproject.src_dir / "helpers.py"
+    target_path = pyproject.package_dir / "helpers.py"
 
     text = render_helpers_py(
         import_name=pyproject.import_name,

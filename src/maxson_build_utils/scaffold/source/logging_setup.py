@@ -215,10 +215,10 @@ def run_init_logging_setup(
     """Scaffold logging_setup.py inside src/<import_name>/."""
     pyproject = MaxsonPyProject(root_dir)
 
-    if pyproject.src_dir is None:
+    if pyproject.package_dir is None:
         raise ValueError("Could not determine src directory for project initialization.")
 
-    target_path = pyproject.src_dir / "logging_setup.py"
+    target_path = pyproject.package_dir / "logging_setup.py"
 
     text = render_logging_setup_py(
         import_name=pyproject.import_name or "app",

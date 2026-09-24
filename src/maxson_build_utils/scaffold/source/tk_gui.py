@@ -367,7 +367,7 @@ def run_init_tk_gui(
     )
 
     return write_str_to_file(
-        path=pyproject.src_dir / "tk_gui.py",
+        path=pyproject.package_dir / "tk_gui.py",
         text=text,
         overwrite=overwrite,
     )

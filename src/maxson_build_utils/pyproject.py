@@ -83,11 +83,18 @@ class PyProject:
         return self.path.parent
 
     @property
+    def new_src_dir_new(self) -> Path | None:
+        """Path to the source container directory (e.g. project_root / 'src')."""
+        if self.root_dir is None:
+            return None
+        return self.root_dir / "src"
+
+    @property
     def version_file(self) -> Path | None:
         """Path to src/<import_name>/VERSION."""
-        if self.src_dir is None:
+        if self.package_dir is None:
             return None
-        return self.src_dir / "VERSION"
+        return self.package_dir / "VERSION"
 
 
     @property
@@ -233,7 +240,7 @@ class MaxsonPyProject(PyProject):
 
     # --- Path resolution ---
     @property
-    def src_dir(self) -> Path | None:
+    def src_dir_defunct(self) -> Path | None:
         """Path to internal src module directory (e.g. project_root / 'src' / import_name)."""
         if self.path is None or self.import_name is None:
             return None
@@ -241,12 +248,19 @@ class MaxsonPyProject(PyProject):
         return self.root_dir / "src" / self.import_name
 
     @property
+    def package_dir(self) -> Path | None:
+        """Path to the package directory containing __init__.py (e.g. project_root / 'src' / import_name)."""
+        if self.package_dir is None or self.import_name is None:
+            return None
+        return self.package_dir / self.import_name
+
+    @property
     def data_dir(self) -> Path | None:
         """Path to internal data directory (e.g. project_root / 'src' / import_name / 'data' / )."""
-        if self.src_dir is None:
+        if self.package_dir is None:
             return None
 
-        return self.src_dir / "data"
+        return self.package_dir / "data"
 
 
     @property

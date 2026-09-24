@@ -28,7 +28,7 @@ def run_init_config(
 ) -> WriteResult:
     """Scaffold config.py inside src/<import_name>/."""
     pyproject = MaxsonPyProject(root_dir)
-    target_path = pyproject.src_dir / "config.py"
+    target_path = pyproject.package_dir / "config.py"
 
     text = render_template(
         template_str=CONFIG_TEMPLATE,

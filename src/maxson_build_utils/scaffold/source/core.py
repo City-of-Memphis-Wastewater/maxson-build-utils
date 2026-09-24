@@ -31,7 +31,7 @@ def run_init_core(
 ) -> WriteResult:
     """Scaffold core.py inside src/<import_name>/."""
     pyproject = MaxsonPyProject(root_dir)
-    target_path = pyproject.src_dir / "core.py"
+    target_path = pyproject.package_dir / "core.py"
 
     text = render_core_py(
         import_name=pyproject.import_name,

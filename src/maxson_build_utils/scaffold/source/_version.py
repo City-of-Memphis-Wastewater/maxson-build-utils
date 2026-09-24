@@ -43,7 +43,7 @@ def run_init_version(
     pyproject = MaxsonPyProject(root_dir)
 
     raw_version_str=RAW_VERSION_FILE_STR.replace("__IMPORT_NAME__", pyproject.import_name)
-    return write_str_to_file(pyproject.src_dir / "_version.py", text = raw_version_str)
+    return write_str_to_file(pyproject.package_dir / "_version.py", text = raw_version_str)
 
 def run_init_version_num(
     root_dir: Path | str | None = None,
@@ -52,4 +52,4 @@ def run_init_version_num(
     pyproject = MaxsonPyProject(root_dir)
 
     raw_version_num_str=RAW_VERSION_NUM_STR.replace("__IMPORT_NAME__", pyproject.import_name)
-    return write_str_to_file(pyproject.src_dir / "VERSION", text = raw_version_num_str)
+    return write_str_to_file(pyproject.package_dir / "VERSION", text = raw_version_num_str)

@@ -41,7 +41,7 @@ def run_init_main(
 ) -> WriteResult:
     """Scaffold __main__.py inside src/<import_name>/."""
     pyproject = MaxsonPyProject(root_dir)
-    target_path = pyproject.src_dir / "__main__.py"
+    target_path = pyproject.package_dir / "__main__.py"
 
     text = render_main_py(import_name=pyproject.import_name)
 

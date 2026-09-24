@@ -228,7 +228,7 @@ much like add_typer_helptree()
 
 ## [0.1.21] - 2026-08-13
 ### Changed:
-- remove get_* wrappers in names.py in favor of PyProject class instance properties, like pyproject.src_dir and *.import_name
+- remove get_* wrappers in names.py in favor of PyProject class instance properties, like pyproject.package_dir and *.import_name
 - migrate all scaffold files to scaffold/ dir
 
 ### Added:

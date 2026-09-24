@@ -703,7 +703,7 @@ Template(...)
 The scaffold decides:
 
 ```python
-destination = pyproject.src_dir / "context.py"
+destination = pyproject.package_dir / "context.py"
 ```
 
 Then writes it.
@@ -960,7 +960,7 @@ text = template.substitute(
 )
 
 write_str_to_file(
-    pyproject.src_dir / "context.py",
+    pyproject.package_dir / "context.py",
     text=text,
 )
 ```
@@ -1023,7 +1023,7 @@ def run_init_context(root_dir=None):
     )
 
     return write_str_to_file(
-        pyproject.src_dir / "context.py",
+        pyproject.package_dir / "context.py",
         text=text,
     )
 ```

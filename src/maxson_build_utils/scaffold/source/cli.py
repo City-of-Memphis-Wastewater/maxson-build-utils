@@ -182,7 +182,7 @@ def run_init_cli(
     )
 
     return write_str_to_file(
-        path=pyproject.src_dir / "cli.py",
+        path=pyproject.package_dir / "cli.py",
         text=text,
         overwrite=overwrite,
     )

@@ -61,8 +61,17 @@ def get_import_name() -> str | None:
     return proj.import_name
 
 def get_src_dir() -> str | None:
-    """Return the target project's source code directory if available."""
+    """Return the target project's source code directory if available, ./src/."""
 
+    proj = get_pyproject()
+
+    if proj is None:
+        return None
+
+    return proj.src_dir
+
+def get_package_dir() -> Path | None:
+    """Return the target project's source code directory if available, ./src/import_name/."""
     proj = get_pyproject()
 
     if proj is None:
