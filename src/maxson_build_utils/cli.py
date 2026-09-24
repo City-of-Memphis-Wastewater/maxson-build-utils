@@ -584,10 +584,15 @@ def init_logging_setup():
     """Create src/<app>/logging_setup.py."""
     run_init_logging_setup().print_path(console_stdout)
 
-@init_src_app.command("kivy")
+@init_src_app.command("kivy-gui")
 def init_kivy_gui():
     """Create files in src/<app>/kivy/ dir, including app.py."""
     print_write_results(run_init_kivy(),console_stdout)
+
+@init_src_app.command("tk-gui")
+def init_tk_gui():
+    """Create file at src/<app>/tk_gui.py"""
+    run_init_tk_gui().print_path(console_stdout)
 
 @init_src_app.command("buildozer")
 def init_buildozer_entry():
@@ -664,7 +669,7 @@ def init_source_all():
     init_helpers()
     init_version()
     init_cli()
-    init_gui()
+    init_tk_gui()
     init_logging_setup()
 
 @init_pack_app.command("all")

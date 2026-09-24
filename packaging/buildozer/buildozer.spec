@@ -12,7 +12,7 @@ title = Maxson Build Utils
 package.name = maxson_build_utils
 
 # (str) Package domain (needed for Android/iOS packaging)
-package.domain = com.memphis_wastewater
+package.domain = com.memphis_wastewater.maxson_build_utils
 
 # (str) Source code where the main.py lives
 source.dir = ../../
@@ -21,7 +21,8 @@ source.dir = ../../
 source.include_exts = py,png,jpg,kv,atlas,whl,wsdl,json
 
 # (list) Source files to include using pattern matching
-source.include_patterns = main.py,src/*,vendor/packages/*
+#source.include_patterns = main.py,src/*,./vendor/site-packages/*
+source.include_patterns = main.py,src/*,src/**/*,vendor/*, vendor/**/*, assets/*
 
 # (list) Source directories to exclude
 source.exclude_dirs = tests,bin,.git,.venv,.pytest_cache,docs,logs,packaging
@@ -30,9 +31,7 @@ source.exclude_dirs = tests,bin,.git,.venv,.pytest_cache,docs,logs,packaging
 source.exclude_patterns = Dockerfile*,build_*.py,package.py,daemon_*.py
 
 # (str) Application version
-#version = 0.1
-version.filename = %(source.dir)s/src/pipeline_eds/VERSION
-version.regex = (.*)
+version = 0.1
 
 # (list) Application requirements
 #
@@ -49,7 +48,6 @@ requirements = hostpython3==3.11.9,python3==3.11.9,kivy,pyjnius
 # (str) Orientation
 orientation = portrait
 
-
 #
 # OSX Specific
 #
@@ -64,7 +62,7 @@ osx.kivy_version = 2.2.0
 # Android specific
 #
 
-# (bool) Indicate if the application should be fullscreen or not
+# (bool) Whether to fullscreen
 fullscreen = 0
 
 # (str) Adaptive icon of the application (used if Android API level is 26+ at runtime)
@@ -89,6 +87,18 @@ android.minapi = 24
 
 # (str) Android NDK version to use
 android.ndk = 25b
+
+# (int) Android NDK API to use. This is the minimum API your app will support, it should usually match android.minapi.
+#android.ndk_api = 21
+
+# (str) Android NDK directory (if empty, it will be automatically downloaded.)
+#android.ndk_path =
+
+# (str) Android SDK directory (if empty, it will be automatically downloaded.)
+#android.sdk_path =
+
+# (str) ANT directory (if empty, it will be automatically downloaded.)
+#android.ant_path =
 
 # (list) The Android archs to build for, choices: armeabi-v7a, arm64-v8a, x86, x86_64
 # In past, was `android.arch` as we weren't supporting builds for multiple archs at the same time.
@@ -119,18 +129,43 @@ p4a.branch = v2024.01.21
 #p4a.commit = HEAD
 p4a.commit = 957a3e5f
 
+# (str) python-for-android git clone directory
+#p4a.source_dir =
+
+#
+# iOS specific
+#
+
+# (str) Path to a custom kivy-ios folder
+#ios.kivy_ios_dir = ../kivy-ios
+# Alternately, specify the URL and branch of a git checkout:
+ios.kivy_ios_url = https://github.com/kivy/kivy-ios
+ios.kivy_ios_branch = master
+
+# Another platform dependency: ios-deploy
+# Uncomment to use a custom checkout
+#ios.ios_deploy_dir = ../ios_deploy
+# Or specify URL and branch
+ios.ios_deploy_url = https://github.com/phonegap/ios-deploy
+ios.ios_deploy_branch = 1.12.2
+
+# (bool) Whether or not to sign the code
+ios.codesign.allowed = false
 
 [buildozer]
 
-# (str) Logging level
+# (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
 log_level = 2
 
+# (int) Display warning if buildozer is run as root (0 = False, 1 = True)
+warn_on_root = 1
 
 # (str) Path to build artifact storage, absolute or relative to spec file
-#build_dir = ../../build/buildozer
-build_dir = ~/.buildozer_work/pipeline-eds/build
-
+# build_dir = ../../build/buildozer/
+build_dir = ~/.buildozer_work/maxson_build_utils/build/
 # (str) Path to build output (i.e. .apk, .aab, .ipa) storage
-bin_dir = ../../dist/buildozer
+bin_dir = ../../dist/buildozer/
+
+
 
 # (str) Warning: Buildozer configuration can be extended here as needed.
