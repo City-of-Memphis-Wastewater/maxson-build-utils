@@ -61,6 +61,7 @@ def run_init_kivy(
         write_str_to_file(
             path=kivy_dir / "__init__.py",
             text="",
+            overwrite = overwrite,
         )
     )
 

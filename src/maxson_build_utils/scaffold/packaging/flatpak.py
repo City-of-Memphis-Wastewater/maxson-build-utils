@@ -129,6 +129,7 @@ def run_init_flatpak(
             write_str_to_file(
                 path=path,
                 text=template.format(**meta),
+                overwrite = overwrite,
             )
         )
 
