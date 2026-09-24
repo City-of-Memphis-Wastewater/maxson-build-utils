@@ -9,6 +9,7 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 ## [0.1.46] - 2026-09-24
 ### Changed:
 - Overwrite arg is now passed to all files generated in `mbu init all` command.
+- For buildozer source init, ensure that core.know_target.get_target_project_root() is leveraged, instead of pulling in from maxson_build_utils.context.
 
 ---
 
