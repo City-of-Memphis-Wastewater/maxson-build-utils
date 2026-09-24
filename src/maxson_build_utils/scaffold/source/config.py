@@ -33,6 +33,7 @@ def render_config_py(import_name: str) -> str:
 
 def run_init_config(
     root_dir: Path | str | None = None,
+    overwrite: bool = False,
 ) -> WriteResult:
     """Scaffold config.py inside src/<import_name>/."""
     pyproject = MaxsonPyProject(root_dir)
@@ -43,6 +44,7 @@ def run_init_config(
     )
 
     return write_str_to_file(
-        target_path,
-        text=text,
+        path = target_path,
+        text = text,
+        overwrite = overwrite
     )
