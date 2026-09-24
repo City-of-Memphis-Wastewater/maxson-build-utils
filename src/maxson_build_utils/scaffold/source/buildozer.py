@@ -89,6 +89,7 @@ def run_init_buildozer_source_entry(
         write_str_to_file(
             path=PACKAGE_DIR / "__buildozer_entry__.py",
             text=BUILDOZER_ENTRY_KIVY_TEMPLATE.format(IMPORT_NAME=IMPORT_NAME),
+            overwrite = overwrite,
         )
     )
 
@@ -97,6 +98,7 @@ def run_init_buildozer_source_entry(
         write_str_to_file(
             path=PROJECT_ROOT / "main.py",
             text=ROOT_MAIN_PY_TEMPLATE.format(IMPORT_NAME=IMPORT_NAME),
+            overwrite = overwrite,
         )
     )
 
