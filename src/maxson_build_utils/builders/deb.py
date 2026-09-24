@@ -5,19 +5,23 @@ from pathlib import Path
 from ..core.know_target import (
     #DEB_DIST_DIR,
     #DEB_PACKAGING_DIR,
-    
     get_pyproject
 )
-def build_debian_package(app_name: str, version: str, arch: str) -> Path:
+
+def build_debian_package(app_name: str | None, version: str | None, arch: str | None) -> Path:
     """Assembles /opt, DEBIAN/control, launcher scripts, and executes dpkg-deb."""
 
-    if app_name is None or version is None:
-        project = get_pyproject()
-        app_pretty_name = app_name or project.name
-        version = version or project.version
+    project = get_pyproject()
+
+    if app_name is None:
+        app_name = project.name if project is not None else Path.cwd().name
+
+    if version is None:
+        version = project.version if project is not None else "0.0.0"
 
     if arch is None:
-        arch = "plchldr"
+        arch = "all"
+
 
     pkg_dir = Path("packaging/deb/pkg")
     pkg_dir.mkdir(parents=True, exist_ok=True)
