@@ -14,6 +14,7 @@ from ...icons import copy_stock_icons, bundled_icons
 def run_init_icons(
     dst:Path|str|None=None,
     root_dir: Path | str | None = None
+    overwrite: bool = False,
     ) -> Path:
     # We need a way to encourage used to add refs to their tools.maxson-build-utils.icons section, but we do not do a magi write
     
