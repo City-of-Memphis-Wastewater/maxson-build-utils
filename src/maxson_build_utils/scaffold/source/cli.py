@@ -117,7 +117,7 @@ add_typer_helptree(
     hidden=False,
 )
 
-@app.command(name="tk_gui")
+@app.command(name="tk-gui")
 def gui_command(
     auto_close: int = typer.Option(0,
    "--auto-close", "-c",
