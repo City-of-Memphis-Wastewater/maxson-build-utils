@@ -10,6 +10,7 @@ from .flatpak import run_init_flatpak
 from .msix import run_init_msix
 from .shiv import run_init_shiv
 from .buildozer import run_init_buildozer_spec
+from .pyinstaller import run_init_pyinstaller_spec
 
 __all__ = [
     # --- packaging ---
@@ -21,4 +22,5 @@ __all__ = [
     "run_init_msix",
     "run_init_shiv",
     "run_init_buildozer_spec",
+    "run_init_pyinstaller_spec",
 ]

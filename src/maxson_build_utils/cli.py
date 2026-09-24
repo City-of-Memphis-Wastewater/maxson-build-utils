@@ -23,11 +23,12 @@ from maxson_build_utils.logging_setup import (
 logger = get_logger(__name__)
 
 from .context import DESCRIPTION_STR, APP_NAME, APP_DIR, CONFIG_PATH, ENV_PATH, SECRET_PATH, APP_NAME_PRETTY
-from .helpers import print_write_results
+from .helpers import (print_write_results, PyinsMode, form_dynamic_name)
+from .gui_multiplex import GuiInterface
 from ._version import __version__
 
 from .cli_dworshak import dworshak_config as run_dworshak_config
-from maxson_build_utils import MaxsonPyProject
+from maxson_build_utils.pyproject import MaxsonPyProject
 
 from maxson_build_utils.builders import (
     TargetBuild,
@@ -42,6 +43,7 @@ from maxson_build_utils.builders import (
     build_buildozer,
     BuildozerMode,
 )
+from maxson_build_utils.builders.pyinstaller import run_build_from_spec
 
 from maxson_build_utils.helpers import PyinsMode
 from maxson_build_utils.vendor import run_vendor_wheels, run_vendor_site_packages, VENDOR_SITE_PACKAGES_DIR, VENDOR_WHEELS_DIR, DIST_WHEELS_DIR, DEFAULT_EXTRA_ARGS
@@ -70,6 +72,7 @@ from .scaffold.source import (
     run_init_kivy,
     run_init_buildozer_source_entry,
 )
+
 from .scaffold.ci import (
     # --- ci ---
     run_init_github_ci,
@@ -83,6 +86,7 @@ from .scaffold.packaging import (
     run_init_msix,
     run_init_dmg,
     run_init_buildozer_spec,
+    run_init_pyinstaller_spec,
 )
 '''
 from .signers import (
@@ -270,6 +274,71 @@ def dworshak_config(ctx: typer.Context):
     run_dworshak_config(ctx)
 
 
+# ---
+
+@build_app.command(name="pyinstaller-from-spec")
+def build_pyinstaller_from_spec_command(
+    spec_path: Path = typer.Option(
+        None,
+        "--spec",
+        "-s",
+        help="Custom path to the PyInstaller .spec file. Defaults to packaging/pyinstaller/<import_name>.spec",
+    ),
+    mode: PyinsMode = typer.Option(
+        PyinsMode.ONEDIR,
+        "--mode",
+        "-m",
+        help="Build mode: 'onedir' or 'onefile'.",
+    ),
+    windowed: bool = typer.Option(
+        False,
+        "--windowed",
+        "-w",
+        help="Target windowed GUI build rather than console.",
+    ),
+) -> None:
+    """Build a PyInstaller artifact using a native spec file."""
+    pyproject = MaxsonPyProject()
+    
+    # 1. Resolve spec path
+    if spec_path is None:
+        spec_path = Path.cwd() / "packaging" / "pyinstaller" / f"{pyproject.import_name}.spec"
+
+    if not spec_path.exists():
+        typer.secho(
+            f"Error: Spec file not found at {spec_path}. Run 'mbu init pyinstaller-spec' first.",
+            fg=typer.colors.RED,
+            err=True,
+        )
+        raise typer.Exit(code=1)
+
+    # 2. Determine descriptor name
+    version = pyproject.version or "0.1.0"
+    executable_descriptor = form_dynamic_name(
+        pkg_name=pyproject.import_name,
+        version=version,
+        mode=mode,
+    )
+
+    typer.secho(
+        f"Building PyInstaller artifact from spec: {spec_path}",
+        fg=typer.colors.CYAN,
+    )
+
+    # 3. Trigger spec builder
+    app_filepath, app_filename = run_build_from_spec(
+        spec_path=spec_path,
+        executable_descriptor=executable_descriptor,
+        mode=mode,
+        is_windowed=windowed,
+    )
+
+    typer.secho(
+        f"Successfully built spec artifact: {app_filepath}",
+        fg=typer.colors.GREEN,
+    )
+    
+# ---
 @build_app.command(name="pyinstaller")
 def build_pyinstaller(
     mode: PyinsMode = typer.Option(
@@ -587,7 +656,6 @@ def init_buildozer_entry(overwrite: bool = typer.Option(False, "--overwrite", he
     """Create src/SOURCE_NAME/__buildozer_entry__.py. and main.py shim"""
     print_write_results(run_init_buildozer_source_entry(overwrite=overwrite), console_stdout)
 
-
 # --- packaging scaffolding ---
 
 @init_pack_app.command("icons")
@@ -604,6 +672,11 @@ def init_pack_flatpak(overwrite: bool = typer.Option(False, "--overwrite", help=
 def init_pack_buildozer(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files.")):
     """Scaffold packaging/buildozer/ spec file."""
     print_write_results(run_init_buildozer_spec(overwrite=overwrite), console_stdout)
+
+@init_pack_app.command("pyinstaller")
+def init_pack_pyinstaller(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files.")):
+    """Scaffold packaging/pyinstaller/ spec file(s)."""
+    print_write_results(run_init_pyinstaller_spec(overwrite=overwrite), console_stdout)
 
 @init_pack_app.command("msix")
 def init_pack_msix(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files.")):
@@ -672,6 +745,7 @@ def init_pack_all(overwrite: bool = typer.Option(False, "--overwrite", help="All
     print_write_results(run_init_flatpak(overwrite=overwrite), console_stdout)
     print_write_results(run_init_appimage(overwrite=overwrite), console_stdout)
     print_write_results(run_init_buildozer_spec(overwrite=overwrite), console_stdout)
+    print_write_results(run_init_pyinstaller_spec(overwrite=overwrite), console_stdout)
     print_write_results(run_init_icons(overwrite=overwrite), console_stdout)
 
 @init_ci_app.command("all")
@@ -687,226 +761,6 @@ def init_all(overwrite: bool = typer.Option(False, "--overwrite", help="Allow ov
     init_pack_all(overwrite=overwrite)
     init_ci_all(overwrite=overwrite)
 
-# -----------------------------------------------
-
-'''
-
-# --- base scaffolding --- 
-
-@init_base_app.command("pyproject")
-def init_pyproject(overwrite: bool = typer.Option(False, "--overwrite", "-o",  help="Allow overwriting existing file.")):
-    """Generate or overwrite pyproject.toml in our own image."""
-    # Ensure root_dir resolves to current working directory if not explicitly provided
-    run_init_pyproject(root_dir=Path.cwd(), overwrite=overwrite).print_path(console_stdout)
-
-@init_base_app.command("changelog")
-def init_changelog():
-    """Create docs/CHANGELOG.md."""
-    run_init_changelog().print_path(console_stdout)
-
-@init_base_app.command("readme")
-def init_readme():
-    """Create README.md."""
-    run_init_readme().print_path(console_stdout)
-
-@init_base_app.command("manifest")
-def init_manifest():
-    """Create MANIFEST.in."""
-    run_init_manifest().print_path(console_stdout)
-
-@init_base_app.command("git")
-def init_git():
-    """Create .git."""
-    path = run_init_git()
-    console_stdout.print(path)
-
-@init_base_app.command("gitignore")
-def init_gitignore():
-    """Create .gitignore."""
-    run_init_gitignore().print_path(console_stdout)
-
-# --- source code scaffolding ---
-
-@init_src_app.command("cli")
-def init_cli():
-    """Create src/<app>/cli.py."""
-    run_init_cli().print_path(console_stdout)
-
-@init_src_app.command("core")
-def init_core():
-    """Create src/<app>/core.py."""
-    run_init_core().print_path(console_stdout)
-
-@init_src_app.command("__init__")
-def init_init(
-    overwrite: bool = typer.Option(
-    False,
-    "--overwrite",
-    help="Allow overwriting an existing file.",
-)
-):
-    """Create src/<app>/__init__.py"""
-    run_init_init(root_dir=None,overwrite=overwrite).print_path(console_stdout)
-
-@init_src_app.command("__main__")
-def init_main(
-    overwrite: bool = typer.Option(
-    False,
-    "--overwrite",
-    help="Allow overwriting an existing file.",
-)
-):
-    """Create src/<app>/__main__.py"""
-    run_init_main(root_dir=None,overwrite=overwrite).print_path(console_stdout)
-
-
-'''
-
-'''
-@init_src_app.command("webapp")
-def init_webapp():
-    """Create src/<app>/webapp.py."""
-    run_init_webapp().print_path(console_stdout)
-'''
-
-'''
-
-@init_src_app.command("context")
-def init_context():
-    """Create src/<app>/context.py."""
-    run_init_context().print_path(console_stdout)
-
-@init_src_app.command("version")
-def init_version():
-    """Create src/<app>/_version.py and src/<app>/VERSION."""
-    run_init_version().print_path(console_stdout)
-    run_init_version_num().print_path(console_stdout)
-
-@init_src_app.command("config")
-def init_config():
-    """Create src/<app>/config.py."""
-    run_init_config().print_path(console_stdout)
-
-@init_src_app.command("helpers")
-def init_helpers():
-    """Create src/<app>/helpers.py."""
-    run_init_helpers().print_path(console_stdout)
-
-@init_src_app.command("logging_setup")
-def init_logging_setup():
-    """Create src/<app>/logging_setup.py."""
-    run_init_logging_setup().print_path(console_stdout)
-
-@init_src_app.command("kivy-gui")
-def init_kivy_gui():
-    """Create files in src/<app>/kivy/ dir, including app.py."""
-    print_write_results(run_init_kivy(),console_stdout)
-
-@init_src_app.command("tk-gui")
-def init_tk_gui():
-    """Create file at src/<app>/tk_gui.py"""
-    run_init_tk_gui().print_path(console_stdout)
-
-@init_src_app.command("buildozer")
-def init_buildozer_entry():
-    """Create src/SOURCE_NAME/__buildozer_entry__.py. and main.py shim"""
-    print_write_results(run_init_buildozer_source_entry(),console_stdout)
-
-# --- packaging scaffolding ---
-
-@init_pack_app.command("icons")
-def init_icons():
-    """Copy the stock Maxson icons into the project's data/icons directory."""
-    print_write_results(run_init_icons(),console_stdout)
-
-@init_pack_app.command("flatpak")
-def init_pack_flatpak():
-    """Scaffold packaging/flatpak/ metadata and manifests."""
-    print_write_results(run_init_flatpak(),console_stdout)
-
-@init_pack_app.command("buildozer")
-def init_pack_buildozer():
-    """Scaffold packaging/buildozer/ spec file."""
-    print_write_results(run_init_buildozer_spec(),console_stdout)
-
-@init_pack_app.command("msix")
-def init_pack_msix():
-    """Scaffold packaging/msix/msix.py metadata and manifests."""
-    print_write_results(run_init_msix(),console_stdout)
-
-@init_pack_app.command("deb")
-def init_pack_deb():
-    """Scaffold packaging/deb/deb.py metadata and manifests."""
-    print_write_results(run_init_deb(),console_stdout)
-
-@init_pack_app.command("dmg")
-def init_pack_dmg():
-    """Scaffold packaging/macos/dmg.py metadata and manifests."""
-    print_write_results(run_init_dmg(),console_stdout)
-
-@init_pack_app.command("appimage")
-def init_pack_appimage():
-    """Scaffold packaging/appimage/ metadata and manifests."""
-    print_write_results(run_init_appimage(),console_stdout)
-
-# ---
-
-@init_ci_app.command("github")
-def init_github_ci():
-    """Scaffold github workers"""
-    print_write_results(run_init_github_ci(),console_stdout)
-
-# ---
-
-@init_base_app.command("all")
-def init_base_all():
-    init_pyproject()
-    init_git()
-    init_gitignore()
-    init_readme()
-    init_changelog()
-    init_manifest()
-
-@init_src_app.command("all")
-def init_source_all():
-    init_main()
-    init_init()
-    init_context()
-    init_config()
-    init_logging_setup()
-    init_helpers()
-    init_version() # both VERSION and _version.py
-    init_cli()
-    init_tk_gui()
-    init_kivy_gui()
-    init_core()
-
-@init_pack_app.command("all")
-def init_pack_all():
-    """Create all packaging scaffolding."""
-    init_pack_deb()
-    init_pack_dmg()
-    init_pack_msix()
-    init_pack_flatpak()
-    init_pack_appimage()
-    init_pack_buildozer()
-
-@init_ci_app.command("all")
-def init_ci_all():
-    """Create all ci scaffolding."""
-    init_github_ci()
-
-@init_app.command("all")
-def init_all():
-    """Run all project scaffolding steps."""
-    init_base_all()
-    init_source_all()
-    init_pack_all()
-    init_ci_all()
-
-    console_stdout.print("Successfully initialized all project scaffolds.")
-
-'''
 
 # -----
 

@@ -11,6 +11,6 @@ logger = logging.getLogger(__name__)
 
 class GuiInterface(str, Enum):
     NONE = "none"
-    TKINTER = "tkinter"
+    TK = "tkinter"
     KIVY = "kivy"
     WEBVIEW = "webview"

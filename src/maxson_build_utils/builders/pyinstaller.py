@@ -306,6 +306,7 @@ def run_build_from_spec(
     is_windowed: bool,
 ) -> tuple[Path, str]:
     """Executes PyInstaller build using the specified .spec file."""
+    # output path should be to dist/pyinstaller/ ?
     app_filename, dist_path, app_filepath, ext = determine_app_filepath_and_dist_path(
         executable_descriptor, mode, is_windowed
     )
