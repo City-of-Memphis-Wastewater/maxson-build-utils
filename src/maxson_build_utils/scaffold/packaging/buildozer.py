@@ -228,22 +228,6 @@ def resolve_buildozer_metadata(
         "VERSION": version,
     }
 
-def copy_source_dunder_main_to_root_main_for_buildozer_entry_point(
-    overwrite: bool | None = False,
-) -> None:
-    """Copies the package __main__.py to project root main.py for Buildozer entrypoint."""
-    if overwrite is None:
-        env_val = os.getenv("BUILDOZER_MAIN_COPY_OVERWRITE", "false").lower()
-        overwrite = env_val in ("1", "true", "yes")
-
-    source_filepath = PACKAGE_DIR / "__main__.py"
-    dst_filepath = PROJECT_ROOT / "main.py"
-
-    if source_filepath.exists():
-        if not dst_filepath.exists() or overwrite:
-            shutil.copyfile(source_filepath, dst_filepath)
-
-
 def run_init_buildozer_spec(
     root_dir: Path | str | None = None,
     overwrite_main: bool | None = None,
@@ -266,9 +250,6 @@ def run_init_buildozer_spec(
         text=BUILDOZER_SPEC_TEMPLATE.format(**meta),
         overwrite = overwrite,
     )
-    
-    # also copy src/*/__main__.py to main.py
-    copy_source_dunder_main_to_root_main_for_buildozer_entry_point(overwrite=overwrite_main)
 
     return [result]
 
