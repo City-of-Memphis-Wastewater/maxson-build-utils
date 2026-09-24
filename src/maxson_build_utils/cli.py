@@ -278,6 +278,12 @@ def build_pyinstaller(
         "-m",
         help="Build mode: 'onedir' (default for downstream pipelines) or 'onefile'.",
     ),
+    gui_interface: GuiInterface = typer.Option(
+        GuiInterface.TK,
+        "--gui-interface",
+        "-g",
+        help = "Decide which interface entry point to include in pyinstaller build"
+    ),
     version: str | None = typer.Option(
         None,
         "--version",

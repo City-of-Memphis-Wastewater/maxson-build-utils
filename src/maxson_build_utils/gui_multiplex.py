@@ -8,7 +8,9 @@ from rich.console import Console
 import logging
 
 logger = logging.getLogger(__name__)
-class GuiMultiplex(str, Enum):
+
+class GuiInterface(str, Enum):
+    NONE = "none"
     TKINTER = "tkinter"
     KIVY = "kivy"
     WEBVIEW = "webview"

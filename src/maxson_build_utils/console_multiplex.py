@@ -14,17 +14,17 @@ CONSOLE = get_console_multiplexed(force=None, avoid=None, order=None)
 
 def _console_multiplex_check(
     force: ConsoleMultiplex | None = None, # single
-    avoid: set[ConsoleMultiplex] = {}, # set
-    order: list[ConsoleMultiplex] = [], # ordered list
+    avoid: set[ConsoleMultiplex] None = None, # set
+    order: list[ConsoleMultiplex] None = None, # ordered list
 ):
     try:
         from blindwindow.core import Console
         return ConsoleMultiplex.BW
-    except:
+    except ImportError:
         try:
             from rich.console import Console
             return ConsoleMultiplex.RICH
-        except:
+        except ImportError:
             return ConsoleMultiplex.NONE
 
 class ConsoleMultiplex(str, Enum):
