@@ -665,12 +665,13 @@ def init_source_all():
     init_init()
     init_context()
     init_config()
-    init_core()
+    init_logging_setup()
     init_helpers()
-    init_version()
+    init_version() # both VERSION and _version.py
     init_cli()
     init_tk_gui()
-    init_logging_setup()
+    init_kivy_gui()
+    init_core()
 
 @init_pack_app.command("all")
 def init_pack_all():
@@ -681,6 +682,7 @@ def init_pack_all():
     #init_pack_shiv()
     init_pack_flatpak()
     init_pack_appimage()
+    init_pack_buildozer()
 
 @init_ci_app.command("all")
 def init_ci_all():
