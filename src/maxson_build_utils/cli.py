@@ -616,12 +616,6 @@ def init_pack_buildozer():
     """Scaffold packaging/buildozer/ spec file."""
     print_write_results(run_init_buildozer_spec(),console_stdout)
 
-@init_pack_app.command("shiv")
-def init_pack_shiv():
-    """Scaffold packaging/shiv/build_pyz.py metadata and manifests."""
-    # Is this file still necessary? I think so. Strange, but maxsonic.
-    print_write_results(run_init_shiv(),console_stdout)
-
 @init_pack_app.command("msix")
 def init_pack_msix():
     """Scaffold packaging/msix/msix.py metadata and manifests."""
@@ -680,7 +674,6 @@ def init_pack_all():
     init_pack_deb()
     init_pack_dmg()
     init_pack_msix()
-    #init_pack_shiv()
     init_pack_flatpak()
     init_pack_appimage()
     init_pack_buildozer()
