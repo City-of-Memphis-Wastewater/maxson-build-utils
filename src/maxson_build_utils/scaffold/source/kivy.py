@@ -40,6 +40,7 @@ def _to_pascal_case(name: str) -> str:
 
 def run_init_kivy(
     root_dir: Path | str | None = None,
+    overwrite: bool = False,
 ) -> list[WriteResult]:
     """Scaffold Kivy module and __buildozer_entry__.py."""
     target_dir = Path(root_dir) if root_dir else Path.cwd()
