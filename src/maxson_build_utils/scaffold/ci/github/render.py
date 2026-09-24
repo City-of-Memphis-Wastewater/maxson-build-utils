@@ -20,6 +20,7 @@ ci.yml            package-appimage.yml  test.yml
 
 def run_init_github_workflows(
     root_dir: Path | str | None = None,
+    overwrite: bool = False,
 ) -> list[WriteResult]:
     root = Path(root_dir or ".").resolve()
     pyproject = MaxsonPyProject(root)
@@ -65,12 +66,13 @@ def run_init_github_workflows(
 
     for target_path, template_path in workflows.items():
         text = render_template(template_path=template_path, context=context)
-        results.append(write_str_to_file(target_path, text))
+        results.append(write_str_to_file(target_path, text, overwrite))
 
     return results
 
 def run_init_github_ci(
     root_dir: Path | str | None = None,
+    overwrite: bool = False,
 ) -> list[WriteResult]:
     results = []
 
@@ -84,6 +86,7 @@ def get_flatpak_manifest_filename(pyproject:MaxsonPyProject)->str:
 
 def run_init_dependabot(
     root_dir: Path | str | None = None,
+    overwrite: bool = False,
 ) -> WriteResult:
     root = Path(root_dir or ".").resolve()
 
