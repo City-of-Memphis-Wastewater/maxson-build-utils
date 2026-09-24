@@ -27,6 +27,7 @@ def render_helpers_py(import_name: str) -> str:
 
 def run_init_helpers(
     root_dir: Path | str | None = None,
+    overwrite: bool = False,
 ) -> WriteResult:
     """Scaffold helpers.py inside src/<import_name>/."""
     pyproject = MaxsonPyProject(root_dir)
@@ -39,4 +40,5 @@ def run_init_helpers(
     return write_str_to_file(
         target_path,
         text=text,
+        overwrite=overwrite,
     )
