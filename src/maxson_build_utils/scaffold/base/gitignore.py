@@ -32,11 +32,16 @@ vendor/
 
 def run_init_gitignore(
     root_dir: Path | str | None = None,
+    overwrite: bool = False,
 ) -> WriteResult:
     """Create the standard Maxson .gitignore."""
+    if not overwrite:
+        return 
     root = Path(root_dir or ".").resolve()
 
-    return write_str_to_file(
-        root / ".gitignore",
+    path = write_str_to_file(
+        path = root / ".gitignore",
         text=GITIGNORE,
+        overwrite=overwrite,
     )
+    return path

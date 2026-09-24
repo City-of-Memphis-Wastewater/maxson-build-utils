@@ -401,7 +401,7 @@ def run_init_pyproject(
         path_pyproject = Path.cwd() / "pyproject.toml"
 
     path = write_str_to_file(
-        path_pyproject,
+        path = path_pyproject,
         text=text,
         overwrite=overwrite,
     )
