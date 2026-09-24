@@ -656,6 +656,7 @@ def init_source_all(overwrite: bool = typer.Option(False, "--overwrite", help="A
     run_init_cli(overwrite=overwrite).print_path(console_stdout)
     run_init_tk_gui(overwrite=overwrite).print_path(console_stdout)
     print_write_results(run_init_kivy(overwrite=overwrite), console_stdout)
+    run_init_buildozer_source_entry(overwrite=overwrite).print_path(console_stdout)
     run_init_core(overwrite=overwrite).print_path(console_stdout)
 
 @init_pack_app.command("all")
