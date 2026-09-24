@@ -78,6 +78,7 @@ def _to_pascal_case(name: str) -> str:
 
 def run_init_buildozer_source_entry(
     root_dir: Path | str | None = None,
+    overwrite: bool = False,
 ) -> list[WriteResult]:
     """Scaffold Kivy module and __buildozer_entry__.py."""
 
