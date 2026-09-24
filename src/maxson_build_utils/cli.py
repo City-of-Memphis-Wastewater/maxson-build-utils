@@ -619,6 +619,7 @@ def init_pack_buildozer():
 @init_pack_app.command("shiv")
 def init_pack_shiv():
     """Scaffold packaging/shiv/build_pyz.py metadata and manifests."""
+    # Is this file still necessary? I think so. Strange, but maxsonic.
     print_write_results(run_init_shiv(),console_stdout)
 
 @init_pack_app.command("msix")
