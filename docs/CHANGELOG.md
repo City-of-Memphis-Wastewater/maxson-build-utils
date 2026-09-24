@@ -6,6 +6,12 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.46] - 2026-09-24
+### Changed:
+- Overwrite arg is now passed to all files generated in `mbu init all` command.
+
+---
+
 ## [0.1.45] - 2026-09-23
 ### Changed:
 - buildozer spec scaffolding adjusted
