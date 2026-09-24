@@ -6,6 +6,16 @@ The format is (read: strives to be) based on [Keep a Changelog](https://keepacha
 
 ---
 
+## [0.1.47] - 2026-09-24
+### Added:
+- mbu build pyinstaller-from-spec
+- pyinstaller spec scaffolding
+
+### Changed:
+- .flatpak-builder moved out of root and to ~/.cache/
+
+---
+
 ## [0.1.46] - 2026-09-24
 ### Changed:
 - Overwrite arg is now passed to all files generated in `mbu init all` command.
