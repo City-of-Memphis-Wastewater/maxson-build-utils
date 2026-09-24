@@ -483,10 +483,212 @@ def pyproject(
         raise typer.Exit(code=1)
     console_stdout.print(format_value(value))
 
+# -----------------------------------------------
+
+
 # --- base scaffolding --- 
 
 @init_base_app.command("pyproject")
-def init_pyproject(overwrite: bool = typer.Option(False, "--overwrite", "-o")):
+def init_pyproject(overwrite: bool = typer.Option(False, "--overwrite", "-o", help="Allow overwriting existing file.")):
+    """Generate or overwrite pyproject.toml in our own image."""
+    run_init_pyproject(root_dir=Path.cwd(), overwrite=overwrite).print_path(console_stdout)
+
+@init_base_app.command("changelog")
+def init_changelog(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing file.")):
+    """Create docs/CHANGELOG.md."""
+    run_init_changelog(overwrite=overwrite).print_path(console_stdout)
+
+@init_base_app.command("readme")
+def init_readme(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing file.")):
+    """Create README.md."""
+    run_init_readme(overwrite=overwrite).print_path(console_stdout)
+
+@init_base_app.command("manifest")
+def init_manifest(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing file.")):
+    """Create MANIFEST.in."""
+    run_init_manifest(overwrite=overwrite).print_path(console_stdout)
+
+@init_base_app.command("git")
+def init_git():
+    """Create .git."""
+    path = run_init_git()
+    console_stdout.print(path)
+
+@init_base_app.command("gitignore")
+def init_gitignore(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing file.")):
+    """Create .gitignore."""
+    run_init_gitignore(overwrite=overwrite).print_path(console_stdout)
+
+
+# --- source code scaffolding ---
+
+@init_src_app.command("cli")
+def init_cli(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing file.")):
+    """Create src/<app>/cli.py."""
+    run_init_cli(overwrite=overwrite).print_path(console_stdout)
+
+@init_src_app.command("core")
+def init_core(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing file.")):
+    """Create src/<app>/core.py."""
+    run_init_core(overwrite=overwrite).print_path(console_stdout)
+
+@init_src_app.command("__init__")
+def init_init(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting an existing file.")):
+    """Create src/<app>/__init__.py"""
+    run_init_init(root_dir=None, overwrite=overwrite).print_path(console_stdout)
+
+@init_src_app.command("__main__")
+def init_main(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting an existing file.")):
+    """Create src/<app>/__main__.py"""
+    run_init_main(root_dir=None, overwrite=overwrite).print_path(console_stdout)
+
+@init_src_app.command("context")
+def init_context(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing file.")):
+    """Create src/<app>/context.py."""
+    run_init_context(overwrite=overwrite).print_path(console_stdout)
+
+@init_src_app.command("version")
+def init_version(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files.")):
+    """Create src/<app>/_version.py and src/<app>/VERSION."""
+    run_init_version(overwrite=overwrite).print_path(console_stdout)
+    run_init_version_num(overwrite=overwrite).print_path(console_stdout)
+
+@init_src_app.command("config")
+def init_config(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing file.")):
+    """Create src/<app>/config.py."""
+    run_init_config(overwrite=overwrite).print_path(console_stdout)
+
+@init_src_app.command("helpers")
+def init_helpers(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing file.")):
+    """Create src/<app>/helpers.py."""
+    run_init_helpers(overwrite=overwrite).print_path(console_stdout)
+
+@init_src_app.command("logging_setup")
+def init_logging_setup(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing file.")):
+    """Create src/<app>/logging_setup.py."""
+    run_init_logging_setup(overwrite=overwrite).print_path(console_stdout)
+
+@init_src_app.command("kivy-gui")
+def init_kivy_gui(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files.")):
+    """Create files in src/<app>/kivy/ dir, including app.py."""
+    print_write_results(run_init_kivy(overwrite=overwrite), console_stdout)
+
+@init_src_app.command("tk-gui")
+def init_tk_gui(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing file.")):
+    """Create file at src/<app>/tk_gui.py"""
+    run_init_tk_gui(overwrite=overwrite).print_path(console_stdout)
+
+@init_src_app.command("buildozer")
+def init_buildozer_entry(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files.")):
+    """Create src/SOURCE_NAME/__buildozer_entry__.py. and main.py shim"""
+    print_write_results(run_init_buildozer_source_entry(overwrite=overwrite), console_stdout)
+
+
+# --- packaging scaffolding ---
+
+@init_pack_app.command("icons")
+def init_icons(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files.")):
+    """Copy the stock Maxson icons into the project's data/icons directory."""
+    print_write_results(run_init_icons(overwrite=overwrite), console_stdout)
+
+@init_pack_app.command("flatpak")
+def init_pack_flatpak(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files.")):
+    """Scaffold packaging/flatpak/ metadata and manifests."""
+    print_write_results(run_init_flatpak(overwrite=overwrite), console_stdout)
+
+@init_pack_app.command("buildozer")
+def init_pack_buildozer(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files.")):
+    """Scaffold packaging/buildozer/ spec file."""
+    print_write_results(run_init_buildozer_spec(overwrite=overwrite), console_stdout)
+
+@init_pack_app.command("msix")
+def init_pack_msix(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files.")):
+    """Scaffold packaging/msix/msix.py metadata and manifests."""
+    print_write_results(run_init_msix(overwrite=overwrite), console_stdout)
+
+@init_pack_app.command("deb")
+def init_pack_deb(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files.")):
+    """Scaffold packaging/deb/deb.py metadata and manifests."""
+    print_write_results(run_init_deb(overwrite=overwrite), console_stdout)
+
+@init_pack_app.command("dmg")
+def init_pack_dmg(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files.")):
+    """Scaffold packaging/macos/dmg.py metadata and manifests."""
+    print_write_results(run_init_dmg(overwrite=overwrite), console_stdout)
+
+@init_pack_app.command("appimage")
+def init_pack_appimage(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files.")):
+    """Scaffold packaging/appimage/ metadata and manifests."""
+    print_write_results(run_init_appimage(overwrite=overwrite), console_stdout)
+
+
+# --- CI scaffolding ---
+
+@init_ci_app.command("github")
+def init_github_ci(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files.")):
+    """Scaffold github workers"""
+    print_write_results(run_init_github_ci(overwrite=overwrite), console_stdout)
+
+
+# --- Aggregation Group Handlers (No wrappers called directly) ---
+
+@init_base_app.command("all")
+def init_base_all(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files across base modules.")):
+    """Create all base scaffolding."""
+    run_init_pyproject(root_dir=Path.cwd(), overwrite=overwrite).print_path(console_stdout)
+    run_init_git()
+    run_init_gitignore(overwrite=overwrite).print_path(console_stdout)
+    run_init_readme(overwrite=overwrite).print_path(console_stdout)
+    run_init_changelog(overwrite=overwrite).print_path(console_stdout)
+    run_init_manifest(overwrite=overwrite).print_path(console_stdout)
+
+@init_src_app.command("all")
+def init_source_all(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files across source modules.")):
+    """Create all source code scaffolding."""
+    run_init_main(root_dir=None, overwrite=overwrite).print_path(console_stdout)
+    run_init_init(root_dir=None, overwrite=overwrite).print_path(console_stdout)
+    run_init_context(overwrite=overwrite).print_path(console_stdout)
+    run_init_config(overwrite=overwrite).print_path(console_stdout)
+    run_init_logging_setup(overwrite=overwrite).print_path(console_stdout)
+    run_init_helpers(overwrite=overwrite).print_path(console_stdout)
+    run_init_version(overwrite=overwrite).print_path(console_stdout) 
+    run_init_version_num(overwrite=overwrite).print_path(console_stdout)
+    run_init_cli(overwrite=overwrite).print_path(console_stdout)
+    run_init_tk_gui(overwrite=overwrite).print_path(console_stdout)
+    print_write_results(run_init_kivy(overwrite=overwrite), console_stdout)
+    run_init_core(overwrite=overwrite).print_path(console_stdout)
+
+@init_pack_app.command("all")
+def init_pack_all(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files across packaging assets.")):
+    """Create all packaging scaffolding."""
+    print_write_results(run_init_deb(overwrite=overwrite), console_stdout)
+    print_write_results(run_init_dmg(overwrite=overwrite), console_stdout)
+    print_write_results(run_init_msix(overwrite=overwrite), console_stdout)
+    print_write_results(run_init_flatpak(overwrite=overwrite), console_stdout)
+    print_write_results(run_init_appimage(overwrite=overwrite), console_stdout)
+    print_write_results(run_init_buildozer_spec(overwrite=overwrite), console_stdout)
+
+@init_ci_app.command("all")
+def init_ci_all(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files across CI workflows.")):
+    """Create all ci scaffolding."""
+    print_write_results(run_init_github_ci(overwrite=overwrite), console_stdout)
+
+@init_app.command("all")
+def init_all(overwrite: bool = typer.Option(False, "--overwrite", help="Allow overwriting existing files across all modules.")):
+    """Run all project scaffolding steps."""
+    init_base_all(overwrite=overwrite)
+    init_source_all(overwrite=overwrite)
+    init_pack_all(overwrite=overwrite)
+    init_ci_all(overwrite=overwrite)
+
+# -----------------------------------------------
+
+'''
+
+# --- base scaffolding --- 
+
+@init_base_app.command("pyproject")
+def init_pyproject(overwrite: bool = typer.Option(False, "--overwrite", "-o",  help="Allow overwriting existing file.")):
     """Generate or overwrite pyproject.toml in our own image."""
     # Ensure root_dir resolves to current working directory if not explicitly provided
     run_init_pyproject(root_dir=Path.cwd(), overwrite=overwrite).print_path(console_stdout)
@@ -552,10 +754,15 @@ def init_main(
     run_init_main(root_dir=None,overwrite=overwrite).print_path(console_stdout)
 
 
-'''@init_src_app.command("webapp")
+'''
+
+'''
+@init_src_app.command("webapp")
 def init_webapp():
     """Create src/<app>/webapp.py."""
     run_init_webapp().print_path(console_stdout)
+'''
+
 '''
 
 @init_src_app.command("context")
@@ -692,6 +899,10 @@ def init_all():
     init_ci_all()
 
     console_stdout.print("Successfully initialized all project scaffolds.")
+
+'''
+
+# -----
 
 @app.command(name="gui")
 def gui_command(
