@@ -180,9 +180,13 @@ def run_build_pyz(
 
     create_windows_bat_launcher(pyz_filename, dist_dir, has_gui=has_gui_command)
 
+    # Create a safe, explicit UTF-8 runtime environment block for verification checks
+    utf8_env = os.environ.copy()
+    utf8_env["PYTHONIOENCODING"] = "utf-8"
+
     # 4. Post-build verification
     print("\nTesting generated Shiv artifact...")
-    run_command([sys.executable, str(output_path), "--help"], check=True)
+    run_command([sys.executable, str(output_path), "--help"], check=True, env=utf8_env)
 
     if (
         test_gui
@@ -192,16 +196,8 @@ def run_build_pyz(
         test_pyz_gui(output_path)
     elif test_gui and not has_gui_command:
         print("Skipping GUI test: 'gui' subcommand is not registered on this CLI.")
-    # ---
-    """
-    create_windows_bat_launcher(pyz_filename, dist_dir)
 
-    # 4. Post-build verification
-    print("\nTesting generated Shiv artifact...")
-    run_command([sys.executable, str(output_path), "--help"], check=True)
+    #create_windows_bat_launcher(pyz_filename, dist_dir)
 
-    if test_gui and pyhabitat.tkinter_is_available():
-        test_pyz_gui(output_path)
-    """
     print(f"\nBuild complete! Portable PYZ: {output_path.resolve()}")
     return output_path
