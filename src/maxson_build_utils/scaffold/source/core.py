@@ -27,6 +27,7 @@ def render_core_py(import_name: str) -> str:
 
 def run_init_core(
     root_dir: Path | str | None = None,
+    overwrite: bool = False,
 ) -> WriteResult:
     """Scaffold core.py inside src/<import_name>/."""
     pyproject = MaxsonPyProject(root_dir)
