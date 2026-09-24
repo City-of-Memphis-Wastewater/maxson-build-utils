@@ -5,7 +5,42 @@ from pathlib import Path
 from dataclasses import dataclass
 import sys
 import pyhabitat
-from rich.console import Console
+
+CONSOLE = get_console_multiplexed(force=None, avoid=None, order=None)
+
+def get_console_multiplexed(
+    force: ConsoleMultiplex, # single
+    avoid: set[ConsoleMultiplex], # set
+    order: list[ConsoleMultiplex], # ordered list
+):
+    try:
+        from blindwindow.core import Console
+        return ConsoleMultiplex.BW
+    except:
+        try:
+            from rich.console import Console
+            return ConsoleMultiplex.RICH
+        except:
+            return ConsoleMultiplex.NONE
+
+class ConsoleMultiplex(str, Enum):
+    RICH = "rich"
+    BW = "blindwindow"
+    NONE = "none"
+
+if CONSOLE == ConsoleMultiplex.RICH:
+    from rich.console import Console
+    console_stderr = Console(stderr=True)
+    console_stdout = Console(stderr=False)
+elif CONSOLE == ConsoleMultiplex.BW:
+    from blindwindow.core import Console
+    console_stderr = Console(stderr=True, tee_sys=True) 
+    console_stdout = Console(stderr=False, tee_sys=True)
+elif CONSOLE == ConsoleMultiplex.NONE:
+    console_stderr = None
+    console_stdout = None
+
+
 import logging
 
 logger = logging.getLogger(__name__)
