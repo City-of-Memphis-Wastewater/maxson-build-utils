@@ -46,7 +46,7 @@ def run_init_version(
     return write_str_to_file(pyproject.src_dir / "_version.py", text = raw_version_str)
 
 def run_init_version_num(
-    root_dir: Path | str | None = None
+    root_dir: Path | str | None = None,
     overwrite: bool = False,
 ) -> WriteResult:
     pyproject = MaxsonPyProject(root_dir)
