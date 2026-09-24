@@ -247,6 +247,7 @@ def copy_source_dunder_main_to_root_main_for_buildozer_entry_point(
 def run_init_buildozer_spec(
     root_dir: Path | str | None = None,
     overwrite_main: bool | None = None,
+    overwrite: bool = False,
 ) -> list[WriteResult]:
     """Scaffold packaging/buildozer/buildozer.spec."""
     target_dir = Path(root_dir) if root_dir else Path.cwd()
@@ -263,6 +264,7 @@ def run_init_buildozer_spec(
     result = write_str_to_file(
         path=spec_path,
         text=BUILDOZER_SPEC_TEMPLATE.format(**meta),
+        overwrite = overwrite,
     )
     
     # also copy src/*/__main__.py to main.py
