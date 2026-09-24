@@ -304,7 +304,35 @@ class MaxsonPyProject(PyProject):
 
         return self.path.parent / value
 
+    @property
+    def pyinstaller_config(self) -> dict[str, Any]:
+        """Returns the [tool.maxson-build-utils.pyinstaller] section."""
+        return self.get("tool", "maxson-build-utils", "pyinstaller") or {}
 
+    @property
+    def pyinstaller_spec_file(self) -> Path | None:
+        """Path to packaging/pyinstaller/<import_name>.spec."""
+        if self.root_dir is None or self.import_name is None:
+            return None
+        return self.root_dir / "packaging" / "pyinstaller" / f"{self.import_name}.spec"
+
+    @property
+    def icon_ico_path(self) -> Path | None:
+        """Resolves .ico path from [tool.maxson-build-utils.icons]."""
+        ico_rel = self.get("tool", "maxson-build-utils", "icons", "ico-256", "path")
+        if ico_rel and self.root_dir:
+            p = self.root_dir / ico_rel
+            return p if p.exists() else None
+        return None
+
+    @property
+    def icon_icns_path(self) -> Path | None:
+        """Resolves .icns path from [tool.maxson-build-utils.icons]."""
+        icns_rel = self.get("tool", "maxson-build-utils", "icons", "icns", "path")
+        if icns_rel and self.root_dir:
+            p = self.root_dir / icns_rel
+            return p if p.exists() else None
+        return None
 # ---
 
 def format_value(value: Any) -> str:

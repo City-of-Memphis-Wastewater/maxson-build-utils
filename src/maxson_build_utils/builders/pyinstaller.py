@@ -277,3 +277,54 @@ def run_build_executable(
     except Exception as e:
         logger.error("An unhandled error occurred during build: %s", e, exc_info=True)
         sys.exit(1)
+
+
+# --- A SPEC FIRST NEW DAWN ---
+
+def construct_pyinstaller_spec_command(
+    spec_path: Path,
+    dist_path: Path,
+    work_dir: Path,
+) -> list[str]:
+    """Constructs clean PyInstaller invocation targeting a spec file."""
+    return [
+        sys.executable,
+        "-m",
+        "PyInstaller",
+        "--noconfirm",
+        "--clean",
+        f"--distpath={dist_path.resolve()}",
+        f"--workpath={(work_dir / 'work').resolve()}",
+        str(spec_path.resolve()),
+    ]
+
+
+def run_build_from_spec(
+    spec_path: Path,
+    executable_descriptor: str,
+    mode: PyinsMode,
+    is_windowed: bool,
+) -> tuple[Path, str]:
+    """Executes PyInstaller build using the specified .spec file."""
+    app_filename, dist_path, app_filepath, ext = determine_app_filepath_and_dist_path(
+        executable_descriptor, mode, is_windowed
+    )
+
+    clean_artifacts(exe_name=executable_descriptor, mode=mode, file_extension=ext)
+    setup_dirs()
+
+    cmd = construct_pyinstaller_spec_command(
+        spec_path=spec_path,
+        dist_path=dist_path,
+        work_dir=BUILD_DIR,
+    )
+
+    logger.info("Executing PyInstaller via spec: %s", " ".join(cmd))
+    try:
+        subprocess.run(cmd, check=True, env=os.environ.copy())
+    except subprocess.CalledProcessError as e:
+        logger.error("PyInstaller spec build failed with code %d", e.returncode)
+        raise SystemExit(e.returncode) from e
+
+    export_build_env_vars(app_filepath=app_filepath, executable_descriptor=executable_descriptor)
+    return app_filepath, app_filename
