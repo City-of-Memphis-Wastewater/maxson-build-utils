@@ -240,19 +240,19 @@ class MaxsonPyProject(PyProject):
 
     # --- Path resolution ---
     @property
-    def src_dir_defunct(self) -> Path | None:
+    def src_dir(self) -> Path | None:
         """Path to internal src module directory (e.g. project_root / 'src' / import_name)."""
-        if self.path is None or self.import_name is None:
+        if self.path is None:
             return None
 
-        return self.root_dir / "src" / self.import_name
+        return self.root_dir / "src" 
 
     @property
     def package_dir(self) -> Path | None:
         """Path to the package directory containing __init__.py (e.g. project_root / 'src' / import_name)."""
-        if self.package_dir is None or self.import_name is None:
+        if self.src_dir is None or self.import_name is None:
             return None
-        return self.package_dir / self.import_name
+        return self.src_dir / self.import_name
 
     @property
     def data_dir(self) -> Path | None:

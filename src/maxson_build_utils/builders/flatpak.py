@@ -46,6 +46,18 @@ def check_cmd(cmd_str: str) -> None:
             "Install it locally or use the GitHub Flatpak workflow "
             "to build the .flatpak bundle."
         )
+
+def get_flatpak_cache_dirs(app_name: str) -> tuple[Path, Path, Path]:
+    """Return user-scoped cache directories for flatpak state, build, and local repo.
+
+    Keeps state out of working directory to avoid grep, git status, and IDE indexing bloat.
+    """
+    base_cache = Path.home() / ".cache" / "flatpak-builder" / app_name
+    build_dir = base_cache / "build"
+    repo_dir = base_cache / "repo"
+
+    return build_dir, repo_dir
+
 def build_flatpak(
     manifest_path: Path | None = None,
     output_dir: Path = FLATPAK_DIST_DIR,
@@ -94,8 +106,14 @@ def build_flatpak(
     bundle_name = f"{app_name}-{version}-x86_64.flatpak"
     bundle_path = output_dir / bundle_name
 
-    build_dir = Path(".flatpak-builder/build")
-    repo_dir = Path(".flatpak-builder/repo")
+    #build_dir = Path(".flatpak-builder/build")
+    #repo_dir = Path(".flatpak-builder/repo")
+
+    # 4. Resolve isolated state/build/repo directories outside project root
+    build_dir, repo_dir = get_flatpak_cache_dirs(app_name)
+
+    build_dir.mkdir(parents=True, exist_ok=True)
+    repo_dir.mkdir(parents=True, exist_ok=True)
 
     logger.info(f"Building Flatpak bundle for {app_id}...")
 
