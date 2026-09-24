@@ -7,7 +7,11 @@ from pathlib import Path
 from ..helpers import PyinsMode
 from ..pyproject import MaxsonPyProject
 
-def get_target_project_root() -> Path:
+def get_target_project_root(
+    root_dir: Path | str | None = None,
+) -> Path:
+    if root_dir:
+        return root_dir
     return Path.cwd()
 
 def get_dist_dir() -> Path:
@@ -44,8 +48,27 @@ def get_description() -> str | None:
     if proj is None:
         return None
 
-    return proj.get("project", "description")
+    return proj.description
 
+def get_import_name() -> str | None:
+    """Return the target project's import_name, if available."""
+
+    proj = get_pyproject()
+
+    if proj is None:
+        return None
+
+    return proj.import_name
+
+def get_src_dir() -> str | None:
+    """Return the target project's source code directory if available."""
+
+    proj = get_pyproject()
+
+    if proj is None:
+        return None
+
+    return proj.src_dir
 
 def get_app_name() -> str:
     """Return the target project's package/application name."""

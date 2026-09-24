@@ -5,9 +5,10 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from ...core.know_target import get_target_project_root, get_import_name, get_src_dir
 from ...helpers import WriteResult, write_str_to_file
-from ...context import PROJECT_ROOT, IMPORT_NAME, PACKAGE_DIR
 from ...vendor import VENDOR_SITE_PACKAGES_DIR
+
 
 ROOT_MAIN_PY_TEMPLATE = """\
 # main.py
@@ -87,8 +88,8 @@ def run_init_buildozer_source_entry(
     # Write src/<import_name>/__buildozer_entry__.py
     results.append(
         write_str_to_file(
-            path=PACKAGE_DIR / "__buildozer_entry__.py",
-            text=BUILDOZER_ENTRY_KIVY_TEMPLATE.format(IMPORT_NAME=IMPORT_NAME),
+            path=get_src_dir() / "__buildozer_entry__.py",
+            text=BUILDOZER_ENTRY_KIVY_TEMPLATE.format(IMPORT_NAME=get_import_name()),
             overwrite = overwrite,
         )
     )
@@ -96,8 +97,8 @@ def run_init_buildozer_source_entry(
     # Write main.py
     results.append(
         write_str_to_file(
-            path=PROJECT_ROOT / "main.py",
-            text=ROOT_MAIN_PY_TEMPLATE.format(IMPORT_NAME=IMPORT_NAME),
+            path= get_target_project_root(root_dir) / "main.py",
+            text=ROOT_MAIN_PY_TEMPLATE.format(IMPORT_NAME=get_import_name()),
             overwrite = overwrite,
         )
     )
